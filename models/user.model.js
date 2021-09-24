@@ -10,6 +10,7 @@ const UserSchema = mongoose.Schema({
     first_name:String,
     last_name:String,
     Local_lang_name:String,
+    Department_code:String,
     skype_address:String,
     title:String,
     tel_country_idd:String,

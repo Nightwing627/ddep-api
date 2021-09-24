@@ -32,6 +32,11 @@ exports.create = (req, res) => {
             message: "Staff Barcode is Required"
         });
     }
+    if(!req.body.Department_code) {
+        return res.status(400).send({
+            message: "Department code is Required"
+        });
+    }
     if(!req.body.first_name) {
         return res.status(400).send({
             message: "First Name is Required"
@@ -79,6 +84,7 @@ exports.create = (req, res) => {
         display_name: req.body.display_name,
         email: req.body.email,
         staff_other_code: req.body.staff_other_code,
+        Department_code: req.body.Department_code,
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         Local_lang_name: req.body.Local_lang_name,
