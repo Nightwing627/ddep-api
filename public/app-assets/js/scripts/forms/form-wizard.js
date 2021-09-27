@@ -66,53 +66,16 @@ $(function () {
       var $this = $(this);
       $this.validate({
         rules: {
-          username: {
+          ProjectCode: {
             required: true
           },
-          email: {
+          ProjectName: {
             required: true
           },
-          password: {
+          CompanyName: {
             required: true
           },
-          'confirm-password': {
-            required: true,
-            equalTo: '#password'
-          },
-          'first-name': {
-            required: true
-          },
-          'last-name': {
-            required: true
-          },
-          address: {
-            required: true
-          },
-          landmark: {
-            required: true
-          },
-          country: {
-            required: true
-          },
-          language: {
-            required: true
-          },
-          twitter: {
-            required: true,
-            url: true
-          },
-          facebook: {
-            required: true,
-            url: true
-          },
-          google: {
-            required: true,
-            url: true
-          },
-          linkedin: {
-            required: true,
-            url: true
-          }
+          
         }
       });
     });

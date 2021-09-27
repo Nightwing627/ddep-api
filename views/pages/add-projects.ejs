@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<!--
+Template Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+Author: PixInvent
+Website: http://www.pixinvent.com/
+Contact: hello@pixinvent.com
+Follow: www.twitter.com/pixinvents
+Like: www.facebook.com/pixinvents
+Purchase: https://1.envato.market/vuexy_admin
+Renew Support: https://1.envato.market/vuexy_admin
+License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+
+-->
+<%- include('partials/head'); %>
+<!-- BEGIN: Vendor CSS-->
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/vendors.min.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/forms/wizard/bs-stepper.min.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/forms/select/select2.min.css">
+<!-- END: Vendor CSS-->
+<!-- BEGIN: Page CSS-->
+<link rel="stylesheet" type="text/css" href="app-assets/css/core/menu/menu-types/vertical-menu.min.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/forms/form-validation.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/forms/form-wizard.min.css">
+<!-- END: Page CSS-->
+<%- include('partials/header'); %> 
+<!-- Basic table -->
+    <section class="horizontal-wizard">
+        <div class="bs-stepper horizontal-wizard-example">
+        <div class="bs-stepper-header">
+            <div class="step" data-target="#create-project">
+            <button type="button" class="step-trigger">
+                <span class="bs-stepper-box">1</span>
+                <span class="bs-stepper-label">
+                <span class="bs-stepper-title">Create New Project</span>
+                <!-- <span class="bs-stepper-subtitle">Setup Account Details</span> -->
+                </span>
+            </button>
+            </div>
+            <div class="line">
+            <i data-feather="chevron-right" class="font-medium-2"></i>
+            </div>
+            <div class="step" data-target="#personal-info">
+            <button type="button" class="step-trigger">
+                <span class="bs-stepper-box">2</span>
+                <span class="bs-stepper-label">
+                <span class="bs-stepper-title">Inbound</span>
+                <!-- <span class="bs-stepper-subtitle">Add Personal Info</span> -->
+                </span>
+            </button>
+            </div>
+            <div class="line">
+            <i data-feather="chevron-right" class="font-medium-2"></i>
+            </div>
+            <div class="step" data-target="#address-step">
+            <button type="button" class="step-trigger">
+                <span class="bs-stepper-box">3</span>
+                <span class="bs-stepper-label">
+                <span class="bs-stepper-title">OutBound</span>
+                <!-- <span class="bs-stepper-subtitle">Add Address</span> -->
+                </span>
+            </button>
+            </div>
+            <div class="line">
+            <i data-feather="chevron-right" class="font-medium-2"></i>
+            </div>
+            <div class="step" data-target="#social-links">
+            <button type="button" class="step-trigger">
+                <span class="bs-stepper-box">4</span>
+                <span class="bs-stepper-label">
+                <span class="bs-stepper-title">Mapping</span>
+                <!-- <span class="bs-stepper-subtitle">Add Social Links</span> -->
+                </span>
+            </button>
+            </div>
+            <div class="line">
+            <i data-feather="chevron-right" class="font-medium-2"></i>
+            </div>
+            <div class="step" data-target="#social-links">
+            <button type="button" class="step-trigger">
+                <span class="bs-stepper-box">5</span>
+                <span class="bs-stepper-label">
+                <span class="bs-stepper-title">Schedule</span>
+                <!-- <span class="bs-stepper-subtitle">Add Social Links</span> -->
+                </span>
+            </button>
+            </div>
+        </div>
+        <div class="bs-stepper-content">
+            <div id="create-project" class="content">
+            <div class="content-header">
+                <h5 class="mb-0">Create Project</h5>
+                <small class="text-muted">Enter Your Project Details.</small>
+            </div>
+            <form>
+                <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="form-label" for="projectcode">Project Code</label>
+                    <input type="text" name="ProjectCode" id="ProjectCode" class="form-control" placeholder="Enter Project Code" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="form-label" for="ProjectName">Project Name</label>
+                    <input
+                    type="text"
+                    name="ProjectName"
+                    id="ProjectName"
+                    class="form-control"
+                    placeholder="enter Project Name here"
+                    aria-label="Project Code"
+                    />
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="form-label" for="CompanyName">Company Name</label>
+                    <input
+                    type="text"
+                    name="CompanyName"
+                    id="CompanyName"
+                    class="form-control"
+                    placeholder="Enter Company Name here"
+                    aria-label="Company Name"
+                    />
+                </div>
+                </div>
+                
+            </form>
+            <div class="d-flex justify-content-between">
+                <button class="btn btn-outline-secondary btn-prev" disabled>
+                <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                </button>
+                <button class="btn btn-primary btn-next">
+                <span class="align-middle d-sm-inline-block d-none">Next</span>
+                <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+                </button>
+            </div>
+            </div>
+            <div id="personal-info" class="content">
+            <div class="content-header">
+                <h5 class="mb-0">Personal Info</h5>
+                <small>Enter Your Personal Info.</small>
+            </div>
+            <form>
+                <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="form-label" for="first-name">First Name</label>
+                    <input type="text" name="first-name" id="first-name" class="form-control" placeholder="John" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-label" for="last-name">Last Name</label>
+                    <input type="text" name="last-name" id="last-name" class="form-control" placeholder="Doe" />
+                </div>
+                </div>
+                <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="form-label" for="country">Country</label>
+                    <select class="select2 w-100" name="country" id="country">
+                    <option label=" "></option>
+                    <option>UK</option>
+                    <option>USA</option>
+                    <option>Spain</option>
+                    <option>France</option>
+                    <option>Italy</option>
+                    <option>Australia</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-label" for="language">Language</label>
+                    <select class="select2 w-100" name="language" id="language" multiple>
+                    <option>English</option>
+                    <option>French</option>
+                    <option>Spanish</option>
+                    </select>
+                </div>
+                </div>
+            </form>
+            <div class="d-flex justify-content-between">
+                <button class="btn btn-primary btn-prev">
+                <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                </button>
+                <button class="btn btn-primary btn-next">
+                <span class="align-middle d-sm-inline-block d-none">Next</span>
+                <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+                </button>
+            </div>
+            </div>
+            <div id="address-step" class="content">
+            <div class="content-header">
+                <h5 class="mb-0">Address</h5>
+                <small>Enter Your Address.</small>
+            </div>
+            <form>
+                <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="form-label" for="address">Address</label>
+                    <input
+                    type="text"
+                    id="address"
+                    name="address"
+                    class="form-control"
+                    placeholder="98  Borough bridge Road, Birmingham"
+                    />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-label" for="landmark">Landmark</label>
+                    <input type="text" name="landmark" id="landmark" class="form-control" placeholder="Borough bridge" />
+                </div>
+                </div>
+                <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="form-label" for="pincode1">Pincode</label>
+                    <input type="text" id="pincode1" class="form-control" placeholder="658921" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-label" for="city1">City</label>
+                    <input type="text" id="city1" class="form-control" placeholder="Birmingham" />
+                </div>
+                </div>
+            </form>
+            <div class="d-flex justify-content-between">
+                <button class="btn btn-primary btn-prev">
+                <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                </button>
+                <button class="btn btn-primary btn-next">
+                <span class="align-middle d-sm-inline-block d-none">Next</span>
+                <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+                </button>
+            </div>
+            </div>
+            <div id="social-links" class="content">
+            <div class="content-header">
+                <h5 class="mb-0">Social Links</h5>
+                <small>Enter Your Social Links.</small>
+            </div>
+            <form>
+                <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="form-label" for="twitter">Twitter</label>
+                    <input
+                    type="text"
+                    id="twitter"
+                    name="twitter"
+                    class="form-control"
+                    placeholder="https://twitter.com/abc"
+                    />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-label" for="facebook">Facebook</label>
+                    <input
+                    type="text"
+                    id="facebook"
+                    name="facebook"
+                    class="form-control"
+                    placeholder="https://facebook.com/abc"
+                    />
+                </div>
+                </div>
+                <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="form-label" for="google">Google+</label>
+                    <input
+                    type="text"
+                    id="google"
+                    name="google"
+                    class="form-control"
+                    placeholder="https://plus.google.com/abc"
+                    />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-label" for="linkedin">Linkedin</label>
+                    <input
+                    type="text"
+                    id="linkedin"
+                    name="linkedin"
+                    class="form-control"
+                    placeholder="https://linkedin.com/abc"
+                    />
+                </div>
+                </div>
+            </form>
+            <div class="d-flex justify-content-between">
+                <button class="btn btn-primary btn-prev">
+                <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                </button>
+                <button class="btn btn-success btn-submit">Submit</button>
+            </div>
+            </div>
+        </div>
+        </div>
+    </section>
+<!--/ Basic table -->
+
+</div>
+</div>
+</div>
+<!-- END: Content-->
+
+
+    <!-- BEGIN: Customizer-->
+    <div class="customizer d-none d-md-block"><a class="customizer-toggle d-flex align-items-center justify-content-center" href="javascript:void(0);"><i class="spinner" data-feather="settings"></i></a><div class="customizer-content">
+  <!-- Customizer header -->
+  <div class="customizer-header px-2 pt-1 pb-0 position-relative">
+    <h4 class="mb-0">Theme Customizer</h4>
+    <p class="m-0">Customize & Preview in Real Time</p>
+
+    <a class="customizer-close" href="javascript:void(0);"><i data-feather="x"></i></a>
+  </div>
+
+  <hr />
+
+  <!-- Styling & Text Direction -->
+  <div class="customizer-styling-direction px-2">
+    <p class="font-weight-bold">Skin</p>
+    <div class="d-flex">
+      <div class="custom-control custom-radio mr-1">
+        <input
+          type="radio"
+          id="skinlight"
+          name="skinradio"
+          class="custom-control-input layout-name"
+          checked
+          data-layout=""
+        />
+        <label class="custom-control-label" for="skinlight">Light</label>
+      </div>
+      <div class="custom-control custom-radio mr-1">
+        <input
+          type="radio"
+          id="skinbordered"
+          name="skinradio"
+          class="custom-control-input layout-name"
+          data-layout="bordered-layout"
+        />
+        <label class="custom-control-label" for="skinbordered">Bordered</label>
+      </div>
+      <div class="custom-control custom-radio mr-1">
+        <input
+          type="radio"
+          id="skindark"
+          name="skinradio"
+          class="custom-control-input layout-name"
+          data-layout="dark-layout"
+        />
+        <label class="custom-control-label" for="skindark">Dark</label>
+      </div>
+      <div class="custom-control custom-radio">
+        <input
+          type="radio"
+          id="skinsemidark"
+          name="skinradio"
+          class="custom-control-input layout-name"
+          data-layout="semi-dark-layout"
+        />
+        <label class="custom-control-label" for="skinsemidark">Semi Dark</label>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <!-- Menu -->
+  <div class="customizer-menu px-2">
+    <div id="customizer-menu-collapsible" class="d-flex">
+      <p class="font-weight-bold mr-auto m-0">Menu Collapsed</p>
+      <div class="custom-control custom-control-primary custom-switch">
+        <input type="checkbox" class="custom-control-input" id="collapse-sidebar-switch" />
+        <label class="custom-control-label" for="collapse-sidebar-switch"></label>
+      </div>
+    </div>
+  </div>
+  <hr />
+
+  <!-- Layout Width -->
+  <div class="customizer-footer px-2">
+    <p class="font-weight-bold">Layout Width</p>
+    <div class="d-flex">
+      <div class="custom-control custom-radio mr-1">
+        <input type="radio" id="layout-width-full" name="layoutWidth" class="custom-control-input" checked />
+        <label class="custom-control-label" for="layout-width-full">Full Width</label>
+      </div>
+      <div class="custom-control custom-radio mr-1">
+        <input type="radio" id="layout-width-boxed" name="layoutWidth" class="custom-control-input" />
+        <label class="custom-control-label" for="layout-width-boxed">Boxed</label>
+      </div>
+    </div>
+  </div>
+  <hr />
+
+  <!-- Navbar -->
+  <div class="customizer-navbar px-2">
+    <div id="customizer-navbar-colors">
+      <p class="font-weight-bold">Navbar Color</p>
+      <ul class="list-inline unstyled-list">
+        <li class="color-box bg-white border selected" data-navbar-default=""></li>
+        <li class="color-box bg-primary" data-navbar-color="bg-primary"></li>
+        <li class="color-box bg-secondary" data-navbar-color="bg-secondary"></li>
+        <li class="color-box bg-success" data-navbar-color="bg-success"></li>
+        <li class="color-box bg-danger" data-navbar-color="bg-danger"></li>
+        <li class="color-box bg-info" data-navbar-color="bg-info"></li>
+        <li class="color-box bg-warning" data-navbar-color="bg-warning"></li>
+        <li class="color-box bg-dark" data-navbar-color="bg-dark"></li>
+      </ul>
+    </div>
+
+    <p class="navbar-type-text font-weight-bold">Navbar Type</p>
+    <div class="d-flex">
+      <div class="custom-control custom-radio mr-1">
+        <input type="radio" id="nav-type-floating" name="navType" class="custom-control-input" checked />
+        <label class="custom-control-label" for="nav-type-floating">Floating</label>
+      </div>
+      <div class="custom-control custom-radio mr-1">
+        <input type="radio" id="nav-type-sticky" name="navType" class="custom-control-input" />
+        <label class="custom-control-label" for="nav-type-sticky">Sticky</label>
+      </div>
+      <div class="custom-control custom-radio mr-1">
+        <input type="radio" id="nav-type-static" name="navType" class="custom-control-input" />
+        <label class="custom-control-label" for="nav-type-static">Static</label>
+      </div>
+      <div class="custom-control custom-radio">
+        <input type="radio" id="nav-type-hidden" name="navType" class="custom-control-input" />
+        <label class="custom-control-label" for="nav-type-hidden">Hidden</label>
+      </div>
+    </div>
+  </div>
+  <hr />
+
+  <!-- Footer -->
+  <div class="customizer-footer px-2">
+    <p class="font-weight-bold">Footer Type</p>
+    <div class="d-flex">
+      <div class="custom-control custom-radio mr-1">
+        <input type="radio" id="footer-type-sticky" name="footerType" class="custom-control-input" />
+        <label class="custom-control-label" for="footer-type-sticky">Sticky</label>
+      </div>
+      <div class="custom-control custom-radio mr-1">
+        <input type="radio" id="footer-type-static" name="footerType" class="custom-control-input" checked />
+        <label class="custom-control-label" for="footer-type-static">Static</label>
+      </div>
+      <div class="custom-control custom-radio mr-1">
+        <input type="radio" id="footer-type-hidden" name="footerType" class="custom-control-input" />
+        <label class="custom-control-label" for="footer-type-hidden">Hidden</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <!-- End: Customizer-->
+
+    <!-- Buynow Button-->
+    
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+
+    <%- include('partials/footer') %>
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+    <script src="app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+    <script src="app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+    <!-- END: Page Vendor JS-->
+    <!-- BEGIN: Page JS-->
+    <!-- <script src="app-assets/js/scripts/forms/form-wizard.min.js"></script> -->
+    <script src="app-assets/js/scripts/forms/form-wizard.js"></script>
+    <!-- END: Page JS-->
+</html>
