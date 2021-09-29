@@ -22,6 +22,6 @@ app.set('view engine', 'ejs');
     res.render('pages/login');
   })
  
-app.listen(3000,function(){
-    console.log("Working on port 3000");
+app.listen(8004,function(){
+    console.log("Working on port 8004");
 });

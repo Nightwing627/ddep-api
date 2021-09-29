@@ -1,0 +1,6 @@
+测试站: http://192.168.254.233/
+cd /apps/ddep/ddep-dev
+
+docker build -t ddep-dev-01  .
+
+docker run -p 8004:8004  ddep-dev-01
