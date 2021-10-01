@@ -75,6 +75,39 @@ $(function () {
           CompanyName: {
             required: true
           },
+          sync_type: {
+            required: true
+          },
+          ftp_server_link: {
+            required: true
+          },
+          port: {
+            required: true
+          },
+          login_name: {
+            required: true
+          },
+          password: {
+            required: true
+          },
+          api_url: {
+            required: true
+          },
+          Schedule_configure: {
+            required: true
+          },
+          schedule_type: {
+            required: true
+          },
+          inbound_format: {
+            required: true
+          },
+          recurs_count: {
+            required: true
+          },
+          recurs_time: {
+            required: true
+          },
           
         }
       });
