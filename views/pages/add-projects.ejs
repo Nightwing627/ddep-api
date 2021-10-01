@@ -151,7 +151,7 @@ License: You must have a valid license purchased only from themeforest(the above
                         <!-- Basic -->
                         <div class="col-md-6 mb-1">
                           <label>Format</label>
-                          <select class="select2 form-control form-control-lg" name="inbound_format">
+                          <select class="select2 form-control form-control-lg" id="inboundFormat" name="inbound_format">
                             <option value="xml">XML</option>
                           </select>
                         </div>
@@ -251,7 +251,7 @@ License: You must have a valid license purchased only from themeforest(the above
                         <!-- Basic -->
                         <div class="col-md-6 mb-1">
                           <label>Format</label>
-                          <select class="select2 form-control form-control-lg" name="inbound_format">
+                          <select class="select2 form-control form-control-lg" id="outbound_format" name="outbound_format">
                             <option value="xml">Json</option>
                           </select>
                         </div>
@@ -270,7 +270,7 @@ License: You must have a valid license purchased only from themeforest(the above
                             <label class="form-label" for="first-name">FTP/SFTP</label> 
                         </div>
                         <div class="form-group col-md-9">
-                          <input type="radio" name="sync_type_out" id="Sync_type_ftp" checked class="radio-inline" value="API" /><span>API</span>
+                          <input type="radio" name="sync_type_out" id="sync_type_out" checked class="radio-inline" value="API" /><span>API</span>
                           
                         </div>
                       </div>
@@ -403,10 +403,10 @@ License: You must have a valid license purchased only from themeforest(the above
                             <label class="form-label" for="first-name">Occurs</label>
                         </div>
                         <div class="form-group col-md-9">
-                            <select class="select2 form-control form-control-lg" name="inbound_format">
-                              <option value="daily">Daily</option>
-                              <option value="daily">Weekly</option>
-                              <option value="daily">Monthly</option>
+                            <select class="select2 form-control form-control-lg" id="occurs_time" name="occurs">
+                              <option value="1">Daily</option>
+                              <option value="7">Weekly</option>
+                              <option value="30">Monthly</option>
                             </select>
                         </div>
                     </div>

@@ -9,14 +9,17 @@
 
 $(function () {
   'use strict';
-
+ 
   var bsStepper = document.querySelectorAll('.bs-stepper'),
     select = $('.select2'),
     horizontalWizard = document.querySelector('.horizontal-wizard-example'),
     verticalWizard = document.querySelector('.vertical-wizard-example'),
     modernWizard = document.querySelector('.modern-wizard-example'),
     modernVerticalWizard = document.querySelector('.modern-vertical-wizard-example');
-
+    var project_detail ={};
+          var inbound_server_detail = {};
+          var outbound_detail = {};
+          var schedule_detail ={};
   // Adds crossed class
   if (typeof bsStepper !== undefined && bsStepper !== null) {
     for (var el = 0; el < bsStepper.length; ++el) {
@@ -62,6 +65,7 @@ $(function () {
   if (typeof horizontalWizard !== undefined && horizontalWizard !== null) {
     var numberedStepper = new Stepper(horizontalWizard),
       $form = $(horizontalWizard).find('form');
+      
     $form.each(function () {
       var $this = $(this);
       $this.validate({
@@ -115,10 +119,48 @@ $(function () {
 
     $(horizontalWizard)
       .find('.btn-next')
-      .each(function () {
+      .each(function (index) {
         $(this).on('click', function (e) {
           var isValid = $(this).parent().siblings('form').valid();
+          
           if (isValid) {
+            if(index==0)
+            {
+              //var forms = $(this).parent().siblings('form');
+              project_detail.ProjectCode = $('#ProjectCode').val();
+              project_detail.ProjectName = $('#ProjectName').val();
+              project_detail.CompanyName = $('#CompanyName').val();
+              
+
+              //console.log(project_detail);
+            }
+            else if(index==1)
+            {
+              inbound_server_detail.inboundFormat = $('#inboundFormat').val();
+              inbound_server_detail.sync_type = $('input [name="sync_type"]:checked').val();
+              inbound_server_detail.ftp_server_link = $('#ftp_server_link').val();
+              inbound_server_detail.host = $('#host').val();
+              inbound_server_detail.port = $('#port').val();
+              inbound_server_detail.login_name = $('#login_name').val();
+              inbound_server_detail.password = $('#password').val();
+            }
+            else if(index == 2)
+            {
+              outbound_detail.sync_type_out =$('input [name="sync_type_out"]:checked').val();
+              outbound_detail.api_url = $('#api_url').val();
+            }
+            else if(index == 3)
+            {
+
+            }
+            else if(index == 4)
+            {
+              schedule_detail.Schedule_configure = $('input [name="Schedule_configure"]:checked').val();
+              schedule_detail.schedule_type = $('input [name="schedule_type"]:checked').val();
+              schedule_detail.occurs_time = $('#occurs_time').val();
+              schedule_detail.recurs_count = $('#recurs_count').val();
+              schedule_detail.recurs_time = $('#recurs_time').val();
+            }
             numberedStepper.next();
           } else {
             e.preventDefault();
