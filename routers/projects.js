@@ -3,6 +3,10 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 var path = require('path');
 router.use(express.urlencoded({ extended: false }));
+router.use(express.json());
+
+
+
 //app.use(cookieParser());
 router.use(express.static(path.join(__dirname, 'public')));
 router.use(express.static('public'));

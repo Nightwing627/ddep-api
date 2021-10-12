@@ -1,105 +1,121 @@
+const { json } = require('body-parser');
 const Project = require('../models/project.model.js');
 
 // Create and Save a new Note
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
 exports.create = (req, res) => {
-    if(!req.body.ProjectCode) {
+    var data = req.body;
+    var check =isJson(data);
+    if(check)
+    {
+        data = JSON.parse(req.body);
+    }
+    console.log(data);
+    if(!data.ProjectCode) {
         return res.status(400).send({
             message: "Project Code Not Found"
         });
     }
-    if(!req.body.ProjectName) {
+    if(!data.ProjectName) {
         return res.status(400).send({
             message: "Project Name Not Found"
         });
     }
-    if(!req.body.CompanyName) {
+    if(!data.CompanyName) {
         return res.status(400).send({
             message: "Company Name is Required"
         });
     }
-    if(!req.body.InboundSetting.inbound_format) {
+    if(!data.InboundSetting.inbound_format) {
         return res.status(400).send({
             message: "Inbound Format is Required"
         });
     }
-    if(!req.body.InboundSetting.sync_type) {
+    if(!data.InboundSetting.sync_type) {
         return res.status(400).send({
             message: "Select Syncronize Type"
         });
     }
-    if(!req.body.InboundSetting.ftp_server_link) {
+    if(!data.InboundSetting.ftp_server_link) {
         return res.status(400).send({
             message: "FTP URL is Required"
         });
     }
-    if(!req.body.InboundSetting.host) {
+    if(!data.InboundSetting.host) {
         return res.status(400).send({
             message: "Host Name is Required"
         });
     }
-    if(!req.body.InboundSetting.port) {
+    if(!data.InboundSetting.port) {
         return res.status(400).send({
             message: "Port Number is Required"
         });
     }
-    if(!req.body.InboundSetting.login_name) {
+    if(!data.InboundSetting.login_name) {
         return res.status(400).send({
             message: "Login Name is Required"
         });
     }
-    if(!req.body.InboundSetting.password) {
+    if(!data.InboundSetting.password) {
         return res.status(400).send({
             message: "Password is Required"
         });
     }
-    if(!req.body.OutboundSetting.outbound_format) {
+    if(!data.OutboundSetting.outbound_format) {
         return res.status(400).send({
             message: "Outbound Format is Required"
         });
     }
-    if(!req.body.OutboundSetting.sync_type_out) {
+    if(!data.OutboundSetting.sync_type_out) {
         return res.status(400).send({
             message: "Synchronize Output Type is Required"
         });
     }
-    if(!req.body.OutboundSetting.api_url) {
+    if(!data.OutboundSetting.api_url) {
         return res.status(400).send({
             message: "API URL is Required"
         });
     }
-    if(!req.body.ScheduleSetting.Schedule_configure) {
+    if(!data.ScheduleSetting.Schedule_configure) {
         return res.status(400).send({
             message: "Schedule Configure is Required"
         });
     }
-    if(!req.body.ScheduleSetting.schedule_type) {
+    if(!data.ScheduleSetting.schedule_type) {
         return res.status(400).send({
             message: "Schedule Type is Required"
         });
     }
-    if(!req.body.ScheduleSetting.occurs) {
+    if(!data.ScheduleSetting.occurs) {
         return res.status(400).send({
             message: "Please Define occurs is Required"
         });
     }
-    if(!req.body.ScheduleSetting.recurs_count) {
+    if(!data.ScheduleSetting.recurs_count) {
         return res.status(400).send({
             message: "Count is Required"
         });
     }
-    if(!req.body.ScheduleSetting.recurs_time) {
+    if(!data.ScheduleSetting.recurs_time) {
         return res.status(400).send({
             message: "Time is Required"
         });
     }
     
     const project = new Project({
-        ProjectCode: req.body.ProjectCode, 
-        ProjectName: req.body.ProjectName,
-        CompanyName: req.body.CompanyName,
-        InboundSetting:req.body.InboundSetting,
-        OutboundSetting:req.body.OutboundSetting,
-        ScheduleSetting:req.body.ScheduleSetting, 
+        ProjectCode: data.ProjectCode, 
+        ProjectName: data.ProjectName,
+        CompanyName: data.CompanyName,
+        InboundSetting:data.InboundSetting,
+        OutboundSetting:data.OutboundSetting,
+        ScheduleSetting:data.ScheduleSetting, 
     });
     project.save()
     .then(data => {

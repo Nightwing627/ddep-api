@@ -15,5 +15,16 @@
         "passport-local-mongoose": "^6.1.0",
         "path": "^0.12.7",
         "xml2js": "^0.4.23"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://gitlab.a4apple.cn/gima/ddep.git"
+    },
+    
+    "scripts": {
+    
+        "clean": "rmdir /s dist && mkdir dist", 
+        "prebuild": "npm run clean",
+        "build": "node app.js"
     }
 }

@@ -136,7 +136,7 @@ $(function () {
             }
             else if(index==1)
             {
-              inbound_server_detail.inboundFormat = $('#inboundFormat').val();
+              inbound_server_detail.inbound_format = $('#inboundFormat').val();
               inbound_server_detail.sync_type = $('input [name="sync_type"]:checked').val();
               inbound_server_detail.ftp_server_link = $('#ftp_server_link').val();
               inbound_server_detail.host = $('#host').val();
@@ -179,7 +179,37 @@ $(function () {
       .on('click', function () {
         var isValid = $(this).parent().siblings('form').valid();
         if (isValid) {
-          alert('Submitted..!!');
+          var InboundSetting = JSON.stringify(inbound_server_detail);
+          var OutboundSetting = JSON.stringify(outbound_detail);
+          var ScheduleSetting =JSON.stringify(schedule_detail);
+          var data = {ProjectName:project_detail.ProjectName,ProjectCode:project_detail.ProjectCode,CompanyName:project_detail.CompanyName,InboundSetting,OutboundSetting,ScheduleSetting}
+          //var inboundjson = JSON.stringify(inbound_server_detail);
+          //var 
+          $.ajax({
+            url:'/projects/save',  
+            method:'post',  
+            dataType:'json', 
+            data:data,
+            success:function(response){
+                 //console.log(response);
+                //  var counter = 1;
+                //  $.each(response.data,function(index,data){  
+                //     table.row.add( [
+                //      counter++,
+                //      data.user_name,
+                //      data.display_name,
+                //      data.staff_other_code,
+                //      data.enable_fg,
+                //      '<button class="btn btn-success">Edit</button>'
+                //     ]).draw( false );
+                //  });  
+                //  $('body').find('.paginate_button').addClass('btn m-10 btn-sm btn-outline-primary  p-10');
+                console.log(response);
+              },  
+            error:function(response){  
+                alert('server error');  
+            }  
+          })
         }
       });
   }
