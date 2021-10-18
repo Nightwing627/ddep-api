@@ -137,7 +137,7 @@ $(function () {
             else if(index==1)
             {
               inbound_server_detail.inbound_format = $('#inboundFormat').val();
-              inbound_server_detail.sync_type = $('input [name="sync_type"]:checked').val();
+              inbound_server_detail.sync_type = $('input[name="sync_type"]:checked').val();
               inbound_server_detail.ftp_server_link = $('#ftp_server_link').val();
               inbound_server_detail.host = $('#host').val();
               inbound_server_detail.port = $('#port').val();
@@ -146,20 +146,22 @@ $(function () {
             }
             else if(index == 2)
             {
-              outbound_detail.sync_type_out =$('input [name="sync_type_out"]:checked').val();
+              outbound_detail.sync_type_out =$('input[name="sync_type_out"]:checked').val();
               outbound_detail.api_url = $('#api_url').val();
+              outbound_detail.outbound_format = $('#outbound_format').val();
             }
             else if(index == 3)
             {
-
-            }
-            else if(index == 4)
-            {
-              schedule_detail.Schedule_configure = $('input [name="Schedule_configure"]:checked').val();
-              schedule_detail.schedule_type = $('input [name="schedule_type"]:checked').val();
+              console.log($('input[name="s_configure"]:checked').val());
+              schedule_detail.schedule_configure = $('input[name="s_configure"]:checked').val();
+              schedule_detail.schedule_type = $('input[name="schedule_type"]:checked').val();
               schedule_detail.occurs_time = $('#occurs_time').val();
               schedule_detail.recurs_count = $('#recurs_count').val();
               schedule_detail.recurs_time = $('#recurs_time').val();
+            }
+            else if(index == 4)
+            {
+              
             }
             numberedStepper.next();
           } else {
@@ -181,15 +183,15 @@ $(function () {
         if (isValid) {
           var InboundSetting = JSON.stringify(inbound_server_detail);
           var OutboundSetting = JSON.stringify(outbound_detail);
-          var ScheduleSetting =JSON.stringify(schedule_detail);
-          var data = {ProjectName:project_detail.ProjectName,ProjectCode:project_detail.ProjectCode,CompanyName:project_detail.CompanyName,InboundSetting,OutboundSetting,ScheduleSetting}
+          var ScheduleSetting = JSON.stringify(schedule_detail);
+          var data = {ProjectName:project_detail.ProjectName,ProjectCode:project_detail.ProjectCode,CompanyName:project_detail.CompanyName,InboundSetting:inbound_server_detail,OutboundSetting:outbound_detail,ScheduleSetting:schedule_detail}
           //var inboundjson = JSON.stringify(inbound_server_detail);
           //var 
           $.ajax({
             url:'/projects/save',  
             method:'post',  
             dataType:'json', 
-            data:data,
+            data:{ProjectName:project_detail.ProjectName,ProjectCode:project_detail.ProjectCode,CompanyName:project_detail.CompanyName,InboundSetting:InboundSetting,OutboundSetting:OutboundSetting,ScheduleSetting:ScheduleSetting},
             success:function(response){
                  //console.log(response);
                 //  var counter = 1;

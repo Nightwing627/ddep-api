@@ -1,10 +1,11 @@
-const { json } = require('body-parser');
+bodyParser = require('body-parser');
 const Project = require('../models/project.model.js');
 
 // Create and Save a new Note
 function isJson(str) {
     try {
         JSON.parse(str);
+
     } catch (e) {
         return false;
     }
@@ -12,12 +13,39 @@ function isJson(str) {
 }
 exports.create = (req, res) => {
     var data = req.body;
-    var check =isJson(data);
-    if(check)
-    {
-        data = JSON.parse(req.body);
-    }
-    console.log(data);
+    //var check =isJson(data);
+    // if(!check)
+    // {
+    //     //data = JSON.parse(req.body);
+    // }
+    //var data = JSON.parse(req.body);
+
+   //data = JSON.stringify(req.body);
+   //data = JSON.parse(data);
+   var checkinbound =isJson(data.InboundSetting);
+   var checkoutbound =isJson(data.OutboundSetting);
+   var checkschedule =isJson(data.ScheduleSetting);
+   if(checkinbound)
+   {
+
+       data.InboundSetting = JSON.parse(data.InboundSetting);
+   }
+   if(checkoutbound)
+   {
+
+       data.OutboundSetting = JSON.parse(data.OutboundSetting);
+   }
+   if(checkschedule)
+   {
+
+       data.ScheduleSetting = JSON.parse(data.ScheduleSetting);
+       data.ScheduleSetting.Schedule_configure="JSON",
+        data.ScheduleSetting.schedule_type="API",
+        data.ScheduleSetting.occurs="1",
+        data.ScheduleSetting.recurs_count="1",
+        data.ScheduleSetting.recurs_time="12:00"
+   }
+   console.log(data);
     if(!data.ProjectCode) {
         return res.status(400).send({
             message: "Project Code Not Found"

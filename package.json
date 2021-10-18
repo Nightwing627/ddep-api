@@ -1,5 +1,6 @@
 {
     "dependencies": {
+        "basic-ftp": "^4.6.6",
         "body-parser": "^1.19.0",
         "ejs": "^3.1.6",
         "express": "^4.17.1",
@@ -22,9 +23,7 @@
     },
     
     "scripts": {
-    
-        "clean": "rmdir /s dist && mkdir dist", 
-        "prebuild": "npm run clean",
-        "build": "node app.js"
-    }
+        "start": "node app.js",
+        "build": "webpack" 
+      }
 }
