@@ -1,4 +1,12 @@
 {
+    "name": "ddep",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "keywords": [],
+    "author": "",
+    "license": "DDEP",
+
     "dependencies": {
         "basic-ftp": "^4.6.6",
         "body-parser": "^1.19.0",
@@ -21,9 +29,21 @@
         "type": "git",
         "url": "https://gitlab.a4apple.cn/gima/ddep.git"
     },
-    
     "scripts": {
-        "start": "node app.js",
-        "build": "webpack" 
-      }
+        "build": "del dist /s /q webpack --mode development --config webpack.config.js && webpack --mode development",
+        "start": "node ./dist/app.js"
+      },
+    "devDependencies": {
+        "@babel/core": "^7.15.8",
+        "@babel/preset-env": "^7.15.8",
+        "babel-loader": "^8.2.2",
+        "css-loader": "^6.4.0",
+        "file-loader": "^6.2.0",
+        "html-loader": "^2.1.2",
+        "html-webpack-plugin": "^5.4.0",
+        "style-loader": "^3.3.0",
+        "webpack": "^5.58.2",
+        "webpack-cli": "^4.9.1",
+        "webpack-node-externals": "^3.0.0"
+    }
 }
