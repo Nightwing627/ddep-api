@@ -16,6 +16,10 @@ router.post('/save', projects.create);
 router.get('/add',function(req,res){
     res.render('pages/add-projects');
 })
+router.get('/list',projects.findAll);
+router.get('/project-list',function(req,res){
+    res.render('pages/list-project');
+})
 router.get('/connectftp',function(req,res){
     const client = new ftp('ftp1.innoways.com', 21, 'zennaxx', 'k59*7cmR', false);
     client.upload('./upload.txt', 'home/upload.txt', 755);

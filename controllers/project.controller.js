@@ -161,9 +161,9 @@ exports.findAll = (req, res) => {
     //var page =req.query.page;
     //var limit =eval(req.query.limit);
    //console.log(limit*page);
-    project.find()
-    .then(users => {
-        res.status(200).send({data:users})
+    Project.find()
+    .then(projects => {
+        res.status(200).send({data:projects})
     }).catch(err => {
         res.status(500).send({
             message: err.message || "Some error occurred while retrieving users."

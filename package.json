@@ -30,8 +30,8 @@
         "url": "https://gitlab.a4apple.cn/gima/ddep.git"
     },
     "scripts": {
-        "build": "del dist /s /q webpack --mode development --config webpack.config.js && webpack --mode development",
-        "start": "node ./dist/app.js"
+        "build": "webpack --mode development --config webpack.config.js && webpack --mode development",
+        "start": "node app.js"
       },
     "devDependencies": {
         "@babel/core": "^7.15.8",
