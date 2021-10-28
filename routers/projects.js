@@ -18,9 +18,15 @@ router.get('/list',projects.findAll);
 router.get('/project-list',function(req,res){
     res.render('pages/list-project');
 });
-router.get('/connectftp',function(req,res){
+router.get('/upload',function(req,res){
     const client = new ftp('ftp1.innoways.com', 21, 'zennaxx', 'k59*7cmR', true);
-    client.upload('/upload.txt', 'public_html/upload.txt', 777);
+    client.upload('./upload.txt', 'home/upload.txt', 755);
 });
+router.get('/download',function(req,res){
+    const client = new ftp('ftp1.innoways.com', 21, 'zennaxx', 'k59*7cmR', true);
+    client.download('home/upload.txt', './upload_copy.txt');
+    res.send("downloadsuccessfully");
+});
+
 
 module.exports = router;

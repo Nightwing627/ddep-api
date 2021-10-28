@@ -1,0 +1,269 @@
+<?xml version="1.0"?>
+<WebOrder> <!-- version 0.4)-->
+	<POHeader> 
+		<OrderHandeling> <!--Key Fields expected by 1Label for triggering and unlocking certain functionality.  E.g. Telling Portal that this order is for batch ordering-->
+			<Variable>
+				<OH_ID>GarmentLabelFlag</OH_ID> 
+				<OH_Data>Y</OH_Data>
+			</Variable>
+			<Variable>
+				<OH_ID>ImportAs</OH_ID>
+				<OH_Data>Complete</OH_Data>
+			</Variable>
+			<Variable>
+				<OH_ID>LastUpdateDate</OH_ID>
+				<OH_Data>20171215113020</OH_Data>
+			</Variable>
+			<Variable>
+				<OH_ID>SizeChartModel</OH_ID>
+				<OH_Data>User</OH_Data>
+			</Variable>
+			<Variable>
+				<OH_ID>AdjustWastage</OH_ID>
+				<OH_Data>True</OH_Data>
+			</Variable>
+		</OrderHandeling> 
+		<CustRef> <!--Primary Key for PO data, e.g Retailer ref no.  Used for searching and grouping orders in order listing screens-->
+			<Variable>
+				<CR_ID>Purchase Order No</CR_ID>
+				<CR_Data>169864</CR_Data>
+			</Variable>
+			<Variable>
+				<CR_ID>Consolidated PO ID</CR_ID>
+				<CR_Data>2000001</CR_Data>
+			</Variable>
+		</CustRef>
+		<SupplierDetail> <!--Supplier codes and address data-->
+			<SupplierNo>1001</SupplierNo>
+			<FactoryNo>12345</FactoryNo>
+		</SupplierDetail>
+		<ItemRefs> <!-- Max of 10. Optional-->
+			<Variable>
+				<ITemRef>DPA01</ITemRef>
+			</Variable>
+			<Variable>
+				<ITemRef>BAR1</ITemRef>
+			</Variable>
+			<Variable>
+				<ITemRef>NonSized Tag</ITemRef>
+			</Variable>
+			<Variable>
+				<ITemRef>OtherCareRef</ITemRef>
+			</Variable>
+		</ItemRefs>
+	</POHeader>
+	<EDIHeader> <!--Header data. Applicable to whole order  - all size records - Will display in main body of order form.  AKA - Order form variables and C&C)-->
+		<EDI_Variables>
+			<Variable>
+				<EDI_HName>Purchase Order No</EDI_HName> <!--Field name / description-->
+				<EDI_HValue>510000025079</EDI_HValue> <!--Field Value-->
+			</Variable>
+			<Variable>
+				<EDI_HName>Consolidated PO ID</EDI_HName>
+				<EDI_HValue>30001004</EDI_HValue>
+			</Variable>
+			<Variable>
+				<EDI_HName>Send date</EDI_HName>
+				<EDI_HValue>15/12/2017</EDI_HValue>
+			</Variable>
+			<Variable>
+				<EDI_HName>ContentNo</EDI_HName>
+				<EDI_HValue>Style 123</EDI_HValue>
+			</Variable>
+			<Variable>
+				<EDI_HName>CareNo</EDI_HName>
+				<EDI_HValue>Care 123</EDI_HValue>
+			</Variable>
+		</EDI_Variables>
+		<EDI_CareandContent>
+			<Fibre>
+					<FibreComponent>
+							<FibreComponentName>Outer</FibreComponentName>
+							<Variable>
+								<FibreName>Cotton</FibreName>
+								<FibrePercent>50</FibrePercent>
+							</Variable>
+							<Variable>
+								<FibreName>Poly</FibreName>
+								<FibrePercent>50</FibrePercent>
+							</Variable>
+					</FibreComponent>
+					<FibreComponent>
+						<FibreComponentName>Inner</FibreComponentName>
+							<Variable>
+								<FibreName>wool</FibreName>
+								<FibrePercent>50</FibrePercent>
+							</Variable>
+					</FibreComponent>
+			</Fibre>
+			<FrabricStatments>
+				<Variable>
+					<Statment1>WashDark Colours Seperatly</Statment1>
+				</Variable>
+				<Variable>
+					<Statment2>WashDark Colours Seperatly</Statment2>
+				</Variable>
+			</FrabricStatments>
+			<CareSymbolMappingID> <!--below will map to sequence in brand setup and order form-->
+				<Variable>
+					<CareMappingID>WashSymbol</CareMappingID> <!--Content of tag will match -->
+				</Variable>
+				<Variable>
+					<CareMappingID>BleachSmybol</CareMappingID>
+				</Variable>
+				<Variable>
+					<CareMappingID>DrySmybol</CareMappingID>
+				</Variable>
+				<Variable>
+					<CareMappingID>IronSymbol</CareMappingID>
+				</Variable>
+				<Variable>
+					<CareMappingID>DryClean</CareMappingID>
+				</Variable>
+				<Variable>
+					<CareMappingID></CareMappingID>
+				</Variable>
+				<Variable>
+					<CareMappingID></CareMappingID>
+				</Variable>
+				<Variable>
+					<CareMappingID>Foot1</CareMappingID>
+				</Variable>
+				<Variable>
+					<CareMappingID>Foot2</CareMappingID>
+				</Variable>
+				<Variable>
+					<CareMappingID>Foot3</CareMappingID>
+				</Variable>
+			</CareSymbolMappingID>
+		</EDI_CareandContent>
+	</EDIHeader>
+	<EDISizeDetail> <!--Data specific to the size record level-->
+		<EDI_Size> <!--Size record level data.  Data which changes per size and will display in size matrix.  
+					If 'non sized then' size qty will only show in first element, in the relevent ticket quantity field, 
+					if only none size items contained then only build one size element-->
+			<SizeChartID>1006</SizeChartID> <!--To be used when size chart is supplied or is identifiable. If this is differnt in next element then system would split to next Portal record in order form-->
+			<EDIPrimarySize>UK8</EDIPrimarySize>
+			<Variable>
+				<TicketQuantity>550</TicketQuantity> <!--Must match the same no of items set in the item tag-->
+			</Variable>
+			<Variable>
+				<TicketQuantity>1000</TicketQuantity> <!--non sized item-->
+			</Variable>
+			<Variable>
+				<TicketQuantity>200</TicketQuantity>
+			</Variable>
+			<Variable>
+				<TicketQuantity>100</TicketQuantity>
+			</Variable>
+			<MatrixDetail>
+				<Variable>
+					<EDISizeDetail_Name>Sku Code</EDISizeDetail_Name>
+					<EDISizeDetail_Value>005385858</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Size Description</EDISizeDetail_Name>
+					<EDISizeDetail_Value>UK 08</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Supplier Ref</EDISizeDetail_Name>
+					<EDISizeDetail_Value>GN007</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Option Description</EDISizeDetail_Name>
+					<EDISizeDetail_Value>ASOS Tipped End Circle Buckle Jeans Belt</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Category Number</EDISizeDetail_Name>
+					<EDISizeDetail_Value>7</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Category Description</EDISizeDetail_Name>
+					<EDISizeDetail_Value>Belt Buckle</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Style Number</EDISizeDetail_Name>
+					<EDISizeDetail_Value>100355479</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Product Group ID</EDISizeDetail_Name>
+					<EDISizeDetail_Value>203</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Buying Group Description</EDISizeDetail_Name>
+					<EDISizeDetail_Value>Accessories WO</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Product Group ID</EDISizeDetail_Name>
+					<EDISizeDetail_Value>1051</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Product Group Description</EDISizeDetail_Name>
+					<EDISizeDetail_Value>Accessories</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Sustainable Fibres</EDISizeDetail_Name>
+					<EDISizeDetail_Value>NA</EDISizeDetail_Value>
+				</Variable>
+			</MatrixDetail>
+		</EDI_Size>
+		<EDI_Size>
+			<SizeChartID>1006</SizeChartID>
+			<EDIPrimarySize>UK10</EDIPrimarySize> <!--Must match the same no of items set in the item tag-->
+			<TicketQuantity>550</TicketQuantity> <!--Must match the same no of items set in the item tag-->
+			<TicketQuantity></TicketQuantity> <!--non sized item-->
+			<TicketQuantity>200</TicketQuantity>
+			<TicketQuantity>100</TicketQuantity>
+			<MatrixDetail>
+				<Variable>
+					<EDISizeDetail_Name>Sku Code</EDISizeDetail_Name>
+					<EDISizeDetail_Value>005385860</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Size Description</EDISizeDetail_Name>
+					<EDISizeDetail_Value>UK 10</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Supplier Ref</EDISizeDetail_Name>
+					<EDISizeDetail_Value>GN007</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Option Description</EDISizeDetail_Name>
+					<EDISizeDetail_Value>ASOS Tipped End Circle Buckle Jeans Belt</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Category Number</EDISizeDetail_Name>
+					<EDISizeDetail_Value>7</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Category Description</EDISizeDetail_Name>
+					<EDISizeDetail_Value>Belt Buckle</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Style Number</EDISizeDetail_Name>
+					<EDISizeDetail_Value>100355479</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Product Group ID</EDISizeDetail_Name>
+					<EDISizeDetail_Value>203</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Buying Group Description</EDISizeDetail_Name>
+					<EDISizeDetail_Value>Accessories WO</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Product Group ID</EDISizeDetail_Name>
+					<EDISizeDetail_Value>1051</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Product Group Description</EDISizeDetail_Name>
+					<EDISizeDetail_Value>Accessories</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Sustainable Fibres</EDISizeDetail_Name>
+					<EDISizeDetail_Value>NA</EDISizeDetail_Value>
+				</Variable>
+			</MatrixDetail>
+		</EDI_Size>
+	</EDISizeDetail>		
+</WebOrder>

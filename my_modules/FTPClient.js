@@ -16,20 +16,33 @@ class FTPClient {
         console.log("ftp connected");
     }
 
-    upload(sourcePath, remotePath, permissions) {
+    upload(sourcePath, remotePath, permissions1) {
         let self = this;
         (async () => {
             try {
                 let access = await self.client.access(self.settings);
-                let upload = await self.client.upload(fs.createReadStream(sourcePath), remotePath);
-                let permissions = await self.changePermissions(permissions.toString(), remotePath);
+                let upload = await self.client.uploadFrom(fs.createReadStream(sourcePath), remotePath);
+                let permissions = await self.changePermissions(permissions1.toString(), remotePath);
             } catch(err) {
                 console.log(err);
             }
             self.client.close();
         })();
+        
     }
-
+    download(remotePath,localPath){
+        let self = this;
+        (async () => {
+            try {
+                let access = await self.client.access(self.settings);
+               let download = await self.client.downloadTo(localPath, remotePath);
+            }catch(err)
+            {
+                console.log(err);
+            }
+            self.client.close();
+        })();
+    }
     close() {
         this.client.close();
     }

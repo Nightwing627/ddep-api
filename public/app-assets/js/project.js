@@ -26,7 +26,7 @@ $(document).ready(function(){
                      data.ProjectCode,
                      data.ProjectName,
                      '-','-','-','-',
-                     '<div class="btn-group" role="group" aria-label="Basic example"><button type="button" class="btn btn-secondary">Edit</button><button type="button" class="btn btn-secondary">View</button></div>'
+                     '<div class="btn-group" role="group" aria-label="Basic example"><button type="button" class="btn btn-secondary">Edit</button><button type="button" class="btn btn-secondary">Active</button><button type="button" class="btn run_inbound btn-secondary">RunInbound</button><button type="button" class="btn btn-secondary run_outbound">RunOutbound</button><button type="button" class="btn btn-secondary">View</button></div>'
                     ]).draw( false );
                  });  
                  $('body').find('.paginate_button').addClass('btn m-10 btn-sm btn-outline-primary  p-10');
@@ -36,4 +36,26 @@ $(document).ready(function(){
             }  
         });  
     }  
+    $('body').on('click','.run_inbound',function(){
+        $.ajax({  
+            url:'/inbound/runbyuser',  
+            method:'post',  
+            dataType:'json', 
+            data:{page:0,limit:3},
+            success:function(response){
+                alert(response.body);
+            }
+        })
+    });
+    $('body').on('click','.run_outbound',function(){
+        $.ajax({  
+            url:'/outbound/runbyuser',  
+            method:'post',  
+            dataType:'json', 
+            data:{page:0,limit:3},
+            success:function(response){
+                alert(response.body);
+            }
+        });
+    });
 });
