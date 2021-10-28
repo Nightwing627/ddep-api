@@ -45,7 +45,7 @@ exports.create = (req, res) => {
         data.ScheduleSetting.recurs_count="1",
         data.ScheduleSetting.recurs_time="12:00"
    }
-   console.log(data);
+   
     if(!data.ProjectCode) {
         return res.status(400).send({
             message: "Project Code Not Found"
@@ -136,14 +136,13 @@ exports.create = (req, res) => {
             message: "Time is Required"
         });
     }
-    
     const project = new Project({
         ProjectCode: data.ProjectCode, 
         ProjectName: data.ProjectName,
         CompanyName: data.CompanyName,
         InboundSetting:data.InboundSetting,
         OutboundSetting:data.OutboundSetting,
-        ScheduleSetting:data.ScheduleSetting, 
+        ScheduleSetting:data.ScheduleSetting,
     });
     project.save()
     .then(data => {
@@ -186,7 +185,157 @@ exports.findOne = (req, res) => {
 
 // Update a note identified by the noteId in the request
 exports.update = (req, res) => {
-    
+    var data = req.body;
+    //var check =isJson(data);
+    // if(!check)
+    // {
+    //     //data = JSON.parse(req.body);
+    // }
+    //var data = JSON.parse(req.body);
+
+   //data = JSON.stringify(req.body);
+   //data = JSON.parse(data);
+   var checkinbound =isJson(data.InboundSetting);
+   var checkoutbound =isJson(data.OutboundSetting);
+   var checkschedule =isJson(data.ScheduleSetting);
+   if(checkinbound)
+   {
+
+       data.InboundSetting = JSON.parse(data.InboundSetting);
+   }
+   if(checkoutbound)
+   {
+
+       data.OutboundSetting = JSON.parse(data.OutboundSetting);
+   }
+   if(checkschedule)
+   {
+
+       data.ScheduleSetting = JSON.parse(data.ScheduleSetting);
+       data.ScheduleSetting.Schedule_configure="JSON",
+        data.ScheduleSetting.schedule_type="API",
+        data.ScheduleSetting.occurs="1",
+        data.ScheduleSetting.recurs_count="1",
+        data.ScheduleSetting.recurs_time="12:00"
+   }
+   
+    if(!data.ProjectCode) {
+        return res.status(400).send({
+            message: "Project Code Not Found"
+        });
+    }
+    if(!data.ProjectName) {
+        return res.status(400).send({
+            message: "Project Name Not Found"
+        });
+    }
+    if(!data.CompanyName) {
+        return res.status(400).send({
+            message: "Company Name is Required"
+        });
+    }
+    if(!data.InboundSetting.inbound_format) {
+        return res.status(400).send({
+            message: "Inbound Format is Required"
+        });
+    }
+    if(!data.InboundSetting.sync_type) {
+        return res.status(400).send({
+            message: "Select Syncronize Type"
+        });
+    }
+    if(!data.InboundSetting.ftp_server_link) {
+        return res.status(400).send({
+            message: "FTP URL is Required"
+        });
+    }
+    if(!data.InboundSetting.host) {
+        return res.status(400).send({
+            message: "Host Name is Required"
+        });
+    }
+    if(!data.InboundSetting.port) {
+        return res.status(400).send({
+            message: "Port Number is Required"
+        });
+    }
+    if(!data.InboundSetting.login_name) {
+        return res.status(400).send({
+            message: "Login Name is Required"
+        });
+    }
+    if(!data.InboundSetting.password) {
+        return res.status(400).send({
+            message: "Password is Required"
+        });
+    }
+    if(!data.OutboundSetting.outbound_format) {
+        return res.status(400).send({
+            message: "Outbound Format is Required"
+        });
+    }
+    if(!data.OutboundSetting.sync_type_out) {
+        return res.status(400).send({
+            message: "Synchronize Output Type is Required"
+        });
+    }
+    if(!data.OutboundSetting.api_url) {
+        return res.status(400).send({
+            message: "API URL is Required"
+        });
+    }
+    if(!data.ScheduleSetting.Schedule_configure) {
+        return res.status(400).send({
+            message: "Schedule Configure is Required"
+        });
+    }
+    if(!data.ScheduleSetting.schedule_type) {
+        return res.status(400).send({
+            message: "Schedule Type is Required"
+        });
+    }
+    if(!data.ScheduleSetting.occurs) {
+        return res.status(400).send({
+            message: "Please Define occurs is Required"
+        });
+    }
+    if(!data.ScheduleSetting.recurs_count) {
+        return res.status(400).send({
+            message: "Count is Required"
+        });
+    }
+    if(!data.ScheduleSetting.recurs_time) {
+        return res.status(400).send({
+            message: "Time is Required"
+        });
+    }
+    const project = new Project({
+        ProjectCode: data.ProjectCode, 
+        ProjectName: data.ProjectName,
+        CompanyName: data.CompanyName,
+        InboundSetting:data.InboundSetting,
+        OutboundSetting:data.OutboundSetting,
+        ScheduleSetting:data.ScheduleSetting,
+    });
+    Project.findByIdAndUpdate(req.params.id,data, { new: true })
+    .then((project) => {
+        console.log(req.params.id);
+      if (!project) {
+        return res.status(404).send({
+          message: "no Project found"
+        });
+      }
+      res.status(200).send({
+          message:"Project Update Successfully"
+      });
+    })
+    .catch((err) => {
+      return res.status(404).send({
+        message: "error while updating the Project",
+        err:err
+      });
+    });
+
 };
 
 // Delete a note with the specified noteId in the request

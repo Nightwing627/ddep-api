@@ -13,6 +13,7 @@ class FTPClient {
             password: password,
             secure: secure
         };
+        console.log("ftp connected");
     }
 
     upload(sourcePath, remotePath, permissions) {

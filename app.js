@@ -11,6 +11,8 @@ mongoose.Promise = global.Promise;
 var indexRouter = require('./routers/index');
 var usersRouter = require('./routers/users');
 var projectsRouter = require('./routers/projects');
+var inboundRouter = require('./routers/inbound');
+var outboundRouter = require('./routers/outbound');
 var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -25,7 +27,8 @@ app.use(express.static('public'));
 app.use('/', indexRouter);
 app.use('/users',usersRouter);
 app.use('/projects',projectsRouter);
-
+app.use('/inbound',inboundRouter);
+app.use('/outbound',outboundRouter);
 app.use(function(req, res, next) {
     next(createError(404));
   });
