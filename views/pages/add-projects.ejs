@@ -94,11 +94,11 @@ License: You must have a valid license purchased only from themeforest(the above
             <form>
                 <div class="row">
                 <div class="form-group col-md-4">
-                    <label class="form-label" for="projectcode">Project Code</label>
+                    <label class="form-label required" for="projectcode">Project Code</label>
                     <input type="text" name="ProjectCode" id="ProjectCode" class="form-control" placeholder="Enter Project Code" />
                 </div>
                 <div class="form-group col-md-4">
-                    <label class="form-label" for="ProjectName">Project Name</label>
+                    <label class="form-label required" for="ProjectName">Project Name</label>
                     <input
                     type="text"
                     name="ProjectName"
@@ -109,7 +109,7 @@ License: You must have a valid license purchased only from themeforest(the above
                     />
                 </div>
                 <div class="form-group col-md-4">
-                    <label class="form-label" for="CompanyName">Company Name</label>
+                    <label class="form-label required" for="CompanyName ">Company Name</label>
                     <input
                     type="text"
                     name="CompanyName"
@@ -150,7 +150,7 @@ License: You must have a valid license purchased only from themeforest(the above
                       <div class="row">
                         <!-- Basic -->
                         <div class="col-md-6 mb-1">
-                          <label>Format</label>
+                          <label class="required">Format</label>
                           <select class="select2 form-control form-control-lg" id="inboundFormat" name="inbound_format">
                             <option value="xml">XML</option>
                           </select>
@@ -167,16 +167,23 @@ License: You must have a valid license purchased only from themeforest(the above
                     <div class="card-body">
                       <div class="row">
                         <div class="form-group col-md-3">
-                            <label class="form-label" for="first-name">FTP/SFTP</label> 
+                            <label class="form-label required" for="first-name">FTP/SFTP</label> 
                         </div>
                         <div class="form-group col-md-9">
-                          <input type="radio" name="sync_type" id="Sync_type_ftp" class="radio-inline" value="FTP" /><span>FTP</span>
-                          <input type="radio" name="sync_type" id="Sync_type_sftp" class="radio-inline" value="SFTP" /><span>SFTP</span>
+                          <div class="row">
+
+                            <div class="custom-control custom-radio col-md-2">
+                              <input type="radio" name="sync_type" id="Sync_type_ftp" class="radio-inline" value="FTP" /><span>FTP</span>
+                            </div>
+                            <div class="custom-control custom-radio col-md-2">
+                              <input type="radio" name="sync_type" id="Sync_type_sftp" class="radio-inline" value="SFTP" /><span>SFTP</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <div class="row">
                           <div class="form-group col-md-3">
-                              <label class="form-label" for="first-name">FTP/SFPT Server</label>
+                              <label class="form-label required" for="first-name">FTP/SFPT Server</label>
                           </div>
                           <div class="form-group col-md-9">
                               <input type="text" name="ftp_server_link" id="ftp_server_link" class="form-control" placeholder="ftp.example.com" />
@@ -184,15 +191,15 @@ License: You must have a valid license purchased only from themeforest(the above
                       </div>
                       <div class="row">
                           <div class="form-group col-md-3">
-                              <label class="form-label" for="first-name">Host</label>
-                          </div>
-                          <div class="form-group col-md-9">
+                              <label class="form-label required" for="first-name">Host</label>
+                          </div> 
+                           <div class="form-group col-md-9">
                               <input type="text" name="host" id="host" class="form-control" placeholder="" />
                           </div>
                       </div>
                       <div class="row">
                           <div class="form-group col-md-3">
-                              <label class="form-label" for="first-name">Port</label>
+                              <label class="form-label required" for="first-name">Port</label>
                           </div>
                           <div class="form-group col-md-9">
                               <input type="text" name="port" id="port" class="form-control" placeholder="" />
@@ -200,7 +207,7 @@ License: You must have a valid license purchased only from themeforest(the above
                       </div>
                       <div class="row">
                           <div class="form-group col-md-3">
-                              <label class="form-label" for="first-name">Login Name</label>
+                              <label class="form-label required" for="first-name">Login Name</label>
                           </div>
                           <div class="form-group col-md-9">
                               <input type="text" name="login_name" id="login_name" class="form-control" placeholder="" />
@@ -208,13 +215,31 @@ License: You must have a valid license purchased only from themeforest(the above
                       </div>
                       <div class="row">
                           <div class="form-group col-md-3">
-                              <label class="form-label" for="first-name">Password</label>
+                              <label class="form-label required" for="first-name">Password</label>
                           </div>
                           <div class="form-group col-md-9">
                               <input type="password" name="password" id="password" class="form-control" placeholder="" />
                           </div>
                       </div>
-                      
+                      <div class="row">
+                          <div class="form-group col-md-3">
+                              <label class="form-label required" for="first-name">Is Password Encrypted</label>
+                          </div>
+                          <div class="form-group col-md-9">
+                            <select class="select2 form-control form-control-lg" id="is_password_encrypted" name="is_password_encrypted">
+                              <option value="yes">Yes</option>
+                              <option value="no">No</option>
+                            </select>
+                          </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-md-3">
+                            <label class="form-label required" for="first-name">Folder</label>
+                        </div>
+                        <div class="form-group col-md-9">
+                          <input type="text" name="folderpath" id="folderpath" class="form-control" placeholder="" />
+                        </div>
+                    </div>
                     </div>
                   </div>
                 </div>
@@ -222,14 +247,14 @@ License: You must have a valid license purchased only from themeforest(the above
               </div>
                 
             </form>
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between mt-1">
                 <button class="btn btn-primary btn-prev">
                 <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
                 <span class="align-middle d-sm-inline-block d-none">Previous</span>
                 </button>
                 <button class="btn btn-primary btn-next">
                 <span class="align-middle d-sm-inline-block d-none">Next</span>
-                <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+                  <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
                 </button>
             </div>
             </div>
@@ -250,7 +275,7 @@ License: You must have a valid license purchased only from themeforest(the above
                       <div class="row">
                         <!-- Basic -->
                         <div class="col-md-6 mb-1">
-                          <label>Format</label>
+                          <label class="required">Format</label>
                           <select class="select2 form-control form-control-lg" id="outbound_format" name="outbound_format">
                             <option value="json">Json</option>
                           </select>
@@ -261,17 +286,16 @@ License: You must have a valid license purchased only from themeforest(the above
                 </div>
                 <div class="card">
                   <div class="card-header" id="headingTwo" data-toggle="collapse" role="button" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    <span class="lead collapse-title">Synchronize Configure </span>
+                    <span class="lead collapse-title ">Synchronize Configure </span>
                   </div>
                   <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                     <div class="card-body">
                       <div class="row">
                         <div class="form-group col-md-3">
-                            <label class="form-label" for="first-name">FTP/SFTP</label> 
+                            <label class="form-label required" for="first-name">FTP/SFTP</label> 
                         </div>
                         <div class="form-group col-md-9">
                           <input type="radio" name="sync_type_out" id="sync_type_out" checked class="radio-inline" value="API" /><span>API</span>
-                          
                         </div>
                       </div>
                       <div class="row">
@@ -375,32 +399,46 @@ License: You must have a valid license purchased only from themeforest(the above
               
               <div class="card">
                 <div class="card-header collapsed" id="headingTwo" data-toggle="collapse" role="button" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                  <span class="lead collapse-title">Synchronize Configure </span>
+                  <span class="lead collapse-title">Inbound Synchronize Configure </span>
                 </div>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                   <div class="card-body">
                     <div class="row">
                       <div class="form-group col-md-3">
-                          <label class="form-label" for="first-name"></label> 
+                          <label class="form-label required" for="first-name"></label> 
                       </div>
                       <div class="form-group col-md-9">
-                        <input type="radio" name="s_configure" id="Schedule_configure_schedule" class="radio-inline" value="schedule" /><span>Schedule</span>
-                        <input type="radio" name="s_configure" id="Schedule_configure_click_by_user" class="radio-inline" value="click_by_user" /><span>Click By User</span>
+                        <div class="row">
+                          <div class="custom-control custom-radio col-md-2">
+                            <input type="radio" name="s_configure" id="Schedule_configure_schedule" class="radio-inline" value="schedule" /><span>Schedule</span>
+                          </div>
+                          <div class="custom-control custom-radio col-md-2">
+                            <input type="radio" name="s_configure" id="Schedule_configure_click_by_user" class="radio-inline" value="click_by_user" /><span>Click By User</span>
+                          </div>
+                        </div>
                         
                       </div>
                     </div>
                     <div class="row">
                       <div class="form-group col-md-3">
-                          <label class="form-label" for="schedule">Schedule Type</label> 
+                          <label class="form-label required" for="schedule">Schedule Type</label> 
                       </div>
                       <div class="form-group col-md-9">
-                        <input type="radio" name="schedule_type" id="Schedule_type_recurring" class="radio-inline" value="Recurring" /><span>Recurring</span>
-                        <input type="radio" name="schedule_type" id="Schedule_type_one_time" class="radio-inline" value="OneTime" /><span>One Time</span>
+                        <div class="row">
+                          <div class="custom-control custom-radio col-md-3">
+
+                            <input type="radio" name="schedule_type" id="Schedule_type_recurring" class="radio-inline" value="Recurring" /><span>Recurring</span>
+                          </div>
+                          <div class="custom-control custom-radio col-md-3">
+
+                            <input type="radio" name="schedule_type" id="Schedule_type_one_time" class="radio-inline" value="OneTime" /><span>One Time</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-3">
-                            <label class="form-label" for="first-name">Occurs</label>
+                            <label class="form-label required" for="first-name">Occurs</label>
                         </div>
                         <div class="form-group col-md-9">
                             <select class="select2 form-control form-control-lg" id="occurs_time" name="occurs">
@@ -413,7 +451,7 @@ License: You must have a valid license purchased only from themeforest(the above
                     
                       <div class="row">
                           <div class="form-group col-md-3">
-                              <label class="form-label" for="first-name">Recurs Every</label>
+                              <label class="form-label required" for="first-name">Recurs Every</label>
                           </div>
                           <div class="form-group col-md-9">
                             <input type="text" name="recurs_count" id="recurs_count" class="form-control" placeholder="1" />
@@ -421,7 +459,76 @@ License: You must have a valid license purchased only from themeforest(the above
                       </div>
                       <div class="row">
                           <div class="form-group col-md-3">
-                              <label class="form-label" for="first-name">Occurs Once at</label>
+                              <label class="form-label required" for="first-name">Occurs Once at</label>
+                          </div>
+                          <div class="form-group col-md-9">
+                            <input type="time" name="recurs_time" id="recurs_time" class="form-control" placeholder="1" />
+                          </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header collapsed" id="headingTwo" data-toggle="collapse" role="button" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseTwo">
+                  <span class="lead collapse-title">Outbound Synchronize Configure </span>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="form-group col-md-3">
+                          <label class="form-label required" for="first-name"></label> 
+                      </div>
+                      <div class="form-group col-md-9">
+                        <div class="row">
+                          <div class="custom-control custom-radio col-md-2">
+                            <input type="radio" name="s_configure" id="Schedule_configure_schedule" class="radio-inline" value="schedule" /><span>Schedule</span>
+                          </div>
+                          <div class="custom-control custom-radio col-md-2">
+                            <input type="radio" name="s_configure" id="Schedule_configure_click_by_user" class="radio-inline" value="click_by_user" /><span>Click By User</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-3">
+                          <label class="form-label required" for="schedule">Schedule Type</label> 
+                      </div>
+                      <div class="form-group col-md-9">
+                        <div class="row">
+
+                          <div class="custom-control custom-radio col-md-2">
+                            <input type="radio" name="schedule_type" id="Schedule_type_recurring" class="radio-inline" value="Recurring" /><span>Recurring</span>
+                          </div>
+                          <div class="custom-control custom-radio col-md-2">
+                            <input type="radio" name="schedule_type" id="Schedule_type_one_time" class="radio-inline" value="OneTime" /><span>One Time</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label class="form-label required" for="first-name">Occurs</label>
+                        </div>
+                        <div class="form-group col-md-9">
+                            <select class="select2 form-control form-control-lg" id="occurs_time" name="occurs">
+                              <option value="1">Daily</option>
+                              <option value="7">Weekly</option>
+                              <option value="30">Monthly</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                      <div class="row">
+                          <div class="form-group col-md-3">
+                              <label class="form-label required" for="first-name">Recurs Every</label>
+                          </div>
+                          <div class="form-group col-md-9">
+                            <input type="text" name="recurs_count" id="recurs_count" class="form-control" placeholder="1" />
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="form-group col-md-3">
+                              <label class="form-label required" for="first-name">Occurs Once at</label>
                           </div>
                           <div class="form-group col-md-9">
                             <input type="time" name="recurs_time" id="recurs_time" class="form-control" placeholder="1" />
