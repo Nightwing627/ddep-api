@@ -17,8 +17,8 @@ RUN npm install
 ENV HOST 0.0.0.0
 ENV PORT 8004
 
-# 暴露8000端口
-EXPOSE 8000
+# 暴露8004端口
+EXPOSE 8004
 
 # 启动容器时执行应用启动命令
-CMD [ "npm", "start" ]
+CMD [ "node", "app.js" ]
