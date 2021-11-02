@@ -91,8 +91,9 @@ License: You must have a valid license purchased only from themeforest(the above
                 <h5 class="mb-0">Create Project</h5>
                 <small class="text-muted">Enter Your Project Details.</small>
             </div>
-            <form>
+            <form id="frm-save-project">
                 <div class="row">
+                  <input type="hidden" name="project_id" id="project_id">
                 <div class="form-group col-md-4">
                     <label class="form-label required" for="projectcode">Project Code</label>
                     <input type="text" name="ProjectCode" id="ProjectCode" class="form-control" placeholder="Enter Project Code" />
@@ -120,7 +121,9 @@ License: You must have a valid license purchased only from themeforest(the above
                     />
                 </div>
                 </div>
-                
+                <div class="form-group col-md-4">
+                  <button class="btn btn-primary" id="save_project" type="submit">Save</button>
+                </div>
             </form>
             <div class="d-flex justify-content-between">
                 <button class="btn btn-outline-secondary btn-prev" disabled>
@@ -138,7 +141,8 @@ License: You must have a valid license purchased only from themeforest(the above
                 <h5 class="mb-0">Inbound</h5>
                 <!-- <small>Enter Your Personal Info.</small> -->
             </div>
-            <form>
+            <form id="frm-save-inbound">
+              <input type="hidden" name="inbound_setting_id" id="inbound_setting_id" value="">
               <div class="collapse-margin" id="accordionExample">
                 <div class="card">
                   <div class="card-header collapsed" id="headingOne" data-toggle="collapse" role="button" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
@@ -245,7 +249,9 @@ License: You must have a valid license purchased only from themeforest(the above
                 </div>
                 
               </div>
-                
+              <div class="form-group col-md-4 mt-1">
+                <button class="btn btn-primary" id="save_inbound" type="submit">Save</button>
+              </div>
             </form>
             <div class="d-flex justify-content-between mt-1">
                 <button class="btn btn-primary btn-prev">
@@ -263,7 +269,8 @@ License: You must have a valid license purchased only from themeforest(the above
                 <h5 class="mb-0">OutBound</h5>
                 <!-- <small>Enter Your Address.</small> -->
             </div>
-            <form>
+            <form id="frm-save-outbound">
+              <input type="hidden" name="outbound_setting_id" id="outbound_setting_id" value="">
               <div class="collapse-margin" id="accordionExample">
                 <div class="card">
                   <div class="card-header collapsed" id="headingOne" data-toggle="collapse" role="button" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
@@ -312,6 +319,9 @@ License: You must have a valid license purchased only from themeforest(the above
                   </div>
                 </div>
                 
+              </div>
+              <div class="form-group col-md-4 mt-1">
+                <button class="btn btn-primary" id="save_outbound" type="submit">Save</button>
               </div>
             </form>
             <div class="d-flex justify-content-between">
@@ -394,7 +404,8 @@ License: You must have a valid license purchased only from themeforest(the above
               <h5 class="mb-0">Schedule</h5>
               <!-- <small>Enter Your Social Links.</small> -->
           </div>
-          <form>
+          <form id="frm-save-schedule">
+            <input type="hidden" name="schedule_setting_id" id="schedule_setting_id" value="">
             <div class="collapse-margin" id="accordionExample">
               
               <div class="card">
@@ -410,10 +421,10 @@ License: You must have a valid license purchased only from themeforest(the above
                       <div class="form-group col-md-9">
                         <div class="row">
                           <div class="custom-control custom-radio col-md-2">
-                            <input type="radio" name="s_configure" id="Schedule_configure_schedule" class="radio-inline" value="schedule" /><span>Schedule</span>
+                            <input type="radio" name="s_configure_inbound" id="Schedule_configure_schedule_inbound" class="radio-inline" value="schedule" /><span>Schedule</span>
                           </div>
                           <div class="custom-control custom-radio col-md-2">
-                            <input type="radio" name="s_configure" id="Schedule_configure_click_by_user" class="radio-inline" value="click_by_user" /><span>Click By User</span>
+                            <input type="radio" name="s_configure_inbound" id="Schedule_configure_click_by_user_inbound" class="radio-inline" value="click_by_user" /><span>Click By User</span>
                           </div>
                         </div>
                         
@@ -427,11 +438,11 @@ License: You must have a valid license purchased only from themeforest(the above
                         <div class="row">
                           <div class="custom-control custom-radio col-md-3">
 
-                            <input type="radio" name="schedule_type" id="Schedule_type_recurring" class="radio-inline" value="Recurring" /><span>Recurring</span>
+                            <input type="radio" name="schedule_type_inbound" id="Schedule_type_recurring_inbound" class="radio-inline" value="Recurring" /><span>Recurring</span>
                           </div>
                           <div class="custom-control custom-radio col-md-3">
 
-                            <input type="radio" name="schedule_type" id="Schedule_type_one_time" class="radio-inline" value="OneTime" /><span>One Time</span>
+                            <input type="radio" name="schedule_type_inbound" id="Schedule_type_one_time_inbound" class="radio-inline" value="OneTime" /><span>One Time</span>
                           </div>
                         </div>
                       </div>
@@ -441,7 +452,7 @@ License: You must have a valid license purchased only from themeforest(the above
                             <label class="form-label required" for="first-name">Occurs</label>
                         </div>
                         <div class="form-group col-md-9">
-                            <select class="select2 form-control form-control-lg" id="occurs_time" name="occurs">
+                            <select class="select2 form-control form-control-lg" id="occurs_time_inbound" name="occurs_inbound">
                               <option value="1">Daily</option>
                               <option value="7">Weekly</option>
                               <option value="30">Monthly</option>
@@ -454,7 +465,7 @@ License: You must have a valid license purchased only from themeforest(the above
                               <label class="form-label required" for="first-name">Recurs Every</label>
                           </div>
                           <div class="form-group col-md-9">
-                            <input type="text" name="recurs_count" id="recurs_count" class="form-control" placeholder="1" />
+                            <input type="text" name="recurs_count_inbound" id="recurs_count_inbound" class="form-control" placeholder="1" />
                           </div>
                       </div>
                       <div class="row">
@@ -462,7 +473,7 @@ License: You must have a valid license purchased only from themeforest(the above
                               <label class="form-label required" for="first-name">Occurs Once at</label>
                           </div>
                           <div class="form-group col-md-9">
-                            <input type="time" name="recurs_time" id="recurs_time" class="form-control" placeholder="1" />
+                            <input type="time" name="recurs_time_inbound" id="recurs_time_inbound" class="form-control" placeholder="1" />
                           </div>
                       </div>
                   </div>
@@ -481,10 +492,10 @@ License: You must have a valid license purchased only from themeforest(the above
                       <div class="form-group col-md-9">
                         <div class="row">
                           <div class="custom-control custom-radio col-md-2">
-                            <input type="radio" name="s_configure" id="Schedule_configure_schedule" class="radio-inline" value="schedule" /><span>Schedule</span>
+                            <input type="radio" name="s_configure_outbound" id="Schedule_configure_schedule_inbound" class="radio-inline" value="schedule" /><span>Schedule</span>
                           </div>
                           <div class="custom-control custom-radio col-md-2">
-                            <input type="radio" name="s_configure" id="Schedule_configure_click_by_user" class="radio-inline" value="click_by_user" /><span>Click By User</span>
+                            <input type="radio" name="s_configure_outbound" id="Schedule_configure_click_by_user_outbound" class="radio-inline" value="click_by_user" /><span>Click By User</span>
                           </div>
                         </div>
                       </div>
@@ -497,10 +508,10 @@ License: You must have a valid license purchased only from themeforest(the above
                         <div class="row">
 
                           <div class="custom-control custom-radio col-md-2">
-                            <input type="radio" name="schedule_type" id="Schedule_type_recurring" class="radio-inline" value="Recurring" /><span>Recurring</span>
+                            <input type="radio" name="schedule_type_outbound" id="Schedule_type_recurring_outbound" class="radio-inline" value="Recurring" /><span>Recurring</span>
                           </div>
                           <div class="custom-control custom-radio col-md-2">
-                            <input type="radio" name="schedule_type" id="Schedule_type_one_time" class="radio-inline" value="OneTime" /><span>One Time</span>
+                            <input type="radio" name="schedule_type_outbound" id="Schedule_type_one_time_outbound" class="radio-inline" value="OneTime" /><span>One Time</span>
                           </div>
                         </div>
                       </div>
@@ -510,7 +521,7 @@ License: You must have a valid license purchased only from themeforest(the above
                             <label class="form-label required" for="first-name">Occurs</label>
                         </div>
                         <div class="form-group col-md-9">
-                            <select class="select2 form-control form-control-lg" id="occurs_time" name="occurs">
+                            <select class="select2 form-control form-control-lg" id="occurs_time_outbound" name="occurs_outbound">
                               <option value="1">Daily</option>
                               <option value="7">Weekly</option>
                               <option value="30">Monthly</option>
@@ -523,7 +534,7 @@ License: You must have a valid license purchased only from themeforest(the above
                               <label class="form-label required" for="first-name">Recurs Every</label>
                           </div>
                           <div class="form-group col-md-9">
-                            <input type="text" name="recurs_count" id="recurs_count" class="form-control" placeholder="1" />
+                            <input type="text" name="recurs_count_outbound" id="recurs_count_outbound" class="form-control" placeholder="1" />
                           </div>
                       </div>
                       <div class="row">
@@ -531,7 +542,7 @@ License: You must have a valid license purchased only from themeforest(the above
                               <label class="form-label required" for="first-name">Occurs Once at</label>
                           </div>
                           <div class="form-group col-md-9">
-                            <input type="time" name="recurs_time" id="recurs_time" class="form-control" placeholder="1" />
+                            <input type="time" name="recurs_time_outbound" id="recurs_time_outbound" class="form-control" placeholder="1" />
                           </div>
                       </div>
                   </div>
@@ -539,6 +550,9 @@ License: You must have a valid license purchased only from themeforest(the above
               </div>
               
             </div>
+            <!-- <div class="form-group col-md-4 mt-1">
+              <button class="btn btn-primary" id="save_schedule" type="submit">Save</button>
+            </div> -->
           </form>
           <div class="d-flex justify-content-between">
               <button class="btn btn-primary btn-prev">

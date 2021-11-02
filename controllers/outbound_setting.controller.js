@@ -1,5 +1,5 @@
 bodyParser = require('body-parser');
-const Project = require('../models/project.model.js');
+const OutboundSetting = require('../models/outbound_setting.model.js');
 
 // Create and Save a new Note
 function isJson(str) {
@@ -23,33 +23,49 @@ exports.create = (req, res) => {
    //data = JSON.stringify(req.body);
    //data = JSON.parse(data);
    
+   var checkoutbound =isJson(data);
+  
    
-    if(!data.ProjectCode) {
+   if(checkoutbound)
+   {
+
+       data = JSON.parse(data);
+   }
+   
+   
+    
+    
+    if(!data.project_id) {
         return res.status(400).send({
-            message: "Project Code Not Found"
+            message: "Project Not Found"
         });
     }
-    if(!data.ProjectName) {
+    if(!data.outbound_format) {
         return res.status(400).send({
-            message: "Project Name Not Found"
+            message: "Outbound Format is Required"
         });
     }
-    if(!data.CompanyName) {
+    if(!data.sync_type_out) {
         return res.status(400).send({
-            message: "Company Name is Required"
+            message: "Synchronize Output Type is Required"
+        });
+    }
+    if(!data.api_url) {
+        return res.status(400).send({
+            message: "API URL is Required"
         });
     }
     
-    const project = new Project({
-        ProjectCode: data.ProjectCode, 
-        ProjectName: data.ProjectName,
-        CompanyName: data.CompanyName,
-       
+    const outboundSetting = new OutboundSetting({
+        project_id:data.project_id,
+        outbound_format: data.outbound_format, 
+        sync_type_out: data.sync_type_out,
+        api_url: data.api_url
     });
-    project.save()
+    outboundSetting.save()
     .then(data => {
         //res.send(data);
-        res.status(200).send({id:data._id,msg:"Project Saved Successfully"});
+        res.status(200).send({id:data._id,msg:"Setting Saved Successfully"});
     }).catch(err => {
         res.status(500).send({
             message: err.message || "Some error occurred while creating the User."
@@ -62,9 +78,9 @@ exports.findAll = (req, res) => {
     //var page =req.query.page;
     //var limit =eval(req.query.limit);
    //console.log(limit*page);
-    Project.find()
-    .then(projects => {
-        res.status(200).send({data:projects})
+   OutboundSetting.find()
+    .then(OutboundSetting => {
+        res.status(200).send({data:OutboundSetting})
     }).catch(err => {
         res.status(500).send({
             message: err.message || "Some error occurred while retrieving users."
@@ -72,7 +88,7 @@ exports.findAll = (req, res) => {
     });
 };
 exports.countAll=(req,res)=>{
-    var query = Project.find();
+    var query = OutboundSetting.find();
     query.count(function (err, count) {
        res.status(200).send({total:count});
     });
@@ -98,38 +114,54 @@ exports.update = (req, res) => {
    //data = JSON.stringify(req.body);
    //data = JSON.parse(data);
    
+   var checkoutbound =isJson(data.OutboundSetting);
    
-    if(!data.ProjectCode) {
+   
+   if(checkoutbound)
+   {
+
+       data.OutboundSetting = JSON.parse(data.OutboundSetting);
+   }
+   
+   
+    
+    if(!data.project_id) {
         return res.status(400).send({
-            message: "Project Code Not Found"
+            message: "Project Not found"
         });
     }
-    if(!data.ProjectName) {
+    if(!data.outbound_format) {
         return res.status(400).send({
-            message: "Project Name Not Found"
+            message: "Outbound Format is Required"
         });
     }
-    if(!data.CompanyName) {
+    if(!data.sync_type_out) {
         return res.status(400).send({
-            message: "Company Name is Required"
+            message: "Synchronize Output Type is Required"
+        });
+    }
+    if(!data.api_url) {
+        return res.status(400).send({
+            message: "API URL is Required"
         });
     }
     
-    const project = new Project({
-        ProjectCode: data.ProjectCode, 
-        ProjectName: data.ProjectName,
-        CompanyName: data.CompanyName,
+    const outboundSetting = new outboundSetting({
+        outbound_format: data.outbound_format, 
+        sync_type_out: data.sync_type_out,
+        api_url: data.api_url,
+        
     });
-    Project.findByIdAndUpdate(req.params.id,data, { new: true })
-    .then((project) => {
+    outboundSetting.findByIdAndUpdate(req.params.id,data, { new: true })
+    .then((OutboundSetting) => {
         console.log(req.params.id);
-      if (!project) {
+      if (!OutboundSetting) {
         return res.status(404).send({
           message: "no Project found"
         });
       }
       res.status(200).send({
-          message:"Project Update Successfully"
+          message:"Setting Updated Successfully"
       });
     })
     .catch((err) => {

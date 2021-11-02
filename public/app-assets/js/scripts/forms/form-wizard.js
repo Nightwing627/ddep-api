@@ -122,7 +122,7 @@ $(function () {
       .each(function (index) {
         $(this).on('click', function (e) {
           var isValid = $(this).parent().siblings('form').valid();
-          
+          var project_id = $('#project_id').val();
           if (isValid) {
             if(index==0)
             {
@@ -130,34 +130,114 @@ $(function () {
               project_detail.ProjectCode = $('#ProjectCode').val();
               project_detail.ProjectName = $('#ProjectName').val();
               project_detail.CompanyName = $('#CompanyName').val();
-              
+              if(project_id=="")
+              {
+
+                $.ajax({
+                  url:'/projects/save',  
+                  method:'post',  
+                  dataType:'json',
+                  data:{ProjectName:project_detail.ProjectName,ProjectCode:project_detail.ProjectCode,CompanyName:project_detail.CompanyName},
+                  success:function(response){
+                    alert("project saved successfully");
+                    console.log(response);
+                  }
+                });
+              }
 
               //console.log(project_detail);
             }
             else if(index==1)
             {
-              inbound_server_detail.inbound_format = $('#inboundFormat').val();
-              inbound_server_detail.sync_type = $('input[name="sync_type"]:checked').val();
-              inbound_server_detail.ftp_server_link = $('#ftp_server_link').val();
-              inbound_server_detail.host = $('#host').val();
-              inbound_server_detail.port = $('#port').val();
-              inbound_server_detail.login_name = $('#login_name').val();
-              inbound_server_detail.password = $('#password').val();
+              var inbound_setting_id = $("#inbound_setting_id").val();
+              var inbound_format = $('#inboundFormat').val();
+              var sync_type = $('input[name="sync_type"]:checked').val();
+              var ftp_server_link = $('#ftp_server_link').val();
+              var host = $('#host').val();
+              var port = $('#port').val();
+              var login_name = $('#login_name').val();
+              var password = $('#password').val();
+              var project_id = $('#project_id').val();
+              if(inbound_setting_id=="")
+              {
+
+                $.ajax({
+                  url:'/inbound_setting/save',  
+                  method:'post',  
+                  dataType:'json',
+                  data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,host:host,port:port,login_name:login_name,password:password},
+                  success:function(response){
+                    console.log(response);
+                    //alert("Setting saved successfully");
+                    $("#inbound_setting_id").val(response.id);
+                  }
+                });
+              }
             }
             else if(index == 2)
             {
-              outbound_detail.sync_type_out =$('input[name="sync_type_out"]:checked').val();
-              outbound_detail.api_url = $('#api_url').val();
-              outbound_detail.outbound_format = $('#outbound_format').val();
+              var sync_type_out =$('input[name="sync_type_out"]:checked').val();
+              var api_url = $('#api_url').val();
+              var outbound_format = $('#outbound_format').val();
+              var outbound_setting_id = $('#outbound_setting_id').val();
+              var project_id = $('#project_id').val();
+              if(outbound_setting_id=="")
+              {
+                $.ajax({
+                  url:'/outbound_setting/save',  
+                  method:'post',  
+                  dataType:'json',
+                  data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format},
+                  success:function(response){
+                    console.log(response);
+                    //alert("Setting saved successfully");
+                    $("#outbound_setting_id").val(response.id);
+                  }
+                });
+              }
             }
             else if(index == 3)
             {
+              var schedule_setting_id = $('#schedule_setting_id').val();
+              var project_id = $('#project_id').val();
               console.log($('input[name="s_configure"]:checked').val());
-              schedule_detail.schedule_configure = $('input[name="s_configure"]:checked').val();
-              schedule_detail.schedule_type = $('input[name="schedule_type"]:checked').val();
-              schedule_detail.occurs_time = $('#occurs_time').val();
-              schedule_detail.recurs_count = $('#recurs_count').val();
-              schedule_detail.recurs_time = $('#recurs_time').val();
+              
+              var Schedule_configure_inbound = $('input[name="s_configure_inbound"]:checked').val();
+              var schedule_type_inbound = $('input[name="schedule_type"]:checked').val();
+              var occurs_inbound =$('#occurs_time_inbound').val();
+              var recurs_count_inbound =$('#recurs_count_inbound').val();
+              var recurs_time_inbound =$('#recurs_time_inbound').val();
+             
+              var Schedule_configure_outbound = $('input[name="s_configure_inbound"]:checked').val();
+              var schedule_type_outbound = $('input[name="schedule_type"]:checked').val();
+              var occurs_outbound =$('#occurs_time_inbound').val();
+              var recurs_count_outbound =$('#recurs_count_inbound').val();
+              var recurs_time_outbound =$('#recurs_time_inbound').val();
+              if(schedule_setting_id=="")
+              {
+                $.ajax({
+                  url:'/schedule_setting/save',  
+                  method:'post',  
+                  dataType:'json',
+                  data:{project_id:project_id,
+                    Schedule_configure_inbound:Schedule_configure_inbound,
+                    schedule_type_inbound:schedule_type_inbound,
+                    occurs_inbound:occurs_inbound,
+                    recurs_count_inbound:recurs_count_inbound,
+                    recurs_time_inbound:recurs_time_inbound,
+                    Schedule_configure_outbound:Schedule_configure_outbound,
+                    schedule_type_outbound:schedule_type_outbound,
+                    occurs_outbound:occurs_outbound,
+                    recurs_count_outbound:recurs_count_outbound,
+                    recurs_time_outbound:recurs_time_outbound
+                  },
+                  success:function(response){
+                    console.log(response);
+                    //alert("Setting saved successfully");
+                    $("#schedule_setting_id").val(response.id);
+                  }
+                });
+              }
             }
             else if(index == 4)
             {
@@ -169,7 +249,94 @@ $(function () {
           }
         });
       });
+      $('#save_project').on('click',function(e){
+        e.preventDefault();
+        var isValid = $('#frm-save-project').valid();
+         
+          var project_id = $('#project_id').val();
+        if (isValid) {
+              project_detail.ProjectCode = $('#ProjectCode').val();
+              project_detail.ProjectName = $('#ProjectName').val();
+              project_detail.CompanyName = $('#CompanyName').val();
+              if(project_id=="")
+              {
 
+                $.ajax({
+                  url:'/projects/save',  
+                  method:'post',  
+                  dataType:'json',
+                  data:{ProjectName:project_detail.ProjectName,ProjectCode:project_detail.ProjectCode,CompanyName:project_detail.CompanyName},
+                  success:function(response){
+                    alert("project saved successfully");
+                    //console.log(response);
+                    $('#project_id').val(response.id);
+                  },
+                
+                })
+              }
+            }
+      })
+      $('#save_inbound').on('click',function(e){
+        e.preventDefault();
+        var isValid = $('#frm-save-inbound').valid();
+         var project_id = $('#project_id').val();
+         var inbound_setting_id = $('#inbound_setting_id').val();
+         if(isValid)
+         {
+          var inbound_setting_id = $("#inbound_setting_id").val();
+          var inbound_format = $('#inboundFormat').val();
+          var sync_type = $('input[name="sync_type"]:checked').val();
+          var ftp_server_link = $('#ftp_server_link').val();
+          var host = $('#host').val();
+          var port = $('#port').val();
+          var login_name = $('#login_name').val();
+          var password = $('#password').val();
+          var project_id = $('#project_id').val();
+          if(inbound_setting_id=="")
+          {
+
+            $.ajax({
+              url:'/inbound_setting/save',  
+              method:'post',  
+              dataType:'json',
+              data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,host:host,port:port,login_name:login_name,password:password},
+              success:function(response){
+                console.log(response);
+                //alert("Setting saved successfully");
+                $("#inbound_setting_id").val(response.id);
+              }
+            });
+          }
+         }
+      })
+      $('#save_outbound').on('click',function(e){
+        e.preventDefault();
+        var isValid = $('#frm-save-outbound').valid();
+         var project_id = $('#project_id').val();
+         var outbound_setting_id = $('#outbound_setting_id').val();
+         if(isValid)
+         {
+            var sync_type_out =$('input[name="sync_type_out"]:checked').val();
+              var api_url = $('#api_url').val();
+              var outbound_format = $('#outbound_format').val();
+              var outbound_setting_id = $('#outbound_setting_id').val();
+              var project_id = $('#project_id').val();
+              if(outbound_setting_id=="")
+              {
+                $.ajax({
+                  url:'/outbound_setting/save',  
+                  method:'post',  
+                  dataType:'json',
+                  data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format},
+                  success:function(response){
+                    console.log(response);
+                    //alert("Setting saved successfully");
+                    $("#outbound_setting_id").val(response.id);
+                  }
+                });
+              }
+         }
+      })
     $(horizontalWizard)
       .find('.btn-prev')
       .on('click', function () {
