@@ -27,6 +27,12 @@ router.get('/download',function(req,res){
     client.download('home/upload.txt', './upload_copy.txt');
     res.send("downloadsuccessfully");
 });
+router.get('/edit/:id',function(req,res){
+    //projects.findOne(req.params.id)
+    //res.render('pages/add-projects');
+    //res.send(req.params.id);
+    projects.findOne(req);
+});
 
 
 module.exports = router;

@@ -82,7 +82,19 @@ exports.searchUser = (req,res)=>{
 }
 // Find a single note with a noteId
 exports.findOne = (req, res) => {
+    const id = req.params.id;
 
+    Project.findById(id)
+    .then(data => {
+      if (!data)
+        res.status(404).send({ message: "Not found Project with id " + id });
+      else res.send(data);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .send({ message: "Error retrieving Project with id=" + id });
+    });
 };
 
 // Update a note identified by the noteId in the request
