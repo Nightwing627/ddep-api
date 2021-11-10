@@ -28,7 +28,7 @@ exports.create = (req, res) => {
    if(checkschedule)
    {
 
-       data = JSON.parse(data);
+        data = JSON.parse(data);
         data.Schedule_configure_inbound="JSON",
         data.schedule_type_inbound="API",
         data.occurs_inbound="1",
@@ -147,7 +147,19 @@ exports.searchUser = (req,res)=>{
 }
 // Find a single note with a noteId
 exports.findOne = (req, res) => {
+    const id = req.params.id;
 
+    ScheduleSetting.findOne({"project_id":id})
+    .then(data => {
+      if (!data)
+        res.status(404).json({ message: "Not found Project with id " + id });
+      else res.json(data);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ message: "Error retrieving Project with id=" + id });
+    });
 };
 
 // Update a note identified by the noteId in the request

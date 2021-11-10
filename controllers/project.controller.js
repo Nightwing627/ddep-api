@@ -87,13 +87,13 @@ exports.findOne = (req, res) => {
     Project.findById(id)
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "Not found Project with id " + id });
+        res.status(404).json({ message: "Not found Project with id " + id });
       else res.send(data);
     })
     .catch(err => {
       res
         .status(500)
-        .send({ message: "Error retrieving Project with id=" + id });
+        .json({ message: "Error retrieving Project with id=" + id });
     });
 };
 

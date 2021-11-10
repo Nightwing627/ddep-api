@@ -13,14 +13,14 @@ License: You must have a valid license purchased only from themeforest(the above
 -->
 <%- include('partials/head'); %>
 <!-- BEGIN: Vendor CSS-->
-<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/vendors.min.css">
-<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/forms/wizard/bs-stepper.min.css">
-<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/forms/select/select2.min.css">
+<link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/vendors.min.css">
+<link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/forms/wizard/bs-stepper.min.css">
+<link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/forms/select/select2.min.css">
 <!-- END: Vendor CSS-->
 <!-- BEGIN: Page CSS-->
-<link rel="stylesheet" type="text/css" href="app-assets/css/core/menu/menu-types/vertical-menu.min.css">
-<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/forms/form-validation.css">
-<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/forms/form-wizard.min.css">
+<link rel="stylesheet" type="text/css" href="/app-assets/css/core/menu/menu-types/vertical-menu.min.css">
+<link rel="stylesheet" type="text/css" href="/app-assets/css/plugins/forms/form-validation.css">
+<link rel="stylesheet" type="text/css" href="/app-assets/css/plugins/forms/form-wizard.min.css">
 <!-- END: Page CSS-->
 <%- include('partials/header'); %> 
 <!-- Basic table -->
@@ -91,15 +91,36 @@ License: You must have a valid license purchased only from themeforest(the above
                 <h5 class="mb-0">Create Project</h5>
                 <small class="text-muted">Enter Your Project Details.</small>
             </div>
+            <% //console.log(alldata) %>
+            <%= //alldata.ProjectCode %>
             <form id="frm-save-project">
                 <div class="row">
-                  <input type="hidden" name="project_id" id="project_id">
+                  <% if(typeof(alldata) !="undefined"){ %>
+                    <input type="hidden" name="project_id" id="project_id" value="<%= alldata._id %>">
+                  <% }else{ %>
+                  <input type="hidden" name="project_id" id="project_id" value="">
+                  <% } %>
                 <div class="form-group col-md-4">
                     <label class="form-label required" for="projectcode">Project Code</label>
-                    <input type="text" name="ProjectCode" id="ProjectCode" class="form-control" placeholder="Enter Project Code" />
-                </div>
+                    <% if(typeof(alldata) !="undefined"){ %>
+                      <input type="text" name="ProjectCode" id="ProjectCode" class="form-control" placeholder="Enter Project Code" value="<%= alldata.ProjectCode%>" />
+                    <% }else{ %>
+                      <input type="text" name="ProjectCode" id="ProjectCode" class="form-control" placeholder="Enter Project Code" />
+                    <% } %>
+                  </div>
                 <div class="form-group col-md-4">
                     <label class="form-label required" for="ProjectName">Project Name</label>
+                    <% if(typeof(alldata) !="undefined"){ %>
+                    <input
+                    type="text"
+                    name="ProjectName"
+                    id="ProjectName"
+                    class="form-control"
+                    placeholder="enter Project Name here"
+                    aria-label="Project Code"
+                    value="<%= alldata.ProjectName %>"
+                    />
+                    <% }else{ %>
                     <input
                     type="text"
                     name="ProjectName"
@@ -108,9 +129,21 @@ License: You must have a valid license purchased only from themeforest(the above
                     placeholder="enter Project Name here"
                     aria-label="Project Code"
                     />
+                    <% } %>
                 </div>
                 <div class="form-group col-md-4">
                     <label class="form-label required" for="CompanyName ">Company Name</label>
+                    <% if(typeof(alldata) !="undefined"){ %>
+                    <input
+                    type="text"
+                    name="CompanyName"
+                    id="CompanyName"
+                    class="form-control"
+                    placeholder="Enter Company Name here"
+                    aria-label="Company Name"
+                    value="<%= alldata.CompanyName %>"
+                    />
+                    <% }else{ %>
                     <input
                     type="text"
                     name="CompanyName"
@@ -119,6 +152,7 @@ License: You must have a valid license purchased only from themeforest(the above
                     placeholder="Enter Company Name here"
                     aria-label="Company Name"
                     />
+                    <% } %>
                 </div>
                 </div>
                 <div class="form-group col-md-4">
@@ -141,6 +175,7 @@ License: You must have a valid license purchased only from themeforest(the above
                 <h5 class="mb-0">Inbound</h5>
                 <!-- <small>Enter Your Personal Info.</small> -->
             </div>
+            
             <form id="frm-save-inbound">
               <input type="hidden" name="inbound_setting_id" id="inbound_setting_id" value="">
               <div class="collapse-margin" id="accordionExample">
@@ -410,13 +445,13 @@ License: You must have a valid license purchased only from themeforest(the above
               
               <div class="card">
                 <div class="card-header collapsed" id="headingTwo" data-toggle="collapse" role="button" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                  <span class="lead collapse-title">Inbound Synchronize Configure </span>
+                  <span class="lead collapse-title">Inbound  </span>
                 </div>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                   <div class="card-body">
                     <div class="row">
                       <div class="form-group col-md-3">
-                          <label class="form-label required" for="first-name"></label> 
+                          <label class="form-label required" for="first-name">Synchronize Configure</label> 
                       </div>
                       <div class="form-group col-md-9">
                         <div class="row">
@@ -481,13 +516,13 @@ License: You must have a valid license purchased only from themeforest(the above
               </div>
               <div class="card">
                 <div class="card-header collapsed" id="headingTwo" data-toggle="collapse" role="button" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseTwo">
-                  <span class="lead collapse-title">Outbound Synchronize Configure </span>
+                  <span class="lead collapse-title">Outbound  </span>
                 </div>
                 <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                   <div class="card-body">
                     <div class="row">
                       <div class="form-group col-md-3">
-                          <label class="form-label required" for="first-name"></label> 
+                          <label class="form-label required" for="first-name">Synchronize Configure</label> 
                       </div>
                       <div class="form-group col-md-9">
                         <div class="row">
@@ -731,12 +766,12 @@ License: You must have a valid license purchased only from themeforest(the above
 
     <%- include('partials/footer') %>
     <!-- BEGIN: Page Vendor JS-->
-    <script src="app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
-    <script src="app-assets/vendors/js/forms/select/select2.full.min.js"></script>
-    <script src="app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+    <script src="/app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+    <script src="/app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+    <script src="/app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
     <!-- END: Page Vendor JS-->
     <!-- BEGIN: Page JS-->
-    <!-- <script src="app-assets/js/scripts/forms/form-wizard.min.js"></script> -->
-    <script src="app-assets/js/scripts/forms/form-wizard.js"></script>
+    <!-- <script src="/app-assets/js/scripts/forms/form-wizard.min.js"></script> -->
+    <script src="/app-assets/js/scripts/forms/form-wizard.js"></script>
     <!-- END: Page JS-->
 </html>

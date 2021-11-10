@@ -10,6 +10,7 @@ router.use(express.static('public'));
 const inbound_setting = require('../controllers/inbound_setting.controller.js');
 router.post('/save', inbound_setting.create);
 router.put('/:id',inbound_setting.update);
+router.get('/editAPI/:id',inbound_setting.findOne);
 // router.get('/add',function(req,res){
 //     res.render('pages/add-projects');
 // })

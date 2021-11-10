@@ -10,6 +10,7 @@ router.use(express.static('public'));
 const schedule_setting = require('../controllers/schedule_setting.controller.js');
 router.post('/save', schedule_setting.create);
 router.put('/:id',schedule_setting.update);
+router.get('/editAPI/:id',schedule_setting.findOne);
 // router.get('/add',function(req,res){
 //     res.render('pages/add-projects');
 // })
