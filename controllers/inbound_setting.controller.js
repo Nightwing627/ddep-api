@@ -196,7 +196,7 @@ exports.update = (req, res) => {
         });
     }
     
-    const InboundSetting = new InboundSetting({
+    const inboundSetting = new InboundSetting({
         project_id: data.project_id, 
         inbound_format: data.inbound_format, 
         sync_type: data.sync_type,

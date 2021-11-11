@@ -139,9 +139,9 @@ $(function () {
                   dataType:'json',
                   data:{ProjectName:project_detail.ProjectName,ProjectCode:project_detail.ProjectCode,CompanyName:project_detail.CompanyName},
                   success:function(response){
-                    alert("project saved successfully");
+                    //alert("project saved successfully");
                     $('#project_id').val(response.id);
-                    console.log(response);
+                    //console.log(response);
                   }
                 });
               }
@@ -154,7 +154,7 @@ $(function () {
                   data:{ProjectName:project_detail.ProjectName,ProjectCode:project_detail.ProjectCode,CompanyName:project_detail.CompanyName},
                   success:function(response){
                     alert(response.message);
-                    console.log(response);
+                    //console.log(response);
                   }
                 });
               }
@@ -211,17 +211,18 @@ $(function () {
                   success:function(response,textStatus,xhr){
                     if(xhr.status==200)
                     {
-                      $('input[name="s_configure_inbound" value="'+response.Schedule_configure_inbound+'"]').prop('checked',true);
-                      // var schedule_type_inbound = $('input[name="schedule_type_inbound"]:checked').val();
-                      // var occurs_inbound =$('#occurs_time_inbound').val();
-                      // var recurs_count_inbound =$('#recurs_count_inbound').val();
-                      // var recurs_time_inbound =$('#recurs_time_inbound').val();
+                        $('input[name="s_configure_inbound"][value="'+response.Schedule_configure_inbound+'"]').prop('checked',true);
+                        $('input[name="schedule_type_inbound"][value="'+response.schedule_type_inbound+'"]').prop('checked',true);
+                        $('#occurs_time_inbound').val(response.occurs_inbound);
+                        $('#recurs_count_inbound').val(response.recurs_count_inbound);
+                        $('#recurs_time_inbound').val(response.recurs_time_inbound);
                      
-                      // var Schedule_configure_outbound = $('input[name="s_configure_inbound"]:checked').val();
-                      // var schedule_type_outbound = $('input[name="schedule_type_outbound"]:checked').val();
-                      // var occurs_outbound =$('#occurs_time_inbound').val();
-                      // var recurs_count_outbound =$('#recurs_count_outbound').val();
-                      // var recurs_time_outbound =$('#recurs_time_outbound').val();
+                       $('input[name="s_configure_outbond"][value="'+response.Schedule_configure_outbound+'"]').prop('checked',true);
+                       $('input[name="schedule_type_outbound"][value="'+response.schedule_type_outbound+'"]').prop('checked',true);
+                       $('#occurs_time_inbound').val(response.occurs_outbound);
+                       $('#recurs_count_outbound').val(response.recurs_count_outbound);
+                       $('#recurs_time_outbound').val(response.recurs_time_outbound);
+                       $("#schedule_setting_id").val(response._id);
                     }
                     //console.log(response);
                     //console.log(response._id);
@@ -260,6 +261,20 @@ $(function () {
                   }
                 });
               }
+              else
+              {
+                $.ajax({
+                  url:'/inbound_setting/update/'+inbound_setting_id,  
+                  method:'put',  
+                  dataType:'json',
+                  data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,host:host,port:port,login_name:login_name,password:password},
+                  success:function(response){
+                    //console.log(response);
+                    alert("Setting saved successfully");
+                    //$("#inbound_setting_id").val(response.id);
+                  }
+                });
+              }
             }
             else if(index == 2)
             {
@@ -276,7 +291,21 @@ $(function () {
                   dataType:'json',
                   data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format},
                   success:function(response){
-                    console.log(response);
+                    //console.log(response);
+                    //alert("Setting saved successfully");
+                    $("#outbound_setting_id").val(response.id);
+                  }
+                });
+              }
+              else
+              {
+                $.ajax({
+                  url:'/outbound_setting/update/'+outbound_setting_id,  
+                  method:'put',  
+                  dataType:'json',
+                  data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format},
+                  success:function(response){
+                    //console.log(response);
                     //alert("Setting saved successfully");
                     $("#outbound_setting_id").val(response.id);
                   }
@@ -368,6 +397,20 @@ $(function () {
               }
             });
           }
+          else
+          {
+            $.ajax({
+              url:'/inbound_setting/update/'+inbound_setting_id,  
+              method:'put',  
+              dataType:'json',
+              data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,host:host,port:port,login_name:login_name,password:password},
+              success:function(response){
+                //console.log(response);
+                alert("Setting saved successfully");
+                //$("#inbound_setting_id").val(response.id);
+              }
+            });
+          }
          }
       })
       $('#save_outbound').on('click',function(e){
@@ -393,6 +436,20 @@ $(function () {
                     console.log(response);
                     //alert("Setting saved successfully");
                     $("#outbound_setting_id").val(response.id);
+                  }
+                });
+              }
+              else
+              {
+                $.ajax({
+                  url:'/outbound_setting/update/'+outbound_setting_id,  
+                  method:'put',  
+                  dataType:'json',
+                  data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format},
+                  success:function(response){
+                    //console.log(response);
+                    alert("Setting saved successfully");
+                    //$("#outbound_setting_id").val(response.id);
                   }
                 });
               }
@@ -446,6 +503,31 @@ $(function () {
                 console.log(response);
                 alert("Setting saved successfully");
                 $("#schedule_setting_id").val(response.id);
+              }
+            });
+          }
+          else
+          {
+            $.ajax({
+              url:'/schedule_setting/update/'+schedule_setting_id,  
+              method:'put',  
+              dataType:'json',
+              data:{project_id:project_id,
+                Schedule_configure_inbound:Schedule_configure_inbound,
+                schedule_type_inbound:schedule_type_inbound,
+                occurs_inbound:occurs_inbound,
+                recurs_count_inbound:recurs_count_inbound,
+                recurs_time_inbound:recurs_time_inbound,
+                Schedule_configure_outbound:Schedule_configure_outbound,
+                schedule_type_outbound:schedule_type_outbound,
+                occurs_outbound:occurs_outbound,
+                recurs_count_outbound:recurs_count_outbound,
+                recurs_time_outbound:recurs_time_outbound
+              },
+              success:function(response){
+                //console.log(response);
+                alert("Setting saved successfully");
+                //$("#schedule_setting_id").val(response.id);
               }
             });
           }

@@ -15,6 +15,8 @@ router.get('/editAPI/:id',schedule_setting.findOne);
 //     res.render('pages/add-projects');
 // })
 router.get('/list',schedule_setting.findAll);
+router.put('/update/:id',schedule_setting.update);
+
 // router.get('/project-list',function(req,res){
 //     res.render('pages/list-project');
 // });

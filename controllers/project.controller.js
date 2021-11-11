@@ -1,5 +1,8 @@
 bodyParser = require('body-parser');
 const Project = require('../models/project.model.js');
+const InboundSetting = require('../models/inbound_setting.model.js');
+const OutboundSetting = require('../models/outbound_setting.model.js');
+const ScheduleSetting = require('../models/schedule_setting.model.js');
 
 // Create and Save a new Note
 function isJson(str) {
@@ -10,6 +13,61 @@ function isJson(str) {
         return false;
     }
     return true;
+}
+exports.fullProject = (req,res)=>{
+    var resources = {
+        projectCode: "$ProjectCode",
+        
+        };
+    Project.aggregate([
+        {
+        $lookup: {
+            from: "inboundsettings", // collection to join
+            localField: "_id",//field from the input documents
+            foreignField: "project_id",//field from the documents of the "from" collection
+            as: "inbound_setting"// output array field
+        },
+        
+    },
+    
+    {
+        $lookup: {
+            from: "outboundsettings", // from collection name
+            localField: "_id",
+            foreignField: "project_id",
+            as: "outbound_setting"
+        }
+    },
+    {
+        $lookup: {
+            from: "schedulesettings", // from collection name
+            localField: "_id",
+            foreignField: "project_id",
+            as: "schedule_setting"
+        }
+    },
+    {
+        $unwind:{
+            path: "$inbound_setting",
+            preserveNullAndEmptyArrays: true
+          },
+    },
+    {
+        $unwind:{
+            path: "$outbound_setting",
+            preserveNullAndEmptyArrays: true
+          },
+    },
+    {
+        $unwind:{
+            path: "$schedule_setting",
+            preserveNullAndEmptyArrays: true
+          },
+    }
+    ],function (error, data) {
+        res.status(200).send({data:data})
+ //handle error case also
+});
 }
 exports.create = (req, res) => {
     var data = req.body;
@@ -44,6 +102,7 @@ exports.create = (req, res) => {
         ProjectCode: data.ProjectCode, 
         ProjectName: data.ProjectName,
         CompanyName: data.CompanyName,
+        isActive:"0"
        
     });
     project.save()
@@ -131,6 +190,7 @@ exports.update = (req, res) => {
         ProjectCode: data.ProjectCode, 
         ProjectName: data.ProjectName,
         CompanyName: data.CompanyName,
+        isActive:data.isActive || "0",
     });
     Project.findByIdAndUpdate(req.params.id,data, { new: true })
     .then((project) => {

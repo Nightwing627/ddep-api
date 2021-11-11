@@ -15,6 +15,7 @@ router.get('/editAPI/:id',outbound_setting.findOne);
 //     res.render('pages/add-projects');
 // })
 router.get('/list',outbound_setting.findAll);
+router.put('/update/:id',outbound_setting.update);
 // router.get('/project-list',function(req,res){
 //     res.render('pages/list-project');
 // });

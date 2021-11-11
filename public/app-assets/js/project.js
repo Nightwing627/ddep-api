@@ -1,3 +1,5 @@
+//const { ids } = require("webpack");
+
 $(document).ready(function(){
     var table = $('#project_data_table').DataTable({
         "aLengthMenu": [[1,10, 20, 50,100, -1], [1,10, 20 ,50, 100, "All"]],
@@ -12,21 +14,43 @@ $(document).ready(function(){
     getdata();
     function getdata(){  
         $.ajax({  
-            url:'/projects/list',  
+            url:'/projects/fulllist',  
             method:'get',  
             dataType:'json', 
             //data:{page:0,limit:3},
             success:function(response){
-                 //console.log(response);
+                   
                  var counter = 1;
-                 $.each(response.data,function(index,data){  
+                 $.each(response.data,function(index,data){
+                     var $button_group='<div class="btn-group" role="group" aria-label="Basic example">';
+                     $button_group+='<a href="edit/'+data._id+'" class="btn btn-secondary">Edit</a>';
+                    if(data.inbound_setting!=undefined && data.outbound_setting!=undefined && data.schedule_setting!=undefined)
+                    {
+                        if(data.isActive==0)
+                        {
+                            $button_group+='<button type="button" class="btn btn-secondary">Active</button>';
+                        }
+                        else
+                        {
+                            $button_group+='<button type="button" class="btn btn-secondary">InActive</button>';
+                        }
+                    }
+                    if(data.schedule_setting!=undefined && data.schedule_setting.Schedule_configure_inbound=='click_by_user')
+                    {
+                        $button_group+='<button type="button" class="btn run_inbound btn-secondary">RunInbound</button>'
+                    }
+                    if(data.schedule_setting!=undefined && data.schedule_setting.Schedule_configure_outbound=='click_by_user')
+                    {
+                        $button_group+='<button type="button" class="btn btn-secondary run_outbound">RunOutbound</button>'
+                    }
+                    $button_group+='<button type="button" class="btn btn-secondary">View</button></div>';
                     table.row.add( [
                      counter++,
                      data.CompanyName,
                      data.ProjectCode,
                      data.ProjectName,
                      '-','-','-','-',
-                     '<div class="btn-group" role="group" aria-label="Basic example"><button type="button" class="btn btn-secondary">Edit</button><button type="button" class="btn btn-secondary">Active</button><button type="button" class="btn run_inbound btn-secondary">RunInbound</button><button type="button" class="btn btn-secondary run_outbound">RunOutbound</button><button type="button" class="btn btn-secondary">View</button></div>'
+                     $button_group
                     ]).draw( false );
                  });  
                  $('body').find('.paginate_button').addClass('btn m-10 btn-sm btn-outline-primary  p-10');

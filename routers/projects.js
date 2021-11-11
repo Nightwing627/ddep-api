@@ -19,6 +19,7 @@ router.get('/add',function(req,res){
     res.render('pages/add-projects');
 })
 router.get('/list',projects.findAll);
+router.get('/fulllist',projects.fullProject);
 router.get('/project-list',function(req,res){
     res.render('pages/list-project',{alldata:null});
 });

@@ -79,7 +79,7 @@ exports.create = (req, res) => {
     }
     if(!data.schedule_type_outbound) {
         return res.status(400).send({
-            message: "Schedule Type is Required"
+            message: "Schedule Type for Outbound is Required"
         });
     }
     if(!data.occurs_outbound) {
@@ -249,7 +249,7 @@ exports.update = (req, res) => {
             message: "Time is Required"
         });
     }
-    const ScheduleSetting = new ScheduleSetting({
+    const scheduleSetting = new ScheduleSetting({
         Schedule_configure_inbound: data.Schedule_configure_inbound, 
         schedule_type_inbound: data.schedule_type_inbound,
         occurs_inbound: data.occurs_inbound,

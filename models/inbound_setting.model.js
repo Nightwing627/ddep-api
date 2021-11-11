@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
 const InboundSettingSchema = mongoose.Schema({
-    project_id:String,    
+    project_id:{
+        type:mongoose.Schema.Types.ObjectId,ref:'Project'
+    },    
     inbound_format: String ,
     sync_type: String,
     ftp_server_link:String,

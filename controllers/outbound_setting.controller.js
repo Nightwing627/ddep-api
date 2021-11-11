@@ -158,13 +158,13 @@ exports.update = (req, res) => {
         });
     }
     
-    const outboundSetting = new outboundSetting({
+    const outboundSetting = new OutboundSetting({
         outbound_format: data.outbound_format, 
         sync_type_out: data.sync_type_out,
         api_url: data.api_url,
         
     });
-    outboundSetting.findByIdAndUpdate(req.params.id,data, { new: true })
+    OutboundSetting.findByIdAndUpdate(req.params.id,data, { new: true })
     .then((OutboundSetting) => {
         console.log(req.params.id);
       if (!OutboundSetting) {

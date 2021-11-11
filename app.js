@@ -55,7 +55,9 @@ app.use(function(req, res, next) {
     console.log('Server is running on PORT',port);
   });
   mongoose.connect(dbConfig.url, {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    
+    
   }).then(() => {
       console.log("Successfully connected to the database");    
   }).catch(err => {
