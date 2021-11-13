@@ -11,6 +11,8 @@ const InboundSettingSchema = mongoose.Schema({
     port:String,
     login_name:String,
     password:String ,
+    folder:String,
+    is_password_encrypted:String
 
 },{
     timestamps: true

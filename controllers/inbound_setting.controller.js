@@ -71,6 +71,11 @@ exports.create = (req, res) => {
             message: "Password is Required"
         });
     }
+    if(!data.folder) {
+        return res.status(400).send({
+            message: "folder path is Required"
+        });
+    }
     
     const inboundSetting = new InboundSetting({
         project_id:data.project_id,
@@ -80,7 +85,9 @@ exports.create = (req, res) => {
         host: data.host,
         port: data.port,
         login_name: data.login_name,
-        password: data.password
+        password: data.password,
+        folder:data.folder,
+        is_password_encrypted:data.is_password_encrypted
     });
     inboundSetting.save()
     .then(data => {
@@ -195,6 +202,12 @@ exports.update = (req, res) => {
             message: "Password is Required"
         });
     }
+    if(!data.folder) {
+        return res.status(400).send({
+            message: "Folder path is Required"
+        });
+    }
+    
     
     const inboundSetting = new InboundSetting({
         project_id: data.project_id, 
@@ -204,7 +217,9 @@ exports.update = (req, res) => {
         host: data.host,
         port: data.port,
         login_name: data.login_name,
-        password: data.password
+        password: data.password,
+        folder:data.folder,
+        is_password_encrypted:data.is_password_encrypted
             
     });
     InboundSetting.findByIdAndUpdate(req.params.id,data, { new: true })

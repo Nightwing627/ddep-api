@@ -8,8 +8,8 @@ const InboundSchema = mongoose.Schema({
     //ScheduleSetting: ProjectSchema.Types.Mixed,
 
 
-},{strict: false}, {
+},{
     timestamps: true
-});
+},{strict: false});
 
 module.exports = mongoose.model('Inbound', InboundSchema);

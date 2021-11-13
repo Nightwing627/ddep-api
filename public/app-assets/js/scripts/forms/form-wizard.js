@@ -176,6 +176,8 @@ $(function () {
                       $('#login_name').val(response.login_name);
                       $('#password').val(response.password);
                       $('input[value="'+response.sync_type+'"]').prop('checked',true);
+                      $('#folderpath').val(response.folder);
+                      $('#is_password_encrypted option[value="'+response.is_password_encrypted+'"]').prop('selected',true);
                     }
                     //console.log(response);
                     //console.log(response._id);
@@ -245,6 +247,8 @@ $(function () {
               var port = $('#port').val();
               var login_name = $('#login_name').val();
               var password = $('#password').val();
+              var folder = $('#folderpath').val();
+              var is_password_encrypted = $('#is_password_encrypted').val();
              
               if(inbound_setting_id=="")
               {
@@ -253,7 +257,7 @@ $(function () {
                   url:'/inbound_setting/save',  
                   method:'post',  
                   dataType:'json',
-                  data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,host:host,port:port,login_name:login_name,password:password},
+                  data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,host:host,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder},
                   success:function(response){
                     console.log(response);
                     //alert("Setting saved successfully");
@@ -267,7 +271,7 @@ $(function () {
                   url:'/inbound_setting/update/'+inbound_setting_id,  
                   method:'put',  
                   dataType:'json',
-                  data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,host:host,port:port,login_name:login_name,password:password},
+                  data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,host:host,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder},
                   success:function(response){
                     //console.log(response);
                     alert("Setting saved successfully");
@@ -382,6 +386,8 @@ $(function () {
           var login_name = $('#login_name').val();
           var password = $('#password').val();
           var project_id = $('#project_id').val();
+          var folder = $('#folderpath').val();
+          var is_password_encrypted = $('#is_password_encrypted').val();
           if(inbound_setting_id=="")
           {
 
@@ -389,7 +395,7 @@ $(function () {
               url:'/inbound_setting/save',  
               method:'post',  
               dataType:'json',
-              data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,host:host,port:port,login_name:login_name,password:password},
+              data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,host:host,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder},
               success:function(response){
                 console.log(response);
                 //alert("Setting saved successfully");
@@ -403,7 +409,7 @@ $(function () {
               url:'/inbound_setting/update/'+inbound_setting_id,  
               method:'put',  
               dataType:'json',
-              data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,host:host,port:port,login_name:login_name,password:password},
+              data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,host:host,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder},
               success:function(response){
                 //console.log(response);
                 alert("Setting saved successfully");
