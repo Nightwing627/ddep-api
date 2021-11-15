@@ -1,12 +1,13 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+var request = require('request');
 //var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
 const dbConfig = require('./config/db.config.js');
 const mongoose = require('mongoose');
-
+var cron = require('node-cron');
 mongoose.Promise = global.Promise;
 var indexRouter = require('./routers/index');
 var usersRouter = require('./routers/users');
@@ -16,6 +17,7 @@ var outboundSettingRouter = require('./routers/outbound_setting');
 var scheduleSettingRouter = require('./routers/schedule_setting');
 var inboundRouter = require('./routers/inbound');
 var outboundRouter = require('./routers/outbound');
+var scheduler_job = require('./routers/scheduler_job');
 var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -35,6 +37,17 @@ app.use('/outbound_setting',outboundSettingRouter);
 app.use('/schedule_setting',scheduleSettingRouter);
 app.use('/inbound',inboundRouter);
 app.use('/outbound',outboundRouter);
+app.use('/scheduler_job',scheduler_job);
+cron.schedule('* * * * *', () => {
+  console.log('running a task every minute');
+  request('http://'+req.headers.host+'/scheduler_job/getScheduleProjectInfo/', function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            console.log('im ok')
+            // console.log(body) // Show the HTML for the Google homepage.
+        }
+        console.log(error);
+    })
+});
 app.use(function(req, res, next) {
     next(createError(404));
   });
@@ -64,5 +77,6 @@ app.use(function(req, res, next) {
       console.log('Could not connect to the database. Exiting now...', err);
       process.exit();
   });
+  
   module.exports = app;
   
