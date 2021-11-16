@@ -42,7 +42,7 @@ cron.schedule('* * * * *', () => {
   console.log('running a task every minute');
   request('http://'+req.headers.host+'/scheduler_job/getScheduleProjectInfo/', function(error, response, body) {
         if (!error && response.statusCode == 200) {
-            console.log('im ok')
+            console.log('im ok');
             // console.log(body) // Show the HTML for the Google homepage.
         }
         console.log(error);

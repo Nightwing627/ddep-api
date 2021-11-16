@@ -1,6 +1,6 @@
 {
     "name": "ddep",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "",
     "main": "app.js",
     "keywords": [],
@@ -31,7 +31,7 @@
         "url": "https://gitlab.a4apple.cn/gima/ddep.git"
     },
     "scripts": {
-        "build": "webpack --mode development --config webpack.config.js && webpack --mode development",
+        "build": "node app.js",
         "start": "node app.js"
     },
     "devDependencies": {
