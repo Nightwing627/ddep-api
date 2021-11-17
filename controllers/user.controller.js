@@ -1,36 +1,40 @@
 const User = require('../models/user.model.js');
+const ase = require('../my_modules/aes');
 
 // Create and Save a new Note
 exports.create = (req, res) => {
-    
+    var Aes = new ase();
+    var jsondata = req.body;
+    var post_data_s = Aes.Decrypt(jsondata);
+    var post_data = JSON.parse(post_data_s);
     const user = new User({
-        enable_fg: req.body.enable_fg || null, 
-        two_auth_fg: req.body.two_auth_fg || null,
-        user_name: req.body.user_name || null,
-        display_name: req.body.display_name|| null,
-        email: req.body.email || null,
-        staff_other_code: req.body.staff_other_code || null,
-        Department_code: req.body.Department_code|| null,
-        first_name: req.body.first_name || null,
-        last_name: req.body.last_name || null,
-        Local_lang_name: req.body.Local_lang_name || null,
-        skype_address: req.body.skype_address || null,
-        title: req.body.title || null,
-        tel_city_idd: req.body.tel_city_idd || null,
-        tel: req.body.tel || null,
-        fax_country_idd: req.body.fax_country_idd || null,
-        fax_city_idd: req.body.fax_city_idd || null,
-        fax: req.body.fax || null,
-        country: req.body.country || null,
-        state: req.body.state || null,
-        city: req.body.city || null,
-        postal_code: req.body.postal_code ||null,
-        address1: req.body.address1 || null,
-        address2: req.body.address2 || null,
-        address3: req.body.address3 || null,
-        mobile_country_idd: req.body.mobile_country_idd || null,
-        mobile_city_idd: req.body.mobile_city_idd || null,
-        mobile: req.body.mobile || null,
+        enable_fg: post_data.enable_fg || null, 
+        two_auth_fg: post_data.two_auth_fg || null,
+        user_name: post_data.user_name || null,
+        display_name: post_data.display_name|| null,
+        email: post_data.email || null,
+        staff_other_code: post_data.staff_other_code || null,
+        Department_code: post_data.Department_code|| null,
+        first_name: post_data.first_name || null,
+        last_name: post_data.last_name || null,
+        Local_lang_name: post_data.Local_lang_name || null,
+        skype_address: post_data.skype_address || null,
+        title: post_data.title || null,
+        tel_city_idd: post_data.tel_city_idd || null,
+        tel: post_data.tel || null,
+        fax_country_idd: post_data.fax_country_idd || null,
+        fax_city_idd: post_data.fax_city_idd || null,
+        fax: post_data.fax || null,
+        country: post_data.country || null,
+        state: post_data.state || null,
+        city: post_data.city || null,
+        postal_code: post_data.postal_code ||null,
+        address1: post_data.address1 || null,
+        address2: post_data.address2 || null,
+        address3: post_data.address3 || null,
+        mobile_country_idd: post_data.mobile_country_idd || null,
+        mobile_city_idd: post_data.mobile_city_idd || null,
+        mobile: post_data.mobile || null,
         
     });
     user.save()
