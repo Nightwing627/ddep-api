@@ -1,7 +1,4 @@
 node {
-
-    agent none
-
     checkout scm
 
     stages {
