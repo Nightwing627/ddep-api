@@ -5,8 +5,11 @@ const ase = require('../my_modules/aes');
 exports.create = (req, res) => {
     var Aes = new ase();
     var jsondata = req.body;
-    var post_data_s = Aes.Decrypt(jsondata);
+    //console.log(jsondata.data);
+    var post_data_s = Aes.Decrypt(jsondata.data);
+    //console.log(post_data_s);
     var post_data = JSON.parse(post_data_s);
+    //res.json(post_data);
     const user = new User({
         enable_fg: post_data.enable_fg || null, 
         two_auth_fg: post_data.two_auth_fg || null,
