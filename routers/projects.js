@@ -15,6 +15,7 @@ const projects = require('../controllers/project.controller.js');
 const inbound_setting = require('../controllers/inbound_setting.controller.js');
 const outbound_setting = require('../controllers/outbound_setting.controller.js');
 const schedule_setting = require('../controllers/schedule_setting.controller.js');
+const { json } = require('body-parser');
 router.post('/save', projects.create);
 router.put('/update/:id',projects.update);
 router.get('/add',function(req,res){
@@ -36,6 +37,7 @@ router.post('/download',function(req,res){
     var password = req.body.password;
     var folder = req.body.folder;
     var project_id = req.body.project_id;
+    var project_code = req.body.project_code;
     const client = new ftp(host, port, username ,password, true);
     // console.log(client.clientList());
     
@@ -87,7 +89,7 @@ router.post('/download',function(req,res){
                   'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                  "project_code": "001",
+                  "project_code": project_code,
                   "project_id": project_id,
                   "inbound_data": data
                 })
@@ -95,8 +97,9 @@ router.post('/download',function(req,res){
               };
               request(options, function (error, response) {
                 if (error) throw new Error(error);
-
-                res.json({'status':'true','msg':'Inbound Run Successfully'});
+              
+                res.json(JSON.parse(response.body));
+                //res.json({'status':'true','msg':'Inbound Run Successfully'});
               });
             
         }

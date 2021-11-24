@@ -35,20 +35,25 @@ router.get('/getScheduleProjectInfo',function(req,res){
 
                //var schedulesetting = item.schedule_setting.Schedule_configure_inbound;
                //res.json(schedulesetting);
+               //date.getMinutes()<10?'0':'') + date.getMinutes()
                let date_ob = new Date();
                var currenttime = date_ob.getHours() + ":" +date_ob.getMinutes();
                if(item.schedule_setting.Schedule_configure_inbound!='click_by_user')
                {
+                   
                     list_arr_inbound.push(item);
                     var scheduelerunning=0;
+                    console.log(currenttime);
                     if(currenttime==item.schedule_setting.recurs_time_inbound)
                     {
+                        console.log("time match");
                         var host = item.inbound_setting.host;
                         var port = item.inbound_setting.port;
                         var username = item.inbound_setting.login_name;
                         var password = item.inbound_setting.password;
                         var folder = item.inbound_setting.folder;
                         var project_id = item.inbound_setting.project_id;
+                        var project_code = item.ProjectCode;
                         const client = new ftp(host, port, username ,password, true);
                         // console.log(client.clientList());
                         
@@ -65,7 +70,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
 
                                         client.download(folder, './'+project_id+'.xml');
                                         
-                                        await sleep(400);
+                                        //await sleep(400);
                                         
                                     }catch(err)
                                     {
@@ -99,15 +104,16 @@ router.get('/getScheduleProjectInfo',function(req,res){
                                     'Content-Type': 'application/json'
                                     },
                                     body: JSON.stringify({
-                                    "project_code": item.project_code,
+                                    "project_code": project_code,
                                     "project_id": project_id,
                                     "inbound_data": data
                                     })
                                 
                                 };
                                 request(options, function (error, response) {
+                                    //console.log(response);
                                     if (error) throw new Error(error);
-                                        console.log('inbound run successfully');
+                                        console.log(JSON.parse(response.body));
                                         scheduelerunning++
                                     //res.json({'status':'true','msg':'Inbound Run Successfully'});
                                 });
@@ -124,6 +130,14 @@ router.get('/getScheduleProjectInfo',function(req,res){
                             //res.json({'status':'false','msg':'FTP Not Connected'});
                         }
                     }
+                    else
+                    {
+                        console.log("time not match");
+                    }
+               }
+               else
+               {
+                   console.log("time not match");
                }
                if(item.schedule_setting.Schedule_configure_outbound!='click_by_user')
                {
@@ -150,7 +164,9 @@ router.get('/getScheduleProjectInfo',function(req,res){
     //res.json(data);
     });
 })
-
+router.get('/testAPI',function(req,res){
+    res.json({"message":"run successfully"});
+})
 
 
 module.exports = router;

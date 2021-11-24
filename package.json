@@ -7,6 +7,7 @@
     "author": "",
     "license": "DDEP",
     "dependencies": {
+        "axios": "^0.24.0",
         "basic-ftp": "^4.6.6",
         "body-parser": "^1.19.0",
         "crypto": "^1.0.1",

@@ -37,7 +37,7 @@ $(document).ready(function(){
                     }
                     if(data.schedule_setting!=undefined && data.schedule_setting.Schedule_configure_inbound=='click_by_user')
                     {
-                        $button_group+='<button type="button" data-project-id="'+data.inbound_setting.project_id+'" data-host="'+data.inbound_setting.host+'" data-port="'+data.inbound_setting.port+'" data-username="'+data.inbound_setting.login_name+'" data-password="'+data.inbound_setting.password+'" data-folder="'+data.inbound_setting.folder+'" data-is-password-encrypted="'+data.inbound_setting.is_password_encrypted+'" class="btn run_inbound btn-secondary">RunInbound</button>';
+                        $button_group+='<button type="button" data-project-id="'+data.inbound_setting.project_id+'" data-host="'+data.inbound_setting.host+'" data-port="'+data.inbound_setting.port+'" data-username="'+data.inbound_setting.login_name+'" data-password="'+data.inbound_setting.password+'" data-folder="'+data.inbound_setting.folder+'" data-is-password-encrypted="'+data.inbound_setting.is_password_encrypted+'" data-project-code="'+data.ProjectCode+'" class="btn run_inbound btn-secondary">RunInbound</button>';
                     }
                     if(data.schedule_setting!=undefined && data.schedule_setting.Schedule_configure_outbound=='click_by_user')
                     {
@@ -77,11 +77,12 @@ $(document).ready(function(){
         var project_id = $(this).data('project-id');
         var folder = $(this).data('folder');
         var is_password_encrypted = $(this).data('is-password-encrypted');
+        var project_code = $(this).data('project-code');
         $.ajax({
             url:'/projects/download',
             method:'post',
             dataType:'json',
-            data:{host:host,username:username,password:password,port:port,project_id:project_id,folder:folder,is_password_encrypted:is_password_encrypted},
+            data:{host:host,username:username,password:password,port:port,project_id:project_id,folder:folder,is_password_encrypted:is_password_encrypted,project_code:project_code},
             success:function(response){
                 if(response.status=="false")
                 {

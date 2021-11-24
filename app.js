@@ -19,6 +19,7 @@ var inboundRouter = require('./routers/inbound');
 var outboundRouter = require('./routers/outbound');
 var scheduler_job = require('./routers/scheduler_job');
 var app = express();
+var axios = require('axios');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.json());
@@ -38,16 +39,17 @@ app.use('/schedule_setting',scheduleSettingRouter);
 app.use('/inbound',inboundRouter);
 app.use('/outbound',outboundRouter);
 app.use('/scheduler_job',scheduler_job);
-cron.schedule('* * * * *', () => {
-  console.log('running a task every minute');
-  request('http://'+req.headers.host+'/scheduler_job/getScheduleProjectInfo/', function(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            console.log('im ok');
-            // console.log(body) // Show the HTML for the Google homepage.
-        }
-        console.log(error);
-    })
-});
+// cron.schedule('* * * * *', () => {
+//   console.log('running a task every minute');
+//   request('http://'+req.headers.host+'/scheduler_job/getScheduleProjectInfo/', function(error, response, body) {
+//         if (!error && response.statusCode == 200) {
+//             console.log('im ok');
+//             // console.log(body) // Show the HTML for the Google homepage.
+//         }
+//         console.log(error);
+//     })
+// });
+
 app.use(function(req, res, next) {
     next(createError(404));
   });
@@ -67,6 +69,19 @@ app.use(function(req, res, next) {
   app.listen(port, function () {
     console.log('Server is running on PORT',port);
   });
+  function calltestfun()
+  {
+      axios.get('http://localhost:8004/scheduler_job/getScheduleProjectInfo/')
+      .then(response => {
+        console.log(response.data);
+      }).catch(error => {
+        console.log(error);
+      });
+  }
+cron.schedule('* * * * *',()=>{
+  console.log("run by schedule every minit");
+    calltestfun();
+});
   mongoose.connect(dbConfig.url, {
     useNewUrlParser: true,
     

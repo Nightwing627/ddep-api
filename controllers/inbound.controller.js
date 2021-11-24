@@ -13,10 +13,10 @@ function isJson(str) {
 }
 exports.create = (req, res) => {
     var data = req.body;
-    //var check =isJson(data);
+    // var check =isJson(data);
     // if(!check)
     // {
-    //     //data = JSON.parse(req.body);
+    //     data = JSON.parse(req.body);
     // }
     //var data = JSON.parse(req.body);
 

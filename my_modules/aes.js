@@ -22,7 +22,7 @@ class AesHelper {
     
     /*AES Decrypt*/
     Decrypt(data) {
-        const data2 = data.replace(/\n/gm, "")
+        const data2 = data.replace(/\n/gm, "");
         const decrypted = CryptoJS.AES.decrypt(data2, CryptoJS.enc.Latin1.parse(config.aesKey), {
             iv: CryptoJS.enc.Latin1.parse(config.aseIv),
             mode: CryptoJS.mode.CBC,
