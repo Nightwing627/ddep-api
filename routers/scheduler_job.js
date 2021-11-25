@@ -37,13 +37,13 @@ router.get('/getScheduleProjectInfo',function(req,res){
                //res.json(schedulesetting);
                //date.getMinutes()<10?'0':'') + date.getMinutes()
                let date_ob = new Date();
-               var currenttime = date_ob.getHours() + ":" +date_ob.getMinutes();
+               var currenttime = date_ob.getHours() + ":" +(date_ob.getMinutes()<10?'0':'') + date_ob.getMinutes();
                if(item.schedule_setting.Schedule_configure_inbound!='click_by_user')
                {
                    
                     list_arr_inbound.push(item);
                     var scheduelerunning=0;
-                    console.log(currenttime);
+                    //console.log(currenttime);
                     if(currenttime==item.schedule_setting.recurs_time_inbound)
                     {
                         console.log("time match");
