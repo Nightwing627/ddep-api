@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 var path = require('path');
+var request = require('request');
 const ase = require('../my_modules/aes');
 router.use(express.urlencoded({ extended: false }));
 //app.use(cookieParser());
@@ -51,5 +52,70 @@ router.get('/testsync',function(req,res){
       var jsonstring = JSON.stringify(myobj);
       console.log(Aes.Encrypt(jsonstring));
       res.json("run successfully");
+})
+router.post('/syncuser',function(req,res){
+      var Aes = new ase();
+      //console.log(jsondata.data);
+      var jsondata = req.body;
+    var post_data_s = Aes.Decrypt(unescape(jsondata.data));
+    //console.log(post_data_s);
+    //var post_data = JSON.parse(post_data_s);
+    //res.json(post_data);
+    //post_data = JSON.parse(post_data_s);
+    var syncjson = eval("("+post_data_s+")");
+    //console.log(syncjson[0].tbl_staff);
+    var counter = 0;
+    syncjson.forEach(tablelist => {
+         tablelist.tbl_staff.forEach(item => {
+            var options = {
+                  'method': 'POST',
+                  'url': 'http://'+req.headers.host+'/users/sync-user',
+                  'headers': {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                        "enable_fg": "", 
+                        "two_auth_fg": item.two_auth_fg,
+                        "user_name": item.user_name,
+                        "display_name": item.display_name,
+                        "email": item.email,
+                        "staff_other_code": item.staff_other_code,
+                       " Department_code": item.department,
+                        "first_name": item.first_name ,
+                        "last_name": item.last_name ,
+                        "Local_lang_name": item.Local_lang_name,
+                        "skype_address": item.skype_address,
+                        "title": item.title,
+                        "tel_city_idd":item.tel_city_idd,
+                        "tel": item.tel,
+                        "fax_country_idd":item.fax_country_idd,
+                        "fax_city_idd":item.fax_city_idd,
+                        "fax":item.fax,
+                        "country":item.country,
+                        "state":item.state,
+                        "city":item.city,
+                        "postal_code":item.postal_code,
+                        "address1":item.address1,
+                        "address2":item.address2,
+                        "address3":item.address3,
+                        "mobile_country_idd":item.mobile_country_idd,
+                        "mobile_city_idd":item.mobile_city_idd,
+                        "mobile":item.mobile,
+                  })
+                
+                };
+                request(options, function (error, response) {
+                  if (error) throw new Error(error);
+                  //console.log(response);
+                  if(response.statusCode==200)
+                  {
+                        counter = eval(counter+1);
+                        //console.log(counter);
+                  }
+                });
+         }); 
+         
+    });
+    res.json({"status":"true","msg":"Records inserted successfully"});
 })
 module.exports = router;

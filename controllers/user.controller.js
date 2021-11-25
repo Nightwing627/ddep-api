@@ -4,12 +4,16 @@ const ase = require('../my_modules/aes');
 // Create and Save a new Note
 exports.create = (req, res) => {
     var Aes = new ase();
-    var jsondata = req.body;
+    var post_data = req.body;
     //console.log(jsondata.data);
-    var post_data_s = Aes.Decrypt(jsondata.data);
+    //var post_data_s = Aes.Decrypt(unescape(jsondata.data));
     //console.log(post_data_s);
-    var post_data = JSON.parse(post_data_s);
+    //var post_data = JSON.parse(post_data_s);
     //res.json(post_data);
+    //post_data = JSON.parse(jsondata);
+    //var syncjson = eval("("+post_data_s+")");
+    //console.log(syncjson[0].tbl_staff);
+    
     const user = new User({
         enable_fg: post_data.enable_fg || null, 
         two_auth_fg: post_data.two_auth_fg || null,

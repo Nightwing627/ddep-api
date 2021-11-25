@@ -78,10 +78,10 @@ app.use(function(req, res, next) {
         console.log(error);
       });
   }
-cron.schedule('* * * * *',()=>{
-  console.log("run by schedule every minit");
-    calltestfun();
-});
+// cron.schedule('* * * * *',()=>{
+//   console.log("run by schedule every minit");
+//     calltestfun();
+// });
   mongoose.connect(dbConfig.url, {
     useNewUrlParser: true,
     
