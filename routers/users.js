@@ -9,8 +9,24 @@ router.use(express.urlencoded({ extended: false }));
 router.use(express.static(path.join(__dirname, 'public')));
 router.use(express.static('public'));
 const users = require('../controllers/user.controller.js');
+const role = require('../controllers/role.controller.js');
+const staf_role = require('../controllers/staff_role.controller.js');
+const menufunc_access_right = require('../controllers/menufunc_access_right.controller.js');
+const menufunc = require('../controllers/menufunc.controller.js');
+const branch = require('../controllers/branch.controller.js');
+const department = require('../controllers/department.controller.js');
+const staff_branch = require('../controllers/staff_branch.controller.js');
+const staff_department = require('../controllers/staff_department.controller.js');
 const { json } = require('body-parser');
 router.post('/sync-user', users.create);
+router.post('/role',role.create);
+router.post('/staffrole',staf_role.create);
+router.post('/menuaccessright',menufunc_access_right.create);
+router.post('/menufunc',menufunc.create);
+router.post('/branch',branch.create);
+router.post('/department',department.create);
+router.post('/staff_branch',staff_branch.create);
+router.post('/staff_department',staff_department.create);
 router.get('/list',users.findAll);
 router.get('/user-list',function(req,res){
       res.render('pages/users');
@@ -73,35 +89,7 @@ router.post('/syncuser',function(req,res){
                   'headers': {
                     'Content-Type': 'application/json'
                   },
-                  body: JSON.stringify({
-                        "enable_fg": "", 
-                        "two_auth_fg": item.two_auth_fg,
-                        "user_name": item.user_name,
-                        "display_name": item.display_name,
-                        "email": item.email,
-                        "staff_other_code": item.staff_other_code,
-                       " Department_code": item.department,
-                        "first_name": item.first_name ,
-                        "last_name": item.last_name ,
-                        "Local_lang_name": item.Local_lang_name,
-                        "skype_address": item.skype_address,
-                        "title": item.title,
-                        "tel_city_idd":item.tel_city_idd,
-                        "tel": item.tel,
-                        "fax_country_idd":item.fax_country_idd,
-                        "fax_city_idd":item.fax_city_idd,
-                        "fax":item.fax,
-                        "country":item.country,
-                        "state":item.state,
-                        "city":item.city,
-                        "postal_code":item.postal_code,
-                        "address1":item.address1,
-                        "address2":item.address2,
-                        "address3":item.address3,
-                        "mobile_country_idd":item.mobile_country_idd,
-                        "mobile_city_idd":item.mobile_city_idd,
-                        "mobile":item.mobile,
-                  })
+                  body: JSON.stringify(item)
                 
                 };
                 request(options, function (error, response) {
@@ -113,7 +101,199 @@ router.post('/syncuser',function(req,res){
                         //console.log(counter);
                   }
                 });
-         }); 
+         });
+         if(tablelist.tbl_role!=undefined)
+         {
+
+               tablelist.tbl_role.forEach(item => {
+                  var options = {
+                        'method': 'POST',
+                        'url': 'http://'+req.headers.host+'/users/role',
+                        'headers': {
+                          'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(item)
+                      
+                      };
+                      request(options, function (error, response) {
+                        if (error) throw new Error(error);
+                        //console.log(response);
+                        if(response.statusCode==200)
+                        {
+                              counter = eval(counter+1);
+                              //console.log(counter);
+                        }
+                      });
+               }); 
+         } 
+         if(tablelist.tbl_staffrole!=undefined)
+         {
+
+               tablelist.tbl_staffrole.forEach(item => {
+                  var options = {
+                        'method': 'POST',
+                        'url': 'http://'+req.headers.host+'/users/staffrole',
+                        'headers': {
+                          'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(item)
+                      
+                      };
+                      request(options, function (error, response) {
+                        if (error) throw new Error(error);
+                        //console.log(response);
+                        if(response.statusCode==200)
+                        {
+                              counter = eval(counter+1);
+                              //console.log(counter);
+                        }
+                      });
+               }); 
+         } 
+         if(tablelist.tb_menufunc_access_right!=undefined)
+         {
+
+               tablelist.tb_menufunc_access_right.forEach(item => {
+                  var options = {
+                        'method': 'POST',
+                        'url': 'http://'+req.headers.host+'/users/menuaccessright',
+                        'headers': {
+                          'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(item)
+                      
+                      };
+                      request(options, function (error, response) {
+                        if (error) throw new Error(error);
+                        //console.log(response);
+                        if(response.statusCode==200)
+                        {
+                              counter = eval(counter+1);
+                              //console.log(counter);
+                        }
+                      });
+               }); 
+         } 
+         if(tablelist.tb_menufunc!=undefined)
+         {
+
+               tablelist.tb_menufunc.forEach(item => {
+                  var options = {
+                        'method': 'POST',
+                        'url': 'http://'+req.headers.host+'/users/menufunc',
+                        'headers': {
+                          'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(item)
+                      
+                      };
+                      request(options, function (error, response) {
+                        if (error) throw new Error(error);
+                        //console.log(response);
+                        if(response.statusCode==200)
+                        {
+                              counter = eval(counter+1);
+                              //console.log(counter);
+                        }
+                      });
+               }); 
+         } 
+         if(tablelist.tbl_branch!=undefined)
+         {
+
+               tablelist.tbl_branch.forEach(item => {
+                  var options = {
+                        'method': 'POST',
+                        'url': 'http://'+req.headers.host+'/users/branch',
+                        'headers': {
+                          'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(item)
+                      
+                      };
+                      request(options, function (error, response) {
+                        if (error) throw new Error(error);
+                        //console.log(response);
+                        if(response.statusCode==200)
+                        {
+                              counter = eval(counter+1);
+                              //console.log(counter);
+                        }
+                      });
+               }); 
+         } 
+         if(tablelist.tbl_department!=undefined)
+         {
+
+               tablelist.tbl_department.forEach(item => {
+                  var options = {
+                        'method': 'POST',
+                        'url': 'http://'+req.headers.host+'/users/department',
+                        'headers': {
+                          'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(item)
+                      
+                      };
+                      request(options, function (error, response) {
+                        if (error) throw new Error(error);
+                        //console.log(response);
+                        if(response.statusCode==200)
+                        {
+                              counter = eval(counter+1);
+                              //console.log(counter);
+                        }
+                      });
+               }); 
+         } 
+         if(tablelist.tbl_staff_branch!=undefined)
+         {
+
+               tablelist.tbl_staff_branch.forEach(item => {
+                  var options = {
+                        'method': 'POST',
+                        'url': 'http://'+req.headers.host+'/users/staff_branch',
+                        'headers': {
+                          'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(item)
+                      
+                      };
+                      request(options, function (error, response) {
+                        if (error) throw new Error(error);
+                        //console.log(response);
+                        if(response.statusCode==200)
+                        {
+                              counter = eval(counter+1);
+                              //console.log(counter);
+                        }
+                      });
+               }); 
+         } 
+         if(tablelist.tbl_staff_department!=undefined)
+         {
+
+               tablelist.tbl_staff_department.forEach(item => {
+                  var options = {
+                        'method': 'POST',
+                        'url': 'http://'+req.headers.host+'/users/staff_department',
+                        'headers': {
+                          'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(item)
+                      
+                      };
+                      request(options, function (error, response) {
+                        if (error) throw new Error(error);
+                        //console.log(response);
+                        if(response.statusCode==200)
+                        {
+                              counter = eval(counter+1);
+                              //console.log(counter);
+                        }
+                      });
+               }); 
+         } 
          
     });
     res.json({"status":"true","msg":"Records inserted successfully"});

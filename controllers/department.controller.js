@@ -1,4 +1,4 @@
-const User = require('../models/user.model.js');
+const Department = require('../models/tbl_department.model.js');
 const ase = require('../my_modules/aes');
 
 // Create and Save a new Note
@@ -17,7 +17,7 @@ exports.create = (req, res) => {
     Object.entries(post_data).forEach(([key,value])=>{
         userdetails[key] = value; 
     });
-    const user = new User(userdetails);
+    const user = new Department(userdetails);
     user.save()
     .then(data => {
         //res.send(data);
@@ -34,7 +34,7 @@ exports.findAll = (req, res) => {
     //var page =req.query.page;
     //var limit =eval(req.query.limit);
    //console.log(limit*page);
-    User.find()
+   Department.find()
     .then(users => {
         res.status(200).send({data:users})
     }).catch(err => {
@@ -44,7 +44,7 @@ exports.findAll = (req, res) => {
     });
 };
 exports.countAll=(req,res)=>{
-    var query = User.find();
+    var query = Department.find();
     query.count(function (err, count) {
        res.status(200).send({total:count});
     });
@@ -64,8 +64,8 @@ exports.update = (req, res) => {
     Object.entries(post_data).forEach(([key,value])=>{
         userdetails[key] = value; 
     });
-    const user = new User(userdetails);
-    User.findByIdAndUpdate(req.params.id,userdetails, { new: true })
+    const user = new Department(userdetails);
+    Department.findByIdAndUpdate(req.params.id,userdetails, { new: true })
     .then((user) => {
         console.log(req.params.id);
       if (!user) {
