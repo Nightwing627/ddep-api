@@ -54,7 +54,23 @@ exports.searchUser = (req,res)=>{
 }
 // Find a single note with a noteId
 exports.findOne = (req, res) => {
+    StaffRole.
+    find().
+    where('id').equals(req.body.id).
+    //where('age').gt(17).lt(50).  //Additional where query
+    //limit(5).
+    //sort({ age: -1 }).
+    select('_id').
+    exec(function(err,data){
+        if(data.length==0){
+            res.status(200).send({"status":false,"msg":"not found"});
+        }
+        else
+        {
 
+            res.status(200).json({'status':true,'data':data[0]._id});
+        }
+    });
 };
 
 // Update a note identified by the noteId in the request

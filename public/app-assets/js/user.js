@@ -25,7 +25,7 @@ $(document).ready(function(){
                      data.user_name,
                      data.display_name,
                      data.staff_other_code,
-                     data.enable_fg,
+                     data.enable_fg || "",
                      '<button class="btn btn-success">Edit</button>'
                     ]).draw( false );
                  });  
