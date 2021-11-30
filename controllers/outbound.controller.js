@@ -110,7 +110,7 @@ const inbound = new Inbound({
 });
 Inbound.findByIdAndUpdate(req.params.id,data, { new: true })
     .then((inbound) => {
-        console.log(req.params.id);
+        //console.log(req.params.id);
       if (!inbound) {
         return res.status(404).send({
           message: "no Inbound found"

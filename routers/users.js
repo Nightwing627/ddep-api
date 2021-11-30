@@ -3,6 +3,9 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 var path = require('path');
 var request = require('request');
+const multer  = require('multer')
+const upload = multer()
+var FormData = require('form-data');
 const ase = require('../my_modules/aes');
 router.use(express.urlencoded({ extended: false }));
 //app.use(cookieParser());
@@ -88,15 +91,12 @@ router.get('/testsync',function(req,res){
       console.log(Aes.Encrypt(jsonstring));
       res.json("run successfully");
 })
-router.post('/syncuser',function(req,res){
+router.post('/syncuser',upload.none(),function(req,res,next){
       var Aes = new ase();
-      //console.log(jsondata.data);
       var jsondata = req.body;
-    var post_data_s = Aes.Decrypt(unescape(jsondata.data));
-    //console.log(post_data_s);
-    //var post_data = JSON.parse(post_data_s);
-    //res.json(post_data);
-    //post_data = JSON.parse(post_data_s);
+     
+    var post_data_s = Aes.Decrypt(unescape(jsondata.SyncData));
+    
     var syncjson = eval("("+post_data_s+")");
     //console.log(syncjson[0].tbl_staff);
     var counter = 0;
@@ -189,24 +189,24 @@ router.post('/syncuser',function(req,res){
                               var result = JSON.parse(response.body);
                               if(result.status)
                               {
-                                    var options = {
-                                          'method': 'PUT',
-                                          'url': 'http://'+req.headers.host+'/users/role/'+result.data,
-                                          'headers': {
-                                            'Content-Type': 'application/json'
-                                          },
-                                          body: JSON.stringify(item)
-                                        
-                                        };
-                                        request(options, function (error, response) {
-                                          if (error) throw new Error(error);
-                                          //console.log(response);
-                                          if(response.statusCode==200)
-                                          {
-                                                //counter = eval(counter+1);
-                                                //console.log(counter);
-                                          }
-                                        });
+                                var options = {
+                                      'method': 'PUT',
+                                      'url': 'http://'+req.headers.host+'/users/role/'+result.data,
+                                      'headers': {
+                                        'Content-Type': 'application/json'
+                                      },
+                                      body: JSON.stringify(item)
+                                    
+                                    };
+                                    request(options, function (error, response) {
+                                      if (error) throw new Error(error);
+                                      //console.log(response);
+                                      if(response.statusCode==200)
+                                      {
+                                            //counter = eval(counter+1);
+                                            //console.log(counter);
+                                      }
+                                    });
                               }
                               else
                               {
@@ -707,6 +707,6 @@ router.post('/syncuser',function(req,res){
          } 
          
     });
-    res.json({"status":"true","msg":"Records inserted successfully"});
+    res.json({"status":"1","msg":"Records Saved successfully"});
 })
 module.exports = router;

@@ -84,7 +84,7 @@ exports.update = (req, res) => {
     const user = new staff_branch(userdetails);
     staff_branch.findByIdAndUpdate(req.params.id,userdetails, { new: true })
     .then((user) => {
-        console.log(req.params.id);
+        //console.log(req.params.id);
       if (!user) {
         return res.status(404).send({
           message: "no user found"

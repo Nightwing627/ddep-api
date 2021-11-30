@@ -166,7 +166,7 @@ exports.update = (req, res) => {
     });
     OutboundSetting.findByIdAndUpdate(req.params.id,data, { new: true })
     .then((OutboundSetting) => {
-        console.log(req.params.id);
+        //console.log(req.params.id);
       if (!OutboundSetting) {
         return res.status(404).send({
           message: "no Project found"

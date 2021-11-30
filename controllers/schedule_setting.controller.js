@@ -264,7 +264,7 @@ exports.update = (req, res) => {
     });
     ScheduleSetting.findByIdAndUpdate(req.params.id,data, { new: true })
     .then((ScheduleSetting) => {
-        console.log(req.params.id);
+        //console.log(req.params.id);
       if (!ScheduleSetting) {
         return res.status(404).send({
           message: "no Project found"

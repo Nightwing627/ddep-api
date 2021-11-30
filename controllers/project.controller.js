@@ -194,7 +194,7 @@ exports.update = (req, res) => {
     });
     Project.findByIdAndUpdate(req.params.id,data, { new: true })
     .then((project) => {
-        console.log(req.params.id);
+        //console.log(req.params.id);
       if (!project) {
         return res.status(404).send({
           message: "no Project found"
