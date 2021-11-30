@@ -20,12 +20,18 @@ $(document).ready(function(){
                  //console.log(response);
                  var counter = 1;
                  $.each(response.data,function(index,data){  
+                     var enable_fg =data.enable_fg;
+                     if(enable_fg==undefined)
+                     {
+                         enable_fg="";
+                     }
+                     //console.log(enable_fg);
                     table.row.add( [
                      counter++,
                      data.user_name,
                      data.display_name,
                      data.staff_other_code,
-                     data.enable_fg || "",
+                     enable_fg || "",
                      '<button class="btn btn-success">Edit</button>'
                     ]).draw( false );
                  });  
