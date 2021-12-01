@@ -94,7 +94,12 @@ router.get('/testsync',function(req,res){
 router.post('/syncuser',upload.none(),function(req,res,next){
       var Aes = new ase();
       var jsondata = req.body;
-     
+      var http_req = 'http://';
+      if(req.secure)
+      {
+        http_req ='https://';
+      }
+     console.log(req.secure);
     var post_data_s = Aes.Decrypt(unescape(jsondata.SyncData));
     
     var syncjson = eval("("+post_data_s+")");
@@ -104,7 +109,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
          tablelist.tbl_staff.forEach(item => {
             var options = {
                   'method': 'POST',
-                  'url': 'http://'+req.headers.host+'/users/single-user',
+                  'url': http_req+req.headers.host+'/users/single-user',
                   'headers': {
                     'Content-Type': 'application/json'
                   },
@@ -121,7 +126,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                         {
                               var options = {
                                     'method': 'PUT',
-                                    'url': 'http://'+req.headers.host+'/users/'+result.data,
+                                    'url': http_req+req.headers.host+'/users/'+result.data,
                                     'headers': {
                                       'Content-Type': 'application/json'
                                     },
@@ -142,7 +147,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                         {
                               var options = {
                                     'method': 'POST',
-                                    'url': 'http://'+req.headers.host+'/users/sync-user',
+                                    'url': http_req+req.headers.host+'/users/sync-user',
                                     'headers': {
                                       'Content-Type': 'application/json'
                                     },
@@ -174,7 +179,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                      
                   var options = {
                         'method': 'POST',
-                        'url': 'http://'+req.headers.host+'/users/single-role',
+                        'url': http_req+req.headers.host+'/users/single-role',
                         'headers': {
                           'Content-Type': 'application/json'
                         },
@@ -191,7 +196,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               {
                                 var options = {
                                       'method': 'PUT',
-                                      'url': 'http://'+req.headers.host+'/users/role/'+result.data,
+                                      'url': http_req+req.headers.host+'/users/role/'+result.data,
                                       'headers': {
                                         'Content-Type': 'application/json'
                                       },
@@ -212,7 +217,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               {
                                     var options = {
                                           'method': 'POST',
-                                          'url': 'http://'+req.headers.host+'/users/role',
+                                          'url': http_req+req.headers.host+'/users/role',
                                           'headers': {
                                             'Content-Type': 'application/json'
                                           },
@@ -240,9 +245,10 @@ router.post('/syncuser',upload.none(),function(req,res,next){
          {
 
                tablelist.tbl_staffrole.forEach(item => {
+
                   var options = {
                         'method': 'POST',
-                        'url': 'http://'+req.headers.host+'/users/single-staf_role',
+                        'url': http_req+req.headers.host+'/users/single-staf_role',
                         'headers': {
                           'Content-Type': 'application/json'
                         },
@@ -259,7 +265,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               {
                                     var options = {
                                           'method': 'PUT',
-                                          'url': 'http://'+req.headers.host+'/users/staff_role/'+result.data,
+                                          'url': http_req+req.headers.host+'/users/staff_role/'+result.data,
                                           'headers': {
                                             'Content-Type': 'application/json'
                                           },
@@ -280,7 +286,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               {
                                     var options = {
                                           'method': 'POST',
-                                          'url': 'http://'+req.headers.host+'/users/staffrole',
+                                          'url': http_req+req.headers.host+'/users/staffrole',
                                           'headers': {
                                             'Content-Type': 'application/json'
                                           },
@@ -309,7 +315,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                tablelist.tb_menufunc_access_right.forEach(item => {
                   var options = {
                         'method': 'POST',
-                        'url': 'http://'+req.headers.host+'/users/single-menufunc_access_right',
+                        'url': http_req+req.headers.host+'/users/single-menufunc_access_right',
                         'headers': {
                           'Content-Type': 'application/json'
                         },
@@ -326,7 +332,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               {
                                     var options = {
                                           'method': 'PUT',
-                                          'url': 'http://'+req.headers.host+'/users/menuaccessright/'+result.data,
+                                          'url': http_req+req.headers.host+'/users/menuaccessright/'+result.data,
                                           'headers': {
                                             'Content-Type': 'application/json'
                                           },
@@ -347,7 +353,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               {
                                     var options = {
                                           'method': 'POST',
-                                          'url': 'http://'+req.headers.host+'/users/menuaccessright',
+                                          'url': http_req+req.headers.host+'/users/menuaccessright',
                                           'headers': {
                                             'Content-Type': 'application/json'
                                           },
@@ -376,7 +382,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                tablelist.tb_menufunc.forEach(item => {
                   var options = {
                         'method': 'POST',
-                        'url': 'http://'+req.headers.host+'/users/single-menufunc',
+                        'url': http_req+req.headers.host+'/users/single-menufunc',
                         'headers': {
                           'Content-Type': 'application/json'
                         },
@@ -393,7 +399,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               {
                                     var options = {
                                           'method': 'PUT',
-                                          'url': 'http://'+req.headers.host+'/users/menufunc/'+result.data,
+                                          'url': http_req+req.headers.host+'/users/menufunc/'+result.data,
                                           'headers': {
                                             'Content-Type': 'application/json'
                                           },
@@ -414,7 +420,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               {
                                     var options = {
                                           'method': 'POST',
-                                          'url': 'http://'+req.headers.host+'/users/menufunc',
+                                          'url': http_req+req.headers.host+'/users/menufunc',
                                           'headers': {
                                             'Content-Type': 'application/json'
                                           },
@@ -443,7 +449,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                tablelist.tbl_branch.forEach(item => {
                   var options = {
                         'method': 'POST',
-                        'url': 'http://'+req.headers.host+'/users/single-branch',
+                        'url': http_req+req.headers.host+'/users/single-branch',
                         'headers': {
                           'Content-Type': 'application/json'
                         },
@@ -460,7 +466,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               {
                                     var options = {
                                           'method': 'PUT',
-                                          'url': 'http://'+req.headers.host+'/users/branch/'+result.data,
+                                          'url': http_req+req.headers.host+'/users/branch/'+result.data,
                                           'headers': {
                                             'Content-Type': 'application/json'
                                           },
@@ -481,7 +487,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               {
                                     var options = {
                                           'method': 'POST',
-                                          'url': 'http://'+req.headers.host+'/users/branch',
+                                          'url': http_req+req.headers.host+'/users/branch',
                                           'headers': {
                                             'Content-Type': 'application/json'
                                           },
@@ -510,7 +516,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                tablelist.tbl_department.forEach(item => {
                   var options = {
                         'method': 'POST',
-                        'url': 'http://'+req.headers.host+'/users/single-department',
+                        'url': http_req+req.headers.host+'/users/single-department',
                         'headers': {
                           'Content-Type': 'application/json'
                         },
@@ -527,7 +533,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               {
                                     var options = {
                                           'method': 'PUT',
-                                          'url': 'http://'+req.headers.host+'/users/department/'+result.data,
+                                          'url': http_req+req.headers.host+'/users/department/'+result.data,
                                           'headers': {
                                             'Content-Type': 'application/json'
                                           },
@@ -548,7 +554,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               {
                                     var options = {
                                           'method': 'POST',
-                                          'url': 'http://'+req.headers.host+'/users/department',
+                                          'url': http_req+req.headers.host+'/users/department',
                                           'headers': {
                                             'Content-Type': 'application/json'
                                           },
@@ -577,7 +583,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                tablelist.tbl_staff_branch.forEach(item => {
                   var options = {
                         'method': 'POST',
-                        'url': 'http://'+req.headers.host+'/users/single-staff-branch',
+                        'url': http_req+req.headers.host+'/users/single-staff-branch',
                         'headers': {
                           'Content-Type': 'application/json'
                         },
@@ -594,7 +600,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               {
                                     var options = {
                                           'method': 'PUT',
-                                          'url': 'http://'+req.headers.host+'/users/staff_branch/'+result.data,
+                                          'url': http_req+req.headers.host+'/users/staff_branch/'+result.data,
                                           'headers': {
                                             'Content-Type': 'application/json'
                                           },
@@ -615,7 +621,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               {
                                     var options = {
                                           'method': 'POST',
-                                          'url': 'http://'+req.headers.host+'/users/staff_branch',
+                                          'url': http_req+req.headers.host+'/users/staff_branch',
                                           'headers': {
                                             'Content-Type': 'application/json'
                                           },
@@ -644,7 +650,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                tablelist.tbl_staff_department.forEach(item => {
                   var options = {
                         'method': 'POST',
-                        'url': 'http://'+req.headers.host+'/users/single-staff_department',
+                        'url': http_req+req.headers.host+'/users/single-staff_department',
                         'headers': {
                           'Content-Type': 'application/json'
                         },
@@ -661,7 +667,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               {
                                     var options = {
                                           'method': 'PUT',
-                                          'url': 'http://'+req.headers.host+'/users/staff_department/'+result.data,
+                                          'url': http_req+req.headers.host+'/users/staff_department/'+result.data,
                                           'headers': {
                                             'Content-Type': 'application/json'
                                           },
@@ -682,7 +688,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               {
                                     var options = {
                                           'method': 'POST',
-                                          'url': 'http://'+req.headers.host+'/users/staff_department',
+                                          'url': http_req+req.headers.host+'/users/staff_department',
                                           'headers': {
                                             'Content-Type': 'application/json'
                                           },
