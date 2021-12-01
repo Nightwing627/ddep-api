@@ -94,12 +94,12 @@ router.get('/testsync',function(req,res){
 router.post('/syncuser',upload.none(),function(req,res,next){
       var Aes = new ase();
       var jsondata = req.body;
-      var http_req = 'http://';
-      if(req.secure)
-      {
-        http_req ='https://';
-      }
-     console.log(req.secure);
+      var http_req = req.protocol+'://';
+      const host = req.get('host');
+    const origin = req.get('origin');
+    
+      
+     //console.log(req.secure);
     var post_data_s = Aes.Decrypt(unescape(jsondata.SyncData));
     
     var syncjson = eval("("+post_data_s+")");
@@ -118,7 +118,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                 };
                 request(options, function (error, response) {
                   if (error) throw new Error(error);
-                  //console.log(response);
+                  
                   if(response.statusCode==200)
                   {
                         var result = JSON.parse(response.body);
@@ -134,12 +134,16 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                   
                                   };
                                   request(options, function (error, response) {
-                                    if (error) throw new Error(error);
+                                    if (error) console.log(error);//throw new Error(error);
                                     //console.log(response);
                                     if(response.statusCode==200)
                                     {
-                                          counter = eval(counter+1);
+                                          //counter = eval(counter+1);
                                           //console.log(counter);
+                                    }
+                                    else
+                                    {
+                                      console.log(error);
                                     }
                                   });  
                         }
@@ -161,6 +165,10 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                     {
                                           counter = eval(counter+1);
                                           //console.log(counter);
+                                    }
+                                    else
+                                    {
+                                      console.log(error);
                                     }
                                   });
                         }
@@ -211,6 +219,10 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                             //counter = eval(counter+1);
                                             //console.log(counter);
                                       }
+                                      else
+                                      {
+                                        console.log(error);
+                                      }
                                     });
                               }
                               else
@@ -231,6 +243,10 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                           {
                                                 //counter = eval(counter+1);
                                                 //console.log(counter);
+                                          }
+                                          else
+                                          {
+                                            console.log(error);
                                           }
                                         });
                               }
@@ -280,6 +296,10 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                                 //counter = eval(counter+1);
                                                 //console.log(counter);
                                           }
+                                          else
+                                          {
+                                            console.log(error);
+                                          }
                                         });
                               }
                               else
@@ -300,6 +320,10 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                           {
                                                 counter = eval(counter+1);
                                                 //console.log(counter);
+                                          }
+                                          else
+                                          {
+                                            console.log(error);
                                           }
                                         });
                               }
@@ -347,6 +371,10 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                                 //counter = eval(counter+1);
                                                 //console.log(counter);
                                           }
+                                          else
+                                          {
+                                            console.log(error);
+                                          }
                                         });
                               }
                               else
@@ -367,6 +395,10 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                           {
                                                 counter = eval(counter+1);
                                                 //console.log(counter);
+                                          }
+                                          else
+                                          {
+                                            console.log(error);
                                           }
                                         });
                               }
@@ -414,6 +446,10 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                                 //counter = eval(counter+1);
                                                 //console.log(counter);
                                           }
+                                          else
+                                          {
+                                            console.log(error);
+                                          }
                                         });
                               }
                               else
@@ -434,6 +470,10 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                           {
                                                 counter = eval(counter+1);
                                                 //console.log(counter);
+                                          }
+                                          else
+                                          {
+                                            console.log(error);
                                           }
                                         });
                               }
@@ -481,6 +521,10 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                                 //counter = eval(counter+1);
                                                 //console.log(counter);
                                           }
+                                          else
+                                          {
+                                            console.log(error);
+                                          }
                                         });
                               }
                               else
@@ -501,6 +545,10 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                           {
                                                 counter = eval(counter+1);
                                                 //console.log(counter);
+                                          }
+                                          else
+                                          {
+                                            console.log(error);
                                           }
                                         });
                               }
@@ -548,6 +596,10 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                                 //counter = eval(counter+1);
                                                 //console.log(counter);
                                           }
+                                          else
+                                          {
+                                            console.log(error);
+                                          }
                                         });
                               }
                               else
@@ -568,6 +620,10 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                           {
                                                 counter = eval(counter+1);
                                                 //console.log(counter);
+                                          }
+                                          else
+                                          {
+                                            console.log(error);
                                           }
                                         });
                               }
@@ -615,6 +671,10 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                                 //counter = eval(counter+1);
                                                 //console.log(counter);
                                           }
+                                          else
+                                          {
+                                            console.log(error);
+                                          }
                                         });
                               }
                               else
@@ -635,6 +695,10 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                           {
                                                 counter = eval(counter+1);
                                                 //console.log(counter);
+                                          }
+                                          else
+                                          {
+                                            console.log(error);
                                           }
                                         });
                               }
@@ -682,6 +746,10 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                                 //counter = eval(counter+1);
                                                 //console.log(counter);
                                           }
+                                          else
+                                          {
+                                            console.log(error);
+                                          }
                                         });
                               }
                               else
@@ -702,6 +770,10 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                           {
                                                 counter = eval(counter+1);
                                                 //console.log(counter);
+                                          }
+                                          else
+                                          {
+                                            console.log(error);
                                           }
                                         });
                               }
