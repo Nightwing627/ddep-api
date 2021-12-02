@@ -62,6 +62,10 @@ router.post('/syncuser',upload.none(),function(req,res,next){
       var jsondata = req.body;
       var http_req = req.protocol+'://';
       const host = req.get('host');
+      if(host!="localhost:8004")
+      {
+        http_req="https://";
+      }
     const origin = req.get('origin');
     
       
@@ -87,8 +91,8 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                 console.log("sending request on");
                 console.log(options);
                 request(options, function (error, response) {
-                  console.log(error);
-                  console.log(response);
+                  //console.log(error);
+                  //console.log(response);
                   if (error) {
                     console.log("error in find record staff_tbl step 3");
                     throw new Error(error);
