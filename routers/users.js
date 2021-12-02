@@ -84,8 +84,11 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                   body: JSON.stringify({"id":item.user_name})
                 
                 };
+                console.log("sending request on");
+                console.log(options);
                 request(options, function (error, response) {
-
+                  console.log(error);
+                  console.log(response);
                   if (error) {
                     console.log("error in find record staff_tbl step 3");
                     throw new Error(error);
