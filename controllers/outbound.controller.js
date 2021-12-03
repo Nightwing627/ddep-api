@@ -102,13 +102,13 @@ if(!data.ProjectId) {
     });
 }
 
-const inbound = new Inbound({
+const outbound = new Outbound({
     ProjectCode: data.ProjectCode, 
     ProjectName: data.ProjectId,
     InboundData: data.InboundData
     
 });
-Inbound.findByIdAndUpdate(req.params.id,data, { new: true })
+Outbound.findByIdAndUpdate(req.params.id,data, { new: true })
     .then((inbound) => {
         //console.log(req.params.id);
       if (!inbound) {
@@ -131,5 +131,16 @@ Inbound.findByIdAndUpdate(req.params.id,data, { new: true })
 
 // Delete a note with the specified noteId in the request
 exports.delete = (req, res) => {
+    Outbound.findByIdAndRemove(req.params.id,function(err){
+        if(err)
+        {
 
+            res.json({"Status":"0","Msg":"","ErrMsg":err,"Data":[]});
+        }
+        else
+        {
+            res.json({"Status":"1","Msg":"Deleted Successfully","ErrMsg":"","Data":[]});
+
+        }
+    });
 };

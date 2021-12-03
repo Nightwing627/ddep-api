@@ -45,15 +45,25 @@ router.get('/user-list',function(req,res){
       res.render('pages/users');
 });
 router.put('/:id',users.update);
+router.delete('/:id',users.delete);
 router.put('/branch/:id',branch.update);
+router.delete('/branch/:id',branch.delete);
 router.put('/department/:id',department.update);
+router.delete('/department/:id',department.delete);
 router.put('/role/:id',role.update);
+router.delete('/role/:id',role.delete);
 router.put('/menuaccessright/:id',menufunc_access_right.update);
+router.delete('/menuaccessright/:id',menufunc_access_right.delete);
 router.put('/staffrole/:id',staf_role.update);
+router.delete('/staffrole/:id',staf_role.delete);
 router.put('/menufunc/:id',menufunc.update);
+router.delete('/menufunc/:id',menufunc.delete);
 router.put('/branch/:id',branch.update);
+router.delete('/branch/:id',branch.delete);
 router.put('/staff_branch/:id',staff_branch.update);
+router.delete('/staff_branch/:id',staff_branch.delete);
 router.put('/staff_department/:id',staff_department.update);
+router.delete('/staff_department/:id',staff_department.delete);
 
 router.get('/userajax',function(req,res){  
 })
@@ -77,9 +87,9 @@ router.post('/syncuser',upload.none(),function(req,res,next){
     //console.log(syncjson[0].tbl_staff);
     var counter = 0;
     syncjson.forEach(tablelist => {
-          console.log("decryped value successfully step 1");
+          
          tablelist.tbl_staff.forEach(item => {
-           console.log("tbl_staff loop searching for exsting record step 2");
+           
             var options = {
                   'method': 'POST',
                   'url': http_req+req.headers.host+'/users/single-user',
@@ -89,13 +99,12 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                   body: JSON.stringify({"id":item.user_name})
                 
                 };
-                console.log("sending request on");
-                console.log(options);
+                
                 request(options, function (error, response) {
                   //console.log(error);
                   //console.log(response);
                   if (error) {
-                    console.log("error in find record staff_tbl step 3");
+                    
                     throw new Error(error);
                   }
                   
@@ -104,14 +113,45 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                         var result = JSON.parse(response.body);
                         if(result.status)
                         {
-                              console.log("calling update staff record step 4");
-                              var options = {
-                                    'method': 'PUT',
+                              if(item.OperationType!="delete")
+                              {
+
+                                var options = {
+                                      'method': 'PUT',
+                                      'url': http_req+req.headers.host+'/users/'+result.data,
+                                      'headers': {
+                                        'Content-Type': 'application/json'
+                                      },
+                                      body: JSON.stringify(item)
+                                    
+                                    };
+                                    request(options, function (error, response) {
+                                      if (error){
+  
+                                        console.log(error);//throw new Error(error);
+                                      } 
+                                      //console.log(response);
+                                      if(response.statusCode==200)
+                                      {
+                                        //console.log("update record staff tbl step 5");  
+                                        //counter = eval(counter+1);
+                                            //console.log(counter);
+                                      }
+                                      else
+                                      {
+                                        
+                                      }
+                                    });  
+                              }
+                              else
+                              {
+                                  var options = {
+                                    'method': 'DELETE',
                                     'url': http_req+req.headers.host+'/users/'+result.data,
                                     'headers': {
                                       'Content-Type': 'application/json'
                                     },
-                                    body: JSON.stringify(item)
+                                    //body: JSON.stringify(item)
                                   
                                   };
                                   request(options, function (error, response) {
@@ -120,22 +160,26 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                       console.log(error);//throw new Error(error);
                                     } 
                                     //console.log(response);
-                                    if(response.statusCode==200)
+                                    if(response.Status==1)
                                     {
-                                      console.log("update record staff tbl step 5");  
+                                      //console.log("Delete record staff tbl step 5");  
                                       //counter = eval(counter+1);
                                           //console.log(counter);
                                     }
                                     else
                                     {
-                                      console.log("updation fail staff tbl step 6");
-                                      console.log(error);
+                                      //console.log("updation fail staff tbl step 6");
+                                      //console.log(error);
                                     }
-                                  });  
+                                  }); 
+                              }
                         }
                         else
                         {
-                            console.log("calling insert new value for staff tbl step 7");
+                            //console.log("calling insert new value for staff tbl step 7");
+                            if(item.OperationType!="delete")
+                            {
+
                               var options = {
                                     'method': 'POST',
                                     'url': http_req+req.headers.host+'/users/sync-user',
@@ -148,13 +192,13 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                   request(options, function (error, response) {
                                     if (error)
                                     {
-                                      console.log("error in valule insert step 8"+ error);
+                                      //console.log("error in valule insert step 8"+ error);
                                       throw new Error(error);
                                     } 
                                     //console.log(response);
                                     if(response.statusCode==200)
                                     {
-                                        console.log("staff tbl value inserted step 9");
+                                        //console.log("staff tbl value inserted step 9");
                                           //counter = eval(counter+1);
                                           //console.log(counter);
                                     }
@@ -163,6 +207,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                       console.log(error);
                                     }
                                   });
+                            }
                         }
                         //counter = eval(counter+1);
                         //console.log(counter);
@@ -194,31 +239,63 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               var result = JSON.parse(response.body);
                               if(result.status)
                               {
-                                var options = {
-                                      'method': 'PUT',
-                                      'url': http_req+req.headers.host+'/users/role/'+result.data,
-                                      'headers': {
-                                        'Content-Type': 'application/json'
-                                      },
-                                      body: JSON.stringify(item)
-                                    
-                                    };
-                                    request(options, function (error, response) {
-                                      if (error) throw new Error(error);
-                                      //console.log(response);
-                                      if(response.statusCode==200)
-                                      {
-                                            //counter = eval(counter+1);
-                                            //console.log(counter);
-                                      }
-                                      else
-                                      {
-                                        console.log(error);
-                                      }
-                                    });
+                                if(item.OperationType!="delete")
+                                {
+
+                                  var options = {
+                                        'method': 'PUT',
+                                        'url': http_req+req.headers.host+'/users/role/'+result.data,
+                                        'headers': {
+                                          'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(item)
+                                      
+                                      };
+                                      request(options, function (error, response) {
+                                        if (error) throw new Error(error);
+                                        //console.log(response);
+                                        if(response.statusCode==200)
+                                        {
+                                              //counter = eval(counter+1);
+                                              //console.log(counter);
+                                        }
+                                        else
+                                        {
+                                          console.log(error);
+                                        }
+                                      });
+                                }
+                                else
+                                {
+                                  var options = {
+                                    'method': 'DELETE',
+                                    'url': http_req+req.headers.host+'/users/role/'+result.data,
+                                    'headers': {
+                                      'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(item)
+                                  
+                                  };
+                                  request(options, function (error, response) {
+                                    if (error) throw new Error(error);
+                                    //console.log(response);
+                                    if(response.statusCode==200)
+                                    {
+                                          //counter = eval(counter+1);
+                                          //console.log(counter);
+                                    }
+                                    else
+                                    {
+                                      console.log(error);
+                                    }
+                                  });
+                                }
                               }
                               else
                               {
+                                  if(item.OperationType!="delete")
+                                  {
+
                                     var options = {
                                           'method': 'POST',
                                           'url': http_req+req.headers.host+'/users/role',
@@ -241,6 +318,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                             console.log(error);
                                           }
                                         });
+                                  }
                               }
                               //console.log(counter);
                         }
@@ -271,6 +349,9 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               var result = JSON.parse(response.body);
                               if(result.status)
                               {
+                                  if(item.OperationType!="delete")
+                                  {
+
                                     var options = {
                                           'method': 'PUT',
                                           'url': http_req+req.headers.host+'/users/staff_role/'+result.data,
@@ -293,31 +374,61 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                             console.log(error);
                                           }
                                         });
+                                  }
+                                  else
+                                  {
+                                    var options = {
+                                      'method': 'DELETE',
+                                      'url': http_req+req.headers.host+'/users/staff_role/'+result.data,
+                                      'headers': {
+                                        'Content-Type': 'application/json'
+                                      },
+                                      //body: JSON.stringify(item)
+                                    
+                                    };
+                                    request(options, function (error, response) {
+                                      if (error) throw new Error(error);
+                                      //console.log(response);
+                                      if(response.statusCode==200)
+                                      {
+                                            //counter = eval(counter+1);
+                                            //console.log(counter);
+                                      }
+                                      else
+                                      {
+                                        console.log(error);
+                                      }
+                                    });
+                                  }
                               }
                               else
                               {
-                                    var options = {
-                                          'method': 'POST',
-                                          'url': http_req+req.headers.host+'/users/staffrole',
-                                          'headers': {
-                                            'Content-Type': 'application/json'
-                                          },
-                                          body: JSON.stringify(item)
-                                        
-                                        };
-                                        request(options, function (error, response) {
-                                          if (error) throw new Error(error);
-                                          //console.log(response);
-                                          if(response.statusCode==200)
-                                          {
-                                                counter = eval(counter+1);
-                                                //console.log(counter);
-                                          }
-                                          else
-                                          {
-                                            console.log(error);
-                                          }
-                                        });
+                                if(item.OperationType!="delete")
+                                {
+
+                                  var options = {
+                                        'method': 'POST',
+                                        'url': http_req+req.headers.host+'/users/staffrole',
+                                        'headers': {
+                                          'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(item)
+                                      
+                                      };
+                                      request(options, function (error, response) {
+                                        if (error) throw new Error(error);
+                                        //console.log(response);
+                                        if(response.statusCode==200)
+                                        {
+                                              counter = eval(counter+1);
+                                              //console.log(counter);
+                                        }
+                                        else
+                                        {
+                                          console.log(error);
+                                        }
+                                      });
+                                }
                               }
                               //console.log(counter);
                         }
@@ -346,31 +457,63 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               var result = JSON.parse(response.body);
                               if(result.status)
                               {
-                                    var options = {
-                                          'method': 'PUT',
-                                          'url': http_req+req.headers.host+'/users/menuaccessright/'+result.data,
-                                          'headers': {
-                                            'Content-Type': 'application/json'
-                                          },
-                                          body: JSON.stringify(item)
-                                        
-                                        };
-                                        request(options, function (error, response) {
-                                          if (error) throw new Error(error);
-                                          //console.log(response);
-                                          if(response.statusCode==200)
-                                          {
-                                                //counter = eval(counter+1);
-                                                //console.log(counter);
-                                          }
-                                          else
-                                          {
-                                            console.log(error);
-                                          }
-                                        });
+                                if(item.OperationType!="delete")
+                                {
+
+                                  var options = {
+                                        'method': 'PUT',
+                                        'url': http_req+req.headers.host+'/users/menuaccessright/'+result.data,
+                                        'headers': {
+                                          'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(item)
+                                      
+                                      };
+                                      request(options, function (error, response) {
+                                        if (error) throw new Error(error);
+                                        //console.log(response);
+                                        if(response.statusCode==200)
+                                        {
+                                              //counter = eval(counter+1);
+                                              //console.log(counter);
+                                        }
+                                        else
+                                        {
+                                          console.log(error);
+                                        }
+                                      });
+                                }
+                                else
+                                {
+                                  var options = {
+                                    'method': 'DELETE',
+                                    'url': http_req+req.headers.host+'/users/menuaccessright/'+result.data,
+                                    'headers': {
+                                      'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(item)
+                                  
+                                  };
+                                  request(options, function (error, response) {
+                                    if (error) throw new Error(error);
+                                    //console.log(response);
+                                    if(response.statusCode==200)
+                                    {
+                                          //counter = eval(counter+1);
+                                          //console.log(counter);
+                                    }
+                                    else
+                                    {
+                                      console.log(error);
+                                    }
+                                  });
+                                }
                               }
                               else
                               {
+                                  if(item.OperationType!="delete")
+                                  {
+
                                     var options = {
                                           'method': 'POST',
                                           'url': http_req+req.headers.host+'/users/menuaccessright',
@@ -393,6 +536,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                             console.log(error);
                                           }
                                         });
+                                  }
                               }
                               //console.log(counter);
                         }
@@ -421,6 +565,9 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               var result = JSON.parse(response.body);
                               if(result.status)
                               {
+                                  if(item.OperationType!="delete")
+                                  {
+
                                     var options = {
                                           'method': 'PUT',
                                           'url': http_req+req.headers.host+'/users/menufunc/'+result.data,
@@ -443,9 +590,38 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                             console.log(error);
                                           }
                                         });
+                                  }
+                                  else
+                                  {
+                                    var options = {
+                                      'method': 'DELETE',
+                                      'url': http_req+req.headers.host+'/users/menufunc/'+result.data,
+                                      'headers': {
+                                        'Content-Type': 'application/json'
+                                      },
+                                      body: JSON.stringify(item)
+                                    
+                                    };
+                                    request(options, function (error, response) {
+                                      if (error) throw new Error(error);
+                                      //console.log(response);
+                                      if(response.statusCode==200)
+                                      {
+                                            //counter = eval(counter+1);
+                                            //console.log(counter);
+                                      }
+                                      else
+                                      {
+                                        console.log(error);
+                                      }
+                                    });
+                                  }
                               }
                               else
                               {
+                                  if(item.OperationType!="delete")
+                                  {
+
                                     var options = {
                                           'method': 'POST',
                                           'url': http_req+req.headers.host+'/users/menufunc',
@@ -468,6 +644,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                             console.log(error);
                                           }
                                         });
+                                  }
                               }
                               //console.log(counter);
                         }
@@ -496,6 +673,9 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               var result = JSON.parse(response.body);
                               if(result.status)
                               {
+                                  if(item.OperationType!="delete")
+                                  {
+
                                     var options = {
                                           'method': 'PUT',
                                           'url': http_req+req.headers.host+'/users/branch/'+result.data,
@@ -518,9 +698,38 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                             console.log(error);
                                           }
                                         });
+                                  }
+                                  else
+                                  {
+                                    var options = {
+                                      'method': 'DELETE',
+                                      'url': http_req+req.headers.host+'/users/branch/'+result.data,
+                                      'headers': {
+                                        'Content-Type': 'application/json'
+                                      },
+                                      //body: JSON.stringify(item)
+                                    
+                                    };
+                                    request(options, function (error, response) {
+                                      if (error) throw new Error(error);
+                                      //console.log(response);
+                                      if(response.statusCode==200)
+                                      {
+                                            //counter = eval(counter+1);
+                                            //console.log(counter);
+                                      }
+                                      else
+                                      {
+                                        console.log(error);
+                                      }
+                                    });
+                                  }
                               }
                               else
                               {
+                                  if(item.OperationType!="delete")
+                                  {
+
                                     var options = {
                                           'method': 'POST',
                                           'url': http_req+req.headers.host+'/users/branch',
@@ -543,6 +752,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                             console.log(error);
                                           }
                                         });
+                                  }
                               }
                               //console.log(counter);
                         }
@@ -571,6 +781,9 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               var result = JSON.parse(response.body);
                               if(result.status)
                               {
+                                  if(item.OperationType!="delete")
+                                  {
+
                                     var options = {
                                           'method': 'PUT',
                                           'url': http_req+req.headers.host+'/users/department/'+result.data,
@@ -593,9 +806,38 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                             console.log(error);
                                           }
                                         });
+                                  }
+                                  else
+                                  {
+                                    var options = {
+                                      'method': 'DELETE',
+                                      'url': http_req+req.headers.host+'/users/department/'+result.data,
+                                      'headers': {
+                                        'Content-Type': 'application/json'
+                                      },
+                                      //body: JSON.stringify(item)
+                                    
+                                    };
+                                    request(options, function (error, response) {
+                                      if (error) throw new Error(error);
+                                      //console.log(response);
+                                      if(response.statusCode==200)
+                                      {
+                                            //counter = eval(counter+1);
+                                            //console.log(counter);
+                                      }
+                                      else
+                                      {
+                                        console.log(error);
+                                      }
+                                    });
+                                  }
                               }
                               else
                               {
+                                  if(item.OperationType!="delete")
+                                  {
+
                                     var options = {
                                           'method': 'POST',
                                           'url': http_req+req.headers.host+'/users/department',
@@ -618,6 +860,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                             console.log(error);
                                           }
                                         });
+                                  }
                               }
                               //console.log(counter);
                         }
@@ -646,31 +889,63 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               var result = JSON.parse(response.body);
                               if(result.status)
                               {
-                                    var options = {
-                                          'method': 'PUT',
-                                          'url': http_req+req.headers.host+'/users/staff_branch/'+result.data,
-                                          'headers': {
-                                            'Content-Type': 'application/json'
-                                          },
-                                          body: JSON.stringify(item)
-                                        
-                                        };
-                                        request(options, function (error, response) {
-                                          if (error) throw new Error(error);
-                                          //console.log(response);
-                                          if(response.statusCode==200)
-                                          {
-                                                //counter = eval(counter+1);
-                                                //console.log(counter);
-                                          }
-                                          else
-                                          {
-                                            console.log(error);
-                                          }
-                                        });
+                                    if(item.OperationType!="delete")
+                                    {
+
+                                      var options = {
+                                            'method': 'PUT',
+                                            'url': http_req+req.headers.host+'/users/staff_branch/'+result.data,
+                                            'headers': {
+                                              'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify(item)
+                                          
+                                          };
+                                          request(options, function (error, response) {
+                                            if (error) throw new Error(error);
+                                            //console.log(response);
+                                            if(response.statusCode==200)
+                                            {
+                                                  //counter = eval(counter+1);
+                                                  //console.log(counter);
+                                            }
+                                            else
+                                            {
+                                              console.log(error);
+                                            }
+                                          });
+                                    }
+                                    else
+                                    {
+                                      var options = {
+                                        'method': 'DELETE',
+                                        'url': http_req+req.headers.host+'/users/staff_branch/'+result.data,
+                                        'headers': {
+                                          'Content-Type': 'application/json'
+                                        },
+                                        //body: JSON.stringify(item)
+                                      
+                                      };
+                                      request(options, function (error, response) {
+                                        if (error) throw new Error(error);
+                                        //console.log(response);
+                                        if(response.statusCode==200)
+                                        {
+                                              //counter = eval(counter+1);
+                                              //console.log(counter);
+                                        }
+                                        else
+                                        {
+                                          console.log(error);
+                                        }
+                                      });
+                                    }
                               }
                               else
                               {
+                                  if(item.OperationType!="delete")
+                                  {
+
                                     var options = {
                                           'method': 'POST',
                                           'url': http_req+req.headers.host+'/users/staff_branch',
@@ -693,6 +968,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                             console.log(error);
                                           }
                                         });
+                                  }
                               }
                               //console.log(counter);
                         }
@@ -721,31 +997,63 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                               var result = JSON.parse(response.body);
                               if(result.status)
                               {
+                                  if(item.OperationType!="delete")
+                                  {
+
+                                      var options = {
+                                        'method': 'PUT',
+                                        'url': http_req+req.headers.host+'/users/staff_branch/'+result.data,
+                                        'headers': {
+                                          'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(item)
+                                      
+                                      };
+                                      request(options, function (error, response) {
+                                        if (error) throw new Error(error);
+                                        //console.log(response);
+                                        if(response.statusCode==200)
+                                        {
+                                              //counter = eval(counter+1);
+                                              //console.log(counter);
+                                        }
+                                        else
+                                        {
+                                          console.log(error);
+                                        }
+                                      });
+                                  }
+                                  else
+                                  {
                                     var options = {
-                                          'method': 'PUT',
-                                          'url': http_req+req.headers.host+'/users/staff_department/'+result.data,
-                                          'headers': {
-                                            'Content-Type': 'application/json'
-                                          },
-                                          body: JSON.stringify(item)
-                                        
-                                        };
-                                        request(options, function (error, response) {
-                                          if (error) throw new Error(error);
-                                          //console.log(response);
-                                          if(response.statusCode==200)
-                                          {
-                                                //counter = eval(counter+1);
-                                                //console.log(counter);
-                                          }
-                                          else
-                                          {
-                                            console.log(error);
-                                          }
-                                        });
+                                      'method': 'DELETE',
+                                      'url': http_req+req.headers.host+'/users/staff_branch/'+result.data,
+                                      'headers': {
+                                        'Content-Type': 'application/json'
+                                      },
+                                      //body: JSON.stringify(item)
+                                    
+                                    };
+                                    request(options, function (error, response) {
+                                      if (error) throw new Error(error);
+                                      //console.log(response);
+                                      if(response.statusCode==200)
+                                      {
+                                            //counter = eval(counter+1);
+                                            //console.log(counter);
+                                      }
+                                      else
+                                      {
+                                        console.log(error);
+                                      }
+                                    });
+                                  }
                               }
                               else
                               {
+                                  if(item.OperationType!="delete")
+                                  {
+
                                     var options = {
                                           'method': 'POST',
                                           'url': http_req+req.headers.host+'/users/staff_department',
@@ -768,6 +1076,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                                             console.log(error);
                                           }
                                         });
+                                  }
                               }
                               //console.log(counter);
                         }
@@ -777,6 +1086,6 @@ router.post('/syncuser',upload.none(),function(req,res,next){
          } 
          
     });
-    res.json({"status":"1","msg":"Records Saved successfully"});
+    res.json({"Status":"1","Msg":"Records Saved successfully","ErrMsg":"","Data":[]});
 })
 module.exports = router;

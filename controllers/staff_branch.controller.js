@@ -103,5 +103,16 @@ exports.update = (req, res) => {
 
 // Delete a note with the specified noteId in the request
 exports.delete = (req, res) => {
+    staff_branch.findByIdAndRemove(req.params.id,function(err){
+        if(err)
+        {
 
+            res.json({"Status":"0","Msg":"","ErrMsg":err,"Data":[]});
+        }
+        else
+        {
+            res.json({"Status":"1","Msg":"Deleted Successfully","ErrMsg":"","Data":[]});
+
+        }
+    });
 };
