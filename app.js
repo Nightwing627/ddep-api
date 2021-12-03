@@ -41,15 +41,19 @@ app.use('/schedule_setting',scheduleSettingRouter);
 app.use('/inbound',inboundRouter);
 app.use('/outbound',outboundRouter);
 app.use('/scheduler_job',scheduler_job);
+//const host = req.get('host');
+const http_req = "http://";
+const host='localhost:8004';
+
 // cron.schedule('* * * * *', () => {
 //   console.log('running a task every minute');
-//   request('http://'+req.headers.host+'/scheduler_job/getScheduleProjectInfo/', function(error, response, body) {
+//   request(http_req+req.headers.host+'/scheduler_job/getScheduleProjectInfo/', function(error, response, body) {
 //         if (!error && response.statusCode == 200) {
-//             console.log('im ok');
-//             // console.log(body) // Show the HTML for the Google homepage.
+//             //console.log('im ok');
+//             console.log(body) // Show the HTML for the Google homepage.
 //         }
 //         console.log(error);
-//     })
+//     });
 // });
 
 app.use(function(req, res, next) {
@@ -60,7 +64,7 @@ app.use(function(req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
-    
+      host = req.get('host');
     // render the error page
     res.status(err.status || 500);
     res.render('pages/error');
@@ -70,10 +74,15 @@ app.use(function(req, res, next) {
   
   app.listen(port, function () {
     console.log('Server is running on PORT',port);
+    //console.log(host);
   });
+  if(host!="localhost:8004")
+  {
+    http_req="https://";
+  }
   function calltestfun()
   {
-      axios.get('http://localhost:8004/scheduler_job/getScheduleProjectInfo/')
+      axios.get(http_req+host+'/scheduler_job/getScheduleProjectInfo/')
       .then(response => {
         console.log(response.data);
       }).catch(error => {

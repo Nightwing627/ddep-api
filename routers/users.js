@@ -213,8 +213,6 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                         //console.log(counter);
                   }
                 });   
-            
-            
          });
          if(tablelist.tbl_role!=undefined)
          {
