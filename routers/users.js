@@ -21,6 +21,8 @@ const branch = require('../controllers/branch.controller.js');
 const department = require('../controllers/department.controller.js');
 const staff_branch = require('../controllers/staff_branch.controller.js');
 const staff_department = require('../controllers/staff_department.controller.js');
+const legal_entity = require('../controllers/legel_entity.controller.js');
+const staff_legal_entity = require('../controllers/staff_legal_entity.controller.js');
 const { json } = require('body-parser');
 router.post('/sync-user', users.create);
 router.post('/role',role.create);
@@ -40,6 +42,10 @@ router.post('/single-branch',branch.findOne);
 router.post('/single-department',department.findOne);
 router.post('/single-staff_department',staff_department.findOne);
 router.post('/staff_department',staff_department.create);
+router.post('/legal_entity',legal_entity.create);
+router.post('/single-legal_entity',legal_entity.findOne);
+router.post('/single-staff_legal_entity',staff_legal_entity.findOne);
+router.post('/staff_legal_entity',staff_legal_entity.create);
 router.get('/list',users.findAll);
 router.get('/user-list',function(req,res){
       res.render('pages/users');
@@ -64,6 +70,10 @@ router.put('/staff_branch/:id',staff_branch.update);
 router.delete('/staff_branch/:id',staff_branch.delete);
 router.put('/staff_department/:id',staff_department.update);
 router.delete('/staff_department/:id',staff_department.delete);
+router.put('/legal_entity/:id',legal_entity.update);
+router.delete('/legal_entity/:id',legal_entity.delete);
+router.put('/staff_legal_entity/:id',staff_legal_entity.update);
+router.delete('/staff_legal_entity/:id',staff_legal_entity.delete);
 
 router.get('/userajax',function(req,res){  
 })
@@ -87,9 +97,9 @@ router.post('/syncuser',upload.none(),function(req,res,next){
     //console.log(syncjson[0].tbl_staff);
     var counter = 0;
     syncjson.forEach(tablelist => {
-          
-         tablelist.tbl_staff.forEach(item => {
-           
+         if(tablelist.tbl_staff!=undefined){
+          tablelist.tbl_staff.forEach(item => {
+            
             var options = {
                   'method': 'POST',
                   'url': http_req+req.headers.host+'/users/single-user',
@@ -213,7 +223,8 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                         //console.log(counter);
                   }
                 });   
-         });
+          });
+         }
          if(tablelist.tbl_role!=undefined)
          {
                
@@ -226,7 +237,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                         'headers': {
                           'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({"id":item.id})
+                        body: JSON.stringify({"id":item.role_id})
                       
                       };
                       request(options, function (error, response) {
@@ -336,7 +347,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                         'headers': {
                           'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({"id":item.id})
+                        body: JSON.stringify({"id":item.guid_key})
                       
                       };
                       request(options, function (error, response) {
@@ -444,7 +455,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                         'headers': {
                           'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({"id":item.id})
+                        body: JSON.stringify({"id":item.RowId})
                       
                       };
                       request(options, function (error, response) {
@@ -552,7 +563,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                         'headers': {
                           'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({"id":item.id})
+                        body: JSON.stringify({"id":item.pkey})
                       
                       };
                       request(options, function (error, response) {
@@ -660,7 +671,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                         'headers': {
                           'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({"id":item.id})
+                        body: JSON.stringify({"id":item.branch_code})
                       
                       };
                       request(options, function (error, response) {
@@ -768,7 +779,7 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                         'headers': {
                           'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({"id":item.id})
+                        body: JSON.stringify({"id":item.department_code})
                       
                       };
                       request(options, function (error, response) {
@@ -1082,8 +1093,243 @@ router.post('/syncuser',upload.none(),function(req,res,next){
                   
                }); 
          } 
+         if(tablelist.tbl_legal_entity!=undefined)
+         {
+
+               tablelist.tbl_staff_department.forEach(item => {
+                  var options = {
+                        'method': 'POST',
+                        'url': http_req+req.headers.host+'/users/single-legal_entity',
+                        'headers': {
+                          'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({"id":item.legal_entity_code})
+                      
+                      };
+                      request(options, function (error, response) {
+                        if (error) throw new Error(error);
+                        //console.log(response);
+                        if(response.statusCode==200)
+                        {
+                              var result = JSON.parse(response.body);
+                              if(result.status)
+                              {
+                                  if(item.OperationType=="update")
+                                  {
+
+                                      var options = {
+                                        'method': 'PUT',
+                                        'url': http_req+req.headers.host+'/users/legal_entity/'+result.data,
+                                        'headers': {
+                                          'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(item)
+                                      
+                                      };
+                                      request(options, function (error, response) {
+                                        if (error) throw new Error(error);
+                                        //console.log(response);
+                                        if(response.statusCode==200)
+                                        {
+                                              //counter = eval(counter+1);
+                                              //console.log(counter);
+                                        }
+                                        else
+                                        {
+                                          console.log(error);
+                                        }
+                                      });
+                                  }
+                                  else if(item.OperationType=="delete")
+                                  {
+                                    var options = {
+                                      'method': 'DELETE',
+                                      'url': http_req+req.headers.host+'/users/legal_entity/'+result.data,
+                                      'headers': {
+                                        'Content-Type': 'application/json'
+                                      },
+                                      //body: JSON.stringify(item)
+                                    
+                                    };
+                                    request(options, function (error, response) {
+                                      if (error) throw new Error(error);
+                                      //console.log(response);
+                                      if(response.statusCode==200)
+                                      {
+                                            //counter = eval(counter+1);
+                                            //console.log(counter);
+                                      }
+                                      else
+                                      {
+                                        console.log(error);
+                                      }
+                                    });
+                                  }
+                              }
+                              else
+                              {
+                                  if(item.OperationType!="delete" && item.OperationType!="insert")
+                                  {
+
+                                    var options = {
+                                          'method': 'POST',
+                                          'url': http_req+req.headers.host+'/users/legal_entity',
+                                          'headers': {
+                                            'Content-Type': 'application/json'
+                                          },
+                                          body: JSON.stringify(item)
+                                        
+                                        };
+                                        request(options, function (error, response) {
+                                          if (error) throw new Error(error);
+                                          //console.log(response);
+                                          if(response.statusCode==200)
+                                          {
+                                                counter = eval(counter+1);
+                                                //console.log(counter);
+                                          }
+                                          else
+                                          {
+                                            console.log(error);
+                                          }
+                                        });
+                                  }
+                              }
+                              //console.log(counter);
+                        }
+                      });
+                  
+               }); 
+         } 
+         if(tablelist.tbl_staff_legal_entity!=undefined)
+         {
+
+               tablelist.tbl_staff_department.forEach(item => {
+                  var options = {
+                        'method': 'POST',
+                        'url': http_req+req.headers.host+'/users/single-staff_legal_entity',
+                        'headers': {
+                          'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({"id":item.id})
+                      
+                      };
+                      request(options, function (error, response) {
+                        if (error) throw new Error(error);
+                        //console.log(response);
+                        if(response.statusCode==200)
+                        {
+                              var result = JSON.parse(response.body);
+                              if(result.status)
+                              {
+                                  if(item.OperationType=="update")
+                                  {
+
+                                      var options = {
+                                        'method': 'PUT',
+                                        'url': http_req+req.headers.host+'/users/staff_legal_entity/'+result.data,
+                                        'headers': {
+                                          'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(item)
+                                      
+                                      };
+                                      request(options, function (error, response) {
+                                        if (error) throw new Error(error);
+                                        //console.log(response);
+                                        if(response.statusCode==200)
+                                        {
+                                              //counter = eval(counter+1);
+                                              //console.log(counter);
+                                        }
+                                        else
+                                        {
+                                          console.log(error);
+                                        }
+                                      });
+                                  }
+                                  else if(item.OperationType=="delete")
+                                  {
+                                    var options = {
+                                      'method': 'DELETE',
+                                      'url': http_req+req.headers.host+'/users/staff_legal_entity/'+result.data,
+                                      'headers': {
+                                        'Content-Type': 'application/json'
+                                      },
+                                      //body: JSON.stringify(item)
+                                    
+                                    };
+                                    request(options, function (error, response) {
+                                      if (error) throw new Error(error);
+                                      //console.log(response);
+                                      if(response.statusCode==200)
+                                      {
+                                            //counter = eval(counter+1);
+                                            //console.log(counter);
+                                      }
+                                      else
+                                      {
+                                        console.log(error);
+                                      }
+                                    });
+                                  }
+                              }
+                              else
+                              {
+                                  if(item.OperationType!="delete" && item.OperationType!="insert")
+                                  {
+
+                                    var options = {
+                                          'method': 'POST',
+                                          'url': http_req+req.headers.host+'/users/staff_legal_entity',
+                                          'headers': {
+                                            'Content-Type': 'application/json'
+                                          },
+                                          body: JSON.stringify(item)
+                                        
+                                        };
+                                        request(options, function (error, response) {
+                                          if (error) throw new Error(error);
+                                          //console.log(response);
+                                          if(response.statusCode==200)
+                                          {
+                                                counter = eval(counter+1);
+                                                //console.log(counter);
+                                          }
+                                          else
+                                          {
+                                            console.log(error);
+                                          }
+                                        });
+                                  }
+                              }
+                              //console.log(counter);
+                        }
+                      });
+                  
+               }); 
+         } 
          
     });
     res.json({"Status":"1","Msg":"Records Saved successfully","ErrMsg":"","Data":[]});
 })
+router.post('/testsync',upload.none(),function(req,res,next){
+  var Aes = new ase();
+      var jsondata = req.body;
+      var http_req = req.protocol+'://';
+      const host = req.get('host');
+      if(host!="localhost:8004")
+      {
+        http_req="https://";
+      }
+    const origin = req.get('origin');
+    
+      
+     //console.log(req.secure);
+    var post_data_s = Aes.Decrypt(unescape(jsondata.SyncData));
+    
+    var syncjson = eval("("+post_data_s+")");
+    console.log(syncjson.tbl_legal_entity);
+    res.json({"data":syncjson[0].tbl_legal_entity});
+});
 module.exports = router;

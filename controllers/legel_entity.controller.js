@@ -1,4 +1,4 @@
-const MenuFuncAccessRight = require('../models/tb_menufunc_access_right.model.js');
+const LegalEntity = require('../models/tbl_legal_entity.model.js');
 const ase = require('../my_modules/aes');
 
 // Create and Save a new Note
@@ -17,7 +17,7 @@ exports.create = (req, res) => {
     Object.entries(post_data).forEach(([key,value])=>{
         userdetails[key] = value; 
     });
-    const user = new MenuFuncAccessRight(userdetails);
+    const user = new LegalEntity(userdetails);
     user.save()
     .then(data => {
         //res.send(data);
@@ -34,7 +34,7 @@ exports.findAll = (req, res) => {
     //var page =req.query.page;
     //var limit =eval(req.query.limit);
    //console.log(limit*page);
-   MenuFuncAccessRight.find()
+   LegalEntity.find()
     .then(users => {
         res.status(200).send({data:users})
     }).catch(err => {
@@ -44,7 +44,7 @@ exports.findAll = (req, res) => {
     });
 };
 exports.countAll=(req,res)=>{
-    var query = User.find();
+    var query = LegalEntity.find();
     query.count(function (err, count) {
        res.status(200).send({total:count});
     });
@@ -54,9 +54,9 @@ exports.searchUser = (req,res)=>{
 }
 // Find a single note with a noteId
 exports.findOne = (req, res) => {
-    MenuFuncAccessRight.
+    LegalEntity.
     find().
-    where('RowId').equals(req.body.id).
+    where('legal_entity_code').equals(req.body.id).
     //where('age').gt(17).lt(50).  //Additional where query
     //limit(5).
     //sort({ age: -1 }).
@@ -80,8 +80,8 @@ exports.update = (req, res) => {
     Object.entries(post_data).forEach(([key,value])=>{
         userdetails[key] = value; 
     });
-    const user = new StaffRole(userdetails);
-    MenuFuncAccessRight.findByIdAndUpdate(req.params.id,userdetails, { new: true })
+    const user = new LegalEntity(userdetails);
+    LegalEntity.findByIdAndUpdate(req.params.id,userdetails, { new: true })
     .then((user) => {
         //console.log(req.params.id);
       if (!user) {
@@ -102,7 +102,7 @@ exports.update = (req, res) => {
 
 // Delete a note with the specified noteId in the request
 exports.delete = (req, res) => {
-    MenuFuncAccessRight.findByIdAndRemove(req.params.id,function(err){
+    LegalEntity.findByIdAndRemove(req.params.id,function(err){
         if(err)
         {
 

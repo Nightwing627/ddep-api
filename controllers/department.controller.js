@@ -56,7 +56,7 @@ exports.searchUser = (req,res)=>{
 exports.findOne = (req, res) => {
     Department.
     find().
-    where('id').equals(req.body.id).
+    where('department_code').equals(req.body.id).
     //where('age').gt(17).lt(50).  //Additional where query
     //limit(5).
     //sort({ age: -1 }).
