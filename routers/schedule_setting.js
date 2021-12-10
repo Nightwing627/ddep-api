@@ -20,5 +20,8 @@ router.put('/update/:id',schedule_setting.update);
 // router.get('/project-list',function(req,res){
 //     res.render('pages/list-project');
 // });
+router.get('/getnextdate',function(req,res){
+    res.json({"status":"1","msg":"run method successfully"});
+})
 
 module.exports = router;

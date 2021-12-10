@@ -20,6 +20,8 @@ $(function () {
           var inbound_server_detail = {};
           var outbound_detail = {};
           var schedule_detail ={};
+          $('#weekly_fields').hide();
+          $('#monthly_fields').hide();  
   // Adds crossed class
   if (typeof bsStepper !== undefined && bsStepper !== null) {
     for (var el = 0; el < bsStepper.length; ++el) {
@@ -27,7 +29,7 @@ $(function () {
         var index = event.detail.indexStep;
         var numberOfSteps = $(event.target).find('.step').length - 1;
         var line = $(event.target).find('.step');
-
+        
         // The first for loop is for increasing the steps,
         // the second is for turning them off when going back
         // and the third with the if statement because the last line
@@ -106,8 +108,11 @@ $(function () {
           inbound_format: {
             required: true
           },
-          recurs_count: {
-            required: true
+          recurs_count_inbound: {
+            required: true,
+            min:1,
+            digits:true
+
           },
           recurs_time: {
             required: true
@@ -539,6 +544,47 @@ $(function () {
           }
         }
       });
+      
+      $('input[name=s_configure_inbound]').on('change',function(){
+        if($(this).val()=='click_by_user')
+        {
+          $('div.relation-schedule-open').slideUp('slow');
+        }
+        else
+        {
+          $('div.relation-schedule-open').slideDown('slow');
+        }
+      });
+      $('#occurs_time_inbound').on('change',function(){
+        if($(this).val()=='daily')
+        {
+          $('#weekly_fields').slideUp('slow');
+          $('#monthly_fields').slideUp('slow');
+        }
+        if($(this).val()=='weekly')
+        {
+          $('#monthly_fields').slideUp('slow');
+          $('#weekly_fields').slideDown('slow')
+        }
+        if($(this).val()=='monthly')
+        {
+          $('#weekly_fields').slideUp('slow');
+          $('#monthly_fields').slideDown('slow');
+        }
+      });
+      $('#the_section').hide();
+      $('input[name=inbound_monthly_day]').on('change',function(){
+        if($(this).val()=='day')
+        {
+          $('#the_section').slideUp('slow');
+          $('#day_txt_box').slideDown('slow');
+        }
+        if($(this).val()=='The')
+        {
+          $('#day_txt_box').slideUp('slow');
+          $('#the_section').slideDown('slow');
+        }
+      });
   }
 
   // Vertical Wizard
@@ -612,4 +658,5 @@ $(function () {
         alert('Submitted..!!');
       });
   }
+  
 });
