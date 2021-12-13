@@ -58,7 +58,7 @@ const host='localhost:8004';
 
 app.use(function(req, res, next) {
     next(createError(404));
-    host = req.get('host');
+    //host = req.get('host');
   });
   //error handler
   app.use(function(err, req, res, next) {
@@ -84,7 +84,7 @@ app.use(function(req, res, next) {
   }
   function calltestfun()
   {
-      axios.get(http_req+host+'/scheduler_job/getScheduleProjectInfo/')
+      axios.get("http://localhost:8004"+'/scheduler_job/getScheduleProjectInfo/')
       .then(response => {
         console.log(response.data);
       }).catch(error => {

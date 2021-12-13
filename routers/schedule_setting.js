@@ -21,7 +21,8 @@ router.put('/update/:id',schedule_setting.update);
 //     res.render('pages/list-project');
 // });
 router.get('/getnextdate',function(req,res){
-    res.json({"status":"1","msg":"run method successfully"});
-})
+    
+    //res.json({"status":"1","msg":"run method successfully"});
+});
 
 module.exports = router;
