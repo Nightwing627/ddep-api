@@ -23,6 +23,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
     request(config.domain+'/projects/fulllist/', function (error, response, body) {
     
     var data = JSON.parse(body);
+    //console.log(data);
     if(response.statusCode==200)
     {
         //console.log(data);
@@ -109,7 +110,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
                                     "project_id": project_id,
                                     "inbound_data": data
                                     })
-                                
+                                    
                                 };
                                 request(options, function (error, response) {
                                     //console.log(response);
@@ -118,7 +119,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
                                         scheduelerunning++
                                     //res.json({'status':'true','msg':'Inbound Run Successfully'});
                                 });
-                                
+                                //console.log("inbound run");
                             }
                             else
                             {
