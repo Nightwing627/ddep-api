@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var request = require('request');
 const ftp = require('../my_modules/FTPClient');
+const config = require('../config/default');
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
 //app.use(cookieParser());
@@ -15,7 +16,7 @@ router.put('/:id',outbound.update);
 router.post('/runbyuser',function(req,res){
     var options = {
         'method': 'POST',
-        'url': 'http://localhost:8004/outbound/run',
+        'url': config.domain+'/outbound/run',
         'headers': {
           'Content-Type': 'application/json'
         },

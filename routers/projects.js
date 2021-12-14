@@ -6,6 +6,7 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 var path = require('path');
 const ftp = require('../my_modules/FTPClient');
+const config = require('../config/default');
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
 //app.use(cookieParser());
@@ -84,7 +85,7 @@ router.post('/download',function(req,res){
               }
             var options = {
                 'method': 'POST',
-                'url': 'http://'+req.headers.host+'/inbound/run',
+                'url': config.domain+'/inbound/run',
                 'headers': {
                   'Content-Type': 'application/json'
                 },

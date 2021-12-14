@@ -6,6 +6,7 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 var path = require('path');
 const ftp = require('../my_modules/FTPClient');
+const config = require('../config/default');
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
 //app.use(cookieParser());
@@ -19,7 +20,7 @@ const { $where } = require('../models/user.model');
 
 //router.get('/fulllist',projects.fullProject);
 router.get('/getScheduleProjectInfo',function(req,res){
-    request('http://'+req.headers.host+'/projects/fulllist/', function (error, response, body) {
+    request(config.domain+'/projects/fulllist/', function (error, response, body) {
     
     var data = JSON.parse(body);
     if(response.statusCode==200)
@@ -99,7 +100,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
                                 }
                                 var options = {
                                     'method': 'POST',
-                                    'url': 'http://'+req.headers.host+'/inbound/run',
+                                    'url': config.domain+'/inbound/run',
                                     'headers': {
                                     'Content-Type': 'application/json'
                                     },

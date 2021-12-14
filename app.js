@@ -7,6 +7,7 @@ var request = require('request');
 var logger = require('morgan');
 var session = require('express-session');
 const dbConfig = require('./config/db.config.js');
+const config = require('./config/default');
 const mongoose = require('mongoose');
 var cron = require('node-cron');
 mongoose.Promise = global.Promise;
@@ -42,8 +43,7 @@ app.use('/inbound',inboundRouter);
 app.use('/outbound',outboundRouter);
 app.use('/scheduler_job',scheduler_job);
 //const host = req.get('host');
-const http_req = "http://";
-const host='localhost:8004';
+;
 
 // cron.schedule('* * * * *', () => {
 //   console.log('running a task every minute');
@@ -58,7 +58,7 @@ const host='localhost:8004';
 
 app.use(function(req, res, next) {
     next(createError(404));
-    //host = req.get('host');
+    
   });
   //error handler
   app.use(function(err, req, res, next) {
@@ -78,13 +78,10 @@ app.use(function(req, res, next) {
     //console.log(host);
   });
   
-  if(host!="localhost:8004")
-  {
-    http_req="https://";
-  }
+  
   function calltestfun()
   {
-      axios.get("http://localhost:8004"+'/scheduler_job/getScheduleProjectInfo/')
+      axios.get(config.domain+'/scheduler_job/getScheduleProjectInfo/')
       .then(response => {
         console.log(response.data);
       }).catch(error => {
