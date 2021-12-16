@@ -488,6 +488,8 @@ $(function () {
           var occurs_inbound =$('#occurs_time_inbound').val();
           var monthly_field_setting_inbound = [];
           var monthly_field_setting_outbound = [];
+          var occurs_weekly_fields_inbound = [];
+          var occurs_weekly_fields_outbound = [];
           if(occurs_inbound=="daily")
           {
 
@@ -516,7 +518,11 @@ $(function () {
           }
           else if(occurs_inbound=="weekly")
           {
-            
+              $('input[name = occurs_weekly_fields_inbound]:checked').each(function(){
+                var tmp_week_obj = {}
+                tmp_week_obj['day'] = $(this).val();
+                occurs_weekly_fields_inbound.push(tmp_week_obj);
+              });
           }
           var recurs_count_inbound =$('#recurs_count_inbound').val();
           var recurs_time_inbound =$('#recurs_time_inbound').val();
@@ -555,7 +561,11 @@ $(function () {
           }
           else if(occurs_outbound=="weekly")
           {
-            
+            $('input[name = occurs_weekly_fields_outbound]:checked').each(function(){
+              var tmp_week_obj = {}
+              tmp_week_obj['day'] = $(this).val();
+              occurs_weekly_fields_outbound.push(tmp_week_obj);
+            });
           }
           if(schedule_setting_id=="")
           {
@@ -568,12 +578,14 @@ $(function () {
                 schedule_type_inbound:schedule_type_inbound,
                 occurs_inbound:occurs_inbound,
                 monthly_field_setting_inbound:monthly_field_setting_inbound,
+                occurs_weekly_fields_inbound:occurs_weekly_fields_inbound,
                 recurs_count_inbound:recurs_count_inbound,
                 recurs_time_inbound:recurs_time_inbound,
                 Schedule_configure_outbound:Schedule_configure_outbound,
                 schedule_type_outbound:schedule_type_outbound,
                 occurs_outbound:occurs_outbound,
                 monthly_field_setting_outbound:monthly_field_setting_outbound,
+                occurs_weekly_fields_outbound:occurs_weekly_fields_outbound,
                 recurs_count_outbound:recurs_count_outbound,
                 recurs_time_outbound:recurs_time_outbound
               },
@@ -595,12 +607,14 @@ $(function () {
                 schedule_type_inbound:schedule_type_inbound,
                 occurs_inbound:occurs_inbound,
                 monthly_field_setting_inbound:monthly_field_setting_inbound,
+                occurs_weekly_fields_inbound:occurs_weekly_fields_inbound,
                 recurs_count_inbound:recurs_count_inbound,
                 recurs_time_inbound:recurs_time_inbound,
                 Schedule_configure_outbound:Schedule_configure_outbound,
                 schedule_type_outbound:schedule_type_outbound,
                 occurs_outbound:occurs_outbound,
                 monthly_field_setting_outbound:monthly_field_setting_outbound,
+                occurs_weekly_fields_outbound:occurs_weekly_fields_outbound,
                 recurs_count_outbound:recurs_count_outbound,
                 recurs_time_outbound:recurs_time_outbound
               },

@@ -45,16 +45,6 @@ app.use('/scheduler_job',scheduler_job);
 //const host = req.get('host');
 ;
 
-// cron.schedule('* * * * *', () => {
-//   console.log('running a task every minute');
-//   request(http_req+req.headers.host+'/scheduler_job/getScheduleProjectInfo/', function(error, response, body) {
-//         if (!error && response.statusCode == 200) {
-//             //console.log('im ok');
-//             console.log(body) // Show the HTML for the Google homepage.
-//         }
-//         console.log(error);
-//     });
-// });
 
 app.use(function(req, res, next) {
     next(createError(404));

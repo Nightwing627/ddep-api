@@ -386,6 +386,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
                     }
                     else if(item.schedule_setting.occurs_inbound=="monthly")
                     {
+                        
                         if(item.schedule_setting.monthly_field_setting_inbound[0].nextdate==undefined)
                         {
                             if(item.schedule_setting.monthly_field_setting_inbound[0].inbound_monthly_day=="day")
@@ -552,11 +553,88 @@ router.get('/getScheduleProjectInfo',function(req,res){
                     }
                     else if(item.schedule_setting.occurs_inbound=="weekly")
                     {
-                        if(currenttime==item.schedule_setting.recurs_time_inbound)
-                        {
+                        
+                        item.schedule_setting.occurs_weekly_fields_inbound.forEach(weekday=>{
+                            if(weekday.day=="Monday")
+                            {
+                                if(date_ob.getDay()==1)
+                                {
+                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                    {
 
-                            list_arr_inbound.push(item);
-                        }
+                                        list_arr_inbound.push(item);
+                                    }
+                                }
+                            }
+                            else if(weekday.day=="Tuesday")
+                            {
+                                if(date_ob.getDay()==2)
+                                {
+                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                    {
+
+                                        list_arr_inbound.push(item);
+                                    }
+                                }
+                            }
+                            else if(weekday.day=="Wednesday")
+                            {
+                                if(date_ob.getDay()==3)
+                                {
+                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                    {
+
+                                        list_arr_inbound.push(item);
+                                    }
+                                }
+                            }
+                            else if(weekday.day=="Thursday")
+                            {
+                                
+                                if(date_ob.getDay()==4)
+                                {
+                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                    {
+
+                                        list_arr_inbound.push(item);
+                                    }
+                                }
+                            }
+                            else if(weekday.day=="Friday")
+                            {
+                                if(date_ob.getDay()==5)
+                                {
+                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                    {
+
+                                        list_arr_inbound.push(item);
+                                    }
+                                }
+                            }
+                            else if(weekday.day=="Saturday")
+                            {
+                                if(date_ob.getDay()==6)
+                                {
+                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                    {
+
+                                        list_arr_inbound.push(item);
+                                    }
+                                }
+                            }
+                            else if(weekday.day=="Sunday")
+                            {
+                                if(date_ob.getDay()==0)
+                                {
+                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                    {
+
+                                        list_arr_inbound.push(item);
+                                    }
+                                }
+                            }
+                        })
+                        
                         //list_arr_inbound.push(item);
                     }
                     if(item.schedule_setting.occurs_outbound=="daily")
@@ -736,7 +814,85 @@ router.get('/getScheduleProjectInfo',function(req,res){
                     }
                     else if(item.schedule_setting.occurs_outbound=="weekly")
                     {
-                        list_arr_outbound.push(item);
+                        item.schedule_setting.occurs_weekly_fields_outbound.forEach(weekday=>{
+                            if(weekday.day=="Monday")
+                            {
+                                if(date_ob.getDay()==1)
+                                {
+                                    if(currenttime==item.schedule_setting.recurs_time_outbound)
+                                    {
+
+                                        list_arr_outbound.push(item);
+                                    }
+                                }
+                            }
+                            else if(weekday.day=="Tuesday")
+                            {
+                                if(date_ob.getDay()==2)
+                                {
+                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                    {
+
+                                        list_arr_outbound.push(item);
+                                    }
+                                }
+                            }
+                            else if(weekday.day=="Wednesday")
+                            {
+                                if(date_ob.getDay()==3)
+                                {
+                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                    {
+
+                                        list_arr_outbound.push(item);
+                                    }
+                                }
+                            }
+                            else if(weekday.day=="Thursday")
+                            {
+                                if(date_ob.getDay()==4)
+                                {
+                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                    {
+
+                                        list_arr_outbound.push(item);
+                                    }
+                                }
+                            }
+                            else if(weekday.day=="Friday")
+                            {
+                                if(date_ob.getDay()==5)
+                                {
+                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                    {
+
+                                        list_arr_outbound.push(item);
+                                    }
+                                }
+                            }
+                            else if(weekday.day=="Saturday")
+                            {
+                                if(date_ob.getDay()==6)
+                                {
+                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                    {
+
+                                        list_arr_outbound.push(item);
+                                    }
+                                }
+                            }
+                            else if(weekday.day=="Sunday")
+                            {
+                                if(date_ob.getDay()==0)
+                                {
+                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                    {
+                                        list_arr_outbound.push(item);
+                                    }
+                                }
+                            }
+                        })
+                        //list_arr_outbound.push(item);
                     }
                     
                     //list_arr_inbound.push(item);
