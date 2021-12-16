@@ -106,12 +106,15 @@ exports.create = (req, res) => {
         recurs_time_inbound: data.recurs_time_inbound,
         occurs_weekly_fields_inbound:data.occurs_weekly_fields_inbound,
         monthly_field_setting_inbound:data.monthly_field_setting_inbound,
-        next_date_inbound:data.next_date_inbound,
+        //next_date_inbound:data.next_date_inbound,
         Schedule_configure_outbound: data.Schedule_configure_outbound,
         schedule_type_outbound: data.schedule_type_outbound,
         occurs_outbound: data.occurs_outbound,
         recurs_count_outbound: data.recurs_count_outbound,
         recurs_time_outbound: data.recurs_time_outbound,
+        occurs_weekly_fields_outbound:data.occurs_weekly_fields_outbound,
+        monthly_field_setting_outbound:data.monthly_field_setting_outbound,
+        //next_date_outbound:data.next_date_outbound,
         
     });
     scheduleSetting.save()

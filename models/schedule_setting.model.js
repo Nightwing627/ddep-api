@@ -18,7 +18,10 @@ const ScheduleSettingSchema = mongoose.Schema({
         occurs_outbound: String,
         recurs_count_outbound: String,
         recurs_time_outbound:String ,
-        next_date_inbound :{type:Date,"default":Date.now}
+        occurs_weekly_fields_outbound:{ type : Array , "default" : [] },
+        monthly_field_setting_outbound:{type:Array,"default":[]},
+        next_date_inbound :{type:Date,"default":Date.now},
+        next_date_outbound :{type:Date,"default":Date.now}
      
     //OutboundSetting: ProjectSchema.Types.Mixed,
     //ScheduleSetting: ProjectSchema.Types.Mixed,

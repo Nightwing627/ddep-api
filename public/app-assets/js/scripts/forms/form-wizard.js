@@ -21,7 +21,9 @@ $(function () {
           var outbound_detail = {};
           var schedule_detail ={};
           $('#weekly_fields').hide();
+          $('#weekly_fields_outbound').hide();
           $('#monthly_fields').hide();  
+          $('#monthly_fields_outbound').hide();  
   // Adds crossed class
   if (typeof bsStepper !== undefined && bsStepper !== null) {
     for (var el = 0; el < bsStepper.length; ++el) {
@@ -484,14 +486,77 @@ $(function () {
           var Schedule_configure_inbound = $('input[name="s_configure_inbound"]:checked').val();
           var schedule_type_inbound = $('input[name="schedule_type_inbound"]:checked').val();
           var occurs_inbound =$('#occurs_time_inbound').val();
+          var monthly_field_setting_inbound = [];
+          var monthly_field_setting_outbound = [];
+          if(occurs_inbound=="daily")
+          {
+
+          }
+          else if(occurs_inbound=="monthly")
+          {
+             var inbound_monthly_day=$('input[name=inbound_monthly_day]:checked').val();
+             if(inbound_monthly_day=="day")
+             {
+               var temp_obj = {};
+                var per_day = $('#per_day').val();
+                temp_obj['inbound_monthly_day'] = "day";
+                temp_obj['per_day'] = per_day;
+                monthly_field_setting_inbound.push(temp_obj);
+             }
+             else
+             {
+                var temp_obj = {};
+                var the_day_of = $('#the_day_of').val();
+                var the_days = $('#the_days').val();
+                temp_obj['inbound_monthly_day'] = "the";
+                temp_obj['the_day_of'] = the_day_of;
+                temp_obj['the_days'] = the_days;
+                monthly_field_setting_inbound.push(temp_obj);
+             }
+          }
+          else if(occurs_inbound=="weekly")
+          {
+            
+          }
           var recurs_count_inbound =$('#recurs_count_inbound').val();
           var recurs_time_inbound =$('#recurs_time_inbound').val();
          
           var Schedule_configure_outbound = $('input[name="s_configure_inbound"]:checked').val();
           var schedule_type_outbound = $('input[name="schedule_type_outbound"]:checked').val();
-          var occurs_outbound =$('#occurs_time_inbound').val();
+          var occurs_outbound =$('#occurs_time_outbound').val();
+        
           var recurs_count_outbound =$('#recurs_count_outbound').val();
           var recurs_time_outbound =$('#recurs_time_outbound').val();
+          if(occurs_outbound=="daily")
+          {
+
+          }
+          else if(occurs_outbound=="monthly")
+          {
+             var outbound_monthly_day=$('input[name=outbound_monthly_day]:checked').val();
+             if(outbound_monthly_day=="day")
+             {
+               var temp_obj = {};
+                var per_day = $('#per_day_outbound').val();
+                temp_obj['outbound_monthly_day'] = "day";
+                temp_obj['per_day'] = per_day;
+                monthly_field_setting_outbound.push(temp_obj);
+             }
+             else
+             {
+                var temp_obj = {};
+                var the_day_of_outbound = $('#the_day_of_outbound').val();
+                var the_days_outbound = $('#the_days_outbound').val();
+                temp_obj['outbound_monthly_day'] = "the";
+                temp_obj['the_day_of'] = the_day_of_outbound;
+                temp_obj['the_days'] = the_days_outbound;
+                monthly_field_setting_outbound.push(temp_obj);
+             }
+          }
+          else if(occurs_outbound=="weekly")
+          {
+            
+          }
           if(schedule_setting_id=="")
           {
             $.ajax({
@@ -502,11 +567,13 @@ $(function () {
                 Schedule_configure_inbound:Schedule_configure_inbound,
                 schedule_type_inbound:schedule_type_inbound,
                 occurs_inbound:occurs_inbound,
+                monthly_field_setting_inbound:monthly_field_setting_inbound,
                 recurs_count_inbound:recurs_count_inbound,
                 recurs_time_inbound:recurs_time_inbound,
                 Schedule_configure_outbound:Schedule_configure_outbound,
                 schedule_type_outbound:schedule_type_outbound,
                 occurs_outbound:occurs_outbound,
+                monthly_field_setting_outbound:monthly_field_setting_outbound,
                 recurs_count_outbound:recurs_count_outbound,
                 recurs_time_outbound:recurs_time_outbound
               },
@@ -527,11 +594,13 @@ $(function () {
                 Schedule_configure_inbound:Schedule_configure_inbound,
                 schedule_type_inbound:schedule_type_inbound,
                 occurs_inbound:occurs_inbound,
+                monthly_field_setting_inbound:monthly_field_setting_inbound,
                 recurs_count_inbound:recurs_count_inbound,
                 recurs_time_inbound:recurs_time_inbound,
                 Schedule_configure_outbound:Schedule_configure_outbound,
                 schedule_type_outbound:schedule_type_outbound,
                 occurs_outbound:occurs_outbound,
+                monthly_field_setting_outbound:monthly_field_setting_outbound,
                 recurs_count_outbound:recurs_count_outbound,
                 recurs_time_outbound:recurs_time_outbound
               },
@@ -555,6 +624,16 @@ $(function () {
           $('div.relation-schedule-open').slideDown('slow');
         }
       });
+      $('input[name=s_configure_outbound]').on('change',function(){
+        if($(this).val()=='click_by_user')
+        {
+          $('div.relation-outbound-schedule-open').slideUp('slow');
+        }
+        else
+        {
+          $('div.relation-outbound-schedule-open').slideDown('slow');
+        }
+      });
       $('#occurs_time_inbound').on('change',function(){
         if($(this).val()=='daily')
         {
@@ -572,7 +651,27 @@ $(function () {
           $('#monthly_fields').slideDown('slow');
         }
       });
+
+      $('#occurs_time_outbound').on('change',function(){
+        if($(this).val()=='daily')
+        {
+          $('#weekly_fields_outbound').slideUp('slow');
+          $('#monthly_fields_outbound').slideUp('slow');
+        }
+        if($(this).val()=='weekly')
+        {
+          $('#monthly_fields_outbound').slideUp('slow');
+          $('#weekly_fields_outbound').slideDown('slow')
+        }
+        if($(this).val()=='monthly')
+        {
+          $('#weekly_fields_outbound').slideUp('slow');
+          $('#monthly_fields_outbound').slideDown('slow');
+        }
+      });
+
       $('#the_section').hide();
+      $('#the_section_outbound').hide();
       $('input[name=inbound_monthly_day]').on('change',function(){
         if($(this).val()=='day')
         {
@@ -583,6 +682,19 @@ $(function () {
         {
           $('#day_txt_box').slideUp('slow');
           $('#the_section').slideDown('slow');
+        }
+      });
+
+      $('input[name=outbound_monthly_day]').on('change',function(){
+        if($(this).val()=='day')
+        {
+          $('#the_section_outbound').slideUp('slow');
+          $('#day_txt_box_outbound').slideDown('slow');
+        }
+        if($(this).val()=='The')
+        {
+          $('#day_txt_box_outbound').slideUp('slow');
+          $('#the_section_outbound').slideDown('slow');
         }
       });
   }
