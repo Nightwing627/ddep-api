@@ -156,6 +156,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
            //res.json('total schedule running now'+scheduelerunning);
            
        });
+       res.end("OK")
        //res.json(list_arr_outbound);
        console.log('running schedule now');
     }
