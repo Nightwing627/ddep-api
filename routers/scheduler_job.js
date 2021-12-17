@@ -18,6 +18,7 @@ const inbound_setting = require('../controllers/inbound_setting.controller.js');
 const outbound_setting = require('../controllers/outbound_setting.controller.js');
 const schedule_setting = require('../controllers/schedule_setting.controller.js');
 const { $where } = require('../models/user.model');
+const CalenderHelper = require('../my_modules/CalenderHelper');
 
 //router.get('/fulllist',projects.fullProject);
 router.get('/getScheduleProjectInfoOLD',function(req,res){
@@ -376,619 +377,1319 @@ router.get('/getScheduleProjectInfo',function(req,res){
                var currenttime = date_ob.getHours() + ":" +(date_ob.getMinutes()<10?'0':'') + date_ob.getMinutes();
                if(item.schedule_setting.Schedule_configure_inbound!='click_by_user')
                {
-                    if(item.schedule_setting.occurs_inbound=="daily")
-                    {
-                        if(currenttime==item.schedule_setting.recurs_time_inbound)
-                        {
+                   if(item.schedule_setting.createdAt==item.schedule_setting.next_date_inbound)
+                   {
 
-                            list_arr_inbound.push(item);
-                        }
-                    }
-                    else if(item.schedule_setting.occurs_inbound=="monthly")
-                    {
-                        
-                        if(item.schedule_setting.monthly_field_setting_inbound[0].nextdate==undefined)
-                        {
-                            if(item.schedule_setting.monthly_field_setting_inbound[0].inbound_monthly_day=="day")
-                            {
-                                var today_date = date_ob.getDate();
-                                console.log("today_date"+today_date);
-                                if(item.schedule_setting.monthly_field_setting_inbound[0].per_day==today_date)
-                                {
-                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
-                                    {
-                                        list_arr_inbound.push(item);
-                                    }
-                                }
-                            }
-                            if(item.schedule_setting.monthly_field_setting_inbound[0].inbound_monthly_day=="The")
-                            {
-                                var the_day_of = item.schedule_setting.monthly_field_setting_inbound[0].the_day_of;
-                                var the_days =item.schedule_setting.monthly_field_setting_inbound[0].the_days;
-                                var new_date ;
-                                var date = new Date();
-                                var mycalen = new my_calender();
-                                if(the_day_of=="first")
-                                {
+                       if(item.schedule_setting.occurs_inbound=="daily")
+                       {
+                           if(currenttime==item.schedule_setting.recurs_time_inbound)
+                           {
+   
+                               list_arr_inbound.push(item);
+                           }
+                       }
+                       else if(item.schedule_setting.occurs_inbound=="monthly")
+                       {
+                           
+                           if(item.schedule_setting.monthly_field_setting_inbound[0].nextdate==undefined)
+                           {
+                               if(item.schedule_setting.monthly_field_setting_inbound[0].inbound_monthly_day=="day")
+                               {
+                                   var today_date = date_ob.getDate();
+                                   console.log("today_date"+today_date);
+                                   if(item.schedule_setting.monthly_field_setting_inbound[0].per_day==today_date)
+                                   {
+                                       if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                       {
+                                           list_arr_inbound.push(item);
+                                       }
+                                   }
+                               }
+                               if(item.schedule_setting.monthly_field_setting_inbound[0].inbound_monthly_day=="The")
+                               {
+                                   var the_day_of = item.schedule_setting.monthly_field_setting_inbound[0].the_day_of;
+                                   var the_days =item.schedule_setting.monthly_field_setting_inbound[0].the_days;
+                                   var new_date ;
+                                   var date = new Date();
+                                   var mycalen = new my_calender();
+                                   if(the_day_of=="first")
+                                   {
+                                      
+                                       
+                                       if(the_days=="Sunday" || the_days=="Weekend")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(0,1,date);
+                                       }
+                                       else if(the_days=="Saturday" || the_days=="Weekend")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(6,1,date);
+                                       }
+                                       else if(the_days=="Monday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(1,1,date);
+                                       }
+                                       else if(the_days=="Tuesday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(2,1,date);
+                                       }
+                                       else if(the_days=="Wednesday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(3,1,date);
+                                       }
+                                       else if(the_days=="Thursday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(4,1,date);
+                                       }
+                                       else if(the_days=="Friday" || the_days=="Weekday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(5,1,date);
+                                       }
+                                       
+                                   }
+                                   else if(the_day_of=="second")
+                                   {
+                                       if(the_days=="Sunday" || the_days=="Weekend")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(0,2,date);
+                                       }
+                                       else if(the_days=="Saturday" || the_days=="Weekend")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(6,2,date);
+                                       }
+                                       else if(the_days=="Monday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(1,2,date);
+                                       }
+                                       else if(the_days=="Tuesday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(2,2,date);
+                                       }
+                                       else if(the_days=="Wednesday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(3,2,date);
+                                       }
+                                       else if(the_days=="Thursday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(4,2,date);
+                                       }
+                                       else if(the_days=="Friday" || the_days=="Weekday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(5,2,date);
+                                       }
+                                   }
+                                   else if(the_day_of=="third")
+                                   {
+                                       if(the_days=="Sunday" || the_days=="Weekend")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(0,3,date);
+                                       }
+                                       else if(the_days=="Saturday" || the_days=="Weekend")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(6,3,date);
+                                       }
+                                       else if(the_days=="Monday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(1,3,date);
+                                       }
+                                       else if(the_days=="Tuesday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(2,3,date);
+                                       }
+                                       else if(the_days=="Wednesday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(3,3,date);
+                                       }
+                                       else if(the_days=="Thursday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(4,3,date);
+                                       }
+                                       else if(the_days=="Friday" || the_days=="Weekday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(5,3,date);
+                                       }
+                                   }
+                                   else if(the_day_of=="Fourth")
+                                   {
+                                       if(the_days=="Sunday" || the_days=="Weekend")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(0,4,date);
+                                       }
+                                       else if(the_days=="Saturday" || the_days=="Weekend")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(6,4,date);
+                                       }
+                                       else if(the_days=="Monday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(1,4,date);
+                                       }
+                                       else if(the_days=="Tuesday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(2,4,date);
+                                       }
+                                       else if(the_days=="Wednesday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(3,4,date);
+                                       }
+                                       else if(the_days=="Thursday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(4,4,date);
+                                       }
+                                       else if(the_days=="Friday" || the_days=="Weekday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(5,4,date);
+                                       }
+   
+                                       
+                                   }
+   
+                                       if(new_date == date)
+                                       {
+                                           if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                           {
+                                               list_arr_inbound.push(item);
+                                           }
+                                       }
+                               }
+                               
+                           }
+                           else
+                           {
+   
+                           }
+                       }
+                       else if(item.schedule_setting.occurs_inbound=="weekly")
+                       {
+                           var weekdaycounter=0;
+                           item.schedule_setting.occurs_weekly_fields_inbound.forEach(weekday=>{
+                               if(weekday.day=="Monday")
+                               {
+                                   if(weekdaycounter==0)
+                                   {
+                                           var mycalen = new my_calender();
+                                           var weekdate = new Date();
+                                           if(weekdate.getDay() > 1)
+                                           {
+                                               weekdate.setDate(weekdate.getDate()-(weekdate.getDay()-1))
+                                           }
+                                           else if(weekdate.getDay() <= 1)
+                                           {
+                                               weekdate.setDate(weekdate.getDate()-(1-weekdate.getDay()))
+                                           }
+                                           var date = mycalen.addWeeks(item.schedule_setting.recurs_count_inbound);
+                                           item.schedule_setting.next_date_inbound = date;
+                                           weekdaycounter++;
+                                   }
                                    
-                                    
-                                    if(the_days=="Sunday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(0,1,date);
-                                    }
-                                    else if(the_days=="Saturday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(6,1,date);
-                                    }
-                                    else if(the_days=="Monday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(1,1,date);
-                                    }
-                                    else if(the_days=="Tuesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(2,1,date);
-                                    }
-                                    else if(the_days=="Wednesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(3,1,date);
-                                    }
-                                    else if(the_days=="Thursday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(4,1,date);
-                                    }
-                                    else if(the_days=="Friday" || the_days=="Weekday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(5,1,date);
-                                    }
-                                    
-                                }
-                                else if(the_day_of=="second")
-                                {
-                                    if(the_days=="Sunday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(0,2,date);
-                                    }
-                                    else if(the_days=="Saturday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(6,2,date);
-                                    }
-                                    else if(the_days=="Monday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(1,2,date);
-                                    }
-                                    else if(the_days=="Tuesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(2,2,date);
-                                    }
-                                    else if(the_days=="Wednesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(3,2,date);
-                                    }
-                                    else if(the_days=="Thursday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(4,2,date);
-                                    }
-                                    else if(the_days=="Friday" || the_days=="Weekday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(5,2,date);
-                                    }
-                                }
-                                else if(the_day_of=="third")
-                                {
-                                    if(the_days=="Sunday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(0,3,date);
-                                    }
-                                    else if(the_days=="Saturday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(6,3,date);
-                                    }
-                                    else if(the_days=="Monday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(1,3,date);
-                                    }
-                                    else if(the_days=="Tuesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(2,3,date);
-                                    }
-                                    else if(the_days=="Wednesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(3,3,date);
-                                    }
-                                    else if(the_days=="Thursday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(4,3,date);
-                                    }
-                                    else if(the_days=="Friday" || the_days=="Weekday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(5,3,date);
-                                    }
-                                }
-                                else if(the_day_of=="Fourth")
-                                {
-                                    if(the_days=="Sunday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(0,4,date);
-                                    }
-                                    else if(the_days=="Saturday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(6,4,date);
-                                    }
-                                    else if(the_days=="Monday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(1,4,date);
-                                    }
-                                    else if(the_days=="Tuesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(2,4,date);
-                                    }
-                                    else if(the_days=="Wednesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(3,4,date);
-                                    }
-                                    else if(the_days=="Thursday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(4,4,date);
-                                    }
-                                    else if(the_days=="Friday" || the_days=="Weekday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(5,4,date);
-                                    }
+                                   if(date_ob.getDay()==1)
+                                   {
+                                          
+                                       if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                       {
+   
+                                           list_arr_inbound.push(item);
+                                       }
+                                   }
+                               }
+                               else if(weekday.day=="Tuesday")
+                               {
+                                   if(weekdaycounter==0)
+                                       {
+                                           var mycalen = new my_calender();
+                                           var weekdate = new Date();
+                                           if(weekdate.getDay() > 2)
+                                           {
+                                               weekdate.setDate(weekdate.getDate()-(weekdate.getDay()-2))
+                                           }
+                                           else if(weekdate.getDay() <= 2)
+                                           {
+                                               weekdate.setDate(weekdate.getDate()+(2-weekdate.getDay()))
+                                           }
+                                           var date = mycalen.addWeeks(item.schedule_setting.recurs_count_inbound);
+                                           item.schedule_setting.next_date_inbound = date;
+                                           weekdaycounter++;
+                                       }
+                                   
+                                   if(date_ob.getDay()==2)
+                                   {
+                                      
+                                       
+                                       if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                       {
+   
+                                           list_arr_inbound.push(item);
+                                       }
+                                   }
+                               }
+                               else if(weekday.day=="Wednesday")
+                               {
+                                   
+                                   if(weekdaycounter==0)
+                                   {
+                                       var mycalen = new my_calender();
+                                       var weekdate = new Date();
+                                       if(weekdate.getDay() > 3)
+                                       {
+                                           weekdate.setDate(weekdate.getDate()-(weekdate.getDay()-3))
+                                       }
+                                       else if(weekdate.getDay() <= 3)
+                                       {
+                                           weekdate.setDate(weekdate.getDate()+(3-weekdate.getDay()))
+                                       }
+                                       var date = mycalen.addWeeks(item.schedule_setting.recurs_count_inbound);
+                                       item.schedule_setting.next_date_inbound = date;
+                                       weekdaycounter++;
+                                   }
+                                   if(date_ob.getDay()==3)
+                                   {
+                                      
+                                       
+                                       if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                       {
+   
+                                           list_arr_inbound.push(item);
+                                       }
+                                   }
+                               }
+                               else if(weekday.day=="Thursday")
+                               {
+                                   
+                                   if(weekdaycounter==0)
+                                   {
+                                       var mycalen = new my_calender();
+                                       var weekdate = new Date();
+                                       if(weekdate.getDay() > 4)
+                                       {
+                                           weekdate.setDate(weekdate.getDate()-(weekdate.getDay()-4))
+                                       }
+                                       else if(weekdate.getDay() <= 4)
+                                       {
+                                           weekdate.setDate(weekdate.getDate()+(4-weekdate.getDay()))
+                                       }
+                                       var date = mycalen.addWeeks(item.schedule_setting.recurs_count_inbound,weekdate);
+                                       item.schedule_setting.next_date_inbound = date;
+                                       weekdaycounter++;
+                                   }
+                                   if(date_ob.getDay()==4)
+                                   {
+                                       
+                                       
+                                       if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                       {
+   
+                                           list_arr_inbound.push(item);
+                                       }
+                                   }
+                               }
+                               else if(weekday.day=="Friday")
+                               {
+                                   if(weekdaycounter==0)
+                                   {
+                                       var weekdate = new Date();
+                                       if(weekdate.getDay() > 5)
+                                       {
+                                           weekdate.setDate(weekdate.getDate()-(weekdate.getDay()-5))
+                                       }
+                                       else if(weekdate.getDay() <= 5)
+                                       {
+                                           weekdate.setDate(weekdate.getDate()+(5-weekdate.getDay()))
+                                       }
+                                       var mycalen = new my_calender();
+                                       var date = mycalen.addWeeks(item.schedule_setting.recurs_count_inbound,weekdate);
+                                       item.schedule_setting.next_date_inbound = date;
+                                       weekdaycounter++;
+                                   }
+                                   if(date_ob.getDay()==5)
+                                   {
+                                      
+                                       
+                                       if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                       {
+   
+                                           list_arr_inbound.push(item);
+                                       }
+                                   }
+                               }
+                               else if(weekday.day=="Saturday")
+                               {
+                                   if(weekdaycounter==0)
+                                   {
+                                       var mycalen = new my_calender();
+                                       var weekdate = new Date();
+                                       if(weekdate.getDay() > 6)
+                                       {
+                                           weekdate.setDate(weekdate.getDate()-(weekdate.getDay()-6))
+                                       }
+                                       else if(weekdate.getDay() <= 6)
+                                       {
+                                           weekdate.setDate(weekdate.getDate()+(6-weekdate.getDay()))
+                                       }
+                                       var date = mycalen.addWeeks(item.schedule_setting.recurs_count_inbound,weekdate);
+                                       item.schedule_setting.next_date_inbound = date;
+                                       weekdaycounter++;
+                                   }
+                                   if(date_ob.getDay()==6)
+                                   {
+                                      
+                                       if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                       {
+   
+                                           list_arr_inbound.push(item);
+                                       }
+                                   }
+                               }
+                               else if(weekday.day=="Sunday")
+                               {
+                                   if(weekdaycounter==0)
+                                   {
+                                       var mycalen = new my_calender();
+                                       var weekdate = new Date();
+                                       if(weekdate.getDay() > 0)
+                                       {
+                                           weekdate.setDate(weekdate.getDate()-(weekdate.getDay()-0))
+                                       }
+                                       else if(weekdate.getDay() <= 0)
+                                       {
+                                           weekdate.setDate(weekdate.getDate()+(0-weekdate.getDay()))
+                                       }
+                                       var date = mycalen.addWeeks(item.schedule_setting.recurs_count_inbound,weekdate);
+                                       item.schedule_setting.next_date_inbound = date;
+                                       weekdaycounter++;
+                                   }
+                                   if(date_ob.getDay()==0)
+                                   {
+                                       
+                                       if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                       {
+   
+                                           list_arr_inbound.push(item);
+                                       }
+                                   }
+                               }
+                               weekdaycounter++;
+                           })
+                           
+                           //list_arr_inbound.push(item);
+                       }
+                       if(item.schedule_setting.occurs_outbound=="daily")
+                       {
+                           if(currenttime==item.schedule_setting.recurs_time_outbound)
+                           {
+                               list_arr_inbound.push(item);
+                           }
+                           //list_arr_outbound.push(item);
+                       }
+                       else if(item.schedule_setting.occurs_outbound=="monthly")
+                       {
+                           if(item.schedule_setting.monthly_field_setting_outbound[0].nextdate==undefined)
+                           {
+                               if(item.schedule_setting.monthly_field_setting_outbound[0].outbound_monthly_day=="day")
+                               {
+                                   var today_date = date_ob.getDate();
+                                   console.log("today_date"+today_date);
+                                   if(item.schedule_setting.monthly_field_setting_outbound[0].per_day==today_date)
+                                   {
+                                       if(currenttime==item.schedule_setting.recurs_time_outbound)
+                                       {
+                                           list_arr_outbound.push(item);
+                                       }
+                                   }
+                               }
+                               if(item.schedule_setting.monthly_field_setting_outbound[0].outbound_monthly_day=="The")
+                               {
+                                   var the_day_of = item.schedule_setting.monthly_field_setting_outbound[0].the_day_of;
+                                   var the_days =item.schedule_setting.monthly_field_setting_outbound[0].the_days;
+                                   var new_date ;
+                                   var date = new Date();
+                                   var mycalen = new my_calender();
+                                   if(the_day_of=="first")
+                                   {
+                                      
+                                       
+                                       if(the_days=="Sunday" || the_days=="Weekend")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(0,1,date);
+                                       }
+                                       else if(the_days=="Saturday" || the_days=="Weekend")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(6,1,date);
+                                       }
+                                       else if(the_days=="Monday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(1,1,date);
+                                       }
+                                       else if(the_days=="Tuesday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(2,1,date);
+                                       }
+                                       else if(the_days=="Wednesday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(3,1,date);
+                                       }
+                                       else if(the_days=="Thursday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(4,1,date);
+                                       }
+                                       else if(the_days=="Friday" || the_days=="Weekday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(5,1,date);
+                                       }
+                                       
+                                   }
+                                   else if(the_day_of=="second")
+                                   {
+                                       if(the_days=="Sunday" || the_days=="Weekend")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(0,2,date);
+                                       }
+                                       else if(the_days=="Saturday" || the_days=="Weekend")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(6,2,date);
+                                       }
+                                       else if(the_days=="Monday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(1,2,date);
+                                       }
+                                       else if(the_days=="Tuesday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(2,2,date);
+                                       }
+                                       else if(the_days=="Wednesday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(3,2,date);
+                                       }
+                                       else if(the_days=="Thursday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(4,2,date);
+                                       }
+                                       else if(the_days=="Friday" || the_days=="Weekday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(5,2,date);
+                                       }
+                                   }
+                                   else if(the_day_of=="third")
+                                   {
+                                       if(the_days=="Sunday" || the_days=="Weekend")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(0,3,date);
+                                       }
+                                       else if(the_days=="Saturday" || the_days=="Weekend")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(6,3,date);
+                                       }
+                                       else if(the_days=="Monday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(1,3,date);
+                                       }
+                                       else if(the_days=="Tuesday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(2,3,date);
+                                       }
+                                       else if(the_days=="Wednesday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(3,3,date);
+                                       }
+                                       else if(the_days=="Thursday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(4,3,date);
+                                       }
+                                       else if(the_days=="Friday" || the_days=="Weekday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(5,3,date);
+                                       }
+                                   }
+                                   else if(the_day_of=="Fourth")
+                                   {
+                                       if(the_days=="Sunday" || the_days=="Weekend")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(0,4,date);
+                                       }
+                                       else if(the_days=="Saturday" || the_days=="Weekend")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(6,4,date);
+                                       }
+                                       else if(the_days=="Monday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(1,4,date);
+                                       }
+                                       else if(the_days=="Tuesday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(2,4,date);
+                                       }
+                                       else if(the_days=="Wednesday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(3,4,date);
+                                       }
+                                       else if(the_days=="Thursday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(4,4,date);
+                                       }
+                                       else if(the_days=="Friday" || the_days=="Weekday")
+                                       {
+                                           new_date = mycalen.nthWeekdayOfMonth(5,4,date);
+                                       }
+   
+                                       
+                                   }
+   
+                                       if(new_date == date)
+                                       {
+                                           if(currenttime==item.schedule_setting.recurs_time_outbound)
+                                           {
 
-                                    if(new_date == date)
-                                    {
-                                        if(currenttime==item.schedule_setting.recurs_time_inbound)
-                                        {
-                                            list_arr_inbound.push(item);
-                                        }
-                                    }
-                                }
-                            }
-                            
-                        }
-                        else
-                        {
-
-                        }
-                    }
-                    else if(item.schedule_setting.occurs_inbound=="weekly")
-                    {
-                        
-                        item.schedule_setting.occurs_weekly_fields_inbound.forEach(weekday=>{
-                            if(weekday.day=="Monday")
+                                               list_arr_outbound.push(item);
+                                           }
+                                       }
+                               }
+                               
+                           }
+                           else
+                           {
+   
+                           }
+                       }
+                       else if(item.schedule_setting.occurs_outbound=="weekly")
+                       {
+                           item.schedule_setting.occurs_weekly_fields_outbound.forEach(weekday=>{
+                               if(weekday.day=="Monday")
+                               {
+                                   if(date_ob.getDay()==1)
+                                   {
+                                       if(currenttime==item.schedule_setting.recurs_time_outbound)
+                                       {
+   
+                                           list_arr_outbound.push(item);
+                                       }
+                                   }
+                               }
+                               else if(weekday.day=="Tuesday")
+                               {
+                                   if(date_ob.getDay()==2)
+                                   {
+                                       if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                       {
+   
+                                           list_arr_outbound.push(item);
+                                       }
+                                   }
+                               }
+                               else if(weekday.day=="Wednesday")
+                               {
+                                   if(date_ob.getDay()==3)
+                                   {
+                                       if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                       {
+   
+                                           list_arr_outbound.push(item);
+                                       }
+                                   }
+                               }
+                               else if(weekday.day=="Thursday")
+                               {
+                                   if(date_ob.getDay()==4)
+                                   {
+                                       if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                       {
+   
+                                           list_arr_outbound.push(item);
+                                       }
+                                   }
+                               }
+                               else if(weekday.day=="Friday")
+                               {
+                                   if(date_ob.getDay()==5)
+                                   {
+                                       if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                       {
+   
+                                           list_arr_outbound.push(item);
+                                       }
+                                   }
+                               }
+                               else if(weekday.day=="Saturday")
+                               {
+                                   if(date_ob.getDay()==6)
+                                   {
+                                       if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                       {
+   
+                                           list_arr_outbound.push(item);
+                                       }
+                                   }
+                               }
+                               else if(weekday.day=="Sunday")
+                               {
+                                   if(date_ob.getDay()==0)
+                                   {
+                                       if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                       {
+                                           list_arr_outbound.push(item);
+                                       }
+                                   }
+                               }
+                           })
+                           //list_arr_outbound.push(item);
+                       }
+                   }
+                   else
+                   {
+                       var curdate = new Date();
+                       var todaysdate = new Date(curdate.getFullYear(), curdate.getMonth(), curdate.getDate());
+                       var nextdate = new Date(item.schedule_setting.next_date_inbound);
+                       var nextdategen = new Date(nextdate.getFullYear(), nextdate.getMonth(), nextdate.getDate());
+                       
+                       if(nextdategen == todaysdate)
+                       {
+                            if(item.schedule_setting.occurs_inbound=="daily")
                             {
-                                if(date_ob.getDay()==1)
+                                if(currenttime==item.schedule_setting.recurs_time_inbound)
                                 {
-                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
-                                    {
-
-                                        list_arr_inbound.push(item);
-                                    }
+        
+                                    list_arr_inbound.push(item);
                                 }
                             }
-                            else if(weekday.day=="Tuesday")
-                            {
-                                if(date_ob.getDay()==2)
-                                {
-                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
-                                    {
-
-                                        list_arr_inbound.push(item);
-                                    }
-                                }
-                            }
-                            else if(weekday.day=="Wednesday")
-                            {
-                                if(date_ob.getDay()==3)
-                                {
-                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
-                                    {
-
-                                        list_arr_inbound.push(item);
-                                    }
-                                }
-                            }
-                            else if(weekday.day=="Thursday")
+                            else if(item.schedule_setting.occurs_inbound=="monthly")
                             {
                                 
-                                if(date_ob.getDay()==4)
+                                if(item.schedule_setting.monthly_field_setting_inbound[0].nextdate==undefined)
                                 {
-                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                    if(item.schedule_setting.monthly_field_setting_inbound[0].inbound_monthly_day=="day")
                                     {
-
-                                        list_arr_inbound.push(item);
-                                    }
-                                }
-                            }
-                            else if(weekday.day=="Friday")
-                            {
-                                if(date_ob.getDay()==5)
-                                {
-                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
-                                    {
-
-                                        list_arr_inbound.push(item);
-                                    }
-                                }
-                            }
-                            else if(weekday.day=="Saturday")
-                            {
-                                if(date_ob.getDay()==6)
-                                {
-                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
-                                    {
-
-                                        list_arr_inbound.push(item);
-                                    }
-                                }
-                            }
-                            else if(weekday.day=="Sunday")
-                            {
-                                if(date_ob.getDay()==0)
-                                {
-                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
-                                    {
-
-                                        list_arr_inbound.push(item);
-                                    }
-                                }
-                            }
-                        })
-                        
-                        //list_arr_inbound.push(item);
-                    }
-                    if(item.schedule_setting.occurs_outbound=="daily")
-                    {
-                        if(currenttime==item.schedule_setting.recurs_time_outbound)
-                        {
-
-                            list_arr_inbound.push(item);
-                        }
-                        list_arr_outbound.push(item);
-                    }
-                    else if(item.schedule_setting.occurs_outbound=="monthly")
-                    {
-                        if(item.schedule_setting.monthly_field_setting_outbound[0].nextdate==undefined)
-                        {
-                            if(item.schedule_setting.monthly_field_setting_outbound[0].outbound_monthly_day=="day")
-                            {
-                                var today_date = date_ob.getDate();
-                                console.log("today_date"+today_date);
-                                if(item.schedule_setting.monthly_field_setting_outbound[0].per_day==today_date)
-                                {
-                                    if(currenttime==item.schedule_setting.recurs_time_outbound)
-                                    {
-                                        list_arr_outbound.push(item);
-                                    }
-                                }
-                            }
-                            if(item.schedule_setting.monthly_field_setting_outbound[0].outbound_monthly_day=="The")
-                            {
-                                var the_day_of = item.schedule_setting.monthly_field_setting_outbound[0].the_day_of;
-                                var the_days =item.schedule_setting.monthly_field_setting_outbound[0].the_days;
-                                var new_date ;
-                                var date = new Date();
-                                var mycalen = new my_calender();
-                                if(the_day_of=="first")
-                                {
-                                   
-                                    
-                                    if(the_days=="Sunday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(0,1,date);
-                                    }
-                                    else if(the_days=="Saturday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(6,1,date);
-                                    }
-                                    else if(the_days=="Monday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(1,1,date);
-                                    }
-                                    else if(the_days=="Tuesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(2,1,date);
-                                    }
-                                    else if(the_days=="Wednesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(3,1,date);
-                                    }
-                                    else if(the_days=="Thursday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(4,1,date);
-                                    }
-                                    else if(the_days=="Friday" || the_days=="Weekday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(5,1,date);
-                                    }
-                                    
-                                }
-                                else if(the_day_of=="second")
-                                {
-                                    if(the_days=="Sunday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(0,2,date);
-                                    }
-                                    else if(the_days=="Saturday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(6,2,date);
-                                    }
-                                    else if(the_days=="Monday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(1,2,date);
-                                    }
-                                    else if(the_days=="Tuesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(2,2,date);
-                                    }
-                                    else if(the_days=="Wednesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(3,2,date);
-                                    }
-                                    else if(the_days=="Thursday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(4,2,date);
-                                    }
-                                    else if(the_days=="Friday" || the_days=="Weekday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(5,2,date);
-                                    }
-                                }
-                                else if(the_day_of=="third")
-                                {
-                                    if(the_days=="Sunday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(0,3,date);
-                                    }
-                                    else if(the_days=="Saturday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(6,3,date);
-                                    }
-                                    else if(the_days=="Monday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(1,3,date);
-                                    }
-                                    else if(the_days=="Tuesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(2,3,date);
-                                    }
-                                    else if(the_days=="Wednesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(3,3,date);
-                                    }
-                                    else if(the_days=="Thursday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(4,3,date);
-                                    }
-                                    else if(the_days=="Friday" || the_days=="Weekday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(5,3,date);
-                                    }
-                                }
-                                else if(the_day_of=="Fourth")
-                                {
-                                    if(the_days=="Sunday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(0,4,date);
-                                    }
-                                    else if(the_days=="Saturday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(6,4,date);
-                                    }
-                                    else if(the_days=="Monday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(1,4,date);
-                                    }
-                                    else if(the_days=="Tuesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(2,4,date);
-                                    }
-                                    else if(the_days=="Wednesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(3,4,date);
-                                    }
-                                    else if(the_days=="Thursday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(4,4,date);
-                                    }
-                                    else if(the_days=="Friday" || the_days=="Weekday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(5,4,date);
-                                    }
-
-                                    if(new_date == date)
-                                    {
-                                        if(currenttime==item.schedule_setting.recurs_time_outbound)
+                                        var today_date = date_ob.getDate();
+                                        console.log("today_date"+today_date);
+                                        if(item.schedule_setting.monthly_field_setting_inbound[0].per_day==today_date)
                                         {
-                                            list_arr_outbound.push(item);
+                                            if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                            {
+                                                list_arr_inbound.push(item);
+                                            }
                                         }
                                     }
-                                }
-                            }
-                            
-                        }
-                        else
-                        {
-
-                        }
-                    }
-                    else if(item.schedule_setting.occurs_outbound=="weekly")
-                    {
-                        item.schedule_setting.occurs_weekly_fields_outbound.forEach(weekday=>{
-                            if(weekday.day=="Monday")
-                            {
-                                if(date_ob.getDay()==1)
-                                {
-                                    if(currenttime==item.schedule_setting.recurs_time_outbound)
+                                    if(item.schedule_setting.monthly_field_setting_inbound[0].inbound_monthly_day=="The")
                                     {
-
-                                        list_arr_outbound.push(item);
+                                        var the_day_of = item.schedule_setting.monthly_field_setting_inbound[0].the_day_of;
+                                        var the_days =item.schedule_setting.monthly_field_setting_inbound[0].the_days;
+                                        var new_date ;
+                                        var date = new Date();
+                                        var mycalen = new my_calender();
+                                        if(the_day_of=="first")
+                                        {
+                                        
+                                            
+                                            if(the_days=="Sunday" || the_days=="Weekend")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(0,1,date);
+                                            }
+                                            else if(the_days=="Saturday" || the_days=="Weekend")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(6,1,date);
+                                            }
+                                            else if(the_days=="Monday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(1,1,date);
+                                            }
+                                            else if(the_days=="Tuesday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(2,1,date);
+                                            }
+                                            else if(the_days=="Wednesday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(3,1,date);
+                                            }
+                                            else if(the_days=="Thursday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(4,1,date);
+                                            }
+                                            else if(the_days=="Friday" || the_days=="Weekday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(5,1,date);
+                                            }
+                                            
+                                        }
+                                        else if(the_day_of=="second")
+                                        {
+                                            if(the_days=="Sunday" || the_days=="Weekend")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(0,2,date);
+                                            }
+                                            else if(the_days=="Saturday" || the_days=="Weekend")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(6,2,date);
+                                            }
+                                            else if(the_days=="Monday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(1,2,date);
+                                            }
+                                            else if(the_days=="Tuesday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(2,2,date);
+                                            }
+                                            else if(the_days=="Wednesday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(3,2,date);
+                                            }
+                                            else if(the_days=="Thursday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(4,2,date);
+                                            }
+                                            else if(the_days=="Friday" || the_days=="Weekday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(5,2,date);
+                                            }
+                                        }
+                                        else if(the_day_of=="third")
+                                        {
+                                            if(the_days=="Sunday" || the_days=="Weekend")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(0,3,date);
+                                            }
+                                            else if(the_days=="Saturday" || the_days=="Weekend")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(6,3,date);
+                                            }
+                                            else if(the_days=="Monday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(1,3,date);
+                                            }
+                                            else if(the_days=="Tuesday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(2,3,date);
+                                            }
+                                            else if(the_days=="Wednesday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(3,3,date);
+                                            }
+                                            else if(the_days=="Thursday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(4,3,date);
+                                            }
+                                            else if(the_days=="Friday" || the_days=="Weekday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(5,3,date);
+                                            }
+                                        }
+                                        else if(the_day_of=="Fourth")
+                                        {
+                                            if(the_days=="Sunday" || the_days=="Weekend")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(0,4,date);
+                                            }
+                                            else if(the_days=="Saturday" || the_days=="Weekend")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(6,4,date);
+                                            }
+                                            else if(the_days=="Monday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(1,4,date);
+                                            }
+                                            else if(the_days=="Tuesday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(2,4,date);
+                                            }
+                                            else if(the_days=="Wednesday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(3,4,date);
+                                            }
+                                            else if(the_days=="Thursday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(4,4,date);
+                                            }
+                                            else if(the_days=="Friday" || the_days=="Weekday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(5,4,date);
+                                            }
+        
+                                            
+                                        }
+        
+                                            if(new_date == date)
+                                            {
+                                                if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                                {
+                                                    list_arr_inbound.push(item);
+                                                }
+                                            }
                                     }
+                                    
                                 }
-                            }
-                            else if(weekday.day=="Tuesday")
-                            {
-                                if(date_ob.getDay()==2)
+                                else
                                 {
-                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
-                                    {
-
-                                        list_arr_outbound.push(item);
-                                    }
+        
                                 }
                             }
-                            else if(weekday.day=="Wednesday")
+                            else if(item.schedule_setting.occurs_inbound=="weekly")
                             {
-                                if(date_ob.getDay()==3)
-                                {
-                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                var weekdaycounter=0;
+                                item.schedule_setting.occurs_weekly_fields_inbound.forEach(weekday=>{
+                                    if(weekday.day=="Monday")
                                     {
-
-                                        list_arr_outbound.push(item);
+                                        if(weekdaycounter==0)
+                                        {
+                                                var mycalen = new my_calender();
+                                                var weekdate = new Date();
+                                                if(weekdate.getDay() > 1)
+                                                {
+                                                    weekdate.setDate(weekdate.getDate()-(weekdate.getDay()-1))
+                                                }
+                                                else if(weekdate.getDay() <= 1)
+                                                {
+                                                    weekdate.setDate(weekdate.getDate()-(1-weekdate.getDay()))
+                                                }
+                                                var date = mycalen.addWeeks(item.schedule_setting.recurs_count_inbound);
+                                                item.schedule_setting.next_date_inbound = date;
+                                                weekdaycounter++;
+                                        }
+                                        
+                                        if(date_ob.getDay()==1)
+                                        {
+                                            
+                                            if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                            {
+        
+                                                list_arr_inbound.push(item);
+                                            }
+                                        }
                                     }
-                                }
+                                    else if(weekday.day=="Tuesday")
+                                    {
+                                        if(weekdaycounter==0)
+                                            {
+                                                var mycalen = new my_calender();
+                                                var weekdate = new Date();
+                                                if(weekdate.getDay() > 2)
+                                                {
+                                                    weekdate.setDate(weekdate.getDate()-(weekdate.getDay()-2))
+                                                }
+                                                else if(weekdate.getDay() <= 2)
+                                                {
+                                                    weekdate.setDate(weekdate.getDate()+(2-weekdate.getDay()))
+                                                }
+                                                var date = mycalen.addWeeks(item.schedule_setting.recurs_count_inbound);
+                                                item.schedule_setting.next_date_inbound = date;
+                                                weekdaycounter++;
+                                            }
+                                        
+                                        if(date_ob.getDay()==2)
+                                        {
+                                        
+                                            
+                                            if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                            {
+        
+                                                list_arr_inbound.push(item);
+                                            }
+                                        }
+                                    }
+                                    else if(weekday.day=="Wednesday")
+                                    {
+                                        
+                                        if(weekdaycounter==0)
+                                        {
+                                            var mycalen = new my_calender();
+                                            var weekdate = new Date();
+                                            if(weekdate.getDay() > 3)
+                                            {
+                                                weekdate.setDate(weekdate.getDate()-(weekdate.getDay()-3))
+                                            }
+                                            else if(weekdate.getDay() <= 3)
+                                            {
+                                                weekdate.setDate(weekdate.getDate()+(3-weekdate.getDay()))
+                                            }
+                                            var date = mycalen.addWeeks(item.schedule_setting.recurs_count_inbound);
+                                            item.schedule_setting.next_date_inbound = date;
+                                            weekdaycounter++;
+                                        }
+                                        if(date_ob.getDay()==3)
+                                        {
+                                        
+                                            
+                                            if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                            {
+        
+                                                list_arr_inbound.push(item);
+                                            }
+                                        }
+                                    }
+                                    else if(weekday.day=="Thursday")
+                                    {
+                                        
+                                        if(weekdaycounter==0)
+                                        {
+                                            var mycalen = new my_calender();
+                                            var weekdate = new Date();
+                                            if(weekdate.getDay() > 4)
+                                            {
+                                                weekdate.setDate(weekdate.getDate()-(weekdate.getDay()-4))
+                                            }
+                                            else if(weekdate.getDay() <= 4)
+                                            {
+                                                weekdate.setDate(weekdate.getDate()+(4-weekdate.getDay()))
+                                            }
+                                            var date = mycalen.addWeeks(item.schedule_setting.recurs_count_inbound,weekdate);
+                                            item.schedule_setting.next_date_inbound = date;
+                                            weekdaycounter++;
+                                        }
+                                        if(date_ob.getDay()==4)
+                                        {
+                                            
+                                            
+                                            if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                            {
+        
+                                                list_arr_inbound.push(item);
+                                            }
+                                        }
+                                    }
+                                    else if(weekday.day=="Friday")
+                                    {
+                                        if(weekdaycounter==0)
+                                        {
+                                            var weekdate = new Date();
+                                            if(weekdate.getDay() > 5)
+                                            {
+                                                weekdate.setDate(weekdate.getDate()-(weekdate.getDay()-5))
+                                            }
+                                            else if(weekdate.getDay() <= 5)
+                                            {
+                                                weekdate.setDate(weekdate.getDate()+(5-weekdate.getDay()))
+                                            }
+                                            var mycalen = new my_calender();
+                                            var date = mycalen.addWeeks(item.schedule_setting.recurs_count_inbound,weekdate);
+                                            item.schedule_setting.next_date_inbound = date;
+                                            weekdaycounter++;
+                                        }
+                                        if(date_ob.getDay()==5)
+                                        {
+                                        
+                                            
+                                            if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                            {
+        
+                                                list_arr_inbound.push(item);
+                                            }
+                                        }
+                                    }
+                                    else if(weekday.day=="Saturday")
+                                    {
+                                        if(weekdaycounter==0)
+                                        {
+                                            var mycalen = new my_calender();
+                                            var weekdate = new Date();
+                                            if(weekdate.getDay() > 6)
+                                            {
+                                                weekdate.setDate(weekdate.getDate()-(weekdate.getDay()-6))
+                                            }
+                                            else if(weekdate.getDay() <= 6)
+                                            {
+                                                weekdate.setDate(weekdate.getDate()+(6-weekdate.getDay()))
+                                            }
+                                            var date = mycalen.addWeeks(item.schedule_setting.recurs_count_inbound,weekdate);
+                                            item.schedule_setting.next_date_inbound = date;
+                                            weekdaycounter++;
+                                        }
+                                        if(date_ob.getDay()==6)
+                                        {
+                                        
+                                            if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                            {
+        
+                                                list_arr_inbound.push(item);
+                                            }
+                                        }
+                                    }
+                                    else if(weekday.day=="Sunday")
+                                    {
+                                        if(weekdaycounter==0)
+                                        {
+                                            var mycalen = new my_calender();
+                                            var weekdate = new Date();
+                                            if(weekdate.getDay() > 0)
+                                            {
+                                                weekdate.setDate(weekdate.getDate()-(weekdate.getDay()-0))
+                                            }
+                                            else if(weekdate.getDay() <= 0)
+                                            {
+                                                weekdate.setDate(weekdate.getDate()+(0-weekdate.getDay()))
+                                            }
+                                            var date = mycalen.addWeeks(item.schedule_setting.recurs_count_inbound,weekdate);
+                                            item.schedule_setting.next_date_inbound = date;
+                                            weekdaycounter++;
+                                        }
+                                        if(date_ob.getDay()==0)
+                                        {
+                                            
+                                            if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                            {
+        
+                                                list_arr_inbound.push(item);
+                                            }
+                                        }
+                                    }
+                                    weekdaycounter++;
+                                })
+                                
+                                //list_arr_inbound.push(item);
                             }
-                            else if(weekday.day=="Thursday")
+                            if(item.schedule_setting.occurs_outbound=="daily")
                             {
-                                if(date_ob.getDay()==4)
+                                if(currenttime==item.schedule_setting.recurs_time_outbound)
                                 {
-                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
-                                    {
-
-                                        list_arr_outbound.push(item);
-                                    }
+                                    list_arr_inbound.push(item);
                                 }
+                                //list_arr_outbound.push(item);
                             }
-                            else if(weekday.day=="Friday")
+                            else if(item.schedule_setting.occurs_outbound=="monthly")
                             {
-                                if(date_ob.getDay()==5)
+                                if(item.schedule_setting.monthly_field_setting_outbound[0].nextdate==undefined)
                                 {
-                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                    if(item.schedule_setting.monthly_field_setting_outbound[0].outbound_monthly_day=="day")
                                     {
-
-                                        list_arr_outbound.push(item);
+                                        var today_date = date_ob.getDate();
+                                        console.log("today_date"+today_date);
+                                        if(item.schedule_setting.monthly_field_setting_outbound[0].per_day==today_date)
+                                        {
+                                            if(currenttime==item.schedule_setting.recurs_time_outbound)
+                                            {
+                                                list_arr_outbound.push(item);
+                                            }
+                                        }
                                     }
+                                    if(item.schedule_setting.monthly_field_setting_outbound[0].outbound_monthly_day=="The")
+                                    {
+                                        var the_day_of = item.schedule_setting.monthly_field_setting_outbound[0].the_day_of;
+                                        var the_days =item.schedule_setting.monthly_field_setting_outbound[0].the_days;
+                                        var new_date ;
+                                        var date = new Date();
+                                        var mycalen = new my_calender();
+                                        if(the_day_of=="first")
+                                        {
+                                        
+                                            
+                                            if(the_days=="Sunday" || the_days=="Weekend")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(0,1,date);
+                                            }
+                                            else if(the_days=="Saturday" || the_days=="Weekend")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(6,1,date);
+                                            }
+                                            else if(the_days=="Monday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(1,1,date);
+                                            }
+                                            else if(the_days=="Tuesday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(2,1,date);
+                                            }
+                                            else if(the_days=="Wednesday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(3,1,date);
+                                            }
+                                            else if(the_days=="Thursday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(4,1,date);
+                                            }
+                                            else if(the_days=="Friday" || the_days=="Weekday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(5,1,date);
+                                            }
+                                            
+                                        }
+                                        else if(the_day_of=="second")
+                                        {
+                                            if(the_days=="Sunday" || the_days=="Weekend")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(0,2,date);
+                                            }
+                                            else if(the_days=="Saturday" || the_days=="Weekend")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(6,2,date);
+                                            }
+                                            else if(the_days=="Monday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(1,2,date);
+                                            }
+                                            else if(the_days=="Tuesday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(2,2,date);
+                                            }
+                                            else if(the_days=="Wednesday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(3,2,date);
+                                            }
+                                            else if(the_days=="Thursday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(4,2,date);
+                                            }
+                                            else if(the_days=="Friday" || the_days=="Weekday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(5,2,date);
+                                            }
+                                        }
+                                        else if(the_day_of=="third")
+                                        {
+                                            if(the_days=="Sunday" || the_days=="Weekend")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(0,3,date);
+                                            }
+                                            else if(the_days=="Saturday" || the_days=="Weekend")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(6,3,date);
+                                            }
+                                            else if(the_days=="Monday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(1,3,date);
+                                            }
+                                            else if(the_days=="Tuesday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(2,3,date);
+                                            }
+                                            else if(the_days=="Wednesday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(3,3,date);
+                                            }
+                                            else if(the_days=="Thursday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(4,3,date);
+                                            }
+                                            else if(the_days=="Friday" || the_days=="Weekday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(5,3,date);
+                                            }
+                                        }
+                                        else if(the_day_of=="Fourth")
+                                        {
+                                            if(the_days=="Sunday" || the_days=="Weekend")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(0,4,date);
+                                            }
+                                            else if(the_days=="Saturday" || the_days=="Weekend")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(6,4,date);
+                                            }
+                                            else if(the_days=="Monday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(1,4,date);
+                                            }
+                                            else if(the_days=="Tuesday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(2,4,date);
+                                            }
+                                            else if(the_days=="Wednesday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(3,4,date);
+                                            }
+                                            else if(the_days=="Thursday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(4,4,date);
+                                            }
+                                            else if(the_days=="Friday" || the_days=="Weekday")
+                                            {
+                                                new_date = mycalen.nthWeekdayOfMonth(5,4,date);
+                                            }
+        
+                                            
+                                        }
+        
+                                            if(new_date == date)
+                                            {
+                                                if(currenttime==item.schedule_setting.recurs_time_outbound)
+                                                {
+                                                    list_arr_outbound.push(item);
+                                                }
+                                            }
+                                    }
+                                    
+                                }
+                                else
+                                {
+        
                                 }
                             }
-                            else if(weekday.day=="Saturday")
+                            else if(item.schedule_setting.occurs_outbound=="weekly")
                             {
-                                if(date_ob.getDay()==6)
-                                {
-                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                item.schedule_setting.occurs_weekly_fields_outbound.forEach(weekday=>{
+                                    if(weekday.day=="Monday")
                                     {
-
-                                        list_arr_outbound.push(item);
+                                        if(date_ob.getDay()==1)
+                                        {
+                                            if(currenttime==item.schedule_setting.recurs_time_outbound)
+                                            {
+        
+                                                list_arr_outbound.push(item);
+                                            }
+                                        }
                                     }
-                                }
-                            }
-                            else if(weekday.day=="Sunday")
-                            {
-                                if(date_ob.getDay()==0)
-                                {
-                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                    else if(weekday.day=="Tuesday")
                                     {
-                                        list_arr_outbound.push(item);
+                                        if(date_ob.getDay()==2)
+                                        {
+                                            if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                            {
+        
+                                                list_arr_outbound.push(item);
+                                            }
+                                        }
                                     }
-                                }
+                                    else if(weekday.day=="Wednesday")
+                                    {
+                                        if(date_ob.getDay()==3)
+                                        {
+                                            if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                            {
+        
+                                                list_arr_outbound.push(item);
+                                            }
+                                        }
+                                    }
+                                    else if(weekday.day=="Thursday")
+                                    {
+                                        if(date_ob.getDay()==4)
+                                        {
+                                            if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                            {
+        
+                                                list_arr_outbound.push(item);
+                                            }
+                                        }
+                                    }
+                                    else if(weekday.day=="Friday")
+                                    {
+                                        if(date_ob.getDay()==5)
+                                        {
+                                            if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                            {
+        
+                                                list_arr_outbound.push(item);
+                                            }
+                                        }
+                                    }
+                                    else if(weekday.day=="Saturday")
+                                    {
+                                        if(date_ob.getDay()==6)
+                                        {
+                                            if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                            {
+        
+                                                list_arr_outbound.push(item);
+                                            }
+                                        }
+                                    }
+                                    else if(weekday.day=="Sunday")
+                                    {
+                                        if(date_ob.getDay()==0)
+                                        {
+                                            if(currenttime==item.schedule_setting.recurs_time_inbound)
+                                            {
+                                                list_arr_outbound.push(item);
+                                            }
+                                        }
+                                    }
+                                })
+                                //list_arr_outbound.push(item);
                             }
-                        })
-                        //list_arr_outbound.push(item);
-                    }
+                       }
+                   }
                     
-                    //list_arr_inbound.push(item);
-                    var scheduelerunning=0;
-                    //console.log(currenttime);
-                    // if(currenttime==item.schedule_setting.recurs_time_inbound)
-                    // {
-                    //     console.log("time match");
-                    //     var host = item.inbound_setting.host;
-                    //     var port = item.inbound_setting.port;
-                    //     var username = item.inbound_setting.login_name;
-                    //     var password = item.inbound_setting.password;
-                    //     var folder = item.inbound_setting.folder;
-                    //     var project_id = item.inbound_setting.project_id;
-                    //     var project_code = item.ProjectCode;
-                    //     const client = new ftp(host, port, username ,password, true);
-                    //     // console.log(client.clientList());
-                        
-                    //     try{
-                    //         if(client)
-                    //         {
-
-                    //             //console.log(result);
-                    //             let data;
-                    //             var xmldata;
-                                
-                    //             async function init() {
-                    //                 try{
-
-                    //                     client.download(folder, './'+project_id+'.xml');
-                                        
-                    //                     //await sleep(400);
-                                        
-                    //                 }catch(err)
-                    //                 {
-                    //                     //res.send("FTP not connected");
-                    //                 }
-                                    
-                    //             }
-                                
-                    //             function sleep(ms) {
-                    //                 return new Promise((resolve) => {
-                    //                 setTimeout(resolve, ms);
-                    //                 });
-                    //             }
-                    //             const sleeps = init();
-                    //             xmldata = fs.readFileSync('./'+project_id+'.xml', 'utf8');
-                    //             var parser = new xml.Parser({explicitArray : false});
-                                
-                    //             parser.parseString(xmldata, function (err, results) {
-                    //                 data = results
-                    //                 //console.log(data);
-                    //             });
-                    //         // parsing to json
-                    //             if(data==undefined)
-                    //             {
-                    //                 //res.json({'status':'false','msg':'Connection Time Out Please Try Again'});
-                    //             }
-                    //             var options = {
-                    //                 'method': 'POST',
-                    //                 'url': config.domain+'/inbound/run',
-                    //                 'headers': {
-                    //                 'Content-Type': 'application/json'
-                    //                 },
-                    //                 body: JSON.stringify({
-                    //                 "project_code": project_code,
-                    //                 "project_id": project_id,
-                    //                 "inbound_data": data
-                    //                 })
-                                    
-                    //             };
-                    //             request(options, function (error, response) {
-                    //                 //console.log(response);
-                    //                 if (error) throw new Error(error);
-                    //                     console.log(JSON.parse(response.body));
-                    //                     scheduelerunning++
-                    //                 //res.json({'status':'true','msg':'Inbound Run Successfully'});
-                    //             });
-                    //             //console.log("inbound run");
-                    //         }
-                    //         else
-                    //         {
-                    //             console.log('connection time out ftp file not found');
-                    //             //res.json({'status':'false','msg':'Connection Time Out Please Try Again'});
-                    //         }
-                    //     }catch(err)
-                    //     {
-                    //         console.log('catch'+err);
-                    //         //res.json({'status':'false','msg':'FTP Not Connected'});
-                    //     }
-                    // }
-                    // else
-                    // {
-                    //     console.log("time not match");
-                    // }
-                    //res.send({"status":true,"data":list_arr_inbound});
                }
                else
                {
@@ -1078,7 +1779,37 @@ router.get('/getScheduleProjectInfo',function(req,res){
                                 //console.log(response);
                                 if (error) throw new Error(error);
                                     console.log(JSON.parse(response.body));
-                                    scheduelerunning++
+                                    scheduelerunning++;
+                                    
+                                    var result = JSON.parse(response.body);
+                                    if(result.Status!=undefined && result.Status == 1)
+                                    {
+                                        var newschedulesetting = item.schedule_setting;
+                                        //var date = new Date();
+                                        //newschedulesetting.next_date_inbound = date;
+                                        //console.log(newschedulesetting);
+                                        var options = {
+                                            'method': 'put',
+                                            'url': config.domain+'/schedule_setting/update/'+item.schedule_setting._id,
+                                            'headers': {
+                                            'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify(newschedulesetting)
+                                            
+                                        };
+                                        request(options, function (error, response) {
+                                            //console.log(response);
+                                            if (error) throw new Error(error)
+                                            else{
+
+                                                //console.log(response);
+                                                console.log("update schedule setting date");
+                                            }
+                                                //scheduelerunning++
+                                            //res.json({'status':'true','msg':'Inbound Run Successfully'});
+                                        });  
+                                    }
+                                
                                 //res.json({'status':'true','msg':'Inbound Run Successfully'});
                             });
                             //console.log("inbound run");

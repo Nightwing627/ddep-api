@@ -43,7 +43,7 @@ exports.create = (req, res) => {
     inbound.save()
     .then(data => {
         //res.send(data);
-        res.status(200).send({msg:"Inbound Run Successfully"});
+        res.status(200).send({Status:1,msg:"Inbound Run Successfully",Data:[]});
     }).catch(err => {
         res.status(500).send({
             message: err.message || "Some error occurred while creating the User."
