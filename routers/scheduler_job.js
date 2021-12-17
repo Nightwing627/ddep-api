@@ -1189,7 +1189,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
        //res.json(list_arr_outbound);
        var total_inbound = list_arr_inbound.length;
        var total_outbound = list_arr_outbound.length;
-       res.json({"Status":"1","Msg":"Total Inbound "+total_inbound + " and total Outbound "+ total_outbound + " Run Successfully","ErrMsg":"","Data":[]});
+       //res.json({"Status":"1","Msg":"Total Inbound "+total_inbound + " and total Outbound "+ total_outbound + " Run Successfully","ErrMsg":"","Data":[]});
        //res.json({"status":"1"})
        console.log('running schedule now');
     }
