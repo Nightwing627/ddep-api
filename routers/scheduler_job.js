@@ -1185,6 +1185,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
                 }
           
        });
+       res.end("OK")
        //res.json(list_arr_outbound);
        var total_inbound = list_arr_inbound.length;
        var total_outbound = list_arr_outbound.length;
