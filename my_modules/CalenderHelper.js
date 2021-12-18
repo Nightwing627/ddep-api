@@ -33,5 +33,11 @@ class CalenderHelper {
       
         return idate
       }
+      addDays(days,date = new Date()){
+        var idate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        idate.setDate(date.getDate()+days);
+      
+        return idate
+      }
 }
 module.exports = CalenderHelper
