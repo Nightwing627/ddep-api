@@ -205,7 +205,7 @@ exports.update = (req, res) => {
         message: "Project Not found"
     });
     }
-   if(!data.Schedule_configure_inbound) {
+   /* if(!data.Schedule_configure_inbound) {
     return res.status(400).send({
         message: "Schedule Configure is Required"
     });
@@ -254,18 +254,18 @@ exports.update = (req, res) => {
         return res.status(400).send({
             message: "Time is Required"
         });
-    }
+    } */
     const scheduleSetting = new ScheduleSetting({
         Schedule_configure_inbound: data.Schedule_configure_inbound, 
-        schedule_type_inbound: data.schedule_type_inbound,
-        occurs_inbound: data.occurs_inbound,
-        recurs_count_inbound: data.recurs_count_inbound,
-        recurs_time_inbound: data.recurs_time_inbound,
-        Schedule_configure_outbound: data.Schedule_configure_outbound,
-        schedule_type_outbound: data.schedule_type_outbound,
-        occurs_outbound: data.occurs_outbound,
-        recurs_count_outbound: data.recurs_count_outbound,
-        recurs_time_outbound: data.recurs_time_outbound,
+        schedule_type_inbound: data.schedule_type_inbound || "",
+        occurs_inbound: data.occurs_inbound || "",
+        recurs_count_inbound: data.recurs_count_inbound || "",
+        recurs_time_inbound: data.recurs_time_inbound || "",
+        Schedule_configure_outbound: data.Schedule_configure_outbound || "",
+        schedule_type_outbound: data.schedule_type_outbound || "",
+        occurs_outbound: data.occurs_outbound || "",
+        recurs_count_outbound: data.recurs_count_outbound || "",
+        recurs_time_outbound: data.recurs_time_outbound || "",
         
     });
     ScheduleSetting.findByIdAndUpdate(req.params.id,data, { new: true })

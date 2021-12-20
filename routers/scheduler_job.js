@@ -35,7 +35,7 @@ router.get('/getScheduleProjectInfoOLD',function(req,res){
         var list_arr_inbound = [];
         var list_arr_outbound =[];
        data.data.forEach(item => {
-           if(item.schedule_setting!=undefined)
+           if(item.schedule_setting!=undefined && item.schedule_setting.length>0 && item.inbound_setting!=undefined && item.inbound_setting.length > 0 && item.outbound_setting!=undefined && item.outbound_setting.length > 0)
            {
                 if(item.schedule_setting.occurs_inbound=="daily")
                 {
@@ -1993,7 +1993,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
             // the array is defined and has at least one element
             list_arr_inbound.forEach(item => {
                 console.log("time match");
-                    var host = item.inbound_setting.host;
+                    var host = item.inbound_setting.ftp_server_link;
                     var port = item.inbound_setting.port;
                     var username = item.inbound_setting.login_name;
                     var password = item.inbound_setting.password;
@@ -2111,7 +2111,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
                 // the array is defined and has at least one element
                 list_arr_outbound.forEach(item => {
                     console.log("time match");
-                        var host = item.inbound_setting.host;
+                        var host = item.inbound_setting.ftp_server_link;
                         var port = item.inbound_setting.port;
                         var username = item.inbound_setting.login_name;
                         var password = item.inbound_setting.password;
