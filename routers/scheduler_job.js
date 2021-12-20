@@ -378,8 +378,13 @@ router.get('/getScheduleProjectInfo',function(req,res){
                var currenttime = date_ob.getHours() + ":" +(date_ob.getMinutes()<10?'0':'') + date_ob.getMinutes();
                if(item.schedule_setting.Schedule_configure_inbound!='click_by_user')
                {
-                   if(item.schedule_setting.createdAt==item.schedule_setting.next_date_inbound)
+                   var createat = new Date(item.schedule_setting.createdAt);
+                   var createddate = createat.getDate() + '-' + createat.getMonth() + '-' + createat.getFullYear();
+                   var nextdates = new Date(item.schedule_setting.next_date_inbound);
+                   var createnextdate = nextdates.getDate() + '-' + nextdates.getMonth() + '-' + nextdates.getFullYear();
+                   if(createddate==createnextdate)
                    {
+                      
 
                        if(item.schedule_setting.occurs_inbound=="daily")
                        {
@@ -1197,14 +1202,19 @@ router.get('/getScheduleProjectInfo',function(req,res){
                }
                if(item.schedule_setting.Schedule_configure_outbound!='click_by_user')
                {
-                    if(item.schedule_setting.createdAt==item.schedule_setting.next_date_outbound || item.schedule_setting.next_date_outbound==undefined)
+                    var createat = new Date(item.schedule_setting.createdAt);
+                    var createddate = createat.getDate() + '-' + createat.getMonth() + '-' + createat.getFullYear();
+                    var nextdates = new Date(item.schedule_setting.next_date_outbound);
+                    var createnextdate = nextdates.getDate() + '-' + nextdates.getMonth() + '-' + nextdates.getFullYear();
+                    if(createddate==createnextdate || item.schedule_setting.next_date_outbound==undefined)
                     {
+                        console.log("outbound runs"+item.schedule_setting.project_id);
                         if(item.schedule_setting.occurs_outbound=="daily")
                        {
                         var date = new Date();
                         var mycalen = new my_calender();
                            if(currenttime==item.schedule_setting.recurs_time_outbound)
-                           {
+                           { 
                                 var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.recurs_count_outbound));
                                 item.schedule_setting.next_date_outbound = next_date_inbound_days;
                                list_arr_outbound.push(item);
@@ -2178,6 +2188,34 @@ router.get('/getScheduleProjectInfo',function(req,res){
                                     //console.log(response);
                                     if (error) throw new Error(error);
                                         console.log(JSON.parse(response.body));
+                                        var result = JSON.parse(response.body);
+                                        if(result.Status!=undefined && result.Status == 1)
+                                        {
+                                            var newschedulesetting = item.schedule_setting;
+                                            //var date = new Date();
+                                            //newschedulesetting.next_date_inbound = date;
+                                            //console.log(newschedulesetting);
+                                            var options = {
+                                                'method': 'put',
+                                                'url': config.domain+'/schedule_setting/update/'+item.schedule_setting._id,
+                                                'headers': {
+                                                'Content-Type': 'application/json'
+                                                },
+                                                body: JSON.stringify(newschedulesetting)
+                                                
+                                            };
+                                            request(options, function (error, response) {
+                                                //console.log(response);
+                                                if (error) throw new Error(error)
+                                                else{
+
+                                                    //console.log(response);
+                                                    console.log("update schedule setting date");
+                                                }
+                                                    //scheduelerunning++
+                                                //res.json({'status':'true','msg':'Inbound Run Successfully'});
+                                            });  
+                                        }
                                         //scheduelerunning++
                                     //res.json({'status':'true','msg':'Inbound Run Successfully'});
                                 });
