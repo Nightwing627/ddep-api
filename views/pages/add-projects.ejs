@@ -676,149 +676,224 @@ License: You must have a valid license purchased only from themeforest(the above
                 </div>
                 <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                   <div class="card-body">
-                    <div class="row">
-                      <div class="form-group col-md-3">
-                          <label class="form-label required" for="first-name">Synchronize Configure</label> 
-                      </div>
-                      <div class="form-group col-md-9">
-                        <div class="row">
-                          <div class="custom-control custom-radio col-md-2">
-                            <input type="radio" name="s_configure_outbound" id="Schedule_configure_schedule_inbound" class="radio-inline" value="schedule" /><span>Schedule</span>
-                          </div>
-                          <div class="custom-control custom-radio col-md-2">
-                            <input type="radio" name="s_configure_outbound" id="Schedule_configure_click_by_user_outbound" class="radio-inline" value="click_by_user" /><span>Click By User</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row relation-schedule-outbound-open">
-                      <div class="form-group col-md-3">
-                          <label class="form-label required" for="schedule">Schedule Type</label> 
-                      </div>
-                      <div class="form-group col-md-9">
-                        <div class="row">
-
-                          <div class="custom-control custom-radio col-md-2">
-                            <input type="radio" name="schedule_type_outbound" id="Schedule_type_recurring_outbound" class="radio-inline" value="Recurring" /><span>Recurring</span>
-                          </div>
-                          <div class="custom-control custom-radio col-md-2">
-                            <input type="radio" name="schedule_type_outbound" id="Schedule_type_one_time_outbound" class="radio-inline" value="OneTime" /><span>One Time</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-3">
-                            <label class="form-label required" for="first-name">Occurs</label>
-                        </div>
-                        <div class="form-group col-md-9">
-                            <select class="select2 form-control form-control-lg" id="occurs_time_outbound" name="occurs_outbound">
-                              <option value="daily">Daily</option>
-                              <option value="weekly">Weekly</option>
-                              <option value="monthly">Monthly</option>
-                            </select>
-                        </div>
-                        
-                    </div>
-                    <div id="weekly_fields_outbound">
-
-                      <div class="demo-inline-spacing">
-                        <div class="custom-control custom-control-primary custom-checkbox">
-                          <input type="checkbox" name="occurs_weekly_fields_outbound" class="custom-control-input" value="Monday" id="colorCheck8">
-                          <label class="custom-control-label" for="colorCheck8">Monday</label>
-                        </div>
-                        <div class="custom-control custom-control-primary custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" name="occurs_weekly_fields_outbound" value="Tuesday" id="colorCheck9">
-                          <label class="custom-control-label" for="colorCheck9">Tuesday</label>
-                        </div>
-                        <div class="custom-control custom-control-primary custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" name="occurs_weekly_fields_outbound" value="Wednesday" id="colorCheck13">
-                          <label class="custom-control-label" for="colorCheck13">Wednesday</label>
-                        </div>
-                        <div class="custom-control custom-control-primary custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" name="occurs_weekly_fields_outbound" value="Thursday" id="colorCheck10">
-                          <label class="custom-control-label" for="colorCheck10">Thursday</label>
-                        </div>
-                        <div class="custom-control custom-control-primary custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" name="occurs_weekly_fields_outbound" value="Friday" id="colorCheck11">
-                          <label class="custom-control-label" for="colorCheck11">Friday</label>
-                        </div>
-                        <div class="custom-control custom-control-primary custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" name="occurs_weekly_fields_outbound" value="Saturday" id="colorCheck12" >
-                          <label class="custom-control-label" for="colorCheck12">Saturday</label>
-                        </div>
-                        <div class="custom-control custom-control-primary custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" name="occurs_weekly_fields_outbound" value="Sunday" id="colorCheck14" >
-                          <label class="custom-control-label" for="colorCheck14">Sunday</label>
-                        </div>
-                      </div>
-                    </div>
-                    <div id="monthly_fields_outbound">
-                      <div class="form-group col-md-9">
-                        <div class="row mt-4">
-
-                            <div class="custom-control custom-radio-primary custom-radio">
-                              <input type="radio" name="outbound_monthly_day" id="outbound_monthly_day" class="custom-control-input" value="day" checked />
-                              <label class="custom-control-label" for="outbound_monthly_day">Day</label>
-                            </div>
-                            <div class="custom-control custom-radio-primary custom-radio">
-                              <input type="radio" name="outbound_monthly_day" id="outbound_monthly_the" class="custom-control-input" value="The" />
-                              <label class="custom-control-label" for="outbound_monthly_the">The</label>
-                            </div>
-                        </div>
-                        <div class="row mt-4" id="day_txt_box_outbound">
-                          <div class="form-group col-md-3">
-                            <label class="form-label required" for="first-name">Day</label>
-                          </div>
-                          <div class="form-group col-md-9 mb-4">
-                            <input type="text" name="per_day" id="per_day_outbound" class="form-control" placeholder="1" />
-                          </div>
-                        </div>
-                        <div class="row mt-4" id="the_section_outbound">
-                          <div class="form-group col-md-4">
-                            <label class="form-label required" for="first-name">The</label>
-                          </div>
-                          <div class="form-group col-md-4 mb-4">
-                            <select class="select2 form-control form-control-lg" id="the_day_of_outbound" name="the_day_of_outbound">
-                              <option value="First">First</option>
-                              <option value="Second">Second</option>
-                              <option value="Third">Third</option>
-                              <option value="Fourth">Fourth</option>
-                              <option value="Last">Last</option>
-                            </select>
-                          </div>
-                          <div class="form-group col-md-4 mb-4">
-                            <select class="select2 form-control form-control-lg" id="the_days_outbound" name="the_days_outbound">
-                              <option value="Monday">Monday</option>
-                              <option value="Tuesday">Tuesday</option>
-                              <option value="Wednesday">Wednesday</option>
-                              <option value="Thursday">Thursday</option>
-                              <option value="Friday">Friday</option>
-                              <option value="Saturday">Saturday</option>
-                              <option value="Sunday">Sunday</option>
-                              <option value="Weekday">Weekday</option>
-                              <option value="Weekend">Weekend Day</option>
-
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                       <div class="row">
-                          <div class="form-group col-md-3">
-                              <label class="form-label required" for="first-name">Recurs Every</label>
+                        <div class="col-12">
+                          <div class="card">
+                            <div class="card-header">
+                              <h4 class="card-title">Synchronize Configure</h4>
+                            </div>
+                            <div class="card-body">
+                                
+                                <div class="form-group col-md-9">
+                                  <div class="row">
+                                      <div class="custom-control custom-radio col-md-2">
+                                        <input type="radio" name="s_configure_outbound" id="Schedule_configure_schedule_outound" class="radio-inline" value="schedule" /><span>Schedule</span>
+                                      </div>
+                                      <div class="custom-control custom-radio col-md-2">
+                                        <input type="radio" name="s_configure_outbound" id="Schedule_configure_click_by_user_outbound" class="radio-inline" value="click_by_user" /><span>Click By User</span>
+                                      </div>
+                                  </div>
+                                </div>
+                            </div>
                           </div>
-                          <div class="form-group col-md-9">
-                            <input type="text" name="recurs_count_outbound" id="recurs_count_outbound" class="form-control" placeholder="1" />
-                          </div>
+                        </div>
                       </div>
-                      <div class="row">
-                          <div class="form-group col-md-3">
-                              <label class="form-label required" for="first-name">Occurs Once at</label>
+                  </div>
+                  <div class="row relation-schedule-open">
+                      <div class="col-12">
+                        <div class="card">
+                          <div class="card-header">
+                            <h4 class="card-title">Schedule Type</h4>
                           </div>
-                          <div class="form-group col-md-9">
-                            <input type="time" name="recurs_time_outbound" id="recurs_time_outbound" class="form-control" placeholder="1" />
+                          <div class="card-body">
+                            <!-- <div class="form-group col-md-3">
+                                <label class="form-label required" for="schedule">Schedule Type</label> 
+                            </div> -->
+                            <div class="form-group col-md-9">
+                              <div class="row">
+                                  <div class="custom-control custom-radio col-md-3">
+                                    <input type="radio" name="schedule_type_outbound" id="Schedule_type_recurring_outbound" class="radio-inline" value="Recurring" /><span>Recurring</span>
+                                  </div>
+                                  <div class="custom-control custom-radio col-md-3">
+                                    <input type="radio" name="schedule_type_outbound" id="Schedule_type_one_time_outbound" class="radio-inline" value="OneTime" /><span>One Time</span>
+                                  </div>
+                              </div>
+                            </div>
                           </div>
+                               
+                        </div>
+                      </div>
+                    
+                    
+                      <div class="col-12">
+                        <div class="card">
+                          <div class="card-header">
+                            <h4 class="card-title">Frequency</h4>
+                          </div>
+                          <div class="card-body">
+                              <div class="form-group col-md-3">
+                                  <label class="form-label required" for="first-name">Occurs</label>
+                              </div>
+                              <div class="form-group col-md-9">
+                                  <select class="select2 form-control form-control-lg" id="occurs_time_outbound" name="occurs_outbound">
+                                    <option value="daily">Daily</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="monthly">Monthly</option>
+                                  </select>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="card">
+                          <div class="card-header">
+                            <!-- <h4 class="card-title">Color</h4> -->
+                          </div>
+                          <div class="card-body">
+                            
+                              <div class="form-group col-md-3">
+                                <label class="form-label required" for="first-name">Recurs Every</label>
+                              </div>
+                              <div class="form-group col-md-9 mb-4">
+                                <input type="text" name="recurs_count_outbound" id="recurs_count_outbound" class="form-control" placeholder="1" />
+                              </div>
+                            <div id="weekly_fields_outbound">
+
+                              <div class="demo-inline-spacing">
+                                <div class="custom-control custom-control-primary custom-checkbox">
+                                  <input type="checkbox" name="occurs_weekly_fields_outbound" class="custom-control-input" value="Monday" id="colorCheck8">
+                                  <label class="custom-control-label" for="colorCheck1">Monday</label>
+                                </div>
+                                <div class="custom-control custom-control-primary custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" name="occurs_weekly_fields_outbound" value="Tuesday" id="colorCheck9">
+                                  <label class="custom-control-label" for="colorCheck2">Tuesday</label>
+                                </div>
+                                <div class="custom-control custom-control-primary custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" name="occurs_weekly_fields_outbound" value="Wednesday" id="colorCheck13">
+                                  <label class="custom-control-label" for="colorCheck3">Wednesday</label>
+                                </div>
+                                <div class="custom-control custom-control-primary custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" name="occurs_weekly_fields_outbound" value="Thursday" id="colorCheck10">
+                                  <label class="custom-control-label" for="colorCheck5">Thursday</label>
+                                </div>
+                                <div class="custom-control custom-control-primary custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" name="occurs_weekly_fields_outbound" value="Friday" id="colorCheck11">
+                                  <label class="custom-control-label" for="colorCheck4">Friday</label>
+                                </div>
+                                <div class="custom-control custom-control-primary custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" name="occurs_weekly_fields_outbound" value="Saturday" id="colorCheck12" >
+                                  <label class="custom-control-label" for="colorCheck6">Saturday</label>
+                                </div>
+                                <div class="custom-control custom-control-primary custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" name="occurs_weekly_fields_outbound" value="Sunday" id="colorCheck14" >
+                                  <label class="custom-control-label" for="colorCheck7">Sunday</label>
+                                </div>
+                              </div>
+                            </div>
+                            <div id="monthly_fields_outbound">
+                              <div class="form-group col-md-9">
+                                <div class="row mt-4">
+
+                                    <div class="custom-control custom-radio-primary custom-radio">
+                                      <input type="radio" name="outbound_monthly_day" id="outbound_monthly_day" class="custom-control-input" value="day" checked />
+                                      <label class="custom-control-label" for="outbound_monthly_day">Day</label>
+                                    </div>
+                                    <div class="custom-control custom-radio-primary custom-radio">
+                                      <input type="radio" name="outbound_monthly_day" id="outbound_monthly_the" class="custom-control-input" value="The" />
+                                      <label class="custom-control-label" for="outbound_monthly_the">The</label>
+                                    </div>
+                                </div>
+                                <div class="row mt-4" id="day_txt_box">
+                                  <div class="form-group col-md-3">
+                                    <label class="form-label required" for="first-name">Day</label>
+                                  </div>
+                                  <div class="form-group col-md-9 mb-4">
+                                    <input type="text" name="per_day" id="per_day_outbound" class="form-control" placeholder="1" />
+                                  </div>
+                                </div>
+                                <div class="row mt-4" id="the_section">
+                                  <div class="form-group col-md-4">
+                                    <label class="form-label required" for="first-name">The</label>
+                                  </div>
+                                  <div class="form-group col-md-4 mb-4">
+                                    <select class="select2 form-control form-control-lg" id="the_day_of_outbound" name="the_day_of_outbound">
+                                      <option value="First">First</option>
+                                      <option value="Second">Second</option>
+                                      <option value="Third">Third</option>
+                                      <option value="Fourth">Fourth</option>
+                                      <option value="Last">Last</option>
+                                    </select>
+                                  </div>
+                                  <div class="form-group col-md-4 mb-4">
+                                    <select class="select2 form-control form-control-lg" id="the_days_outbound" name="the_days_outbound">
+                                      <option value="Monday">Monday</option>
+                                      <option value="Tuesday">Tuesday</option>
+                                      <option value="Wednesday">Wednesday</option>
+                                      <option value="Thursday">Thursday</option>
+                                      <option value="Friday">Friday</option>
+                                      <option value="Saturday">Saturday</option>
+                                      <option value="Sunday">Sunday</option>
+                                      <option value="Weekday">Weekday</option>
+                                      <option value="Weekend">Weekend Day</option>
+
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                          
+                      <div class="col-12">
+                        <div class="card">
+                          <div class="card-header">
+                            <!-- <h4 class="card-title">Color</h4> -->
+                          </div>
+                          <div class="card-body">
+                            <div class="row">
+                                <div class="form-group col-md-3">
+                                    <label class="form-label required" for="first-name">Occurs Once at</label>
+                                </div>
+                                <div class="form-group col-md-4">
+                                  <input type="time" name="recurs_time_outbound" id="recurs_time_outbound" class="form-control" placeholder="1" />
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="card">
+                          <div class="card-header">
+                            <h4 class="card-title">Duration</h4>
+                          </div>
+                          <div class="card-body">
+                            <div class="row">
+                                <div class="form-group col-md-3">
+                                    <label class="form-label required" for="first-name">Start Date</label>
+                                </div>
+                                <div class="form-group col-md-4">
+                                  <input type="date" name="start_date_outbound" id="start_date_outbound" class="form-control" placeholder="1" />
+                                </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div class="custom-control col-md-3 custom-radio-primary custom-radio">
+                                  <input type="radio" name="outbound_end_date" id="outbound_end_date_no" class="custom-control-input" value="no_end_date" />
+                                  <label class="custom-control-label" for="outbound_end_date_no">No End Date</label>
+                                </div>
+                                <div class="custom-control col-md-3 custom-radio-primary custom-radio">
+                                  <input type="radio" name="outbound_end_date" id="outbound_end_date_yes" class="custom-control-input" value="yes_end_date" />
+                                  <label class="custom-control-label" for="outbound_end_date_yes">End Date</label>
+                                  <input type="date" name="end_date_outbound_text" id="end_date_outbound_text" class="form-control" placeholder="1" />
+                                </div>
+                              </div>
+                              <div class="form-group col-md-4">
+                               
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                   </div>
                 </div>
