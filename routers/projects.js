@@ -118,7 +118,7 @@ router.post('/download',function(req,res){
 router.get('/editAPI/:id',projects.findOne);
     
 router.get('/edit/:id',function(req,res){
-    request('http://'+req.headers.host+'/projects/editAPI/'+req.params.id, function (error, response, body) {
+    request(config.domain+'/projects/editAPI/'+req.params.id, function (error, response, body) {
     
     var data = JSON.parse(body);
     if(response.statusCode==200)
