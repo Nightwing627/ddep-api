@@ -368,9 +368,9 @@ router.get('/getScheduleProjectInfo',function(req,res){
         //res.render('pages/add-projects',{alldata:data});
         
        data.data.forEach(item => {
-           if(item.schedule_setting!=undefined)
+           if(item.schedule_setting!=undefined && item.inbound_setting!=undefined && item.outbound_setting!=undefined )
            {
-                
+                console.log("active project found");
                //var schedulesetting = item.schedule_setting.Schedule_configure_inbound;
                //res.json(schedulesetting);
                //date.getMinutes()<10?'0':'') + date.getMinutes()
@@ -1995,6 +1995,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
                     // }
                }
            }
+           
            //let date_ob = new Date();
            //var currenttime = date_ob.getHours() + ":" +date_ob.getMinutes();
            //res.json(currenttime);
