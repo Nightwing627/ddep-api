@@ -17,6 +17,7 @@
         "express-session": "^1.17.2",
         "form-data": "^4.0.0",
         "fs": "0.0.1-security",
+        "ftp": "^0.3.10",
         "http-errors": "^1.8.0",
         "mongodb": "^4.1.2",
         "mongoose": "^6.0.6",
