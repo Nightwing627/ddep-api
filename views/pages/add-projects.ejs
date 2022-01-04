@@ -171,203 +171,247 @@ License: You must have a valid license purchased only from themeforest(the above
             </div>
             </div>
             <div id="Inbound" class="content">
-            <div class="content-header">
-                <h5 class="mb-0">Inbound</h5>
-                <!-- <small>Enter Your Personal Info.</small> -->
-            </div>
-            
-            <form id="frm-save-inbound">
-              <input type="hidden" name="inbound_setting_id" id="inbound_setting_id" value="">
-              <div class="collapse-margin" id="accordionExample">
-                <div class="card">
-                  <div class="card-header collapsed" id="headingOne" data-toggle="collapse" role="button" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                    <span class="lead collapse-title"> Inbound Format </span>
-                  </div>
-    
-                  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample" style="">
-                    <div class="card-body">
-                      <div class="row">
-                        <!-- Basic -->
-                        <div class="col-md-6 mb-1">
-                          <label class="required">Format</label>
-                          <select class="select2 form-control form-control-lg" id="inboundFormat" name="inbound_format">
-                            <option value="xml">XML</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card">
-                  <div class="card-header" id="headingTwo" data-toggle="collapse" role="button" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    <span class="lead collapse-title">Synchronize Configure </span>
-                  </div>
-                  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="form-group col-md-3">
-                            <label class="form-label required" for="first-name">FTP/SFTP</label> 
-                        </div>
-                        <div class="form-group col-md-9">
-                          <div class="row">
-
-                            <div class="custom-control custom-radio col-md-2">
-                              <input type="radio" name="sync_type" id="Sync_type_ftp" class="radio-inline" value="FTP" /><span>FTP</span>
-                            </div>
-                            <div class="custom-control custom-radio col-md-2">
-                              <input type="radio" name="sync_type" id="Sync_type_sftp" class="radio-inline" value="SFTP" /><span>SFTP</span>
-                            </div>
+              <div class="row">
+                  <div class="col-12">
+                      <div class="card">
+                          <div class="card-header">
+                            <h5 class="mb-0">Inbound</h5>
+                            <button type="button" id="is_active_inbound" data-value="Inactive" class="btn btn-secondary waves-effect waves-float waves-light float-right">Inactive</button>
                           </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                          <div class="form-group col-md-3">
-                              <label class="form-label required" for="first-name">FTP/SFPT Server</label>
-                          </div>
-                          <div class="form-group col-md-9">
-                              <input type="text" name="ftp_server_link" id="ftp_server_link" class="form-control" placeholder="ftp.example.com" />
-                          </div>
-                      </div>
-                      <div class="row">
-                          <div class="form-group col-md-3">
-                              <label class="form-label required" for="first-name">Host</label>
-                          </div> 
-                           <div class="form-group col-md-9">
-                              <input type="text" name="host" id="host" class="form-control" placeholder="" />
-                          </div>
-                      </div>
-                      <div class="row">
-                          <div class="form-group col-md-3">
-                              <label class="form-label required" for="first-name">Port</label>
-                          </div>
-                          <div class="form-group col-md-9">
-                              <input type="text" name="port" id="port" class="form-control" placeholder="" />
-                          </div>
-                      </div>
-                      <div class="row">
-                          <div class="form-group col-md-3">
-                              <label class="form-label required" for="first-name">Login Name</label>
-                          </div>
-                          <div class="form-group col-md-9">
-                              <input type="text" name="login_name" id="login_name" class="form-control" placeholder="" />
-                          </div>
-                      </div>
-                      <div class="row">
-                          <div class="form-group col-md-3">
-                              <label class="form-label required" for="first-name">Password</label>
-                          </div>
-                          <div class="form-group col-md-9">
-                              <input type="password" name="password" id="password" class="form-control" placeholder="" />
-                          </div>
-                      </div>
-                      <div class="row">
-                          <div class="form-group col-md-3">
-                              <label class="form-label required" for="first-name">Is Password Encrypted</label>
-                          </div>
-                          <div class="form-group col-md-9">
-                            <select class="select2 form-control form-control-lg" id="is_password_encrypted" name="is_password_encrypted">
-                              <option value="yes">Yes</option>
-                              <option value="no">No</option>
-                            </select>
-                          </div>
-                      </div>
-                      <div class="row">
-                        <div class="form-group col-md-3">
-                            <label class="form-label required" for="first-name">Folder</label>
-                        </div>
-                        <div class="form-group col-md-9">
-                          <input type="text" name="folderpath" id="folderpath" class="form-control" placeholder="" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                          <div class="card-body">
+                            <form id="frm-save-inbound">
+              
+                              <input type="hidden" name="inbound_setting_id" id="inbound_setting_id" value="">
+                              <div class="collapse-margin" id="accordionExample">
+                                <div class="card">
+                                  <div class="card-header collapsed" id="headingOne" data-toggle="collapse" role="button" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                    <span class="lead collapse-title"> Inbound Format </span>
+                                  </div>
+                    
+                                  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample" style="">
+                                    <div class="card-body">
+                                      <div class="row">
+                                        <!-- Basic -->
+                                        <div class="col-md-6 mb-1">
+                                          <label class="required">Format</label>
+                                          <select class="select2 form-control form-control-lg" id="inboundFormat" name="inbound_format">
+                                            <option value="xml">XML</option>
+                                          </select>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="card">
+                                  <div class="card-header" id="headingTwo" data-toggle="collapse" role="button" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    <span class="lead collapse-title">Synchronize Configure </span>
+                                  </div>
+                                  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                      <div class="row">
+                                        <div class="form-group col-md-3">
+                                            <label class="form-label required" for="first-name">Synchronize Configure</label> 
+                                        </div>
+                                        <div class="form-group col-md-9">
+                                          <div class="row">
                 
+                                            <div class="custom-control custom-radio col-md-2">
+                                              <input type="radio" name="syncronize_configure_inbound" id="syncronize_configure_inbound" class="radio-inline" value="FTP_SFTP" checked/><span>FTP/SFTP</span>
+                                            </div>
+                                            
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="form-group col-md-3">
+                                            <label class="form-label required" for="first-name">FTP/SFTP</label> 
+                                        </div>
+                                        <div class="form-group col-md-9">
+                                          <div class="row">
+                
+                                            <div class="custom-control custom-radio col-md-2">
+                                              <input type="radio" name="sync_type" id="Sync_type_ftp" class="radio-inline" value="FTP" /><span>FTP</span>
+                                            </div>
+                                            <div class="custom-control custom-radio col-md-2">
+                                              <input type="radio" name="sync_type" id="Sync_type_sftp" class="radio-inline" value="SFTP" /><span>SFTP</span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="form-group col-md-3">
+                                              <label class="form-label required" for="first-name">FTP/SFPT Server</label>
+                                          </div>
+                                          <div class="form-group col-md-9">
+                                              <input type="text" name="ftp_server_link" id="ftp_server_link" class="form-control" placeholder="ftp.example.com" />
+                                          </div>
+                                      </div>
+                                      <!-- <div class="row">
+                                          <div class="form-group col-md-3">
+                                              <label class="form-label required" for="first-name">Host</label>
+                                          </div> 
+                                           <div class="form-group col-md-9">
+                                              <input type="text" name="host" id="host" class="form-control" placeholder="" />
+                                          </div>
+                                      </div> -->
+                                      <div class="row">
+                                          <div class="form-group col-md-3">
+                                              <label class="form-label required" for="first-name">Port</label>
+                                          </div>
+                                          <div class="form-group col-md-9">
+                                              <input type="text" name="port" id="port" class="form-control" placeholder="" />
+                                          </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="form-group col-md-3">
+                                              <label class="form-label required" for="first-name">Login Name</label>
+                                          </div>
+                                          <div class="form-group col-md-9">
+                                              <input type="text" name="login_name" id="login_name" class="form-control" placeholder="" />
+                                          </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="form-group col-md-3">
+                                              <label class="form-label required" for="first-name">Password</label>
+                                          </div>
+                                          <div class="form-group col-md-9">
+                                              <input type="password" name="password" id="password" class="form-control" placeholder="" />
+                                          </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="form-group col-md-3">
+                                              <label class="form-label required" for="first-name">Is Password Encrypted</label>
+                                          </div>
+                                          <div class="form-group col-md-9">
+                                            <select class="select2 form-control form-control-lg" id="is_password_encrypted" name="is_password_encrypted">
+                                              <option value="yes">Yes</option>
+                                              <option value="no">No</option>
+                                            </select>
+                                          </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="form-group col-md-3">
+                                            <label class="form-label required" for="first-name">Folder</label>
+                                        </div>
+                                        <div class="form-group col-md-9">
+                                          <input type="text" name="folderpath" id="folderpath" class="form-control" placeholder="" />
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="form-group col-md-3">
+                                            <label class="form-label required" for="first-name">Backup Folder</label>
+                                        </div>
+                                        <div class="form-group col-md-9">
+                                          <input type="text" name="backup_folder" id="backup_folder" class="form-control" placeholder="" />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                              </div>
+                              <div class="form-group col-md-4 mt-1">
+                                <button class="btn btn-primary" id="save_inbound" type="submit">Save</button>
+                              </div>
+                            </form>
+                            <div class="d-flex justify-content-between mt-1">
+                                <button class="btn btn-primary btn-prev">
+                                <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                                <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                </button>
+                                <button class="btn btn-primary btn-next">
+                                <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                  <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+                                </button>
+                            </div>
+                          </div>
+                      </div>
+                  </div>
               </div>
-              <div class="form-group col-md-4 mt-1">
-                <button class="btn btn-primary" id="save_inbound" type="submit">Save</button>
-              </div>
-            </form>
-            <div class="d-flex justify-content-between mt-1">
-                <button class="btn btn-primary btn-prev">
-                <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
-                <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                </button>
-                <button class="btn btn-primary btn-next">
-                <span class="align-middle d-sm-inline-block d-none">Next</span>
-                  <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
-                </button>
-            </div>
+            
+            
+            
             </div>
             <div id="outbound-step" class="content">
-            <div class="content-header">
-                <h5 class="mb-0">OutBound</h5>
-                <!-- <small>Enter Your Address.</small> -->
-            </div>
-            <form id="frm-save-outbound">
-              <input type="hidden" name="outbound_setting_id" id="outbound_setting_id" value="">
-              <div class="collapse-margin" id="accordionExample">
-                <div class="card">
-                  <div class="card-header collapsed" id="headingOne" data-toggle="collapse" role="button" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                    <span class="lead collapse-title"> OutBound Format </span>
-                  </div>
-    
-                  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample" style="">
-                    <div class="card-body">
-                      <div class="row">
-                        <!-- Basic -->
-                        <div class="col-md-6 mb-1">
-                          <label class="required">Format</label>
-                          <select class="select2 form-control form-control-lg" id="outbound_format" name="outbound_format">
-                            <option value="json">Json</option>
-                          </select>
-                        </div>
+              <div class="row">
+
+                <div class="col-12">
+                  <div class="card">
+                      <div class="card-header">
+                        <h5 class="mb-0">OutBound</h5>
+                        <button type="button" id="is_active_outbound" data-value="Inactive" class="btn btn-secondary waves-effect waves-float waves-light float-right">Inactive</button>
                       </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card">
-                  <div class="card-header" id="headingTwo" data-toggle="collapse" role="button" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    <span class="lead collapse-title ">Synchronize Configure </span>
-                  </div>
-                  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="form-group col-md-3">
-                            <label class="form-label required" for="first-name">FTP/SFTP</label> 
-                        </div>
-                        <div class="form-group col-md-9">
-                          <input type="radio" name="sync_type_out" id="sync_type_out" checked class="radio-inline" value="API" /><span>API</span>
-                        </div>
-                      </div>
-                      <div class="row">
-                          <div class="form-group col-md-3">
-                              <label class="form-label" for="first-name">API URL</label>
-                          </div>
-                          <div class="form-group col-md-9">
-                              <input type="text" name="api_url" id="api_url" class="form-control" placeholder="" />
-                          </div>
-                      </div>
-                     
-                    </div>
-                  </div>
-                </div>
+                      <div class="card-body">
+                        <form id="frm-save-outbound">
+                          <input type="hidden" name="outbound_setting_id" id="outbound_setting_id" value="">
+                          <div class="collapse-margin" id="accordionExample">
+                            <div class="card">
+                              <div class="card-header collapsed" id="headingOne" data-toggle="collapse" role="button" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                <span class="lead collapse-title"> OutBound Format </span>
+                              </div>
                 
+                              <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample" style="">
+                                <div class="card-body">
+                                  <div class="row">
+                                    <!-- Basic -->
+                                    <div class="col-md-6 mb-1">
+                                      <label class="required">Format</label>
+                                      <select class="select2 form-control form-control-lg" id="outbound_format" name="outbound_format">
+                                        <option value="json">Json</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card">
+                              <div class="card-header" id="headingTwo" data-toggle="collapse" role="button" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                <span class="lead collapse-title ">Synchronize Configure </span>
+                              </div>
+                              <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label required" for="first-name">FTP/SFTP</label> 
+                                    </div>
+                                    <div class="form-group col-md-9">
+                                      <input type="radio" name="sync_type_out" id="sync_type_out" checked class="radio-inline" value="API" /><span>API</span>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-3">
+                                          <label class="form-label" for="first-name">API URL</label>
+                                      </div>
+                                      <div class="form-group col-md-9">
+                                          <input type="text" name="api_url" id="api_url" class="form-control" placeholder="" />
+                                      </div>
+                                  </div>
+                                 
+                                </div>
+                              </div>
+                            </div>
+                            
+                          </div>
+                          <div class="form-group col-md-4 mt-1">
+                            <button class="btn btn-primary" id="save_outbound" type="submit">Save</button>
+                          </div>
+                        </form>
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-primary btn-prev">
+                            <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                            <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                            </button>
+                            <button class="btn btn-primary btn-next">
+                            <span class="align-middle d-sm-inline-block d-none">Next</span>
+                            <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+                            </button>
+                        </div>
+                      </div>
+                  </div>
+                </div>
               </div>
-              <div class="form-group col-md-4 mt-1">
-                <button class="btn btn-primary" id="save_outbound" type="submit">Save</button>
-              </div>
-            </form>
-            <div class="d-flex justify-content-between">
-                <button class="btn btn-primary btn-prev">
-                <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
-                <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                </button>
-                <button class="btn btn-primary btn-next">
-                <span class="align-middle d-sm-inline-block d-none">Next</span>
-                <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
-                </button>
-            </div>
+            
+            
             </div>
             <div id="mapping-step" class="content">
             <div class="content-header">

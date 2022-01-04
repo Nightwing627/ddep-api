@@ -6,5 +6,6 @@ const Config = {
     aesEcbKey:'agui--2009-09-25',
     domain:"https://ddep-dev.a4apple.cn:63303"
     //domain:"http://localhost:8004"
+
 }
 module.exports =  Config

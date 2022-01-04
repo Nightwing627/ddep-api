@@ -47,7 +47,7 @@ exports.create = (req, res) => {
             message: "Project Not Found"
         });
     }
-    if(!data.Schedule_configure_inbound) {
+    /* if(!data.Schedule_configure_inbound) {
         return res.status(400).send({
             message: "Schedule Configure is Required"
         });
@@ -96,24 +96,24 @@ exports.create = (req, res) => {
         return res.status(400).send({
             message: "Time is Required"
         });
-    }
+    } */
     const scheduleSetting = new ScheduleSetting({
         project_id: data.project_id, 
-        Schedule_configure_inbound: data.Schedule_configure_inbound, 
-        schedule_type_inbound: data.schedule_type_inbound,
-        occurs_inbound: data.occurs_inbound,
-        recurs_count_inbound: data.recurs_count_inbound,
-        recurs_time_inbound: data.recurs_time_inbound,
-        occurs_weekly_fields_inbound:data.occurs_weekly_fields_inbound,
-        monthly_field_setting_inbound:data.monthly_field_setting_inbound,
+        Schedule_configure_inbound: data.Schedule_configure_inbound || "", 
+        schedule_type_inbound: data.schedule_type_inbound || "",
+        occurs_inbound: data.occurs_inbound || "",
+        recurs_count_inbound: data.recurs_count_inbound || "",
+        recurs_time_inbound: data.recurs_time_inbound || "",
+        occurs_weekly_fields_inbound:data.occurs_weekly_fields_inbound || "",
+        monthly_field_setting_inbound:data.monthly_field_setting_inbound || "",
         //next_date_inbound:data.next_date_inbound,
-        Schedule_configure_outbound: data.Schedule_configure_outbound,
-        schedule_type_outbound: data.schedule_type_outbound,
-        occurs_outbound: data.occurs_outbound,
-        recurs_count_outbound: data.recurs_count_outbound,
-        recurs_time_outbound: data.recurs_time_outbound,
-        occurs_weekly_fields_outbound:data.occurs_weekly_fields_outbound,
-        monthly_field_setting_outbound:data.monthly_field_setting_outbound,
+        Schedule_configure_outbound: data.Schedule_configure_outbound || "",
+        schedule_type_outbound: data.schedule_type_outbound || "",
+        occurs_outbound: data.occurs_outbound || "",
+        recurs_count_outbound: data.recurs_count_outbound || "",
+        recurs_time_outbound: data.recurs_time_outbound || "",
+        occurs_weekly_fields_outbound:data.occurs_weekly_fields_outbound || "",
+        monthly_field_setting_outbound:data.monthly_field_setting_outbound || "",
         //next_date_outbound:data.next_date_outbound,
         
     });

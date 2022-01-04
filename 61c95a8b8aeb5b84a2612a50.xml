@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+	<a>
+		<e>
+			<OrderHandeling>
+				<ID>GarmentLabelFlag</ID>
+				<value></value>
+			</OrderHandeling>
+			<OrderHandeling>
+				<ID>ImportAs</ID>
+				<value>Draft</value>
+			</OrderHandeling>
+			<OrderHandeling>
+				<ID>LastUpdateDate</ID>
+				<value></value>
+			</OrderHandeling>
+			<OrderHandeling>
+				<ID>SizeChartModel</ID>
+				<value>Data</value>
+			</OrderHandeling>
+			<OrderHandeling>
+				<ID>AdjustWastage</ID>
+				<value>True</value>
+			</OrderHandeling>
+			<CustRef>
+				<ID>Consolidated PO ID</ID>
+				<value></value>
+			</CustRef>
+			<CustRef>
+				<ID>PO</ID>
+				<value>00000Boden009</value>
+			</CustRef>
+			<CustRef>
+				<ID>POTCODE</ID>
+				<value>W2C</value>
+			</CustRef>
+			<CustRef>
+				<ID>CARECODE</ID>
+				<value>Amber Test211122</value>
+			</CustRef>
+			<SupplierDetail>
+				<Brand>Boden</Brand>
+				<SupplierNo></SupplierNo>
+				<FactoryNo>Test01</FactoryNo>
+			</SupplierDetail>
+			<ItemRefs>
+				<ItemRef>BD-CW-CL04</ItemRef>
+			</ItemRefs>
+			<ItemRefs>
+				<ItemRef>BDMBPPAT03</ItemRef>
+			</ItemRefs>
+			<EDI_Variables>
+				<ID>COO</ID>
+				<value>MADE IN BULGARIA</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>Send date</ID>
+				<value></value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>ContentNo</ID>
+				<value>ASLL-ABC-20211100011</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>CareNo</ID>
+				<value></value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>Dep</ID>
+				<value>DEP FOR STYLE TO 00000Boden009</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>Sub</ID>
+				<value>SUB FOR STYLE TO 00000Boden009</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>Sty</ID>
+				<value>STY FOR STYLE TO 00000Boden009</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>NOP</ID>
+				<value>NOP TO 00000Boden009</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>MINIDATE</ID>
+				<value>20211122</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>GPU</ID>
+				<value>DDEP GPU TO 00000Boden009</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>WASHREF</ID>
+				<value>WASH TO 00000Boden009</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>FOOT-U</ID>
+				<value>FOOT TO 00000Boden009</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>FOOT-L</ID>
+				<value>L TO 00000Boden009</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>FOOT-S</ID>
+				<value>S TO 00000Boden009</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>AC</ID>
+				<value></value>
+			</EDI_Variables>
+			<SizeDetail>
+				<SizeChartID></SizeChartID>
+				<Size>S</Size>
+				<TicketQuantity>
+					<Quantity>550</Quantity>
+				</TicketQuantity>
+				<TicketQuantity>
+					<Quantity>600</Quantity>
+				</TicketQuantity>
+				<MatrixDetail>
+					<ID>sku code</ID>
+					<Value>005633858</Value>
+				</MatrixDetail>
+				<MatrixDetail>
+					<ID>Size Description</ID>
+					<Value>0</Value>
+				</MatrixDetail>
+				<MatrixDetail>
+					<ID>USSIZE</ID>
+					<Value>USSIZE S </Value>
+				</MatrixDetail>
+				<MatrixDetail>
+					<ID>US BARCODE</ID>
+					<Value>US S </Value>
+				</MatrixDetail>
+				<MatrixDetail>
+					<ID>USPRICE</ID>
+					<Value>USPRICE S </Value>
+				</MatrixDetail>
+				<MatrixDetail>
+					<ID>COLOUR</ID>
+					<Value>COLOUR S </Value>
+				</MatrixDetail>
+				<MatrixDetail>
+					<ID>COLCODE</ID>
+					<Value>COLCODE S </Value>
+				</MatrixDetail>
+				<MatrixDetail>
+					<ID>CORE BARCODE</ID>
+					<Value>CORE S</Value>
+				</MatrixDetail>
+			</SizeDetail>
+			<SizeDetail>
+				<SizeChartID></SizeChartID>
+				<Size>M</Size>
+				<TicketQuantity>
+					<Quantity>550</Quantity>
+				</TicketQuantity>
+				<TicketQuantity>
+					<Quantity>600</Quantity>
+				</TicketQuantity>
+				<MatrixDetail>
+					<ID>sku code</ID>
+					<Value>001285858</Value>
+				</MatrixDetail>
+				<MatrixDetail>
+					<ID>Size Description</ID>
+					<Value>2</Value>
+				</MatrixDetail>
+				<MatrixDetail>
+					<ID>USSIZE</ID>
+					<Value>USSIZE M</Value>
+				</MatrixDetail>
+				<MatrixDetail>
+					<ID>US BARCODE</ID>
+					<Value>US M </Value>
+				</MatrixDetail>
+				<MatrixDetail>
+					<ID>USPRICE</ID>
+					<Value>USPRICE M </Value>
+				</MatrixDetail>
+				<MatrixDetail>
+					<ID>COLOUR</ID>
+					<Value>COLOUR M </Value>
+				</MatrixDetail>
+				<MatrixDetail>
+					<ID>COLCODE</ID>
+					<Value>COLCODE M </Value>
+				</MatrixDetail>
+				<MatrixDetail>
+					<ID>CORE BARCODE</ID>
+					<Value>CORE M</Value>
+				</MatrixDetail>
+			</SizeDetail>
+		</e>
+		<e>
+			<OrderHandeling>
+				<ID>GarmentLabelFlag</ID>
+				<value></value>
+			</OrderHandeling>
+			<OrderHandeling>
+				<ID>ImportAs</ID>
+				<value>Draft</value>
+			</OrderHandeling>
+			<OrderHandeling>
+				<ID>LastUpdateDate</ID>
+				<value></value>
+			</OrderHandeling>
+			<OrderHandeling>
+				<ID>SizeChartModel</ID>
+				<value>Data</value>
+			</OrderHandeling>
+			<OrderHandeling>
+				<ID>AdjustWastage</ID>
+				<value>True</value>
+			</OrderHandeling>
+			<CustRef>
+				<ID>Consolidated PO ID</ID>
+				<value></value>
+			</CustRef>
+			<CustRef>
+				<ID>PO</ID>
+				<value>00000Boden009</value>
+			</CustRef>
+			<CustRef>
+				<ID>POTCODE</ID>
+				<value></value>
+			</CustRef>
+			<CustRef>
+				<ID>CARECODE</ID>
+				<value></value>
+			</CustRef>
+			<SupplierDetail>
+				<Brand>Boden</Brand>
+				<SupplierNo></SupplierNo>
+				<FactoryNo>Test01</FactoryNo>
+			</SupplierDetail>
+			<ItemRefs>
+				<ItemRef>BD-CW-CL04</ItemRef>
+			</ItemRefs>
+			<ItemRefs>
+				<ItemRef>BDACCINFT02B</ItemRef>
+			</ItemRefs>
+			<EDI_Variables>
+				<ID>COO</ID>
+				<value>MADE IN CHINA</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>Send date</ID>
+				<value></value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>ContentNo</ID>
+				<value></value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>CareNo</ID>
+				<value></value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>Dep</ID>
+				<value>DEP FOR STYLE TO innoa9</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>Sub</ID>
+				<value>SUB FOR STYLE TO innoa9</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>Sty</ID>
+				<value>STY FOR STYLE TO innoa9</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>NOP</ID>
+				<value>NOP TO innoa9</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>MINIDATE</ID>
+				<value>20211122</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>GPU</ID>
+				<value>GPU-9</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>WASHREF</ID>
+				<value>WASH-9</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>FOOT-U</ID>
+				<value>FOOT-9</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>FOOT-L</ID>
+				<value>L-9</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>FOOT-S</ID>
+				<value>S-9</value>
+			</EDI_Variables>
+			<EDI_Variables>
+				<ID>AC</ID>
+				<value>AC-9</value>
+			</EDI_Variables>
+			<SizeDetail>
+				<SizeChartID></SizeChartID>
+				<Size>OS-Updated</Size>
+				<TicketQuantity>
+					<Quantity>1000</Quantity>
+				</TicketQuantity>
+				<TicketQuantity>
+					<Quantity>100</Quantity>
+				</TicketQuantity>
+				<MatrixDetail>
+					<ID>Size Description</ID>
+					<Value>OS</Value>
+				</MatrixDetail>
+				<MatrixDetail>
+					<ID>USSIZE</ID>
+					<Value>USSIZE OS</Value>
+				</MatrixDetail>
+				<MatrixDetail>
+					<ID>US BARCODE</ID>
+					<Value>US OS </Value>
+				</MatrixDetail>
+				<MatrixDetail>
+					<ID>USPRICE</ID>
+					<Value>USPRICE OS</Value>
+				</MatrixDetail>
+				<MatrixDetail>
+					<ID>COLOUR</ID>
+					<Value>COLOUR OS</Value>
+				</MatrixDetail>
+				<MatrixDetail>
+					<ID>COLCODE</ID>
+					<Value>COLCODE OS</Value>
+				</MatrixDetail>
+				<MatrixDetail>
+					<ID>CORE BARCODE</ID>
+					<Value>CORE OS</Value>
+				</MatrixDetail>
+			</SizeDetail>
+		</e>
+	</a>

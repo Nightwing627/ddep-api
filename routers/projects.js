@@ -19,6 +19,7 @@ const schedule_setting = require('../controllers/schedule_setting.controller.js'
 const { json } = require('body-parser');
 router.post('/save', projects.create);
 router.put('/update/:id',projects.update);
+router.post('/checkcodeexist',projects.checkecodexsit);
 router.get('/add',function(req,res){
     res.render('pages/add-projects');
 })

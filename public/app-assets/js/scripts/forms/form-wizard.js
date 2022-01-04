@@ -75,7 +75,16 @@ $(function () {
       $this.validate({
         rules: {
           ProjectCode: {
-            required: true
+            required: true,
+            remote : {
+              type : 'POST',
+              url : "/projects/checkcodeexist",
+              data : {
+                  ProjectCode: function() { return $("#ProjectCode").val();
+                },
+              
+              },
+            }
           },
           ProjectName: {
             required: true
@@ -120,7 +129,14 @@ $(function () {
             required: true
           },
           
-        }
+        },
+        messages : {
+          ProjectCode : {
+              required : "Project Code Is Required",
+              remote : "Project Code already exists."
+          }
+      }
+
       });
     });
 
@@ -178,7 +194,7 @@ $(function () {
                       $("#inbound_setting_id").val(response._id);
                       $('#inboundFormat').val(response.inbound_format);
                       $('#ftp_server_link').val(response.ftp_server_link);
-                      $('#host').val(response.host);
+                      //$('#host').val(response.host);
                       $('#port').val(response.port);
                       $('#login_name').val(response.login_name);
                       $('#password').val(response.password);
@@ -250,13 +266,14 @@ $(function () {
               var inbound_format = $('#inboundFormat').val();
               var sync_type = $('input[name="sync_type"]:checked').val();
               var ftp_server_link = $('#ftp_server_link').val();
-              var host = $('#host').val();
+  
               var port = $('#port').val();
               var login_name = $('#login_name').val();
               var password = $('#password').val();
               var folder = $('#folderpath').val();
+              var backup_folder = $('#backup_folder').val();
               var is_password_encrypted = $('#is_password_encrypted').val();
-             
+              var is_active = $('#is_active_inbound').data('value');
               if(inbound_setting_id=="")
               {
 
@@ -264,7 +281,7 @@ $(function () {
                   url:'/inbound_setting/save',  
                   method:'post',  
                   dataType:'json',
-                  data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,host:host,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder},
+                  data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,is_active:is_active},
                   success:function(response){
                     console.log(response);
                     //alert("Setting saved successfully");
@@ -278,7 +295,7 @@ $(function () {
                   url:'/inbound_setting/update/'+inbound_setting_id,  
                   method:'put',  
                   dataType:'json',
-                  data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,host:host,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder},
+                  data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,is_active:is_active},
                   success:function(response){
                     //console.log(response);
                     alert("Setting saved successfully");
@@ -294,13 +311,14 @@ $(function () {
               var outbound_format = $('#outbound_format').val();
               var outbound_setting_id = $('#outbound_setting_id').val();
               var project_id = $('#project_id').val();
+              var is_active = $('#is_active_outbound').data('value');
               if(outbound_setting_id=="")
               {
                 $.ajax({
                   url:'/outbound_setting/save',  
                   method:'post',  
                   dataType:'json',
-                  data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format},
+                  data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active:is_active},
                   success:function(response){
                     //console.log(response);
                     //alert("Setting saved successfully");
@@ -314,7 +332,7 @@ $(function () {
                   url:'/outbound_setting/update/'+outbound_setting_id,  
                   method:'put',  
                   dataType:'json',
-                  data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format},
+                  data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active},
                   success:function(response){
                     //console.log(response);
                     //alert("Setting saved successfully");
@@ -388,13 +406,14 @@ $(function () {
           var inbound_format = $('#inboundFormat').val();
           var sync_type = $('input[name="sync_type"]:checked').val();
           var ftp_server_link = $('#ftp_server_link').val();
-          var host = $('#host').val();
           var port = $('#port').val();
           var login_name = $('#login_name').val();
           var password = $('#password').val();
           var project_id = $('#project_id').val();
           var folder = $('#folderpath').val();
+          var backup_folder = $('#backup_folder').val();
           var is_password_encrypted = $('#is_password_encrypted').val();
+          var is_active = $('#is_active_inbound').data('value');
           if(inbound_setting_id=="")
           {
 
@@ -402,7 +421,7 @@ $(function () {
               url:'/inbound_setting/save',  
               method:'post',  
               dataType:'json',
-              data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,host:host,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder},
+              data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,is_active:is_active},
               success:function(response){
                 console.log(response);
                 //alert("Setting saved successfully");
@@ -416,7 +435,7 @@ $(function () {
               url:'/inbound_setting/update/'+inbound_setting_id,  
               method:'put',  
               dataType:'json',
-              data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,host:host,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder},
+              data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,is_active:is_active},
               success:function(response){
                 //console.log(response);
                 alert("Setting saved successfully");
@@ -426,11 +445,96 @@ $(function () {
           }
          }
       })
-      $('#save_outbound').on('click',function(e){
+      $('#is_active_inbound').on('click',function(e){
+        var is_active = $(this).data('value');
+        if(is_active=="Inactive")
+        {
+          is_active = "Active";
+          $(this).data('value',"Active");
+          $(this).removeClass('btn-secondary');
+          $(this).addClass('btn-success');
+          $(this).html('Active');
+        }
+        else
+        {
+          is_active = "Inactive";
+          $(this).data('value',"Inactive");
+          $(this).removeClass('btn-success');
+          $(this).addClass('btn-secondary');
+          $(this).html('Inactive')
+        }
+        e.preventDefault();
+        var isValid = $('#frm-save-inbound').valid();
+         var project_id = $('#project_id').val();
+         var inbound_setting_id = $('#inbound_setting_id').val();
+         if(isValid)
+         {
+          var inbound_setting_id = $("#inbound_setting_id").val();
+          var inbound_format = $('#inboundFormat').val();
+          var sync_type = $('input[name="sync_type"]:checked').val();
+          var ftp_server_link = $('#ftp_server_link').val();
+          var port = $('#port').val();
+          var login_name = $('#login_name').val();
+          var password = $('#password').val();
+          var project_id = $('#project_id').val();
+          var folder = $('#folderpath').val();
+          var backup_folder = $('#backup_folder').val();
+          var is_password_encrypted = $('#is_password_encrypted').val();
+          var is_active = $('#is_active_inbound').data('value');
+          if(inbound_setting_id=="")
+          {
+
+            $.ajax({
+              url:'/inbound_setting/save',  
+              method:'post',  
+              dataType:'json',
+              data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,is_active:is_active},
+              success:function(response){
+                console.log(response);
+                //alert("Setting saved successfully");
+                $("#inbound_setting_id").val(response.id);
+              }
+            });
+          }
+          else
+          {
+            $.ajax({
+              url:'/inbound_setting/update/'+inbound_setting_id,  
+              method:'put',  
+              dataType:'json',
+              data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,is_active:is_active},
+              success:function(response){
+                //console.log(response);
+                alert("Setting saved successfully");
+                //$("#inbound_setting_id").val(response.id);
+              }
+            });
+          }
+         }
+      })
+      $('#is_active_outbound').on('click',function(e){
+        var is_active = $(this).data('value');
+        if(is_active=="Inactive")
+        {
+          is_active = "Active";
+          $(this).data('value',"Active");
+          $(this).removeClass('btn-secondary');
+          $(this).addClass('btn-success');
+          $(this).html('Active');
+        }
+        else
+        {
+          is_active = "Inactive";
+          $(this).data('value',"Inactive");
+          $(this).removeClass('btn-success');
+          $(this).addClass('btn-secondary');
+          $(this).html('Inactive')
+        }
         e.preventDefault();
         var isValid = $('#frm-save-outbound').valid();
          var project_id = $('#project_id').val();
          var outbound_setting_id = $('#outbound_setting_id').val();
+         var is_active = $('#is_active_outbound').data('value');
          if(isValid)
          {
             var sync_type_out =$('input[name="sync_type_out"]:checked').val();
@@ -444,7 +548,7 @@ $(function () {
                   url:'/outbound_setting/save',  
                   method:'post',  
                   dataType:'json',
-                  data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format},
+                  data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active:is_active},
                   success:function(response){
                     console.log(response);
                     //alert("Setting saved successfully");
@@ -458,7 +562,51 @@ $(function () {
                   url:'/outbound_setting/update/'+outbound_setting_id,  
                   method:'put',  
                   dataType:'json',
-                  data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format},
+                  data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active:is_active},
+                  success:function(response){
+                    //console.log(response);
+                    alert("Setting saved successfully");
+                    //$("#outbound_setting_id").val(response.id);
+                  }
+                });
+              }
+         }
+      })
+      $('#save_outbound').on('click',function(e){
+        e.preventDefault();
+        var isValid = $('#frm-save-outbound').valid();
+         var project_id = $('#project_id').val();
+         var outbound_setting_id = $('#outbound_setting_id').val();
+         var is_active = $('#is_active_outbound').data('value');
+         if(isValid)
+         {
+            var sync_type_out =$('input[name="sync_type_out"]:checked').val();
+              var api_url = $('#api_url').val();
+              var outbound_format = $('#outbound_format').val();
+              var outbound_setting_id = $('#outbound_setting_id').val();
+              var project_id = $('#project_id').val();
+              var is_active = $("#is_active_outbound").data('value');
+              if(outbound_setting_id=="")
+              {
+                $.ajax({
+                  url:'/outbound_setting/save',  
+                  method:'post',  
+                  dataType:'json',
+                  data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active:is_active},
+                  success:function(response){
+                    console.log(response);
+                    //alert("Setting saved successfully");
+                    $("#outbound_setting_id").val(response.id);
+                  }
+                });
+              }
+              else
+              {
+                $.ajax({
+                  url:'/outbound_setting/update/'+outbound_setting_id,  
+                  method:'put',  
+                  dataType:'json',
+                  data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active:is_active},
                   success:function(response){
                     //console.log(response);
                     alert("Setting saved successfully");

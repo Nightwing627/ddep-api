@@ -4,29 +4,61 @@ var Client = require('ftp');
 const fs = require('fs');
 
 class FTP {
+    
     constructor(host = 'localhost', port = 21, username = 'anonymous', password = 'guest', secure = false) {
-        this.client = new Client.Client();
-        this.c =this.client.connect({
-            host: host,
-            user: username,
-            password: password,
-            port:port,
-            secure :secure 
-        })
-        // this.settings = {
+        // this.client = new Client();
+        // this.c =this.client.connect({
         //     host: host,
-        //     port: port,
         //     user: username,
         //     password: password,
-        //     secure: secure
-        // };
-        console.log("ftp connected");
+        //     port:port,
+        //     secure :secure 
+        // })
+        this.settings = {
+            host: host,
+            port: port,
+            user: username,
+            password: password,
+            secure: secure
+        };
+        //console.log("ftp connected");
     }
+    getdirectorylist($folderpath){
+        var ftp = new Client()
+        //const filelist=[];
+        //var c = ftp.connect(this.settings);
+        ftp.connect(this.settings);
+        
+                ftp.on('ready', function() {
+                ftp.list($folderpath,function(err, list) {
+                if (err){
+                    throw err;
+                } 
+                //console.log(list);
+                for (let index = 0; index < list.length; index++) {
+                    if((list[index].type!=="d")){
+                        filelist.push(list[index].name);
+                    }
+                    // console.log(filelist);
+                    //console.log(list[index].name);
+                }
+                    //return JSON.stringify(list);
+                
+                    
+                //console.log(filelist);
+                });
+           
+        })
+        console.log(filelist);
+        return filelist;
+        //ftp.end();
+        //return filelist
 
+    }
     getfile(sourcePath, remotePath, permissions1) {
-        let self = this;
-        var content = '';
-        self.c.on('ready', function() {
+        var c = new Client();
+        c.connect(this.settings);
+        c.on('ready', function() {
             c.get(sourcePath, function(err, stream) {
                  
                  stream.on('data', function(chunk) {
@@ -36,7 +68,7 @@ class FTP {
                      // content variable now contains all file content. 
                  });
                  console.log(content);
-            })
+            });
         });
         
     }

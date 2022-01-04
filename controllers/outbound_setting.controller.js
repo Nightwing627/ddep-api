@@ -60,7 +60,8 @@ exports.create = (req, res) => {
         project_id:data.project_id,
         outbound_format: data.outbound_format, 
         sync_type_out: data.sync_type_out,
-        api_url: data.api_url
+        api_url: data.api_url,
+        is_active : data.is_active || "Inactive"
     });
     outboundSetting.save()
     .then(data => {

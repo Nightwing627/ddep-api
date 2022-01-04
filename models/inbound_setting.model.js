@@ -12,7 +12,12 @@ const InboundSettingSchema = mongoose.Schema({
     login_name:String,
     password:String ,
     folder:String,
-    is_password_encrypted:String
+    is_password_encrypted:String,
+    backup_folder:String,
+    is_active:{
+        type: String,
+        default:'Inactive'
+    }
 
 },{
     timestamps: true

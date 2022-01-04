@@ -51,11 +51,6 @@ exports.create = (req, res) => {
             message: "FTP URL is Required"
         });
     }
-    if(!data.host) {
-        return res.status(400).send({
-            message: "Host Name is Required"
-        });
-    }
     if(!data.port) {
         return res.status(400).send({
             message: "Port Number is Required"
@@ -182,11 +177,6 @@ exports.update = (req, res) => {
             message: "FTP URL is Required"
         });
     }
-    if(!data.host) {
-        return res.status(400).send({
-            message: "Host Name is Required"
-        });
-    }
     if(!data.port) {
         return res.status(400).send({
             message: "Port Number is Required"
@@ -219,7 +209,9 @@ exports.update = (req, res) => {
         login_name: data.login_name,
         password: data.password,
         folder:data.folder,
-        is_password_encrypted:data.is_password_encrypted
+        is_password_encrypted:data.is_password_encryptedm,
+        backup_folder:data.backup_folder || "",
+        is_active : data.is_active || "Inactive"
             
     });
     InboundSetting.findByIdAndUpdate(req.params.id,data, { new: true })

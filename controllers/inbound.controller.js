@@ -65,6 +65,20 @@ exports.findAll = (req, res) => {
         });
     });
 };
+exports.findByProjectId = (req, res) => {
+    //var page =req.query.page;
+    //var limit =eval(req.query.limit);
+   //console.log(limit*page);
+   Inbound.find({project_id:req.body.project_id})
+    .then(inbound => {
+        res.status(200).send({data:inbound})
+    }).catch(err => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving users."
+        });
+    });
+};
+
 exports.countAll=(req,res)=>{
     var query = Inbound.find();
     query.count(function (err, count) {
