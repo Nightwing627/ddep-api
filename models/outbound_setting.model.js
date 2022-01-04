@@ -9,6 +9,10 @@ const OutboundSettingSchema = mongoose.Schema({
         outbound_format:String,
         sync_type_out:String,
         api_url:String,
+        is_active:{
+            type: String,
+            default:'Inactive'
+        }
      
     //OutboundSetting: ProjectSchema.Types.Mixed,
     //ScheduleSetting: ProjectSchema.Types.Mixed,

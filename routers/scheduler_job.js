@@ -20,6 +20,7 @@ const schedule_setting = require('../controllers/schedule_setting.controller.js'
 const { $where } = require('../models/user.model');
 const CalenderHelper = require('../my_modules/CalenderHelper');
 const { now } = require('mongoose');
+const { options } = require('.');
 
 //router.get('/fulllist',projects.fullProject);
 router.get('/getScheduleProjectInfoOLD',function(req,res){
@@ -378,6 +379,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
                var currenttime = date_ob.getHours() + ":" +(date_ob.getMinutes()<10?'0':'') + date_ob.getMinutes();
                if(item.schedule_setting.Schedule_configure_inbound!='click_by_user')
                {
+                    console.log("inbound check for runs"+item.schedule_setting.project_id);
                    var createat = new Date(item.schedule_setting.createdAt);
                    var createddate = createat.getDate() + '-' + createat.getMonth() + '-' + createat.getFullYear();
                    var nextdates = new Date(item.schedule_setting.next_date_inbound);
@@ -2004,6 +2006,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
             // the array is defined and has at least one element
             list_arr_inbound.forEach(item => {
                 console.log("time match");
+                console.log("Inbound run for project :"+ item.inbound_setting.project_id);
                     var host = item.inbound_setting.ftp_server_link;
                     var port = item.inbound_setting.port;
                     var username = item.inbound_setting.login_name;
@@ -2122,116 +2125,60 @@ router.get('/getScheduleProjectInfo',function(req,res){
                 // the array is defined and has at least one element
                 list_arr_outbound.forEach(item => {
                     console.log("time match");
-                        var host = item.inbound_setting.ftp_server_link;
-                        var port = item.inbound_setting.port;
-                        var username = item.inbound_setting.login_name;
-                        var password = item.inbound_setting.password;
-                        var folder = item.inbound_setting.folder;
+                    console.log("Inbound run for project :"+ item.inbound_setting.project_id);
                         var project_id = item.inbound_setting.project_id;
                         var project_code = item.ProjectCode;
-                        const client = new ftp(host, port, username ,password, true);
-                        // console.log(client.clientList());
                         
-                        try{
-                            if(client)
-                            {
-        
-                                //console.log(result);
-                                let data;
-                                var xmldata;
-                                
-                                async function init() {
-                                    try{
-        
-                                        client.download(folder, './'+project_id+'.xml');
-                                        
-                                        //await sleep(400);
-                                        
-                                    }catch(err)
-                                    {
-                                        //res.send("FTP not connected");
-                                    }
-                                    
-                                }
-                                
-                                function sleep(ms) {
-                                    return new Promise((resolve) => {
-                                    setTimeout(resolve, ms);
-                                    });
-                                }
-                                const sleeps = init();
-                                xmldata = fs.readFileSync('./'+project_id+'.xml', 'utf8');
-                                var parser = new xml.Parser({explicitArray : false});
-                                
-                                parser.parseString(xmldata, function (err, results) {
-                                    data = results
-                                    //console.log(data);
-                                });
-                            // parsing to json
-                                if(data==undefined)
-                                {
-                                    //res.json({'status':'false','msg':'Connection Time Out Please Try Again'});
-                                }
-                                var options = {
-                                    'method': 'POST',
-                                    'url': config.domain+'/outbound/run',
-                                    'headers': {
-                                    'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({
-                                    "project_code": project_code,
-                                    "project_id": project_id,
-                                    "outbound_data": data
-                                    })
-                                    
-                                };
-                                request(options, function (error, response) {
-                                    //console.log(response);
-                                    if (error) throw new Error(error);
-                                        console.log(JSON.parse(response.body));
-                                        var result = JSON.parse(response.body);
-                                        if(result.Status!=undefined && result.Status == 1)
-                                        {
-                                            var newschedulesetting = item.schedule_setting;
-                                            //var date = new Date();
-                                            //newschedulesetting.next_date_inbound = date;
-                                            //console.log(newschedulesetting);
-                                            var options = {
-                                                'method': 'put',
-                                                'url': config.domain+'/schedule_setting/update/'+item.schedule_setting._id,
-                                                'headers': {
-                                                'Content-Type': 'application/json'
-                                                },
-                                                body: JSON.stringify(newschedulesetting)
-                                                
-                                            };
-                                            request(options, function (error, response) {
-                                                //console.log(response);
-                                                if (error) throw new Error(error)
-                                                else{
-
-                                                    //console.log(response);
-                                                    console.log("update schedule setting date");
-                                                }
-                                                    //scheduelerunning++
-                                                //res.json({'status':'true','msg':'Inbound Run Successfully'});
-                                            });  
-                                        }
-                                        //scheduelerunning++
-                                    //res.json({'status':'true','msg':'Inbound Run Successfully'});
-                                });
-                                //console.log("inbound run");
+                        // console.log(client.clientList());
+                        var options = {
+                            'method': 'POST',
+                            'url': config.domain+'/outbound/useroutboundtest',
+                            'headers': {
+                            'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                            "project_id": project_id,
+                            "api_url": item.outbound_setting.api_url
+                            })
+                        }
+                        request(options, function (error, response) {
+                            if (error){
+                              throw new Error(error);
                             }
                             else
                             {
-                                console.log('connection time out ftp file not found');
-                                //res.json({'status':'false','msg':'Connection Time Out Please Try Again'});
+                                var result = JSON.parse(response.body); 
+                                if(result.Status!=undefined && result.Status == 1)
+                                    {
+                                        var newschedulesetting = item.schedule_setting;
+                                        //var date = new Date();
+                                        //newschedulesetting.next_date_inbound = date;
+                                        //console.log(newschedulesetting);
+                                        var options = {
+                                            'method': 'put',
+                                            'url': config.domain+'/schedule_setting/update/'+item.schedule_setting._id,
+                                            'headers': {
+                                            'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify(newschedulesetting)
+                                            
+                                        };
+                                        request(options, function (error, response) {
+                                            //console.log(response);
+                                            if (error) throw new Error(error)
+                                            else{
+
+                                                //console.log(response);
+                                                console.log("update schedule setting date");
+                                            }
+                                                //scheduelerunning++
+                                            //res.json({'status':'true','msg':'Inbound Run Successfully'});
+                                        });  
+                                    }
                             }
-                        }catch(err)
-                        {
-                            console.log('catch'+err);
-                            //res.json({'status':'false','msg':'FTP Not Connected'});
-                        }
+                        })
+
+                       
                    });
                 }
           

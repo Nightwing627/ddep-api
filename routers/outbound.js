@@ -11,6 +11,10 @@ router.use(express.json());
 router.use(express.static(path.join(__dirname, 'public')));
 router.use(express.static('public'));
 const outbound = require('../controllers/outbound.controller.js');
+const { $where } = require('../models/schedule_setting.model');
+const e = require('express');
+const { json } = require('body-parser');
+const { exit } = require('process');
 router.post('/run', outbound.create);
 router.put('/:id',outbound.update);
 router.post('/runbyuser',function(req,res){
@@ -196,6 +200,96 @@ router.post('/runbyuser',function(req,res){
         res.send(response);
       });
 })
+router.post('/useroutboundtest',function(req,res){
+  var project_id = req.body.project_id;
+  var api_url = req.body.api_url;
+  let outbound_run_counter_success = 0;
+  let outbound_run_counter_fail = 0;
+  var options = {
+    'method': 'POST',
+    'url': config.domain+'/inbound/findbyproject_id',
+    'headers': {
+      'Content-Type': 'application/json'
+    },
+    body:JSON.stringify({"project_id":project_id}),
+  }
+  request(options, function (error, response) {
+    if (error){
+      throw new Error(error);
+    }
+    else
+    {
+      var inbound_data_array = JSON.parse(response.body);
+      var data_array = [];
+      inbound_data_array.data.forEach(item => {
+        data_array.push(item.inbound_data);
+      });
+      //res.send(data_array);
+      //res.send(inbound_data_array);
+      
+      data_array.forEach(item =>{
+
+        var options1 = {
+          'method': 'POST',
+          'url': api_url,
+          'headers': {
+            'Content-Type': 'text/plain'
+          },
+          formData:{
+            'TuuJson':JSON.stringify(item)
+          },
+        }
+        request(options1, function (error, response) {
+          try
+          {
+            //console.log(response);
+            var dataoutboundres = undefined;
+            try{
+                dataoutboundres = JSON.parse(response.body)
+            }catch(e)
+            {
+
+            }
+            if (error){
+              //throw new Error(error);
+              //res.end({"Status":"false","Msg":"Wrong API Call"});
+              
+            }
+            else if(dataoutboundres==undefined)
+            {
+              //res.send({"Status":"false","Msg":"Wrong API Call"});
+              
+            }
+            else
+            {
+              var dataoutboundres = JSON.parse(response.body);
+              console.log(dataoutboundres);
+              if(dataoutboundres.SaveType=="Success")
+              {
+                
+                outbound_run_counter_success=parseInt(outbound_run_counter_success+1);
+              }
+              else
+              {
+                outbound_run_counter_fail=parseInt(outbound_run_counter_fail+1);
+  
+              }
+              
+              //console.log(JSON.parse(response.body));
+              //console.log(outbound_run_counter_fail);
+            }
+          }catch(error)
+          {
+            console.log(error);
+          }
+      })
+    })
+    
+    }
+  });
+  //console.log(outbound_run_counter_fail); 
+  res.json({"Status":"1","Msg":"Outbound Run Successfully"});
+});
 
 
 module.exports = router;

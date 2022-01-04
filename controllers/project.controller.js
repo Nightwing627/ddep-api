@@ -130,6 +130,28 @@ exports.findAll = (req, res) => {
         });
     });
 };
+exports.checkecodexsit = (req, res) => {
+    //var page =req.query.page;
+    //var limit =eval(req.query.limit);
+   //console.log(limit*page);
+    Project.find({ProjectCode:req.body.ProjectCode})
+    .then(projects => {
+        if(projects.length > 0)
+        {
+            res.send("false")
+            //res.status(200).send({status:true,msg:"Project Code Exsits"})
+        }
+        else
+        {
+            res.send("true")
+            //res.status(200).send({status:false,msg:"Project Code available"});
+        }
+    }).catch(err => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving users."
+        });
+    });
+};
 exports.countAll=(req,res)=>{
     var query = Project.find();
     query.count(function (err, count) {
