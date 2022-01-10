@@ -2014,59 +2014,25 @@ router.get('/getScheduleProjectInfo',function(req,res){
                     var folder = item.inbound_setting.folder;
                     var project_id = item.inbound_setting.project_id;
                     var project_code = item.ProjectCode;
-                    const client = new ftp(host, port, username ,password, true);
+                    //const client = new ftp(host, port, username ,password, true);
                     // console.log(client.clientList());
                     
                     try{
-                        if(client)
+                        if(project_id!=undefined && project_id!="")
                         {
     
                             //console.log(result);
-                            let data;
-                            var xmldata;
                             
-                            async function init() {
-                                try{
-    
-                                    client.download(folder, './'+project_id+'.xml');
-                                    
-                                    //await sleep(400);
-                                    
-                                }catch(err)
-                                {
-                                    //res.send("FTP not connected");
-                                }
-                                
-                            }
-                            
-                            function sleep(ms) {
-                                return new Promise((resolve) => {
-                                setTimeout(resolve, ms);
-                                });
-                            }
-                            const sleeps = init();
-                            xmldata = fs.readFileSync('./'+project_id+'.xml', 'utf8');
-                            var parser = new xml.Parser({explicitArray : false});
-                            
-                            parser.parseString(xmldata, function (err, results) {
-                                data = results
-                                //console.log(data);
-                            });
-                        // parsing to json
-                            if(data==undefined)
-                            {
-                                //res.json({'status':'false','msg':'Connection Time Out Please Try Again'});
-                            }
                             var options = {
                                 'method': 'POST',
-                                'url': config.domain+'/inbound/run',
+                                'url': config.domain+'/inbound/inboundrun',
                                 'headers': {
                                 'Content-Type': 'application/json'
                                 },
                                 body: JSON.stringify({
-                                "project_code": project_code,
+                                
                                 "project_id": project_id,
-                                "inbound_data": data
+                                
                                 })
                                 
                             };
@@ -2111,7 +2077,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
                         }
                         else
                         {
-                            console.log('connection time out ftp file not found');
+                            console.log('Project Not Found');
                             //res.json({'status':'false','msg':'Connection Time Out Please Try Again'});
                         }
                     }catch(err)
@@ -2132,13 +2098,12 @@ router.get('/getScheduleProjectInfo',function(req,res){
                         // console.log(client.clientList());
                         var options = {
                             'method': 'POST',
-                            'url': config.domain+'/outbound/useroutboundtest',
+                            'url': config.domain+'/inbound/outboundrun',
                             'headers': {
                             'Content-Type': 'application/json'
                             },
                             body: JSON.stringify({
                             "project_id": project_id,
-                            "api_url": item.outbound_setting.api_url
                             })
                         }
                         request(options, function (error, response) {
