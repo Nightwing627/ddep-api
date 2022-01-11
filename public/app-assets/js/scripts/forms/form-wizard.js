@@ -77,11 +77,15 @@ $(function () {
           ProjectCode: {
             required: true,
             remote : {
+              
               type : 'POST',
               url : "/projects/checkcodeexist",
               data : {
                   ProjectCode: function() { return $("#ProjectCode").val();
                 },
+                project_id: function() { return $("#project_id").val();
+              },
+                
               
               },
             }
@@ -200,7 +204,9 @@ $(function () {
                       $('#password').val(response.password);
                       $('input[value="'+response.sync_type+'"]').prop('checked',true);
                       $('#folderpath').val(response.folder);
+                      $('#backup_folder').val(response.backup_folder);
                       $('#is_password_encrypted option[value="'+response.is_password_encrypted+'"]').prop('selected',true);
+                      $('#is_password_encrypted').trigger('change');
                     }
                     //console.log(response);
                     //console.log(response._id);
@@ -248,6 +254,30 @@ $(function () {
                        $('#recurs_count_outbound').val(response.recurs_count_outbound);
                        $('#recurs_time_outbound').val(response.recurs_time_outbound);
                        $("#schedule_setting_id").val(response._id);
+                       if(response.duration_inbound_start_date!=undefined)
+                       {
+                          $('#duration_inbound_start_date').val(response.duration_inbound_start_date);
+                       }
+                       if(response.duration_inbound_is_end_date!=undefined)
+                       {
+                        $('input[name="duration_inbound_is_end_date"][value="'+response.duration_inbound_is_end_date+'"]').prop('checked',true); 
+                       }
+                       if(response.duration_inbound_end_date!=undefined)
+                       {
+                          $('#duration_inbound_end_date').val(response.duration_inbound_end_date);
+                       }
+                       if(response.duration_outbound_start_date!=undefined)
+                       {
+                        $('#duration_outbound_start_date').val(response.duration_outbound_start_date);
+                       }
+                       if(response.duration_outbound_is_end_date!=undefined)
+                       {
+                        $('input[name="duration_outbound_is_end_date"][value="'+response.duration_outbound_is_end_date+'"]').prop('checked',true);
+                       }
+                       if(response.duration_outbound_end_date!=undefined)
+                       {
+                        $('#duration_outbound_end_date').val(response.duration_outbound_end_date);
+                       }
                     }
                     //console.log(response);
                     //console.log(response._id);
@@ -638,6 +668,14 @@ $(function () {
           var monthly_field_setting_outbound = [];
           var occurs_weekly_fields_inbound = [];
           var occurs_weekly_fields_outbound = [];
+          var duration_inbound_end_date = $('#duration_inbound_end_date').val();
+          var duration_inbound_start_date = $('#duration_inbound_start_date').val();
+          var duration_inbound_is_end_date = $('input[name="duration_inbound_is_end_date"]:checked').val();
+
+          var duration_outbound_end_date = $('#duration_outbound_end_date').val();
+          var duration_outbound_start_date = $('#duration_outbound_start_date').val();
+          var duration_outbound_is_end_date = $('input[name="duration_outbound_is_end_date"]:checked').val();
+
           if(occurs_inbound=="daily")
           {
 
@@ -735,7 +773,13 @@ $(function () {
                 monthly_field_setting_outbound:monthly_field_setting_outbound,
                 occurs_weekly_fields_outbound:occurs_weekly_fields_outbound,
                 recurs_count_outbound:recurs_count_outbound,
-                recurs_time_outbound:recurs_time_outbound
+                recurs_time_outbound:recurs_time_outbound,
+                duration_inbound_start_date:duration_inbound_start_date,
+                duration_inbound_is_end_date:duration_inbound_is_end_date,
+                duration_inbound_end_date:duration_inbound_end_date,
+                duration_outbound_start_date:duration_outbound_start_date,
+                duration_outbound_is_end_date:duration_outbound_is_end_date,
+                duration_outbound_end_date:duration_outbound_end_date
               },
               success:function(response){
                 console.log(response);

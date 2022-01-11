@@ -41,7 +41,7 @@ $(document).ready(function(){
                     }
                     if(data.schedule_setting!=undefined && data.schedule_setting.Schedule_configure_outbound=='click_by_user')
                     {
-                        $button_group+='<button type="button" class="btn btn-secondary run_outbound">RunOutbound</button>'
+                        $button_group+='<button type="button" data-project-id="'+data.inbound_setting.project_id+'" class="btn btn-secondary run_outbound">RunOutbound</button>'
                     }
                     $button_group+='<button type="button" class="btn btn-secondary">View</button></div>';
                     table.row.add( [
@@ -79,30 +79,38 @@ $(document).ready(function(){
         var is_password_encrypted = $(this).data('is-password-encrypted');
         var project_code = $(this).data('project-code');
         $.ajax({
-            url:'/projects/download',
+            url:'/inbound/inboundrun',
             method:'post',
             dataType:'json',
-            data:{host:host,username:username,password:password,port:port,project_id:project_id,folder:folder,is_password_encrypted:is_password_encrypted,project_code:project_code},
+            data:{project_id:project_id},
             success:function(response){
-                if(response.status=="false")
+                if(response.status=="0")
                 {
-                    alert(response.msg);
+                    alert(response.Msg);
                 }
                 else
                 {
-                    alert(response.msg);
+                    alert(response.Msg);
                 }
             }
         })
     });
     $('body').on('click','.run_outbound',function(){
+        var project_id = $(this).data('project-id');
         $.ajax({  
-            url:'/outbound/runbyuser',  
+            url:'/inbound/outboundrun',  
             method:'post',  
             dataType:'json', 
-            data:{page:0,limit:3},
+            data:{project_id:project_id},
             success:function(response){
-                alert(response.body);
+                if(response.Status==1)
+                {
+                    alert(response.Msg);
+                }
+                else
+                {
+                    alert(response.Msg);
+                }
             }
         });
     });

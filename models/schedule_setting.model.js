@@ -21,7 +21,13 @@ const ScheduleSettingSchema = mongoose.Schema({
         occurs_weekly_fields_outbound:{ type : Array , "default" : [] },
         monthly_field_setting_outbound:{type:Array,"default":[]},
         next_date_inbound :{type:Date,"default":Date.now},
-        next_date_outbound :{type:Date,"default":Date.now}
+        next_date_outbound :{type:Date,"default":Date.now},
+        duration_inbound_start_date:String,
+        duration_inbound_is_end_date:String,
+        duration_inbound_end_date:String,
+        duration_outbound_start_date:String,
+        duration_outbound_is_end_date:String,
+        duration_outbound_end_date:String
      
     //OutboundSetting: ProjectSchema.Types.Mixed,
     //ScheduleSetting: ProjectSchema.Types.Mixed,

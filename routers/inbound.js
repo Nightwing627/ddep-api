@@ -590,7 +590,7 @@ router.post('/inboundrun',function(req,res){
     if(error)
     {
         console.log(error);
-      res.json({"status":0,"msg":"Invalid Method"});
+      res.json({"Status":0,"Msg":"Invalid Method"});
     }
     var inboundSetting = JSON.parse(body);
     var settings = {
@@ -621,8 +621,8 @@ router.post('/inboundrun',function(req,res){
             ftp.mkdir(folderpath+'/'+backup_folder,function(err){
               if(err)
               {
-                console.log(folderpath+'/'+backup_folder);
-                console.log(err);
+                //console.log(folderpath+'/'+backup_folder);
+                //console.log(err);
                 console.log("backup folder not created");
               }
               else
@@ -806,7 +806,7 @@ router.post('/outboundrun',function(req,res){
     if(error)
     {
         console.log(error);
-      res.json({"status":0,"msg":"Invalid Method"});
+      res.json({"Status":0,"Msg":"Invalid Method"});
     }
     outboundsetting = JSON.parse(body);
     console.log(outboundsetting);

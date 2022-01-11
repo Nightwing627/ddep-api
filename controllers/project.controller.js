@@ -134,10 +134,14 @@ exports.checkecodexsit = (req, res) => {
     //var page =req.query.page;
     //var limit =eval(req.query.limit);
    //console.log(limit*page);
+   var project_id = req.body.project_id;
     Project.find({ProjectCode:req.body.ProjectCode})
     .then(projects => {
-        if(projects.length > 0)
+
+        if(projects.length > 0 && projects[0]._id!=project_id)
         {
+            //res.send(projects._id);
+            //console.log(projects[0]._id);
             res.send("false")
             //res.status(200).send({status:true,msg:"Project Code Exsits"})
         }
