@@ -1998,15 +1998,45 @@ router.get('/getScheduleProjectInfo',function(req,res){
                }
            }
            
-           //let date_ob = new Date();
+           let date_ob = new Date();
+           var day = ('0' + date_ob.getDate()).slice(-2);
+            var month = ('0' + (date_ob.getMonth() + 1)).slice(-2);
+            var year = date_ob.getFullYear();
+            var gettodaydate = year + '-' + month + '-' + day;
            //var currenttime = date_ob.getHours() + ":" +date_ob.getMinutes();
            //res.json(currenttime);
            //res.json('total schedule running now'+scheduelerunning);
            if (typeof list_arr_inbound !== 'undefined' && list_arr_inbound.length > 0) {
             // the array is defined and has at least one element
             list_arr_inbound.forEach(item => {
-                console.log("time match");
-                console.log("Inbound run for project :"+ item.inbound_setting.project_id);
+                var start_flag_inbound="false";
+                
+                if(item.schedule_setting.duration_inbound_start_date <= gettodaydate )
+                {
+                    if(item.schedule_setting.duration_inbound_is_end_date=="yes_end_date")
+                    {
+                        console.log("end date set");
+                        if(item.schedule_setting.duration_inbound_end_date > gettodaydate)
+                        {
+                            start_flag_inbound ="true";
+                        }
+                        else
+                        {
+                            start_flag_inbound = "false";
+                        }
+                    }
+                    else
+                    {
+
+                        start_flag_inbound ="true";
+                    }
+                }
+                
+                
+                if(start_flag_inbound=="true")
+                {
+                    console.log("time match");
+                    console.log("Inbound run for project :"+ item.inbound_setting.project_id);
                     var host = item.inbound_setting.ftp_server_link;
                     var port = item.inbound_setting.port;
                     var username = item.inbound_setting.login_name;
@@ -2085,64 +2115,94 @@ router.get('/getScheduleProjectInfo',function(req,res){
                         console.log('catch'+err);
                         //res.json({'status':'false','msg':'FTP Not Connected'});
                     }
+                }
                });
             }
             if (typeof list_arr_outbound !== 'undefined' && list_arr_outbound.length > 0) {
                 // the array is defined and has at least one element
                 list_arr_outbound.forEach(item => {
-                    console.log("time match");
-                    console.log("Inbound run for project :"+ item.inbound_setting.project_id);
-                        var project_id = item.inbound_setting.project_id;
-                        var project_code = item.ProjectCode;
-                        
-                        // console.log(client.clientList());
-                        var options = {
-                            'method': 'POST',
-                            'url': config.domain+'/inbound/outboundrun',
-                            'headers': {
-                            'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                            "project_id": project_id,
-                            })
-                        }
-                        request(options, function (error, response) {
-                            if (error){
-                              throw new Error(error);
+                    var start_flag_outbound="false";
+                
+                    if(item.schedule_setting.duration_outbound_start_date <= gettodaydate )
+                    {
+                        if(item.schedule_setting.duration_outbound_is_end_date=="yes_end_date")
+                        {
+                            console.log("end date set for outbound");
+                            if(item.schedule_setting.duration_outbound_end_date > gettodaydate)
+                            {
+                                start_flag_outbound ="true";
                             }
                             else
                             {
-                                var result = JSON.parse(response.body); 
-                                if(result.Status!=undefined && result.Status == 1)
-                                    {
-                                        var newschedulesetting = item.schedule_setting;
-                                        //var date = new Date();
-                                        //newschedulesetting.next_date_inbound = date;
-                                        //console.log(newschedulesetting);
-                                        var options = {
-                                            'method': 'put',
-                                            'url': config.domain+'/schedule_setting/update/'+item.schedule_setting._id,
-                                            'headers': {
-                                            'Content-Type': 'application/json'
-                                            },
-                                            body: JSON.stringify(newschedulesetting)
-                                            
-                                        };
-                                        request(options, function (error, response) {
-                                            //console.log(response);
-                                            if (error) throw new Error(error)
-                                            else{
-
-                                                //console.log(response);
-                                                console.log("update schedule setting date");
-                                            }
-                                                //scheduelerunning++
-                                            //res.json({'status':'true','msg':'Inbound Run Successfully'});
-                                        });  
-                                    }
+                                start_flag_outbound = "false";
                             }
-                        })
+                        }
+                        else
+                        {
 
+                            start_flag_outbound ="true";
+                        }
+                    }
+                    if(start_flag_outbound=="true")
+                    {
+
+                        console.log("time match");
+                        console.log("Inbound run for project :"+ item.inbound_setting.project_id);
+                            var project_id = item.inbound_setting.project_id;
+                            var project_code = item.ProjectCode;
+                            
+                            // console.log(client.clientList());
+                            var options = {
+                                'method': 'POST',
+                                'url': config.domain+'/inbound/outboundrun',
+                                'headers': {
+                                'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                "project_id": project_id,
+                                })
+                            }
+                            request(options, function (error, response) {
+                                if (error){
+                                  throw new Error(error);
+                                }
+                                else
+                                {
+                                    var result = JSON.parse(response.body); 
+                                    if(result.Status!=undefined && result.Status == 1)
+                                        {
+                                            var newschedulesetting = item.schedule_setting;
+                                            //var date = new Date();
+                                            //newschedulesetting.next_date_inbound = date;
+                                            //console.log(newschedulesetting);
+                                            var options = {
+                                                'method': 'put',
+                                                'url': config.domain+'/schedule_setting/update/'+item.schedule_setting._id,
+                                                'headers': {
+                                                'Content-Type': 'application/json'
+                                                },
+                                                body: JSON.stringify(newschedulesetting)
+                                                
+                                            };
+                                            request(options, function (error, response) {
+                                                //console.log(response);
+                                                if (error) throw new Error(error)
+                                                else{
+    
+                                                    //console.log(response);
+                                                    console.log("update schedule setting date");
+                                                }
+                                                    //scheduelerunning++
+                                                //res.json({'status':'true','msg':'Inbound Run Successfully'});
+                                            });  
+                                        }
+                                }
+                            })
+                    }
+                    else
+                    {
+                        console.log("schedule start date and end date not match");
+                    }
                        
                    });
                 }

@@ -114,6 +114,12 @@ exports.create = (req, res) => {
         recurs_time_outbound: data.recurs_time_outbound || "",
         occurs_weekly_fields_outbound:data.occurs_weekly_fields_outbound || "",
         monthly_field_setting_outbound:data.monthly_field_setting_outbound || "",
+        duration_inbound_start_date:data.duration_inbound_start_date||"",
+        duration_inbound_is_end_date:data.duration_inbound_is_end_date||"",
+        duration_inbound_end_date:data.duration_inbound_end_date||"",
+        duration_outbound_start_date:data.duration_outbound_start_date||"",
+        duration_outbound_is_end_date:data.duration_outbound_is_end_date||"",
+        duration_outbound_end_date:data.duration_outbound_end_date||"",
         //next_date_outbound:data.next_date_outbound,
         
     });

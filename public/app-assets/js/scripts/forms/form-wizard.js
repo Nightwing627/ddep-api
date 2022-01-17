@@ -24,6 +24,7 @@ $(function () {
           $('#weekly_fields_outbound').hide();
           $('#monthly_fields').hide();  
           $('#monthly_fields_outbound').hide();  
+          
   // Adds crossed class
   if (typeof bsStepper !== undefined && bsStepper !== null) {
     for (var el = 0; el < bsStepper.length; ++el) {
@@ -248,7 +249,7 @@ $(function () {
                         $('#recurs_count_inbound').val(response.recurs_count_inbound);
                         $('#recurs_time_inbound').val(response.recurs_time_inbound);
                      
-                       $('input[name="s_configure_outbond"][value="'+response.Schedule_configure_outbound+'"]').prop('checked',true);
+                       $('input[name="s_configure_outbound"][value="'+response.Schedule_configure_outbound+'"]').prop('checked',true);
                        $('input[name="schedule_type_outbound"][value="'+response.schedule_type_outbound+'"]').prop('checked',true);
                        $('#occurs_time_inbound').val(response.occurs_outbound);
                        $('#recurs_count_outbound').val(response.recurs_count_outbound);
@@ -373,11 +374,40 @@ $(function () {
             }
             else if(index == 3)
             {
-              
+              if($('input[name="duration_inbound_is_end_date"]:checked').val()=="no_end_date")
+              {
+               
+                $('#duration_inbound_end_date').addClass('hidden');
+              }
+              else
+              {
+                 
+                $('#duration_inbound_end_date').removeClass('hidden');
+              }
+
+              if($('input[name="duration_outbound_is_end_date"]:checked').val()=="no_end_date")
+              {
+               
+                $('#duration_outbound_end_date').addClass('hidden');
+              }
+              else
+              {
+                 
+                $('#duration_outbound_end_date').removeClass('hidden');
+              }
             }
             else if(index == 4)
             {
-              
+              /* if($('input[name="duration_inbound_is_end_date"]:checked').val()=="no_end_date")
+              {
+                console.log("NO>>>"+$('#duration_inbound_end_date').val());
+                $('#duration_inbound_end_date').addClass('hidden');
+              }
+              else
+              {
+                  console.log('yes >>>>' + $('#duration_inbound_end_date').val());
+                $('#duration_inbound_end_date').removeClass('hidden');
+              } */
             }
             numberedStepper.next();
           } else {
@@ -808,7 +838,13 @@ $(function () {
                 monthly_field_setting_outbound:monthly_field_setting_outbound,
                 occurs_weekly_fields_outbound:occurs_weekly_fields_outbound,
                 recurs_count_outbound:recurs_count_outbound,
-                recurs_time_outbound:recurs_time_outbound
+                recurs_time_outbound:recurs_time_outbound,
+                duration_inbound_start_date:duration_inbound_start_date,
+                duration_inbound_is_end_date:duration_inbound_is_end_date,
+                duration_inbound_end_date:duration_inbound_end_date,
+                duration_outbound_start_date:duration_outbound_start_date,
+                duration_outbound_is_end_date:duration_outbound_is_end_date,
+                duration_outbound_end_date:duration_outbound_end_date
               },
               success:function(response){
                 //console.log(response);
@@ -903,6 +939,30 @@ $(function () {
           $('#the_section_outbound').slideDown('slow');
         }
       });
+     
+     
+     $('input[name="duration_inbound_is_end_date"]').on('change',function(){
+       console.log($(this).val());
+        if($(this).val()=='yes_end_date')
+        {
+          $('#duration_inbound_end_date').removeClass('hidden');
+        }
+        else
+        {
+          $('#duration_inbound_end_date').addClass('hidden');
+        }
+     });
+     $('input[name="duration_outbound_is_end_date"]').on('change',function(){
+      console.log($(this).val());
+       if($(this).val()=='yes_end_date')
+       {
+         $('#duration_outbound_end_date').removeClass('hidden');
+       }
+       else
+       {
+         $('#duration_outbound_end_date').addClass('hidden');
+       }
+    });
   }
 
   // Vertical Wizard
