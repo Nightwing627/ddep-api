@@ -37,11 +37,11 @@ $(document).ready(function(){
                     }
                     if(data.schedule_setting!=undefined && data.schedule_setting.Schedule_configure_inbound=='click_by_user')
                     {
-                        $button_group+='<button type="button" data-project-id="'+data.inbound_setting.project_id+'" data-host="'+data.inbound_setting.host+'" data-port="'+data.inbound_setting.port+'" data-username="'+data.inbound_setting.login_name+'" data-password="'+data.inbound_setting.password+'" data-folder="'+data.inbound_setting.folder+'" data-is-password-encrypted="'+data.inbound_setting.is_password_encrypted+'" data-project-code="'+data.ProjectCode+'" class="btn run_inbound btn-secondary">RunInbound</button>';
+                        $button_group+='<button type="button" data-project-id="'+data.inbound_setting.project_id+'" data-host="'+data.inbound_setting.host+'" data-port="'+data.inbound_setting.port+'" data-username="'+data.inbound_setting.login_name+'" data-password="'+data.inbound_setting.password+'" data-folder="'+data.inbound_setting.folder+'" data-is-password-encrypted="'+data.inbound_setting.is_password_encrypted+'" data-project-code="'+data.ProjectCode+'" data-is-active="'+data.inbound_setting.is_active+'" class="btn run_inbound btn-secondary">RunInbound</button>';
                     }
                     if(data.schedule_setting!=undefined && data.schedule_setting.Schedule_configure_outbound=='click_by_user')
                     {
-                        $button_group+='<button type="button" data-project-id="'+data.inbound_setting.project_id+'" class="btn btn-secondary run_outbound">RunOutbound</button>'
+                        $button_group+='<button type="button" data-project-id="'+data.inbound_setting.project_id+'" data-is-active="'+data.outbound_setting.is_active+'" class="btn btn-secondary run_outbound">RunOutbound</button>'
                     }
                     $button_group+='<button type="button" class="btn btn-secondary">View</button></div>';
                     table.row.add( [
@@ -78,40 +78,58 @@ $(document).ready(function(){
         var folder = $(this).data('folder');
         var is_password_encrypted = $(this).data('is-password-encrypted');
         var project_code = $(this).data('project-code');
-        $.ajax({
-            url:'/inbound/inboundrun',
-            method:'post',
-            dataType:'json',
-            data:{project_id:project_id},
-            success:function(response){
-                if(response.status=="0")
-                {
-                    alert(response.Msg);
+        var is_active = $(this).data('is-active');
+        if(is_active=="Active")
+        {
+
+            $.ajax({
+                url:'/inbound/inboundrun',
+                method:'post',
+                dataType:'json',
+                data:{project_id:project_id},
+                success:function(response){
+                    if(response.status=="0")
+                    {
+                        alert(response.Msg);
+                    }
+                    else
+                    {
+                        alert(response.Msg);
+                    }
                 }
-                else
-                {
-                    alert(response.Msg);
-                }
-            }
-        })
+            })
+        }
+        else
+        {
+            alert("Inbound is Inactive");
+        }
     });
     $('body').on('click','.run_outbound',function(){
         var project_id = $(this).data('project-id');
-        $.ajax({  
-            url:'/inbound/outboundrun',  
-            method:'post',  
-            dataType:'json', 
-            data:{project_id:project_id},
-            success:function(response){
-                if(response.Status==1)
-                {
-                    alert(response.Msg);
+        var is_active = $(this).data('is-active');
+        if(is_active=="Active")
+        {
+            $.ajax({  
+                url:'/inbound/outboundrun',  
+                method:'post',  
+                dataType:'json', 
+                data:{project_id:project_id},
+                success:function(response){
+                    if(response.Status==1)
+                    {
+                        alert(response.Msg);
+                    }
+                    else
+                    {
+                        alert(response.Msg);
+                    }
                 }
-                else
-                {
-                    alert(response.Msg);
-                }
-            }
-        });
+            });
+        }
+        else
+        {
+            alert("Outbound is Inactive");
+        }
+       
     });
 });

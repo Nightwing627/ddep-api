@@ -208,6 +208,19 @@ $(function () {
                       $('#backup_folder').val(response.backup_folder);
                       $('#is_password_encrypted option[value="'+response.is_password_encrypted+'"]').prop('selected',true);
                       $('#is_password_encrypted').trigger('change');
+                      console.log(response.is_active);
+                      if(response.is_active=="Active")
+                      {
+                        $('#is_active_inbound').addClass('btn-success');
+                        $('#is_active_inbound').data('value','Active');
+                        $('#is_active_inbound').html('Active');
+                      }
+                      else
+                      {
+                        $('#is_active_inbound').removeClass('btn-success');
+                        $('#is_active_inbound').data('value','Inactive');
+                        $('#is_active_inbound').html('Inactive');
+                      }
                     }
                     //console.log(response);
                     //console.log(response._id);
@@ -228,6 +241,18 @@ $(function () {
                        $('#outbound_format').val(response.outbound_format);
                        $('#outbound_setting_id').val(response._id);
                        $('#project_id').val(response.project_id);
+                       if(response.is_active=="Active")
+                      {
+                        $('#is_active_outbound').addClass('btn-success');
+                        $('#is_active_outbound').data('value','Active');
+                        $('#is_active_outbound').html('Active');
+                      }
+                      else
+                      {
+                        $('#is_active_outbound').removeClass('btn-success');
+                        $('#is_active_outbound').data('value','Inactive');
+                        $('#is_active_outbound').html('Inactive');
+                      }
                     }
                     //console.log(response);
                     //console.log(response._id);
