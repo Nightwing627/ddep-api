@@ -395,7 +395,8 @@ router.get('/getScheduleProjectInfo',function(req,res){
                             
                            if(currenttime==item.schedule_setting.recurs_time_inbound)
                            {
-                            var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.recurs_count_inbound));
+                               console.log("Inbound time match for project id =" +item.schedule_setting.project_id + "time = "+ currenttime);
+                                var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.recurs_count_inbound));
                                 item.schedule_setting.next_date_inbound = next_date_inbound_days;
                                 list_arr_inbound.push(item);
                            }
@@ -806,7 +807,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
                                     var mycalen = new my_calender();
                                     var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.recurs_count_inbound));
                                     item.schedule_setting.next_date_inbound = next_date_inbound_days;
-        
+                                    console.log("Inbound time match for project id =" +item.schedule_setting.project_id + "time = "+ currenttime);
                                     list_arr_inbound.push(item);
                                 }
                             }
@@ -1219,6 +1220,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
                            { 
                                 var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.recurs_count_outbound));
                                 item.schedule_setting.next_date_outbound = next_date_inbound_days;
+                                console.log("Outbound time match for project id =" +item.schedule_setting.project_id + "time = "+ currenttime);
                                list_arr_outbound.push(item);
                            }
                            //list_arr_outbound.push(item);
@@ -2131,15 +2133,17 @@ router.get('/getScheduleProjectInfo',function(req,res){
                             if(item.schedule_setting.duration_outbound_end_date > gettodaydate)
                             {
                                 start_flag_outbound ="true";
+                                console.log("active duration end date");
                             }
                             else
                             {
                                 start_flag_outbound = "false";
+                                console.log("duration end date grater than today enddate = "+item.schedule_setting.duration_outbound_end_date );
                             }
                         }
                         else
                         {
-
+                            console.log("active duration not set");
                             start_flag_outbound ="true";
                         }
                     }
@@ -2164,11 +2168,13 @@ router.get('/getScheduleProjectInfo',function(req,res){
                             }
                             request(options, function (error, response) {
                                 if (error){
+                                    console.log(error);
                                   throw new Error(error);
                                 }
                                 else
                                 {
                                     var result = JSON.parse(response.body); 
+                                    
                                     if(result.Status!=undefined && result.Status == 1)
                                         {
                                             var newschedulesetting = item.schedule_setting;
