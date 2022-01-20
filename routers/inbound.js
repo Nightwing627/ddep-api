@@ -599,6 +599,9 @@ router.post('/inboundrun',function(req,res){
       password:inboundSetting.password,
       port:inboundSetting.port,
       secure:true,
+      connTimeout:200000,
+      pasvTimeout :200000,
+      keepalive :200000 
     }
     var folderpath = inboundSetting.folder;
     var backup_folder = inboundSetting.backup_folder
