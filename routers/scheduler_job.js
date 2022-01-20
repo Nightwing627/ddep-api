@@ -1200,6 +1200,10 @@ router.get('/getScheduleProjectInfo',function(req,res){
                             }
                             
                        }
+                       else
+                       {
+                           console.log("next date =>"+nextdategen);
+                       }
                    }
                     
                }
@@ -1983,6 +1987,10 @@ router.get('/getScheduleProjectInfo',function(req,res){
                                     weekdaycounter++;
                                 })
                              }
+                        }
+                        else
+                        {
+                            console.log("next date =>"+nextdategen);
                         }
                     }
                }
