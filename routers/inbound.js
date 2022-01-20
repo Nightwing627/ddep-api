@@ -709,8 +709,11 @@ router.post('/inboundrun',function(req,res){
               }
                 
             });
-           
+            
         })
+        ftp.on('end',function(){
+          console.log("ftp connection close");
+        }) 
         ftp.connect(settings);
     
   });
