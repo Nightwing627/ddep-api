@@ -23,338 +23,7 @@ const { now } = require('mongoose');
 const { options } = require('.');
 
 //router.get('/fulllist',projects.fullProject);
-router.get('/getScheduleProjectInfoOLD',function(req,res){
-    request(config.domain+'/projects/fulllist/', function (error, response, body) {
-    
-    var data = JSON.parse(body);
-    //console.log(data);
-    if(response.statusCode==200)
-    {
-        //console.log(data);
-        //res.json(data.data);
-        //res.render('pages/add-projects',{alldata:data});
-        var list_arr_inbound = [];
-        var list_arr_outbound =[];
-       data.data.forEach(item => {
-           if(item.schedule_setting!=undefined && item.schedule_setting.length>0 && item.inbound_setting!=undefined && item.inbound_setting.length > 0 && item.outbound_setting!=undefined && item.outbound_setting.length > 0)
-           {
-                if(item.schedule_setting.occurs_inbound=="daily")
-                {
 
-                }
-                else if(item.schedule_setting.occurs_inbound=="monthly")
-                {
-
-                }
-                else if(item.schedule_setting.occurs_inbound=="weekly")
-                {
-
-                }
-               //var schedulesetting = item.schedule_setting.Schedule_configure_inbound;
-               //res.json(schedulesetting);
-               //date.getMinutes()<10?'0':'') + date.getMinutes()
-               let date_ob = new Date();
-               var currenttime = date_ob.getHours() + ":" +(date_ob.getMinutes()<10?'0':'') + date_ob.getMinutes();
-               if(item.schedule_setting.Schedule_configure_inbound!='click_by_user' && item.inbound_setting.is_active=="Active")
-               {
-                   
-                    //list_arr_inbound.push(item);
-                    
-                    if(item.schedule_setting.occurs_inbound=="daily")
-                    {
-                        list_arr_inbound.push(item);
-                    }
-                    else if(item.schedule_setting.occurs_inbound=="monthly")
-                    {
-                        if(item.schedule_setting.monthly_field_setting_inbound[0].nextdate==undefined)
-                        {
-                            if(item.schedule_setting.monthly_field_setting_inbound[0].inbound_monthly_day=="day")
-                            {
-                                var today_date = date_ob.getDate();
-                                console.log("today_date"+today_date);
-                                if(item.schedule_setting.monthly_field_setting_inbound[0].per_day==today_date)
-                                {
-                                    if(currenttime==item.schedule_setting.recurs_time_inbound)
-                                    {
-                                        list_arr_inbound.push(item);
-                                    }
-                                }
-                            }
-                            if(item.schedule_setting.monthly_field_setting_inbound[0].inbound_monthly_day=="The")
-                            {
-                                var the_day_of = item.schedule_setting.monthly_field_setting_inbound[0].the_day_of;
-                                var the_days =item.schedule_setting.monthly_field_setting_inbound[0].the_days;
-                                var new_date ;
-                                var date = new Date();
-                                var mycalen = new my_calender();
-                                if(the_day_of=="first")
-                                {
-                                   
-                                    
-                                    if(the_days=="Sunday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(0,1,date);
-                                    }
-                                    else if(the_days=="Saturday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(6,1,date);
-                                    }
-                                    else if(the_days=="Monday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(1,1,date);
-                                    }
-                                    else if(the_days=="Tuesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(2,1,date);
-                                    }
-                                    else if(the_days=="Wednesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(3,1,date);
-                                    }
-                                    else if(the_days=="Thursday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(4,1,date);
-                                    }
-                                    else if(the_days=="Friday" || the_days=="Weekday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(5,1,date);
-                                    }
-                                    
-                                }
-                                else if(the_day_of=="second")
-                                {
-                                    if(the_days=="Sunday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(0,2,date);
-                                    }
-                                    else if(the_days=="Saturday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(6,2,date);
-                                    }
-                                    else if(the_days=="Monday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(1,2,date);
-                                    }
-                                    else if(the_days=="Tuesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(2,2,date);
-                                    }
-                                    else if(the_days=="Wednesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(3,2,date);
-                                    }
-                                    else if(the_days=="Thursday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(4,2,date);
-                                    }
-                                    else if(the_days=="Friday" || the_days=="Weekday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(5,2,date);
-                                    }
-                                }
-                                else if(the_day_of=="third")
-                                {
-                                    if(the_days=="Sunday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(0,3,date);
-                                    }
-                                    else if(the_days=="Saturday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(6,3,date);
-                                    }
-                                    else if(the_days=="Monday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(1,3,date);
-                                    }
-                                    else if(the_days=="Tuesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(2,3,date);
-                                    }
-                                    else if(the_days=="Wednesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(3,3,date);
-                                    }
-                                    else if(the_days=="Thursday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(4,3,date);
-                                    }
-                                    else if(the_days=="Friday" || the_days=="Weekday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(5,3,date);
-                                    }
-                                }
-                                else if(the_day_of=="Fourth")
-                                {
-                                    if(the_days=="Sunday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(0,4,date);
-                                    }
-                                    else if(the_days=="Saturday" || the_days=="Weekend")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(6,4,date);
-                                    }
-                                    else if(the_days=="Monday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(1,4,date);
-                                    }
-                                    else if(the_days=="Tuesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(2,4,date);
-                                    }
-                                    else if(the_days=="Wednesday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(3,4,date);
-                                    }
-                                    else if(the_days=="Thursday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(4,4,date);
-                                    }
-                                    else if(the_days=="Friday" || the_days=="Weekday")
-                                    {
-                                        new_date = mycalen.nthWeekdayOfMonth(5,4,date);
-                                    }
-
-                                    if(new_date == date)
-                                    {
-                                        if(currenttime==item.schedule_setting.recurs_time_inbound)
-                                        {
-                                            list_arr_inbound.push(item);
-                                        }
-                                    }
-                                }
-                            }
-                            
-                        }
-                        else
-                        {
-
-                        }
-                    }
-                    else if(item.schedule_setting.occurs_inbound=="weekly")
-                    {
-                        list_arr_inbound.push(item);
-                    }
-                    //console.log(currenttime);
-                    // if(currenttime==item.schedule_setting.recurs_time_inbound)
-                    // {
-                    //     console.log("time match");
-                    //     var host = item.inbound_setting.host;
-                    //     var port = item.inbound_setting.port;
-                    //     var username = item.inbound_setting.login_name;
-                    //     var password = item.inbound_setting.password;
-                    //     var folder = item.inbound_setting.folder;
-                    //     var project_id = item.inbound_setting.project_id;
-                    //     var project_code = item.ProjectCode;
-                    //     const client = new ftp(host, port, username ,password, true);
-                    //     // console.log(client.clientList());
-                        
-                    //     try{
-                    //         if(client)
-                    //         {
-
-                    //             //console.log(result);
-                    //             let data;
-                    //             var xmldata;
-                                
-                    //             async function init() {
-                    //                 try{
-
-                    //                     client.download(folder, './'+project_id+'.xml');
-                                        
-                    //                     //await sleep(400);
-                                        
-                    //                 }catch(err)
-                    //                 {
-                    //                     //res.send("FTP not connected");
-                    //                 }
-                                    
-                    //             }
-                                
-                    //             function sleep(ms) {
-                    //                 return new Promise((resolve) => {
-                    //                 setTimeout(resolve, ms);
-                    //                 });
-                    //             }
-                    //             const sleeps = init();
-                    //             xmldata = fs.readFileSync('./'+project_id+'.xml', 'utf8');
-                    //             var parser = new xml.Parser({explicitArray : false});
-                                
-                    //             parser.parseString(xmldata, function (err, results) {
-                    //                 data = results
-                    //                 //console.log(data);
-                    //             });
-                    //         // parsing to json
-                    //             if(data==undefined)
-                    //             {
-                    //                 //res.json({'status':'false','msg':'Connection Time Out Please Try Again'});
-                    //             }
-                    //             var options = {
-                    //                 'method': 'POST',
-                    //                 'url': config.domain+'/inbound/run',
-                    //                 'headers': {
-                    //                 'Content-Type': 'application/json'
-                    //                 },
-                    //                 body: JSON.stringify({
-                    //                 "project_code": project_code,
-                    //                 "project_id": project_id,
-                    //                 "inbound_data": data
-                    //                 })
-                                    
-                    //             };
-                    //             request(options, function (error, response) {
-                    //                 //console.log(response);
-                    //                 if (error) throw new Error(error);
-                    //                     console.log(JSON.parse(response.body));
-                    //                     scheduelerunning++
-                    //                 //res.json({'status':'true','msg':'Inbound Run Successfully'});
-                    //             });
-                    //             //console.log("inbound run");
-                    //         }
-                    //         else
-                    //         {
-                    //             console.log('connection time out ftp file not found');
-                    //             //res.json({'status':'false','msg':'Connection Time Out Please Try Again'});
-                    //         }
-                    //     }catch(err)
-                    //     {
-                    //         console.log('catch'+err);
-                    //         //res.json({'status':'false','msg':'FTP Not Connected'});
-                    //     }
-                    // }
-                    // else
-                    // {
-                    //     console.log("time not match");
-                    // }
-               }
-               else
-               {
-                   console.log("time not match");
-               }
-               if(item.schedule_setting.Schedule_configure_outbound!='click_by_user' && item.outbound_setting.is_active=="Active")
-               {
-                    list_arr_outbound.push(item);
-                    if(currenttime==item.schedule_setting.recurs_time_outbound)
-                    {
-                        
-                    }
-               }
-           }
-           //let date_ob = new Date();
-           //var currenttime = date_ob.getHours() + ":" +date_ob.getMinutes();
-           //res.json(currenttime);
-           //res.json('total schedule running now'+scheduelerunning);
-           
-       });
-       //res.json(list_arr_outbound);
-       console.log('running schedule now');
-    }
-    else
-    {
-        res.send(data.message)
-    }
-    //res.json(data);
-    });
-})
 router.get('/getScheduleProjectInfo',function(req,res){
     var list_arr_inbound = [];
     var list_arr_outbound =[];
@@ -386,10 +55,9 @@ router.get('/getScheduleProjectInfo',function(req,res){
                    var createnextdate = nextdates.getDate() + '-' + nextdates.getMonth() + '-' + nextdates.getFullYear();
                    if(createddate==createnextdate)
                    {
-                      
-
                        if(item.schedule_setting.occurs_inbound=="daily")
                        {
+                           console.log("first time run inbound on daily mode");
                             var date = new Date();
                             var mycalen = new my_calender();
                             
@@ -398,7 +66,13 @@ router.get('/getScheduleProjectInfo',function(req,res){
                                console.log("Inbound time match for project id =" +item.schedule_setting.project_id + "time = "+ currenttime);
                                 var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.recurs_count_inbound));
                                 item.schedule_setting.next_date_inbound = next_date_inbound_days;
+                                console.log("Inbound time match in next date for project id =" +item.schedule_setting.project_id + "time = "+ currenttime);
+                                    console.log("inbound items count =>"+list_arr_inbound.length);
                                 list_arr_inbound.push(item);
+                           }
+                           else
+                           {
+                               console.log("inbound time not match with server time is=>" +currenttime+"setting time is=>"+item.schedule_setting.recurs_time_inbound);
                            }
                        }
                        else if(item.schedule_setting.occurs_inbound=="monthly")
@@ -787,8 +461,6 @@ router.get('/getScheduleProjectInfo',function(req,res){
                            
                            //list_arr_inbound.push(item);
                        }
-                       
-                      
                    }
                    else
                    {
@@ -799,6 +471,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
                        
                        if(nextdategen == todaysdate)
                        {
+                           console.log("next date match with todays date inbound setting");
                             if(item.schedule_setting.occurs_inbound=="daily")
                             {
                                 if(currenttime==item.schedule_setting.recurs_time_inbound)
@@ -807,8 +480,14 @@ router.get('/getScheduleProjectInfo',function(req,res){
                                     var mycalen = new my_calender();
                                     var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.recurs_count_inbound));
                                     item.schedule_setting.next_date_inbound = next_date_inbound_days;
-                                    console.log("Inbound time match for project id =" +item.schedule_setting.project_id + "time = "+ currenttime);
+                                    console.log("Inbound time match in next date for project id =" +item.schedule_setting.project_id + "time = "+ currenttime);
+                                    console.log("inbound items count =>"+list_arr_inbound.length);
+                                    console.log("store inbound =>"+item.schedule_setting.project_id);
                                     list_arr_inbound.push(item);
+                                }
+                                else
+                                {
+                                    console.log("inbound time not match with server time is=>" +currenttime+"setting time is=>"+item.schedule_setting.recurs_time_inbound);
                                 }
                             }
                             else if(item.schedule_setting.occurs_inbound=="monthly")
@@ -1207,8 +886,12 @@ router.get('/getScheduleProjectInfo',function(req,res){
                    }
                     
                }
+               else{
+                   console.log("inbound project=>"+item.schedule_setting.project_id+ " set is click_by_user");
+               }
                if(item.schedule_setting.Schedule_configure_outbound!='click_by_user')
                {
+                    console.log("outbound check for runs"+item.schedule_setting.project_id);
                     var createat = new Date(item.schedule_setting.createdAt);
                     var createddate = createat.getDate() + '-' + createat.getMonth() + '-' + createat.getFullYear();
                     var nextdates = new Date(item.schedule_setting.next_date_outbound);
@@ -1218,14 +901,19 @@ router.get('/getScheduleProjectInfo',function(req,res){
                         console.log("outbound runs"+item.schedule_setting.project_id);
                         if(item.schedule_setting.occurs_outbound=="daily")
                        {
-                        var date = new Date();
-                        var mycalen = new my_calender();
+                           console.log("daily setting found");
+                            var date = new Date();
+                            var mycalen = new my_calender();
                            if(currenttime==item.schedule_setting.recurs_time_outbound)
                            { 
                                 var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.recurs_count_outbound));
                                 item.schedule_setting.next_date_outbound = next_date_inbound_days;
                                 console.log("Outbound time match for project id =" +item.schedule_setting.project_id + "time = "+ currenttime);
                                list_arr_outbound.push(item);
+                           }
+                           else
+                           {
+                            console.log("outbound time not match with server time is=>" +currenttime+"setting time is=>"+item.schedule_setting.recurs_time_outbound);
                            }
                            //list_arr_outbound.push(item);
                        }
@@ -1610,6 +1298,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
                              
                              if(item.schedule_setting.occurs_outbound=="daily")
                              {
+                                 console.log("daily setting found");
                                  if(currenttime==item.schedule_setting.recurs_time_outbound)
                                  {
                                     var date = new Date();
@@ -1617,6 +1306,10 @@ router.get('/getScheduleProjectInfo',function(req,res){
                                     var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.recurs_count_outbound));
                                     item.schedule_setting.next_date_outbound = next_date_inbound_days;
                                      list_arr_outbound.push(item);
+                                 }
+                                 else
+                                 {
+                                    console.log("outbound time not match with server time is=>" +currenttime+"setting time is=>"+item.schedule_setting.recurs_time_outbound);
                                  }
                                  //list_arr_outbound.push(item);
                              }
@@ -1996,16 +1689,9 @@ router.get('/getScheduleProjectInfo',function(req,res){
                }
                else
                {
-                   console.log("time not match");
+                console.log("outbound project=>"+item.schedule_setting.project_id+ " set is click_by_user");
                }
-               if(item.schedule_setting.Schedule_configure_outbound!='click_by_user')
-               {
-                    //list_arr_outbound.push(item);
-                    // if(currenttime==item.schedule_setting.recurs_time_outbound)
-                    // {
-                        
-                    // }
-               }
+               
            }
            
            let date_ob = new Date();
@@ -2016,36 +1702,40 @@ router.get('/getScheduleProjectInfo',function(req,res){
            //var currenttime = date_ob.getHours() + ":" +date_ob.getMinutes();
            //res.json(currenttime);
            //res.json('total schedule running now'+scheduelerunning);
+           //console.log(list_arr_inbound);
            if (typeof list_arr_inbound !== 'undefined' && list_arr_inbound.length > 0) {
             // the array is defined and has at least one element
             list_arr_inbound.forEach(item => {
                 var start_flag_inbound="false";
                 
-                if(item.schedule_setting.duration_inbound_start_date <= gettodaydate )
+                if(Date.parse(item.schedule_setting.duration_inbound_start_date) <= Date.parse(gettodaydate))
                 {
                     if(item.schedule_setting.duration_inbound_is_end_date=="yes_end_date")
                     {
                         console.log("end date set");
-                        if(item.schedule_setting.duration_inbound_end_date > gettodaydate)
+                        if(Date.parse(item.schedule_setting.duration_inbound_end_date) > Date.parse(gettodaydate))
                         {
+                            console.log("duration end date grater than today enddate = "+item.schedule_setting.duration_outbound_end_date );
                             start_flag_inbound ="true";
                         }
                         else
                         {
+                            console.log("end date reach in time inbound => "+ item.schedule_setting.duration_outbound_end_date);
                             start_flag_inbound = "false";
                         }
                     }
                     else
-                    {
-
+                    {          
                         start_flag_inbound ="true";
                     }
+                }else{
+                    console.log("start date not match inbound");
                 }
                 
                 
                 if(start_flag_inbound=="true")
                 {
-                    console.log("time match");
+                    console.log("time match inbound");
                     console.log("Inbound run for project :"+ item.inbound_setting.project_id);
                     var host = item.inbound_setting.ftp_server_link;
                     var port = item.inbound_setting.port;
@@ -2133,7 +1823,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
                 list_arr_outbound.forEach(item => {
                     var start_flag_outbound="false";
                 
-                    if(item.schedule_setting.duration_outbound_start_date <= gettodaydate )
+                    if(Date.parse(item.schedule_setting.duration_outbound_start_date) <= Date.parse(gettodaydate))
                     {
                         if(item.schedule_setting.duration_outbound_is_end_date=="yes_end_date")
                         {
@@ -2154,13 +1844,15 @@ router.get('/getScheduleProjectInfo',function(req,res){
                             console.log("active duration not set");
                             start_flag_outbound ="true";
                         }
+                    }else{
+                        console.log("start date not match outbound");
                     }
                     if(start_flag_outbound=="true")
                     {
 
-                        console.log("time match");
-                        console.log("Inbound run for project :"+ item.inbound_setting.project_id);
-                            var project_id = item.inbound_setting.project_id;
+                        console.log("time match outbound");
+                        console.log("outbound run for project :"+ item.outbound_setting.project_id);
+                            var project_id = item.outbound_setting.project_id;
                             var project_code = item.ProjectCode;
                             
                             // console.log(client.clientList());
@@ -2200,7 +1892,10 @@ router.get('/getScheduleProjectInfo',function(req,res){
                                             };
                                             request(options, function (error, response) {
                                                 //console.log(response);
-                                                if (error) throw new Error(error)
+                                                if (error)
+                                                {
+                                                    console.log("update schedule setting error");
+                                                }
                                                 else{
     
                                                     //console.log(response);
