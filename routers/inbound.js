@@ -923,7 +923,9 @@ router.post('/outboundrun',function(req,res){
                 var filenames = parseInt(crypto.randomBytes(2).toString('hex'), 16)+'.json';
                 const writefile = fs.writeFileSync(out_month_folder+'/'+filenames,JSON.stringify(result));
                 fs.rename(directoryPath+'/'+file, month_folder+'/'+file, function (err) {
-                  if (err) throw err
+                  if (err){
+                    console.log(err);
+                  } //throw err
                   //console.log('Successfully renamed - AKA moved!');
                 })
 
