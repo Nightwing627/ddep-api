@@ -598,7 +598,7 @@ router.post('/inboundrun',function(req,res){
       user:inboundSetting.login_name,
       password:inboundSetting.password,
       port:inboundSetting.port,
-      secure:true,
+      secure:false,
       connTimeout:200000,
       pasvTimeout :200000,
       keepalive :200000 
@@ -956,11 +956,11 @@ router.post('/outboundrun',function(req,res){
 });
 router.post('/testFtp',function(req,res){
   var settings = {
-    host:req.body.ftp_server_link,
+    host:req.body.ftp_server_link.trim(),
     user:req.body.login_name,
     password:req.body.password,
     port:req.body.port,
-    secure:true,
+    secure:false,
     connTimeout:200000,
     pasvTimeout :200000,
     keepalive :200000 
