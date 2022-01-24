@@ -954,4 +954,44 @@ router.post('/outboundrun',function(req,res){
     
   res.json({Status:1,Msg:"outboundrun successfull"});
 });
+router.post('/testFtp',function(req,res){
+  var settings = {
+    host:req.body.ftp_server_link,
+    user:req.body.login_name,
+    password:req.body.password,
+    port:req.body.port,
+    secure:true,
+    connTimeout:200000,
+    pasvTimeout :200000,
+    keepalive :200000 
+  }
+  var folderpath = req.body.folderpath;
+  var ftp = new Client()
+        try{
+
+          ftp.on('ready', function() {
+            ftp.list(folderpath,function(err, list) {
+                if (err){
+                  console.log(err);
+                  res.json({"Status":0,Msg:err,Data:[]});
+                } 
+              else
+              {
+                console.log(list.length);
+                var result = {};
+
+                res.json({"Status":1,Msg:"Connection Successfully",Data:list});
+              }
+                
+            });
+          })
+          ftp.on('end',function(){
+            console.log("ftp connection close");
+          }) 
+          ftp.connect(settings);
+        }catch(err)
+        {
+          res.json({"Status":0,Msg:err,Data:[]});
+        }
+})
 module.exports = router;
