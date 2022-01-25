@@ -593,6 +593,11 @@ router.post('/inboundrun',function(req,res){
       res.json({"Status":0,"Msg":"Invalid Method"});
     }
     var inboundSetting = JSON.parse(body);
+    var secure=false;
+    if(inboundSetting.is_password_encrypted=="yes")
+    {
+      secure=true;
+    }
     var settings = {
       host:inboundSetting.ftp_server_link ,
       user:inboundSetting.login_name,
@@ -701,19 +706,18 @@ router.post('/inboundrun',function(req,res){
                 if(filescounter==0)
                 {
                   res.json({"Status":0,Msg:"Files Not Found !",Data:[]});
+                  ftp.end();
                 }
                 else
                 {
                   res.json({Status:1,Msg:"Inbound File Saved",Data:[]});
+                  ftp.end();
                 }
               }
                 
             });
             
         })
-        ftp.on('end',function(){
-          console.log("ftp connection close");
-        }) 
         ftp.connect(settings);
     
   });
