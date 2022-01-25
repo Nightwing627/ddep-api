@@ -9,7 +9,9 @@ WORKDIR /app
 # 安装项目依赖包
 RUN npm install
 #RUN npm ci
-
+RUN cd $(npm root -g)/npm
+&& npm install fs-extra
+&& sed -i -e s/graceful-fs/fs-extra/ -e s/fs.rename/fs.move/ ./lib/utils/rename.js
 # remove development dependencies(不会报错，但是大小变化不大)
 #RUN npm prune --production
 
