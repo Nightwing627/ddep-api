@@ -196,21 +196,7 @@ exports.update = (req, res) => {
    //data = JSON.parse(data);
    
    
-    if(!data.ProjectCode) {
-        return res.status(400).send({
-            message: "Project Code Not Found"
-        });
-    }
-    if(!data.ProjectName) {
-        return res.status(400).send({
-            message: "Project Name Not Found"
-        });
-    }
-    if(!data.CompanyName) {
-        return res.status(400).send({
-            message: "Company Name is Required"
-        });
-    }
+    
     
     const project = new Project({
         ProjectCode: data.ProjectCode, 
@@ -223,10 +209,12 @@ exports.update = (req, res) => {
         //console.log(req.params.id);
       if (!project) {
         return res.status(404).send({
+            status:'0',
           message: "no Project found"
         });
       }
       res.status(200).send({
+          status:'1',
           message:"Project Update Successfully"
       });
     })
@@ -244,13 +232,11 @@ exports.delete = (req, res) => {
     ProjectCode.findByIdAndRemove(req.params.id,function(err){
         if(err)
         {
-
             res.json({"Status":"0","Msg":"","ErrMsg":err,"Data":[]});
         }
         else
         {
             res.json({"Status":"1","Msg":"Deleted Successfully","ErrMsg":"","Data":[]});
-
         }
     });
 };

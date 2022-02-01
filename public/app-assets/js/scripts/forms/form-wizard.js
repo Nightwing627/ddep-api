@@ -112,9 +112,9 @@ $(function () {
           password: {
             required: true
           },
-          api_url: {
+          /* api_url: {
             required: true
-          },
+          }, */
           Schedule_configure: {
             required: true
           },
@@ -181,7 +181,7 @@ $(function () {
                   dataType:'json',
                   data:{ProjectName:project_detail.ProjectName,ProjectCode:project_detail.ProjectCode,CompanyName:project_detail.CompanyName},
                   success:function(response){
-                    alert(response.message);
+                    sweetAlert("success", "Project Setting Saved Successfully", "success");
                     //console.log(response);
                   }
                 });
@@ -270,15 +270,62 @@ $(function () {
                     {
                         $('input[name="s_configure_inbound"][value="'+response.Schedule_configure_inbound+'"]').prop('checked',true);
                         $('input[name="schedule_type_inbound"][value="'+response.schedule_type_inbound+'"]').prop('checked',true);
-                        $('#occurs_time_inbound').val(response.occurs_inbound);
-                        $('#recurs_count_inbound').val(response.recurs_count_inbound);
-                        $('#recurs_time_inbound').val(response.recurs_time_inbound);
+                        $('#occurs_time_inbound').val(response.occurs_inbound).change();
+                        //$('#recurs_count_inbound').val(response.recurs_count_inbound);
+                        //$('#recurs_time_inbound').val(response.recurs_time_inbound);
                      
                        $('input[name="s_configure_outbound"][value="'+response.Schedule_configure_outbound+'"]').prop('checked',true);
                        $('input[name="schedule_type_outbound"][value="'+response.schedule_type_outbound+'"]').prop('checked',true);
-                       $('#occurs_time_inbound').val(response.occurs_outbound);
-                       $('#recurs_count_outbound').val(response.recurs_count_outbound);
-                       $('#recurs_time_outbound').val(response.recurs_time_outbound);
+                       $('#day_frequency_inbound_count').val(response.day_frequency_inbound_count);
+                       $('#day_frequency_outbound_count').val(response.day_frequency_outbound_count);
+                       $('#weekly_frequency_inbound_count').val(response.weekly_frequency_inbound_count);
+                       $('#weekly_frequency_outbound_count').val(response.weekly_frequency_outbound_count);
+                       $('#weekly_frequency_inbound_count').val(response.weekly_frequency_inbound_count);
+                       $('#weekly_frequency_outbound_count').val(response.weekly_frequency_outbound_count);
+                       $('#monthly_frequency_day_inbound').val(response.monthly_frequency_day_inbound);
+                       $('#monthly_frequency_day_outbound').val(response.monthly_frequency_day_outbound);
+                       $('#monthly_frequency_day_inbound_count').val(response.monthly_frequency_day_inbound_count);
+                       $('#monthly_frequency_day_outbound_count').val(response.monthly_frequency_day_outbound_count);
+                       $('#monthly_frequency_the_inbound_count').val(response.monthly_frequency_the_inbound_count);
+                       $('#monthly_frequency_the_outbound_count').val(response.monthly_frequency_the_outbound_count);
+                       $('input[name="daily_frequency_type_inbound"][value="'+response.daily_frequency_type_inbound+'"]').prop('checked',true);
+                       $('input[name="daily_frequency_type_outbound"][value="'+response.daily_frequency_type_outbound+'"]').prop('checked',true);
+                       //$('#daily_frequency_type_inbound').val(response.daily_frequency_type_inbound);
+                       //$('#daily_frequency_type_outbound').val(response.daily_frequency_type_outbound);
+                       $('#daily_frequency_once_time_inbound').val(response.daily_frequency_once_time_inbound);
+                       $('#daily_frequency_once_time_outbound').val(response.daily_frequency_once_time_outbound);
+                       if($('input[name="daily_frequency_type_inbound"]:checked').val()=='Occurs every')
+                       {
+                          $("#daily_frequency_once_time_inbound").hide();
+                          $("#recursEveryDiv").show();
+                          $("#startingEndingDiv").show();
+                          $('#daily_frequency_every_time_unit_inbound').val(response.daily_frequency_every_time_unit_inbound).change();
+                          $('#daily_frequency_every_time_count_inbound').val(response.daily_frequency_every_time_count_inbound);
+                          $('#daily_frequency_every_time_count_start_inbound').val(response.daily_frequency_every_time_count_start_inbound);
+                          $('#daily_frequency_every_time_count_end_inbound').val(response.daily_frequency_every_time_count_end_inbound);
+                        }
+                       if($('input[name="daily_frequency_type_outbound"]:checked').val()=='Occurs every')
+                       {
+                          $("#daily_frequency_once_time_outbound").hide();
+                          $("#recursEveryDivOutbound").show();
+                          $("#startingEndingDivOutbound").show();
+                          $('#daily_frequency_every_time_unit_outbound').val(response.daily_frequency_every_time_unit_outbound).change();
+                          $('#daily_frequency_every_time_count_outbound').val(response.daily_frequency_every_time_count_outbound);
+                          $('#daily_frequency_every_time_count_start_outbound').val(response.daily_frequency_every_time_count_start_outbound);
+                          $('#daily_frequency_every_time_count_end_outbound').val(response.daily_frequency_every_time_count_end_outbound);
+                        }
+                       
+                       //$('#occurs_time_inbound option[value="'+response.occurs_time_inbound+'"]').attr("selected","selected");
+                       console.log("inbound"+response.occurs_inbound);
+                       console.log("outbound"+response.occurs_outbound);
+                       $("#occurs_time_inbound").val(response.occurs_inbound);
+                       $("#occurs_time_inbound").select2().trigger("change");
+                       $("#occurs_time_outbound").val(response.occurs_outbound)
+                       $("#occurs_time_outbound").select2().trigger("change");
+                       
+                       //$('#occurs_time_inbound').val(response.occurs_outbound);
+                       //$('#recurs_count_outbound').val(response.recurs_count_outbound);
+                       //$('#recurs_time_outbound').val(response.recurs_time_outbound);
                        $("#schedule_setting_id").val(response._id);
                        if(response.duration_inbound_start_date!=undefined)
                        {
@@ -304,6 +351,24 @@ $(function () {
                        {
                         $('#duration_outbound_end_date').val(response.duration_outbound_end_date);
                        }
+                       if(response.occurs_inbound=="weekly")
+                       {
+                         $(response.occurs_weekly_fields_inbound).each(function(index,item){
+                           //console.log(item.day);
+                          $('input[name="occurs_weekly_fields_inbound"][value="'+item.day+'"]').prop('checked',true);
+                        });
+
+                       }
+                       if(response.occurs_outbound=="weekly")
+                       {
+
+                          $(response.occurs_weekly_fields_outbound).each(function(index,item){
+                            //console.log(item);
+                            $('input[name = occurs_weekly_fields_outbound][value="'+item.day+'"]').prop('checked',true);
+                          });
+                       }
+                      
+                          
                     }
                     //console.log(response);
                     //console.log(response._id);
@@ -354,7 +419,8 @@ $(function () {
                   data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,is_active:is_active},
                   success:function(response){
                     //console.log(response);
-                    alert("Setting saved successfully");
+                    //alert("Setting saved successfully");
+                    sweetAlert("success", "Inbound Setting Saved Successfully", "success");
                     //$("#inbound_setting_id").val(response.id);
                   }
                 });
@@ -458,7 +524,7 @@ $(function () {
                   dataType:'json',
                   data:{ProjectName:project_detail.ProjectName,ProjectCode:project_detail.ProjectCode,CompanyName:project_detail.CompanyName},
                   success:function(response){
-                    alert("project saved successfully");
+                    sweetAlert("success", "Project Created Successfully", "success");
                     //console.log(response);
                     $('#project_id').val(response.id);
                   },
@@ -473,7 +539,7 @@ $(function () {
                   dataType:'json',
                   data:{ProjectName:project_detail.ProjectName,ProjectCode:project_detail.ProjectCode,CompanyName:project_detail.CompanyName},
                   success:function(response){
-                    alert(response.message);
+                    sweetAlert("success", "Project Setting Saved Successfully", "success");
                     console.log(response);
                   }
                 });
@@ -523,7 +589,7 @@ $(function () {
               data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,is_active:is_active},
               success:function(response){
                 //console.log(response);
-                alert("Setting saved successfully");
+                sweetAlert("success", "Inbound Setting Saved Successfully", "success");
                 //$("#inbound_setting_id").val(response.id);
               }
             });
@@ -590,7 +656,7 @@ $(function () {
               data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,is_active:is_active},
               success:function(response){
                 //console.log(response);
-                alert("Setting saved successfully");
+                sweetAlert("success", "Inbound Setting Saved Successfully", "success");
                 //$("#inbound_setting_id").val(response.id);
               }
             });
@@ -650,7 +716,7 @@ $(function () {
                   data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active:is_active},
                   success:function(response){
                     //console.log(response);
-                    alert("Setting saved successfully");
+                    alert("Outbound Setting saved successfully");
                     //$("#outbound_setting_id").val(response.id);
                   }
                 });
@@ -694,7 +760,7 @@ $(function () {
                   data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active:is_active},
                   success:function(response){
                     //console.log(response);
-                    alert("Setting saved successfully");
+                    sweetAlert("success", "Outbound Setting Saved Successfully", "success");
                     //$("#outbound_setting_id").val(response.id);
                   }
                 });
@@ -718,7 +784,28 @@ $(function () {
           
           var Schedule_configure_inbound = $('input[name="s_configure_inbound"]:checked').val();
           var schedule_type_inbound = $('input[name="schedule_type_inbound"]:checked').val();
-          var occurs_inbound =$('#occurs_time_inbound').val();
+          var day_frequency_inbound_count =$('#day_frequency_inbound_count').val();
+          var day_frequency_outbound_count =$('#day_frequency_outbound_count').val();
+          var weekly_frequency_inbound_count =$('#weekly_frequency_inbound_count').val();
+          var weekly_frequency_outbound_count =$('#weekly_frequency_outbound_count').val();
+          var monthly_frequency_day_inbound =$('#monthly_frequency_day_inbound').val();
+          var monthly_frequency_day_inbound_count =$('#monthly_frequency_day_inbound_count').val();
+          var monthly_frequency_day_outbound =$('#monthly_frequency_day_outbound').val();
+          var monthly_frequency_day_outbound_count =$('#monthly_frequency_day_outbound_count').val();
+          var monthly_frequency_the_inbound_count =$('#monthly_frequency_the_inbound_count').val();
+          var monthly_frequency_the_outbound_count =$('#monthly_frequency_the_outbound_count').val();
+          var daily_frequency_type_inbound=$('input[name=daily_frequency_type_inbound]:checked').val();
+          var daily_frequency_type_outbound=$('input[name=daily_frequency_type_outbound]:checked').val();
+          var daily_frequency_once_time_inbound=$('#daily_frequency_once_time_inbound').val();
+          var daily_frequency_once_time_outbound=$('#daily_frequency_once_time_outbound').val();
+          var daily_frequency_every_time_unit_inbound=$('#daily_frequency_every_time_unit_inbound').val();
+          var daily_frequency_every_time_unit_outbound=$('#daily_frequency_every_time_unit_outbound').val();
+          var daily_frequency_every_time_count_inbound=$('#daily_frequency_every_time_count_inbound').val();
+          var daily_frequency_every_time_count_outbound=$('#daily_frequency_every_time_count_outbound').val();
+          var daily_frequency_every_time_count_start_inbound=$('#daily_frequency_every_time_count_start_inbound').val();
+          var daily_frequency_every_time_count_end_inbound=$('#daily_frequency_every_time_count_end_inbound').val();
+          var daily_frequency_every_time_count_end_outbound=$('#daily_frequency_every_time_count_end_outbound').val();
+          var daily_frequency_every_time_count_start_outbound=$('#daily_frequency_every_time_count_outbound').val();
           var monthly_field_setting_inbound = [];
           var monthly_field_setting_outbound = [];
           var occurs_weekly_fields_inbound = [];
@@ -730,7 +817,7 @@ $(function () {
           var duration_outbound_end_date = $('#duration_outbound_end_date').val();
           var duration_outbound_start_date = $('#duration_outbound_start_date').val();
           var duration_outbound_is_end_date = $('input[name="duration_outbound_is_end_date"]:checked').val();
-
+          var occurs_inbound =$('#occurs_time_inbound').val();
           if(occurs_inbound=="daily")
           {
 
@@ -741,9 +828,9 @@ $(function () {
              if(inbound_monthly_day=="day")
              {
                var temp_obj = {};
-                var per_day = $('#per_day').val();
+                //var per_day = $('#per_day').val();
                 temp_obj['inbound_monthly_day'] = "day";
-                temp_obj['per_day'] = per_day;
+                //temp_obj['per_day'] = per_day;
                 monthly_field_setting_inbound.push(temp_obj);
              }
              else
@@ -765,15 +852,15 @@ $(function () {
                 occurs_weekly_fields_inbound.push(tmp_week_obj);
               });
           }
-          var recurs_count_inbound =$('#recurs_count_inbound').val();
-          var recurs_time_inbound =$('#recurs_time_inbound').val();
+          //var recurs_count_inbound =$('#recurs_count_inbound').val();
+          //var recurs_time_inbound =$('#recurs_time_inbound').val();
          
           var Schedule_configure_outbound = $('input[name="s_configure_inbound"]:checked').val();
           var schedule_type_outbound = $('input[name="schedule_type_outbound"]:checked').val();
           var occurs_outbound =$('#occurs_time_outbound').val();
         
-          var recurs_count_outbound =$('#recurs_count_outbound').val();
-          var recurs_time_outbound =$('#recurs_time_outbound').val();
+          //var recurs_count_outbound =$('#recurs_count_outbound').val();
+          //var recurs_time_outbound =$('#recurs_time_outbound').val();
           if(occurs_outbound=="daily")
           {
 
@@ -784,9 +871,9 @@ $(function () {
              if(outbound_monthly_day=="day")
              {
                var temp_obj = {};
-                var per_day = $('#per_day_outbound').val();
+                //var per_day = $('#per_day_outbound').val();
                 temp_obj['outbound_monthly_day'] = "day";
-                temp_obj['per_day'] = per_day;
+                //temp_obj['per_day'] = per_day;
                 monthly_field_setting_outbound.push(temp_obj);
              }
              else
@@ -820,15 +907,37 @@ $(function () {
                 occurs_inbound:occurs_inbound,
                 monthly_field_setting_inbound:monthly_field_setting_inbound,
                 occurs_weekly_fields_inbound:occurs_weekly_fields_inbound,
-                recurs_count_inbound:recurs_count_inbound,
-                recurs_time_inbound:recurs_time_inbound,
+                day_frequency_inbound_count:day_frequency_inbound_count,
+                day_frequency_outbound_count:day_frequency_outbound_count,
+                weekly_frequency_inbound_count:weekly_frequency_inbound_count,
+                weekly_frequency_outbound_count:weekly_frequency_outbound_count,
+                monthly_frequency_day_inbound:monthly_frequency_day_inbound,
+                monthly_frequency_day_inbound_count:monthly_frequency_day_inbound_count,
+                monthly_frequency_day_outbound:monthly_frequency_day_outbound,
+                monthly_frequency_day_outbound_count:monthly_frequency_day_outbound_count,
+                monthly_frequency_the_inbound_count:monthly_frequency_the_inbound_count,
+                monthly_frequency_the_outbound_count:monthly_frequency_the_outbound_count,
+                daily_frequency_type_inbound:daily_frequency_type_inbound,
+                daily_frequency_type_outbound:daily_frequency_type_outbound,
+                daily_frequency_once_time_inbound:daily_frequency_once_time_inbound,
+                daily_frequency_once_time_outbound:daily_frequency_once_time_outbound,
+                daily_frequency_every_time_unit_inbound:daily_frequency_every_time_unit_inbound,
+                daily_frequency_every_time_unit_outbound:daily_frequency_every_time_unit_outbound,
+                daily_frequency_every_time_count_inbound:daily_frequency_every_time_count_inbound,
+                daily_frequency_every_time_count_outbound:daily_frequency_every_time_count_outbound,
+                daily_frequency_every_time_count_start_inbound:daily_frequency_every_time_count_start_inbound,
+                daily_frequency_every_time_count_end_inbound:daily_frequency_every_time_count_end_inbound,
+                daily_frequency_every_time_count_end_outbound:daily_frequency_every_time_count_end_outbound,
+                daily_frequency_every_time_count_start_outbound:daily_frequency_every_time_count_start_outbound,
+                //recurs_count_inbound:recurs_count_inbound,
+                //recurs_time_inbound:recurs_time_inbound,
                 Schedule_configure_outbound:Schedule_configure_outbound,
                 schedule_type_outbound:schedule_type_outbound,
                 occurs_outbound:occurs_outbound,
                 monthly_field_setting_outbound:monthly_field_setting_outbound,
                 occurs_weekly_fields_outbound:occurs_weekly_fields_outbound,
-                recurs_count_outbound:recurs_count_outbound,
-                recurs_time_outbound:recurs_time_outbound,
+                //recurs_count_outbound:recurs_count_outbound,
+                //recurs_time_outbound:recurs_time_outbound,
                 duration_inbound_start_date:duration_inbound_start_date,
                 duration_inbound_is_end_date:duration_inbound_is_end_date,
                 duration_inbound_end_date:duration_inbound_end_date,
@@ -838,7 +947,7 @@ $(function () {
               },
               success:function(response){
                 console.log(response);
-                alert("Setting saved successfully");
+                sweetAlert("success", "Setting Saved Successfully", "success");
                 $("#schedule_setting_id").val(response.id);
               }
             });
@@ -855,15 +964,37 @@ $(function () {
                 occurs_inbound:occurs_inbound,
                 monthly_field_setting_inbound:monthly_field_setting_inbound,
                 occurs_weekly_fields_inbound:occurs_weekly_fields_inbound,
-                recurs_count_inbound:recurs_count_inbound,
-                recurs_time_inbound:recurs_time_inbound,
+                day_frequency_inbound_count:day_frequency_inbound_count,
+                day_frequency_outbound_count:day_frequency_outbound_count,
+                weekly_frequency_inbound_count:weekly_frequency_inbound_count,
+                weekly_frequency_outbound_count:weekly_frequency_outbound_count,
+                monthly_frequency_day_inbound:monthly_frequency_day_inbound,
+                monthly_frequency_day_inbound_count:monthly_frequency_day_inbound_count,
+                monthly_frequency_day_outbound:monthly_frequency_day_outbound,
+                monthly_frequency_day_outbound_count:monthly_frequency_day_outbound_count,
+                monthly_frequency_the_inbound_count:monthly_frequency_the_inbound_count,
+                monthly_frequency_the_outbound_count:monthly_frequency_the_outbound_count,
+                daily_frequency_type_inbound:daily_frequency_type_inbound,
+                daily_frequency_type_outbound:daily_frequency_type_outbound,
+                daily_frequency_once_time_inbound:daily_frequency_once_time_inbound,
+                daily_frequency_once_time_outbound:daily_frequency_once_time_outbound,
+                daily_frequency_every_time_unit_inbound:daily_frequency_every_time_unit_inbound,
+                daily_frequency_every_time_unit_outbound:daily_frequency_every_time_unit_outbound,
+                daily_frequency_every_time_count_inbound:daily_frequency_every_time_count_inbound,
+                daily_frequency_every_time_count_outbound:daily_frequency_every_time_count_outbound,
+                daily_frequency_every_time_count_start_inbound:daily_frequency_every_time_count_start_inbound,
+                daily_frequency_every_time_count_end_inbound:daily_frequency_every_time_count_end_inbound,
+                daily_frequency_every_time_count_end_outbound:daily_frequency_every_time_count_end_outbound,
+                daily_frequency_every_time_count_start_outbound:daily_frequency_every_time_count_start_outbound,
+                //recurs_count_inbound:recurs_count_inbound,
+                //recurs_time_inbound:recurs_time_inbound,
                 Schedule_configure_outbound:Schedule_configure_outbound,
                 schedule_type_outbound:schedule_type_outbound,
                 occurs_outbound:occurs_outbound,
                 monthly_field_setting_outbound:monthly_field_setting_outbound,
                 occurs_weekly_fields_outbound:occurs_weekly_fields_outbound,
-                recurs_count_outbound:recurs_count_outbound,
-                recurs_time_outbound:recurs_time_outbound,
+                //recurs_count_outbound:recurs_count_outbound,
+                //recurs_time_outbound:recurs_time_outbound,
                 duration_inbound_start_date:duration_inbound_start_date,
                 duration_inbound_is_end_date:duration_inbound_is_end_date,
                 duration_inbound_end_date:duration_inbound_end_date,
@@ -873,7 +1004,7 @@ $(function () {
               },
               success:function(response){
                 //console.log(response);
-                alert("Setting saved successfully");
+                sweetAlert("success", "Schedule Setting Saved Successfully", "success");
                 //$("#schedule_setting_id").val(response.id);
               }
             });
@@ -906,16 +1037,25 @@ $(function () {
         {
           $('#weekly_fields').slideUp('slow');
           $('#monthly_fields').slideUp('slow');
+          $('#selectOccursMonthIn').hide();
+          $('#selectOccursWeekIn').hide();
+          $('#selectOccursDayIn').show();
         }
         if($(this).val()=='weekly')
         {
           $('#monthly_fields').slideUp('slow');
-          $('#weekly_fields').slideDown('slow')
+          $('#weekly_fields').slideDown('slow');
+          $('#selectOccursMonthIn').hide();
+          $('#selectOccursWeekIn').show();
+          $('#selectOccursDayIn').hide();
         }
         if($(this).val()=='monthly')
         {
           $('#weekly_fields').slideUp('slow');
           $('#monthly_fields').slideDown('slow');
+          $('#selectOccursMonthIn').show();
+          $('#selectOccursWeekIn').hide();
+          $('#selectOccursDayIn').hide();
         }
       });
 
@@ -924,16 +1064,25 @@ $(function () {
         {
           $('#weekly_fields_outbound').slideUp('slow');
           $('#monthly_fields_outbound').slideUp('slow');
+          $('#selectOccursMonthInOutbound').hide();
+          $('#selectOccursWeekInOutbound').hide();
+          $('#selectOccursDayInOutbound').show();
         }
         if($(this).val()=='weekly')
         {
           $('#monthly_fields_outbound').slideUp('slow');
-          $('#weekly_fields_outbound').slideDown('slow')
+          $('#weekly_fields_outbound').slideDown('slow');
+          $('#selectOccursMonthInOutbound').hide();
+          $('#selectOccursWeekInOutbound').show();
+          $('#selectOccursDayInOutbound').hide();
         }
         if($(this).val()=='monthly')
         {
           $('#weekly_fields_outbound').slideUp('slow');
           $('#monthly_fields_outbound').slideDown('slow');
+          $('#selectOccursMonthInOutbound').show();
+          $('#selectOccursWeekInOutbound').hide();
+          $('#selectOccursDayInOutbound').hide();
         }
       });
 
@@ -988,6 +1137,44 @@ $(function () {
          $('#duration_outbound_end_date').addClass('hidden');
        }
     });
+    $('input[name="daily_frequency_type_inbound"]').on('change',function(){
+      console.log($(this).val());
+       if($(this).val()=='Occurs Once At')
+       {
+          $("#recursEveryDiv").hide();
+          $("#startingEndingDiv").hide();
+          $("#daily_frequency_once_time_inbound").show();
+         //$('#duration_outbound_end_date').removeClass('hidden');
+       }
+       else
+       {
+         $("#daily_frequency_once_time_inbound").hide();
+          $("#recursEveryDiv").show();
+          $("#startingEndingDiv").show();
+         //$('#duration_outbound_end_date').addClass('hidden');
+       }
+    });
+
+    //outbound div
+
+    $('input[name="daily_frequency_type_outbound"]').on('change',function(){
+      console.log($(this).val());
+       if($(this).val()=='Occurs Once At')
+       {
+          $("#recursEveryDivOutbound").hide();
+          $("#startingEndingDivOutbound").hide();
+          $("#daily_frequency_once_time_outbound").show();
+         //$('#duration_outbound_end_date').removeClass('hidden');
+       }
+       else
+       {
+         $("#daily_frequency_once_time_outbound").hide();
+          $("#recursEveryDivOutbound").show();
+          $("#startingEndingDivOutbound").show();
+         //$('#duration_outbound_end_date').addClass('hidden');
+       }
+    });
+
   }
 
   // Vertical Wizard
@@ -1010,7 +1197,7 @@ $(function () {
     $(verticalWizard)
       .find('.btn-submit')
       .on('click', function () {
-        alert('Submitted..!!');
+        sweetAlert("success", "Schedule Setting Saved Successfully", "success");
       });
   }
 
@@ -1034,7 +1221,7 @@ $(function () {
     $(modernWizard)
       .find('.btn-submit')
       .on('click', function () {
-        alert('Submitted..!!');
+        sweetAlert("success", "Schedule Setting Saved Successfully", "success");
       });
   }
 
