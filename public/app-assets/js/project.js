@@ -28,11 +28,11 @@ $(document).ready(function(){
                     {
                         if(data.isActive==0)
                         {
-                            $button_group+='<button type="button" class="btn btn-secondary">Active</button>';
+                            $button_group+='<button type="button" data-value="1" data-id="'+data._id+'" class="btn btn-secondary btn_is_active">Active</button>';
                         }
                         else
                         {
-                            $button_group+='<button type="button" class="btn btn-secondary">InActive</button>';
+                            $button_group+='<button type="button" data-value="0" data-id="'+data._id+'" class="btn btn-secondary btn_is_active">InActive</button>';
                         }
                     }
                     if(data.schedule_setting!=undefined && data.schedule_setting.Schedule_configure_inbound=='click_by_user')
@@ -90,11 +90,11 @@ $(document).ready(function(){
                 success:function(response){
                     if(response.status=="0")
                     {
-                        alert(response.Msg);
+                      sweetAlert("success", response.Msg, "success");
                     }
                     else
                     {
-                        alert(response.Msg);
+                      sweetAlert("fail", response.Msg, "fail");
                     }
                 }
             })
@@ -132,4 +132,114 @@ $(document).ready(function(){
         }
        
     });
+    $('body').on('click','.btn_is_active',function(){
+        var isActive = $(this).data('value');
+        var project_id = $(this).data('id');
+        var $this = $(this);
+        $.ajax({
+            url:'/projects/update/'+project_id,  
+            method:'put',  
+            dataType:'json',
+            data:{isActive:isActive},
+            success:function(response){
+                if(response.status==1)
+                {
+
+                    if(isActive==1)
+                    {
+                        $this.data('value','0');
+                        $this.html('InActive');
+                        sweetAlert("success", response.message, "success");
+                        //alert(response.message);
+                    }
+                    else
+                    {
+                        $this.data('value','1');
+                        $this.html('Active');
+                        sweetAlert("success", response.message, "success");
+                    }
+                }
+                else
+                {
+                  sweetAlert("fail", response.message, "fail");
+                }
+              //alert(response.message);
+              //console.log(response);
+            }
+          });
+    });
+    
+    (function (window, document, $) {
+        'use strict';
+      
+        // Default Spin
+        $('.touchspin').TouchSpin({
+          buttondown_class: 'btn btn-primary',
+          buttonup_class: 'btn btn-primary',
+          buttondown_txt: feather.icons['minus'].toSvg(),
+          buttonup_txt: feather.icons['plus'].toSvg()
+        });
+      
+        // Icon Change
+        $('.touchspin-icon').TouchSpin({
+          buttondown_txt: feather.icons['chevron-down'].toSvg(),
+          buttonup_txt: feather.icons['chevron-up'].toSvg()
+        });
+      
+        // Min - Max
+      
+        var touchspinValue = $('.touchspin-min-max'),
+          counterMin = 17,
+          counterMax = 21;
+        if (touchspinValue.length > 0) {
+          touchspinValue
+            .TouchSpin({
+              min: counterMin,
+              max: counterMax,
+              buttondown_txt: feather.icons['minus'].toSvg(),
+              buttonup_txt: feather.icons['plus'].toSvg()
+            })
+            .on('touchspin.on.startdownspin', function () {
+              var $this = $(this);
+              $('.bootstrap-touchspin-up').removeClass('disabled-max-min');
+              if ($this.val() == counterMin) {
+                $(this).siblings().find('.bootstrap-touchspin-down').addClass('disabled-max-min');
+              }
+            })
+            .on('touchspin.on.startupspin', function () {
+              var $this = $(this);
+              $('.bootstrap-touchspin-down').removeClass('disabled-max-min');
+              if ($this.val() == counterMax) {
+                $(this).siblings().find('.bootstrap-touchspin-up').addClass('disabled-max-min');
+              }
+            });
+        }
+      
+        // Step
+        $('.touchspin-step').TouchSpin({
+          step: 5,
+          buttondown_txt: feather.icons['minus'].toSvg(),
+          buttonup_txt: feather.icons['plus'].toSvg()
+        });
+      
+        // Color Options
+        $('.touchspin-color').each(function (index) {
+          var down = 'btn btn-primary',
+            up = 'btn btn-primary',
+            $this = $(this);
+          if ($this.data('bts-button-down-class')) {
+            down = $this.data('bts-button-down-class');
+          }
+          if ($this.data('bts-button-up-class')) {
+            up = $this.data('bts-button-up-class');
+          }
+          $this.TouchSpin({
+            mousewheel: false,
+            buttondown_class: down,
+            buttonup_class: up,
+            buttondown_txt: feather.icons['minus'].toSvg(),
+            buttonup_txt: feather.icons['plus'].toSvg()
+          });
+        });
+      })(window, document, jQuery);
 });

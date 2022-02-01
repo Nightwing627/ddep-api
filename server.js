@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
   app.get('/dashboard', function(req, res) {
-    res.render('pages/dashboard-analytics');
+    res.render('pages/dashboard-analytics');  
   });
   app.get('/template', function(req, res) {
     res.render('pages/add-template');

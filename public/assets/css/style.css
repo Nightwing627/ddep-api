@@ -13,3 +13,18 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     content:" *";
     color: red;
   }
+  .select2-container--default .select2-selection--single .select2-selection__arrow{
+	top: 6px !important;
+    right: 7px !important;
+  }
+
+  .select2-container--classic .select2-selection--single .select2-selection__arrow b, .select2-container--default .select2-selection--single .select2-selection__arrow b{
+	padding: 0;
+  }
+  label{
+    font-size: 1rem !important;
+  }
+  label.form-label{
+    margin-top: 0.5rem;
+
+  }
