@@ -53,7 +53,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
                    var createnextdate = nextdates.getDate() + '-' + nextdates.getMonth() + '-' + nextdates.getFullYear();
                    var start_date = new Date(item.schedule_setting.duration_inbound_start_date);
                    var end_date = '';
-                    if(item.schedule_setting.duration_inbound_is_end_date="yes_end_date")
+                    if(item.schedule_setting.duration_inbound_is_end_date=="yes_end_date")
                     {
                         console.log("yes end date found");
                         if(item.schedule_setting.duration_inbound_end_date!="" && item.schedule_setting.duration_inbound_end_date!=undefined)
@@ -6716,34 +6716,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
                                             //res.json({'status':'true','msg':'Inbound Run Successfully'});
                                         });  
                                     }
-                                    else
-                                    {
-                                        var newschedulesetting = item.schedule_setting;
-                                        //var date = new Date();
-                                        //newschedulesetting.next_date_inbound = date;
-                                        //console.log(newschedulesetting);
-                                        var options = {
-                                            'method': 'put',
-                                            'url': config.domain+'/schedule_setting/update/'+item.schedule_setting._id,
-                                            'headers': {
-                                            'Content-Type': 'application/json'
-                                            },
-                                            body: JSON.stringify(newschedulesetting)
-                                            
-                                        };
-                                        request(options, function (error, response) {
-                                            //console.log(response);
-                                            if (error) throw new Error(error)
-                                            else{
-
-                                                //console.log(response);
-                                                console.log("update schedule setting date");
-                                                console.log(newschedulesetting);
-                                            }
-                                                //scheduelerunning++
-                                            //res.json({'status':'true','msg':'Inbound Run Successfully'});
-                                        }); 
-                                    }
+                                    
                                 
                                 //res.json({'status':'true','msg':'Inbound Run Successfully'});
                             });
@@ -6813,7 +6786,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
                             request(options, function (error, response) {
                                 if (error){
                                     console.log(error);
-                                  throw new Error(error);
+                                  //throw new Error(error);
                                 }
                                 else
                                 {
@@ -6842,43 +6815,14 @@ router.get('/getScheduleProjectInfo',function(req,res){
                                                 }
                                                 else{
     
-                                                    //console.log(response);
+                                                    
                                                     console.log("update schedule setting date");
                                                 }
                                                     //scheduelerunning++
                                                 //res.json({'status':'true','msg':'Inbound Run Successfully'});
                                             });  
                                         }
-                                        else
-                                        {
-                                            var newschedulesetting = item.schedule_setting;
-                                            //var date = new Date();
-                                            //newschedulesetting.next_date_inbound = date;
-                                            //console.log(newschedulesetting);
-                                            var options = {
-                                                'method': 'put',
-                                                'url': config.domain+'/schedule_setting/update/'+item.schedule_setting._id,
-                                                'headers': {
-                                                'Content-Type': 'application/json'
-                                                },
-                                                body: JSON.stringify(newschedulesetting)
-                                                
-                                            };
-                                            request(options, function (error, response) {
-                                                //console.log(response);
-                                                if (error)
-                                                {
-                                                    console.log("update schedule setting error");
-                                                }
-                                                else{
-    
-                                                    //console.log(response);
-                                                    console.log("update schedule setting date");
-                                                }
-                                                    //scheduelerunning++
-                                                //res.json({'status':'true','msg':'Inbound Run Successfully'});
-                                            }); 
-                                        }
+                                        
                                 }
                             })
                     }
