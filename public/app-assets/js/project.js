@@ -23,7 +23,7 @@ $(document).ready(function(){
                  var counter = 1;
                  $.each(response.data,function(index,data){
                      var $button_group='<div class="btn-group" role="group" aria-label="Basic example">';
-                     $button_group+='<a href="edit/'+data._id+'" class="btn btn-secondary">Edit</a>';
+                     $button_group+='<a href="edit/'+data._id+'" class="btn btn-secondary">Edit</a><button type="button" data-toggle="modal" data-target="#history" class="btn btn-outline-secondary">History</button>';
                     if(data.inbound_setting!=undefined && data.outbound_setting!=undefined && data.schedule_setting!=undefined)
                     {
                         if(data.isActive==0)

@@ -10,21 +10,76 @@ NOTE:
 PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
 .required:after {
-    content:" *";
-    color: red;
-  }
-  .select2-container--default .select2-selection--single .select2-selection__arrow{
-	top: 6px !important;
-    right: 7px !important;
-  }
+  content:" *";
+  color: red;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow{
+top: 6px !important;
+right: 7px !important;
+}
 
-  .select2-container--classic .select2-selection--single .select2-selection__arrow b, .select2-container--default .select2-selection--single .select2-selection__arrow b{
-	padding: 0;
-  }
+.select2-container--classic .select2-selection--single .select2-selection__arrow b, 
+.select2-container--default .select2-selection--single .select2-selection__arrow b{
+padding: 0;
+}
+
+#project_data_table_wrapper{
+display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
+align-items: center;
+padding: 10px 0 20px 0;
+}
+#project_data_table_info,
+#project_data_table_length{
+padding-top: 0 !important;
+margin-left: 30px;
+}
+#project_data_table_paginate,
+#project_data_table_filter{
+margin-right: 30px;
+}
+#project_data_table{
+border-bottom: 1px solid #EBE9F1;
+margin-bottom: 22px !important; 
+}
+.dataTables_paginate .paginate_button{
+margin: 0 2px;
+}
+
+@media screen and (max-width: 768px) {
+#project_data_table_info,
+#project_data_table_length,
+#project_data_table_paginate,
+#project_data_table_filter{
+  margin-right: 0;
+  margin-left: 0;
+  width: 100%;
+}
+.dataTables_info{
+  margin-bottom: 13px;
+}
+#project_data_table {
+    margin-bottom: 16px !important;
+}
+.dt-buttons.d-inline-flex .dropdown .dt-button{
+  margin-right: 0 !important;
+  width: 100%;
+}
+.dt-buttons.d-inline-flex .dropdown{
+  width: 50%;
+  padding: 0 10px 15px 10px;
+}
+.dt-buttons.d-inline-flex{
+  flex-wrap: wrap;
+  margin: 0 -10px;
+  width: auto;
+}
+}
   label{
     font-size: 1rem !important;
   }
   label.form-label{
-    margin-top: 0.5rem;
+    margin-top: 0.6rem;
 
   }

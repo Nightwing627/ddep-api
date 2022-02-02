@@ -929,13 +929,34 @@ router.post('/outboundrun',function(req,res){
                   })
                 var filenames = parseInt(crypto.randomBytes(2).toString('hex'), 16)+'.json';
                 const writefile = fs.writeFileSync(out_month_folder+'/'+filenames,JSON.stringify(result));
-                fs.rename(directoryPath+'/'+file, month_folder+'/'+file, function (err) {
+                /* fs.rename(directoryPath+'/'+file, month_folder+'/'+file, function (err) {
                   if (err){
                     console.log(err);
                   } //throw err
                   //console.log('Successfully renamed - AKA moved!');
-                })
-
+                }) */
+                //console.log("\nFile Contents of hello.txt:",
+                fs.readFileSync(directoryPath+'/'+file, "utf8");
+            
+                  try {
+                    fs.copyFileSync(directoryPath+'/'+file, month_folder+'/'+file,
+                      fs.constants.COPYFILE_EXCL);
+                    
+                    // Get the current filenames
+                    // after the function
+                  
+                  console.log("\nFile Contents of "+month_folder+'/'+file+":",
+                      fs.readFileSync(month_folder+'/'+file, "utf8"));
+                  }
+                  catch (err) {
+                    console.log(err);
+                  }
+                  try {
+                    unlinkSync(directoryPath+'/'+file);
+                    console.log('successfully deleted /tmp/hello');
+                  } catch (err) {
+                    // handle the error
+                  }
               }
               //console.log(result);
               //res.json({status:"1",Msg:"home/TUU_XML/TUU_sample 2.xml File Converted Successfully",Data:result});
@@ -960,11 +981,13 @@ router.post('/outboundrun',function(req,res){
 });
 router.post('/testFtp',function(req,res){
   var settings = {
-    host:req.body.ftp_server_link.trim(),
-    user:req.body.login_name,
+    host:req.body.host,
+    user:req.body.user,
     password:req.body.password,
     port:req.body.port,
     secure:false,
+    debug:   function(msg) {
+      console.log(' %s', msg);},
     connTimeout:200000,
     pasvTimeout :200000,
     keepalive :200000 
@@ -984,15 +1007,15 @@ router.post('/testFtp',function(req,res){
                 console.log(list.length);
                 var result = {};
 
-                res.json({"Status":1,Msg:"Connection Successfully",Data:list});
+                res.json({"Status":1,Msg:"Connection Successfully"});
+                ftp.end();
               }
                 
             });
           })
-          ftp.on('end',function(){
-            console.log("ftp connection close");
-          }) 
-          ftp.connect(settings);
+          ftp.connect(settings,function(data){
+            console.log(data);
+          });
         }catch(err)
         {
           res.json({"Status":0,Msg:err,Data:[]});

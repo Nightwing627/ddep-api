@@ -1176,6 +1176,32 @@ $(function () {
     });
 
   }
+  $('#conntest').on('click',function(){
+    var host=$('#ftp_server_link').val();
+    var user=$('#login_name').val();
+    var password=$('#password').val();
+    var port=$('#port').val();
+    var folderpath=$('#folderpath').val();
+      /* $.ajax({
+          url:'/inbound/testFtp/',  
+          method:'post',  
+          dataType:'json',
+          data:{host:host,user:user,password:password,port:port,folderpath:folderpath},
+          success:function(response){
+            //console.log(response);
+            if(response.Status==1)
+            {
+
+              sweetAlert("success", "connection", "success");
+            }
+            else
+            {
+              alert("fail");
+            }
+            //$("#outbound_setting_id").val(response.id);
+          }
+        }); */
+  })
 
   // Vertical Wizard
   // --------------------------------------------------------------------

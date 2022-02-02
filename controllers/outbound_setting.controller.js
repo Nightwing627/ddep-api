@@ -45,11 +45,11 @@ exports.create = (req, res) => {
             message: "Outbound Format is Required"
         });
     }
-    if(!data.sync_type_out) {
+    /* if(!data.sync_type_out) {
         return res.status(400).send({
             message: "Synchronize Output Type is Required"
         });
-    }
+    } */
     /* if(!data.api_url) {
         return res.status(400).send({
             message: "API URL is Required"
@@ -59,7 +59,7 @@ exports.create = (req, res) => {
     const outboundSetting = new OutboundSetting({
         project_id:data.project_id,
         outbound_format: data.outbound_format, 
-        sync_type_out: data.sync_type_out,
+        sync_type_out: data.sync_type_out || "API",
         api_url: data.api_url || "",
         is_active : data.is_active || "Inactive"
     });
@@ -148,11 +148,11 @@ exports.update = (req, res) => {
             message: "Outbound Format is Required"
         });
     }
-    if(!data.sync_type_out) {
+    /* if(!data.sync_type_out) {
         return res.status(400).send({
             message: "Synchronize Output Type is Required"
         });
-    }
+    } */
     /* if(!data.api_url) {
         return res.status(400).send({
             message: "API URL is Required"
@@ -161,7 +161,7 @@ exports.update = (req, res) => {
     
     const outboundSetting = new OutboundSetting({
         outbound_format: data.outbound_format, 
-        sync_type_out: data.sync_type_out,
+        sync_type_out: data.sync_type_out || "API",
         api_url: data.api_url,
         
     });
