@@ -784,6 +784,16 @@ $(function () {
           
           var Schedule_configure_inbound = $('input[name="s_configure_inbound"]:checked').val();
           var schedule_type_inbound = $('input[name="schedule_type_inbound"]:checked').val();
+          var one_time_occurrence_inbound_date="";
+          var one_time_occurrence_inbound_time="";
+          var one_time_occurrence_outbound_date="";
+          var one_time_occurrence_outbound_time="";
+          if(schedule_type_inbound=='OneTime')
+          {
+            one_time_occurrence_inbound_date = $('#one_time_occurrence_inbound_date').val();
+            one_time_occurrence_inbound_time = $('#one_time_occurrence_inbound_time').val();
+          }
+          
           var day_frequency_inbound_count =$('#day_frequency_inbound_count').val();
           var day_frequency_outbound_count =$('#day_frequency_outbound_count').val();
           var weekly_frequency_inbound_count =$('#weekly_frequency_inbound_count').val();
@@ -857,6 +867,11 @@ $(function () {
          
           var Schedule_configure_outbound = $('input[name="s_configure_inbound"]:checked').val();
           var schedule_type_outbound = $('input[name="schedule_type_outbound"]:checked').val();
+          if(schedule_type_outbound=='OneTime')
+          {
+            one_time_occurrence_outbound_date = $('#one_time_occurrence_outbound_date').val();
+            one_time_occurrence_outbound_time = $('#one_time_occurrence_outbound_time').val();
+          }
           var occurs_outbound =$('#occurs_time_outbound').val();
         
           //var recurs_count_outbound =$('#recurs_count_outbound').val();
@@ -904,6 +919,8 @@ $(function () {
               data:{project_id:project_id,
                 Schedule_configure_inbound:Schedule_configure_inbound,
                 schedule_type_inbound:schedule_type_inbound,
+                one_time_occurrence_inbound_date:one_time_occurrence_inbound_date,
+                one_time_occurrence_inbound_time:one_time_occurrence_inbound_time,
                 occurs_inbound:occurs_inbound,
                 monthly_field_setting_inbound:monthly_field_setting_inbound,
                 occurs_weekly_fields_inbound:occurs_weekly_fields_inbound,
@@ -933,6 +950,8 @@ $(function () {
                 //recurs_time_inbound:recurs_time_inbound,
                 Schedule_configure_outbound:Schedule_configure_outbound,
                 schedule_type_outbound:schedule_type_outbound,
+                one_time_occurrence_outbound_date:one_time_occurrence_outbound_date,
+                one_time_occurrence_outbound_time:one_time_occurrence_outbound_time,
                 occurs_outbound:occurs_outbound,
                 monthly_field_setting_outbound:monthly_field_setting_outbound,
                 occurs_weekly_fields_outbound:occurs_weekly_fields_outbound,
@@ -949,6 +968,7 @@ $(function () {
                 console.log(response);
                 sweetAlert("success", "Setting Saved Successfully", "success");
                 $("#schedule_setting_id").val(response.id);
+                window.location.href = "/projects/project-list";
               }
             });
           }
@@ -961,6 +981,8 @@ $(function () {
               data:{project_id:project_id,
                 Schedule_configure_inbound:Schedule_configure_inbound,
                 schedule_type_inbound:schedule_type_inbound,
+                one_time_occurrence_inbound_date:one_time_occurrence_inbound_date,
+                one_time_occurrence_inbound_time:one_time_occurrence_inbound_time,
                 occurs_inbound:occurs_inbound,
                 monthly_field_setting_inbound:monthly_field_setting_inbound,
                 occurs_weekly_fields_inbound:occurs_weekly_fields_inbound,
@@ -990,6 +1012,8 @@ $(function () {
                 //recurs_time_inbound:recurs_time_inbound,
                 Schedule_configure_outbound:Schedule_configure_outbound,
                 schedule_type_outbound:schedule_type_outbound,
+                one_time_occurrence_outbound_date:one_time_occurrence_outbound_date,
+                one_time_occurrence_outbound_time:one_time_occurrence_outbound_time,
                 occurs_outbound:occurs_outbound,
                 monthly_field_setting_outbound:monthly_field_setting_outbound,
                 occurs_weekly_fields_outbound:occurs_weekly_fields_outbound,
@@ -1005,6 +1029,7 @@ $(function () {
               success:function(response){
                 //console.log(response);
                 sweetAlert("success", "Schedule Setting Saved Successfully", "success");
+                window.location.href = "/projects/project-list"
                 //$("#schedule_setting_id").val(response.id);
               }
             });
@@ -1174,7 +1199,33 @@ $(function () {
          //$('#duration_outbound_end_date').addClass('hidden');
        }
     });
-
+    $('input[name=schedule_type_inbound]').on('change',function(){
+      if($(this).val()=='Recurring')
+      {
+        $('#inbound-data-one-time').hide();
+        $('#inbound-data-recurring').show();
+      }
+      else
+      {
+        $('#inbound-data-one-time').show();
+        $('#inbound-data-recurring').hide();
+      }
+      
+      //alert("ram");
+    });
+    $('input[name=schedule_type_outbound]').on('change',function(){
+      if($(this).val()=='Recurring')
+      {
+        $('#outbound-data-one-time').hide();
+        $('#outbound-data-recurring').show();
+      }
+      else
+      {
+        $('#outbound-data-one-time').show();
+        $('#outbound-data-recurring').hide();
+      }
+      //alert("ram");
+    });
   }
   $('#conntest').on('click',function(){
     var host=$('#ftp_server_link').val();
