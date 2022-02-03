@@ -1233,8 +1233,20 @@ $(function () {
     var password=$('#password').val();
     var port=$('#port').val();
     var folderpath=$('#folderpath').val();
-      /* $.ajax({
-          url:'/inbound/testFtp/',  
+      $.blockUI({
+        message: '<div class="spinner-border text-primary" role="status"></div>',
+        //timeout: 1000,
+        css: {
+          backgroundColor: 'transparent',
+          border: '0'
+        },
+        overlayCSS: {
+          backgroundColor: '#fff',
+          opacity: 0.8
+        }
+      });
+      $.ajax({
+          url:'/inbound/testFtp/',
           method:'post',  
           dataType:'json',
           data:{host:host,user:user,password:password,port:port,folderpath:folderpath},
@@ -1242,17 +1254,30 @@ $(function () {
             //console.log(response);
             if(response.Status==1)
             {
+                //alert(response.Msg);
+                $('#conn-alert').html(response.Msg);
+                $('#conn-alert').removeClass('text-success');
+                $('#conn-alert').removeClass('text-danger');
+                $('#conn-alert').addClass('text-success');
+                $('#conn-alert').show();
+                $.unblockUI();
 
-              sweetAlert("success", "connection", "success");
+              /* sweetAlert("success", "connection", "success"); */
             }
             else
             {
-              alert("fail");
+              //alert(response.Msg);
+              $('#conn-alert').html(response.Msg);
+                $('#conn-alert').removeClass('text-success');
+                $('#conn-alert').removeClass('text-danger');
+                $('#conn-alert').addClass('text-danger');
+                $('#conn-alert').show();
+              $.unblockUI();
             }
             //$("#outbound_setting_id").val(response.id);
           }
-        }); */
-  })
+        });
+  });
 
   // Vertical Wizard
   // --------------------------------------------------------------------

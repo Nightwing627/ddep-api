@@ -6,6 +6,7 @@ var path = require('path');
 var request = require('request');
 const crypto = require('crypto');
 const { transform, prettyPrint } = require('camaro');
+const ftp = require("basic-ftp")
 //const ftp = require('../my_modules/FTPClient');
 //const newftp = require('../my_modules/FTP');
 var Client = require('ftp');
@@ -986,39 +987,29 @@ router.post('/testFtp',function(req,res){
     password:req.body.password,
     port:req.body.port,
     secure:false,
-    debug:   function(msg) {
-      console.log(' %s', msg);},
-    connTimeout:200000,
-    pasvTimeout :200000,
-    keepalive :200000 
   }
   var folderpath = req.body.folderpath;
-  var ftp = new Client()
-        try{
+  const client = new ftp.Client()
+    client.ftp.verbose = true;
+    (async () =>{
 
-          ftp.on('ready', function() {
-            ftp.list(folderpath,function(err, list) {
-                if (err){
-                  console.log(err);
-                  res.json({"Status":0,Msg:err,Data:[]});
-                } 
-              else
-              {
-                console.log(list.length);
-                var result = {};
-
-                res.json({"Status":1,Msg:"Connection Successfully"});
-                ftp.end();
-              }
-                
-            });
-          })
-          ftp.connect(settings,function(data){
-            console.log(data);
-          });
-        }catch(err)
-        {
-          res.json({"Status":0,Msg:err,Data:[]});
-        }
+      try {
+          await client.access(settings)
+          //console.log(await client.list())
+          res.json({Status:1,Msg:"connection successfully",Data:[]});
+      }
+      catch(err) {
+          //console.log(err);
+          if(err.code==504)
+          {
+            res.json({Status:0,Msg:"Tls Protection Required !",Data:[]});
+          }
+          else
+          {
+            res.json({Status:0,Msg:"Login Incorrect !",Data:[]});
+          }
+      }
+      client.close()
+    })();
 })
 module.exports = router;
