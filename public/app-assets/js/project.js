@@ -168,7 +168,9 @@ $(document).ready(function(){
             }
           });
     });
-    
+    $('#btn_create_new_project').on('click',function(){
+        window.location.href="/projects/add";
+    })
     (function (window, document, $) {
         'use strict';
       
