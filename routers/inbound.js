@@ -671,7 +671,25 @@ router.post('/inboundrun',function(req,res){
                               var name = parseInt(crypto.randomBytes(2).toString('hex'), 16); //parseInt(date.getTime() + 1);
                               console.log(name);
                               stream.pipe(fs.createWriteStream(dir+'/'+projectdir+'/'+name+'.xml'));
-                              ftp.rename(folderpath+'/'+list[index].name,folderpath+'/'+backup_folder+'/'+list[index].name,function(err){
+                              let date_ob = new Date();
+                              let date = ("0" + date_ob.getDate()).slice(-2);
+
+                                // current month
+                                let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+
+                                // current year
+                                let year = date_ob.getFullYear();
+
+                                // current hours
+                                let hours = date_ob.getHours();
+
+                                // current minutes
+                                let minutes = date_ob.getMinutes();
+
+                                // current seconds
+                                let seconds = date_ob.getSeconds();
+                              var new_name = name+'_'+date+month+year+hours+minutes+seconds+'.xml'
+                              ftp.rename(folderpath+'/'+list[index].name,folderpath+'/'+backup_folder+'/'+new_name,function(err){
                                 if(err)
                                 {
                                   console.log(err);
@@ -953,7 +971,7 @@ router.post('/outboundrun',function(req,res){
                     console.log(err);
                   }
                   try {
-                    unlinkSync(directoryPath+'/'+file);
+                    fs.unlinkSync(directoryPath+'/'+file);
                     console.log('successfully deleted /tmp/hello');
                   } catch (err) {
                     // handle the error
@@ -980,6 +998,99 @@ router.post('/outboundrun',function(req,res){
     
   res.json({Status:1,Msg:"outboundrun successfull"});
 });
+router.post('/testfiles',function(req,res){
+  var project_id = req.body.project_id;
+  //console.log(project_id);
+  var directoryPath= 'inbounds/'+project_id;
+  // make project/date wise folder
+  var date = new Date();
+  var dir = './history/inbounds';
+  var out_dir ='./history/outbounds';
+  if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir);
+  }
+  if (!fs.existsSync(out_dir)){
+    fs.mkdirSync(out_dir);
+  }
+  var projectdir = dir+'/'+project_id;
+  if(!fs.existsSync(projectdir)){
+    fs.mkdirSync(projectdir);
+  }
+  var out_projectdir = out_dir+'/'+project_id;
+  if(!fs.existsSync(out_projectdir)){
+    fs.mkdirSync(out_projectdir);
+  }
+  var yearfolder = projectdir+'/'+date.getFullYear();
+  if(!fs.existsSync(yearfolder)){
+    fs.mkdirSync(yearfolder);
+  }
+  var out_yearfolder = out_projectdir+'/'+date.getFullYear();
+  if(!fs.existsSync(out_yearfolder)){
+    fs.mkdirSync(out_yearfolder);
+  }
+  var month_folder = yearfolder+'/'+ parseInt(date.getMonth()+1);
+  if(!fs.existsSync(month_folder)){
+    fs.mkdirSync(month_folder);
+  }
+  var out_month_folder = out_yearfolder+'/'+ parseInt(date.getMonth()+1);
+  if(!fs.existsSync(out_month_folder)){
+    fs.mkdirSync(out_month_folder);
+  }
+  fs.readdir(directoryPath, function (err, files) {
+    //handling error
+    if (err) {
+        return console.log('Unable to scan directory: ' + err);
+    } 
+    //listing all files using forEach
+    files.forEach(function (file) {
+        // Do whatever you want to do with the file
+        //console.log(file); 
+        try{
+          const data = fs.readFileSync(directoryPath+'/'+file,{encoding:'utf8', flag:'r'});
+          const xml = '`'+data+'`';
+          ;(async function () {
+            try{
+
+              fs.readFileSync(directoryPath+'/'+file, "utf8");
+            
+                  try {
+                    fs.copyFileSync(directoryPath+'/'+file, month_folder+'/'+file,
+                      fs.constants.COPYFILE_EXCL);
+                    
+                    // Get the current filenames
+                    // after the function
+                  
+                  console.log("\nFile Contents of "+month_folder+'/'+file+":",
+                      fs.readFileSync(month_folder+'/'+file, "utf8"));
+                  }
+                  catch (err) {
+                    console.log(err);
+                  }
+                  try {
+                    fs.unlinkSync(directoryPath+'/'+file);
+                    console.log('successfully deleted /tmp/hello');
+                  } catch (err) {
+                    log(err);
+                    // handle the error
+                  }
+              //console.log(result);
+              //res.json({status:"1",Msg:"home/TUU_XML/TUU_sample 2.xml File Converted Successfully",Data:result});
+            }catch(err)
+            {
+              console.log(err);
+            }
+            //console.log(JSON.stringify(result));
+        
+            //const prettyStr = await prettyPrint(xml, { indentSize: 4})
+            //console.log(prettyStr)
+        })()
+        }catch(error){
+            console.log(error);
+        }
+    });
+    //res.json({Status:1,Msg:"outboundrun successfull",data:files});
+});
+})
 router.post('/testFtp',function(req,res){
   var settings = {
     host:req.body.host,
