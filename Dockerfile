@@ -15,10 +15,10 @@ RUN npm install
 
 # 配置环境变量
 ENV HOST 0.0.0.0
-ENV PORT 8004
+ENV PORT 8014
 
 # 暴露8004端口
-EXPOSE 8004
+EXPOSE 8014
 
 # 启动容器时执行应用启动命令
 CMD [ "node", "app.js" ]
