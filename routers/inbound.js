@@ -1123,4 +1123,110 @@ router.post('/testFtp',function(req,res){
       client.close()
     })();
 })
+router.post('/convertxmltojson',function(req,res){
+  let xml_string = fs.readFileSync("./inbounds/myxml_data.xml", "utf8");
+  const textOrDefault = (defaultValue) => `concat(
+    text(),
+    substring(
+        "${defaultValue}",
+        1,
+        number(not(text())) * string-length("${defaultValue}")
+    )
+)`
+   const xml = '`'+xml_string+'`';
+    //console.log("xml" + xml);
+    
+      const template = ['/WebOrder',{
+  
+        OrderHandeling:[
+          '//POHeader/OrderHandeling/Variable',
+          {
+            ID:'OH_ID',
+            value:'OH_Data'
+          }
+        ],
+        CustRef:[
+          '//POHeader/CustRef/Variable',
+          {
+            ID:'CR_ID',
+            value:'CR_Data'
+          }
+        ],
+        SupplierDetail:[
+          '//POHeader/SupplierDetail',
+          {
+            Brand:textOrDefault('boden'),
+            SupplierNo:'SupplierNo',
+            FactoryNo:'FactoryNo'
+          }
+        ],
+        ItemRefs:[
+          '//POHeader/ItemRefs/Variable',
+          {
+            ItemRef:'ITemRef',
+            
+          }
+        ],
+        EDI_Variables:[
+          '//EDIHeader/EDI_Variables/Variable',
+          {
+            ID:'EDI_HName',
+            value:'EDI_HValue'
+            
+          }
+        ],
+        
+        FibreComponent:['//EDIHeader/EDI_CareandContent/Fibre/FibreComponent/Variable',{
+          FibreComponentName:'../FibreComponentName',
+          FibreName:'FibreName',
+          FibrePercent:'FibrePercent'
+          }],
+          
+            
+            
+        FrabricStatments:['//EDIHeader/EDI_CareandContent/FrabricStatments/Variable',{
+          Statment:'Statment'
+        }],
+        CareSymbolMappingID:['//EDIHeader/EDI_CareandContent/CareSymbolMappingID/Variable',{
+          CareMappingID:'CareMappingID'
+        }],
+        SizeDetail:[
+          '//EDISizeDetail/EDI_Size',
+          {
+            SizeChartID:'SizeChartID',
+            Size:'EDIPrimarySize',
+            TicketQuantity:['//EDISizeDetail/EDI_Size/Variable',{
+              Quantity:'TicketQuantity'
+            }],
+            MatrixDetail:['//EDISizeDetail/EDI_Size/MatrixDetail/Variable',{
+              ID:'EDISizeDetail_Name',
+              Value:'EDISizeDetail_Value'
+            }]
+            
+          }
+        ],
+      }]
+            
+            
+            // name: 'String(name)',
+            // jerseyNumber: '@jerseyNumber',
+            // yearOfBirth: 'number(yearOfBirth)',
+            // isRetired: 'boolean(isRetired = "true")'
+        
+        
+        ;(async function () {
+            try{
+
+              const result = await transform(xml, template)
+              res.json({status:"1",Msg:"home/TUU_XML/TUU_sample 2.xml File Converted Successfully",Data:result});
+            }catch(err)
+            {
+              console.log(err);
+            }
+            //console.log(JSON.stringify(result));
+        
+            //const prettyStr = await prettyPrint(xml, { indentSize: 4})
+            //console.log(prettyStr)
+        })()
+})
 module.exports = router;

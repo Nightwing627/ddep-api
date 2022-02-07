@@ -1,0 +1,148 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+
+<WebOrder> 
+	<POHeader> 
+		<OrderHandeling>
+			<Variable>
+				<OH_ID>GarmentLabelFlag</OH_ID> 
+				<OH_Data>Y</OH_Data>
+			</Variable>
+			<Variable>
+				<OH_ID>ImportAs</OH_ID>
+				<OH_Data>PO</OH_Data>
+			</Variable>
+			<Variable>
+				<OH_ID>LastUpdateDate</OH_ID>
+				<OH_Data>20220119120060</OH_Data>
+			</Variable>
+			<Variable>
+				<OH_ID>SizeChartModel</OH_ID>
+				<OH_Data>Data</OH_Data>
+			</Variable>
+			<Variable>
+				<OH_ID>AdjustWastage</OH_ID>
+				<OH_Data>False</OH_Data>
+			</Variable>
+		</OrderHandeling> 
+		<CustRef>
+			<Variable>
+				<CR_ID>Purchase Order No</CR_ID>
+				<CR_Data>QIO-82-Khroma Volition Pants</CR_Data>
+			</Variable>
+			<Variable>
+				<CR_ID></CR_ID>
+				<CR_Data></CR_Data>
+			</Variable>
+		</CustRef>
+		<SupplierDetail>
+			<SupplierNo>Honstar</SupplierNo>
+			<FactoryNo></FactoryNo>
+		</SupplierDetail>
+		<ItemRefs>
+		</ItemRefs>
+	</POHeader>
+	<EDIHeader> 
+		<EDI_Variables>
+			<Variable>
+				<EDI_HName>Country Of Manufacture</EDI_HName>
+				<EDI_HValue>Made in China</EDI_HValue>
+			</Variable>
+			<Variable>
+				<EDI_HName>Status</EDI_HName>
+				<EDI_HValue>New Colour</EDI_HValue>
+			</Variable>
+		</EDI_Variables>
+		<EDI_CareandContent>
+			<Fibre>
+					<FibreComponent>
+							<FibreComponentName>Outer</FibreComponentName>
+							<Variable>
+								<FibreName>Polyester</FibreName>
+								<FibrePercent>100</FibrePercent>
+							</Variable>
+					</FibreComponent>
+					<FibreComponent>
+						<FibreComponentName>Panels</FibreComponentName>
+							<Variable>
+								<FibreName>Polyamide</FibreName>
+								<FibrePercent>100</FibrePercent>
+							</Variable>
+					</FibreComponent>
+					<FibreComponent>
+						<FibreComponentName>Reinforcement panels</FibreComponentName>
+							<Variable>
+								<FibreName>Polyamide</FibreName>
+								<FibrePercent>54</FibrePercent>
+							</Variable>
+							<Variable>
+								<FibreName>Polyester</FibreName>
+								<FibrePercent>33</FibrePercent>
+							</Variable>
+							<Variable>
+								<FibreName>Polyurethane</FibreName>
+								<FibrePercent>13</FibrePercent>
+							</Variable>
+					</FibreComponent>
+					<FibreComponent>
+						<FibreComponentName>Lining</FibreComponentName>
+							<Variable>
+								<FibreName>Polyan</FibreName>
+								<FibrePercent>100</FibrePercent>
+							</Variable>
+					</FibreComponent>
+					<FibreComponent>
+						<FibreComponentName>Insulation</FibreComponentName>
+							<Variable>
+								<FibreName>Polyester</FibreName>
+								<FibrePercent>100</FibrePercent>
+							</Variable>
+					</FibreComponent>
+			</Fibre>
+			<FrabricStatments>
+				<Variable>
+					<Statment>Do not place valuables that may be affected by dampness in external pockets of this garment.</Statment>
+				</Variable>
+				<Variable>
+					<Statment>Close all zips and velcro before washing</Statment>
+				</Variable>
+				<Variable>
+					<Statment>Use non-biological liquid detergents or pure soap</Statment>
+				</Variable>
+				<Variable>
+					<Statment>Line dry or tumble dry. Once dry, tumble dry for 20 minutes more or iron warm to reactivate  water-repellent treatment.</Statment>
+				</Variable>
+				<Variable>
+					<Statment>For specific care instructions always refer to garment manufacturer's recommendations. For more details: gore-tex.com/care</Statment>
+				</Variable>
+			</FrabricStatments>
+			<CareSymbolMappingID> 
+				<Variable>
+					<CareMappingID>WASH - 30 mild wash.jpg</CareMappingID> 
+				</Variable>
+				<Variable>
+					<CareMappingID>BLEACH - Do not bleach.jpg</CareMappingID>
+				</Variable>
+				<Variable>
+					<CareMappingID>DRY - Tumble dry, Low (60C).jpg</CareMappingID>
+				</Variable>
+				<Variable>
+					<CareMappingID>IRON - DO NOT iron.jpg</CareMappingID>
+				</Variable>
+				<Variable>
+					<CareMappingID>DRY CLEAN - DO NOT dry clean.jpg</CareMappingID>
+				</Variable>
+			</CareSymbolMappingID>
+		</EDI_CareandContent>
+	</EDIHeader>
+	<EDISizeDetail> 
+		<EDI_Size> 
+			<SizeChartID>1000</SizeChartID> 
+			<EDIPrimarySize>Nonsized</EDIPrimarySize>
+			<Variable>
+				<TicketQuantity>1</TicketQuantity>
+			</Variable>
+			<MatrixDetail>
+			</MatrixDetail>
+		</EDI_Size>
+	</EDISizeDetail>		
+</WebOrder>
