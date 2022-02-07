@@ -61,7 +61,7 @@ app.use(function(req, res, next) {
     res.render('pages/error');
   });
   
-  const port = process.env.PORT || 8004;
+  const port = process.env.PORT || 8014;
   
   app.listen(port, function () {
     console.log('Server is running on PORT',port);
@@ -78,6 +78,7 @@ app.use(function(req, res, next) {
       }).catch(error => {
         console.log(error);
       });
+      
   }
 cron.schedule('* * * * *',()=>{
   console.log("run by schedule every minit");
