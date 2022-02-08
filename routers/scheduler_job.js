@@ -99,6 +99,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
                                             {
                                               
                                                 console.log("occurnce once found time is >>"+ item.schedule_setting.daily_frequency_once_time_inbound);
+                                                console.log("current time is >>"+ currenttime);
                                             }
                                         }
                                         if(item.schedule_setting.daily_frequency_type_inbound=='Occurs every')
