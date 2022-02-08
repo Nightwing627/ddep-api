@@ -1,0 +1,304 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<WebOrder> 
+	<POHeader> 
+		<OrderHandeling> 
+			<Variable>
+				<OH_ID>GarmentLabelFlag</OH_ID>
+				<OH_Data></OH_Data>
+			</Variable>
+			<Variable>
+				<OH_ID>ImportAs</OH_ID>
+				<OH_Data>Draft</OH_Data>
+			</Variable>
+			<Variable>
+				<OH_ID>LastUpdateDate</OH_ID>
+				<OH_Data></OH_Data>
+			</Variable>
+			<Variable>
+				<OH_ID>SizeChartModel</OH_ID>
+				<OH_Data>Data</OH_Data>
+			</Variable>
+			<Variable>
+				<OH_ID>AdjustWastage</OH_ID>
+				<OH_Data>True</OH_Data>
+			</Variable>
+		</OrderHandeling> 
+		<CustRef>
+			<Variable>
+				<CR_ID>PO</CR_ID>
+				<CR_Data>202202080006</CR_Data>
+			</Variable>
+		</CustRef>
+		<SupplierDetail> 
+			<SupplierNo></SupplierNo>
+			<FactoryNo>Test01</FactoryNo>
+		</SupplierDetail>
+		<ItemRefs> 
+			<Variable>
+				<ITemRef>BD-CW-CL04</ITemRef>
+			</Variable>
+			<Variable>
+				<ITemRef>BDMBPPAT03</ITemRef>
+			</Variable>
+		</ItemRefs>
+	</POHeader>
+	<EDIHeader> 
+		<EDI_Variables>
+			<Variable>
+				<EDI_HName>COO</EDI_HName>
+				<EDI_HValue>MADE IN BULGARIA</EDI_HValue>
+			</Variable>
+			<Variable>
+				<EDI_HName>Send date</EDI_HName>
+				<EDI_HValue></EDI_HValue>
+			</Variable>
+			<Variable>
+				<EDI_HName>ContentNo</EDI_HName>
+				<EDI_HValue></EDI_HValue>
+			</Variable>
+			<Variable>
+				<EDI_HName>CareNo</EDI_HName>
+				<EDI_HValue></EDI_HValue>
+			</Variable>
+			<Variable>
+				<EDI_HName>Dep</EDI_HName>
+				<EDI_HValue>DEP FOR STYLE TO 202201050001</EDI_HValue>
+			</Variable>
+			<Variable>
+				<EDI_HName>Sub</EDI_HName>
+				<EDI_HValue>SUB FOR STYLE TO 202201050001</EDI_HValue>
+			</Variable>
+			<Variable>
+				<EDI_HName>Sty</EDI_HName>
+				<EDI_HValue>STY FOR STYLE TO 202201050001</EDI_HValue>
+			</Variable>
+			<Variable>
+				<EDI_HName>NOP</EDI_HName>
+				<EDI_HValue>NOP TO 202201050001</EDI_HValue>
+			</Variable>
+			<Variable>
+				<EDI_HName>MINIDATE</EDI_HName>
+				<EDI_HValue>20211122</EDI_HValue>
+			</Variable>
+			<Variable>
+				<EDI_HName>GPU</EDI_HName>
+				<EDI_HValue>GPU TO 202201050001</EDI_HValue>
+			</Variable>
+			<Variable>
+				<EDI_HName>WASHREF</EDI_HName>
+				<EDI_HValue>WASH TO 202201050001</EDI_HValue>
+			</Variable>
+			<Variable>
+				<EDI_HName>FOOT-U</EDI_HName>
+				<EDI_HValue>FOOT TO 202201050001</EDI_HValue>
+			</Variable>
+			<Variable>
+				<EDI_HName>FOOT-L</EDI_HName>
+				<EDI_HValue>L TO 202201050001</EDI_HValue>
+			</Variable>
+			<Variable>
+				<EDI_HName>FOOT-S</EDI_HName>
+				<EDI_HValue>S TO 202201050001</EDI_HValue>
+			</Variable>
+			<Variable>
+				<EDI_HName>AC</EDI_HName>
+				<EDI_HValue></EDI_HValue>
+			</Variable>
+		</EDI_Variables>
+		<EDI_CareandContent>
+			<Fibre>
+					<FibreComponent>
+						<FibreComponentName>BACK</FibreComponentName>
+							<Variable>
+								<FibreName>ABS RESIN</FibreName>
+								<FibrePercent>100</FibrePercent>
+							</Variable>
+					</FibreComponent>
+					<FibreComponent>
+						<FibreComponentName>BELT</FibreComponentName>
+							<Variable>
+								<FibreName>BISMUTH</FibreName>
+								<FibrePercent>100</FibrePercent>
+							</Variable>
+					</FibreComponent>
+					<FibreComponent>
+						<FibreComponentName>CORD</FibreComponentName>
+							<Variable>
+								<FibreName>BONDED LEATHER</FibreName>
+								<FibrePercent>80</FibrePercent>
+							</Variable>
+							<Variable>
+								<FibreName>ABS RESIN</FibreName>
+								<FibrePercent>20</FibrePercent>
+							</Variable>
+					</FibreComponent>
+					<FibreComponent>
+						<FibreComponentName>EXTERIOR</FibreComponentName>
+							<Variable>
+								<FibreName>CASHMERE</FibreName>
+								<FibrePercent>100</FibrePercent>
+							</Variable>
+					</FibreComponent>
+					<FibreComponent>
+						<FibreComponentName>FILLING WEIGHT: 116G</FibreComponentName>
+							<Variable>
+								<FibreName>COATED COTTON</FibreName>
+								<FibrePercent>100</FibrePercent>
+							</Variable>
+					</FibreComponent>
+					<FibreComponent>
+						<FibreComponentName></FibreComponentName>
+							<Variable>
+								<FibreName>CONTAINS NON-TEXTILE PARTS OF ANIMAL ORIGIN</FibreName>
+								<FibrePercent></FibrePercent>
+							</Variable>
+					</FibreComponent>
+			</Fibre>
+			<FrabricStatments>
+				<Variable>
+					<Statment>AFTER LAUNDERING, SMOOTH SEQUINS FLAT TO THE ORIGINAL POSITION.</Statment>
+				</Variable>
+				<Variable>
+					<Statment>BEFORE WASHING CLOSE ALL FASTENINGS.</Statment>
+				</Variable>
+				<Variable>
+					<Statment>COLD HAND WASH.</Statment>
+				</Variable>
+				<Variable>
+					<Statment>COLOUR MAY TRANSFER WHEN DAMP.</Statment>
+				</Variable>
+				<Variable>
+					<Statment>HAND WASH AT 30C ONLY.</Statment>
+				</Variable>
+				<Variable>
+					<Statment>HAND WASH WITH MILD DETERGENT.</Statment>
+				</Variable>
+				<Variable>
+					<Statment>RE-SHAPE WHILST DAMP.</Statment>
+				</Variable>
+			</FrabricStatments>
+			<CareSymbolMappingID>
+				<Variable>
+					<CareMappingID>WASB2</CareMappingID>
+				</Variable>
+				<Variable>
+					<CareMappingID>BLECHB1</CareMappingID>
+				</Variable>
+				<Variable>
+					<CareMappingID>DRYSYMBOL1</CareMappingID>
+				</Variable>
+				<Variable>
+					<CareMappingID>IROB1</CareMappingID>
+				</Variable>
+				<Variable>
+					<CareMappingID>DRYCLB1</CareMappingID>
+				</Variable>
+				<Variable>
+					<CareMappingID></CareMappingID>
+				</Variable>
+				<Variable>
+					<CareMappingID></CareMappingID>
+				</Variable>
+				<Variable>
+					<CareMappingID></CareMappingID>
+				</Variable>
+				<Variable>
+					<CareMappingID></CareMappingID>
+				</Variable>
+				<Variable>
+					<CareMappingID></CareMappingID>
+				</Variable>
+			</CareSymbolMappingID>
+		</EDI_CareandContent>
+	</EDIHeader>
+	<EDISizeDetail>
+		<EDI_Size>  
+			<SizeChartID></SizeChartID>
+			<EDIPrimarySize>S</EDIPrimarySize>
+			<Variable>
+				<TicketQuantity>550</TicketQuantity>
+			</Variable>
+			<Variable>
+				<TicketQuantity>600</TicketQuantity>
+			</Variable>
+			<MatrixDetail>
+				<Variable>
+					<EDISizeDetail_Name>sku code</EDISizeDetail_Name>
+					<EDISizeDetail_Value>005633858</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Size Description</EDISizeDetail_Name>
+					<EDISizeDetail_Value>0</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>USSIZE</EDISizeDetail_Name>
+					<EDISizeDetail_Value>USSIZE S</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>US BARCODE</EDISizeDetail_Name>
+					<EDISizeDetail_Value>US S </EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>USPRICE</EDISizeDetail_Name>
+					<EDISizeDetail_Value>USPRICE S </EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>COLOUR</EDISizeDetail_Name>
+					<EDISizeDetail_Value>COLOUR S </EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>COLCODE</EDISizeDetail_Name>
+					<EDISizeDetail_Value>COLCODE S </EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>CORE BARCODE</EDISizeDetail_Name>
+					<EDISizeDetail_Value>CORE S</EDISizeDetail_Value>
+				</Variable>
+			</MatrixDetail>
+		</EDI_Size>
+		<EDI_Size>  
+			<SizeChartID></SizeChartID>
+			<EDIPrimarySize>M</EDIPrimarySize>
+			<Variable>
+				<TicketQuantity>550</TicketQuantity>
+			</Variable>
+			<Variable>
+				<TicketQuantity>600</TicketQuantity>
+			</Variable>
+			<MatrixDetail>
+				<Variable>
+					<EDISizeDetail_Name>sku code</EDISizeDetail_Name>
+					<EDISizeDetail_Value>001285858</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>Size Description</EDISizeDetail_Name>
+					<EDISizeDetail_Value>2</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>USSIZE</EDISizeDetail_Name>
+					<EDISizeDetail_Value>USSIZE M</EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>US BARCODE</EDISizeDetail_Name>
+					<EDISizeDetail_Value>US M </EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>USPRICE</EDISizeDetail_Name>
+					<EDISizeDetail_Value>USPRICE M </EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>COLOUR</EDISizeDetail_Name>
+					<EDISizeDetail_Value>COLOUR M </EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>COLCODE</EDISizeDetail_Name>
+					<EDISizeDetail_Value>COLCODE M </EDISizeDetail_Value>
+				</Variable>
+				<Variable>
+					<EDISizeDetail_Name>CORE BARCODE</EDISizeDetail_Name>
+					<EDISizeDetail_Value>CORE M</EDISizeDetail_Value>
+				</Variable>
+			</MatrixDetail>
+		</EDI_Size>
+	</EDISizeDetail>		
+</WebOrder>

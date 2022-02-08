@@ -268,12 +268,13 @@ $(function () {
                   success:function(response,textStatus,xhr){
                     if(xhr.status==200)
                     {
-                        $('input[name="s_configure_inbound"][value="'+response.Schedule_configure_inbound+'"]').prop('checked',true);
+                        $('input[name="s_configure_inbound"][value="'+response.Schedule_configure_inbound+'"]').prop('checked',true)
                         $('input[name="schedule_type_inbound"][value="'+response.schedule_type_inbound+'"]').prop('checked',true);
                         $('#occurs_time_inbound').val(response.occurs_inbound).change();
                         //$('#recurs_count_inbound').val(response.recurs_count_inbound);
                         //$('#recurs_time_inbound').val(response.recurs_time_inbound);
-                     
+                        //$('#schedule_setting_id').val(response._id);
+                        console.log("schedule id found = "+response._id);
                        $('input[name="s_configure_outbound"][value="'+response.Schedule_configure_outbound+'"]').prop('checked',true);
                        $('input[name="schedule_type_outbound"][value="'+response.schedule_type_outbound+'"]').prop('checked',true);
                        $('#day_frequency_inbound_count').val(response.day_frequency_inbound_count);
@@ -367,7 +368,52 @@ $(function () {
                             $('input[name = occurs_weekly_fields_outbound][value="'+item.day+'"]').prop('checked',true);
                           });
                        }
-                      
+                       if(response.occurs_inbound=="monthly")
+                       {
+                          $(response.monthly_field_setting_inbound).each(function(index,item){
+                            console.log("monthly setting==="+item.inbound_monthly_day)
+                            if(item.inbound_monthly_day=="the")
+                            {
+                              $('input[name=inbound_monthly_day][value="The"]').prop('checked',true).trigger('change');
+                              $('#day_txt_box_inbound').hide();
+                              $('#the_section_inbound').show();
+                              $('#the_day_of').val(item.the_day_of).change();
+                              //$('#the_day_of').val(item.the_day_of).change();
+                              //$('#the_days').val(item.the_days).change();
+                              $('#the_days').val(item.the_days).change();
+                              //$('input[name=inbound_monthly_day]:checked').prop('checked',false);
+                            }
+                            else
+                            {
+                              $('#the_section_inbound').hide();
+                              $('#day_txt_box_inbound').show();
+                            }
+                            //$('input[name = occurs_weekly_fields_outbound][value="'+item.day+'"]').prop('checked',true);
+                          });
+                       }
+                       if(response.occurs_outbound=="monthly")
+                       {
+                          $(response.monthly_field_setting_outbound).each(function(index,item){
+                            console.log("monthly setting==="+item.outbound_monthly_day)
+                            if(item.outbound_monthly_day=="the")
+                            {
+                              $('input[name=outbound_monthly_day][value="The"]').prop('checked',true).trigger('change');
+                              $('#day_txt_box_outbound').hide();
+                              $('#the_section_outbound').show();
+                              $('#the_day_of_outbound').val(item.the_day_of).change();
+                              //$('#the_day_of').val(item.the_day_of).change();
+                              //$('#the_days').val(item.the_days).change();
+                              $('#the_days_outbound').val(item.the_days).change();
+                              //$('input[name=inbound_monthly_day]:checked').prop('checked',false);
+                            }
+                            else
+                            {
+                              $('#the_section_outbound').hide();
+                              $('#day_txt_box_outbound').show();
+                            }
+                            //$('input[name = occurs_weekly_fields_outbound][value="'+item.day+'"]').prop('checked',true);
+                          });
+                       }
                           
                     }
                     //console.log(response);
@@ -779,6 +825,7 @@ $(function () {
         var isValid = $(this).parent().siblings('form').valid();
         if (isValid) {
           var schedule_setting_id = $('#schedule_setting_id').val();
+          console.log("schedule_setting_id=="+schedule_setting_id);
           var project_id = $('#project_id').val();
           console.log($('input[name="s_configure"]:checked').val());
           
