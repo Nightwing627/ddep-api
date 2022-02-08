@@ -1029,7 +1029,7 @@ $(function () {
               success:function(response){
                 //console.log(response);
                 sweetAlert("success", "Schedule Setting Saved Successfully", "success");
-                window.location.href = "/projects/project-list"
+                window.location.href = "/projects/project-list";
                 //$("#schedule_setting_id").val(response.id);
               }
             });

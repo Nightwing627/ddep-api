@@ -43,7 +43,7 @@ router.get('/getScheduleProjectInfo',function(req,res){
                 console.log("active project found");
                
                let date_ob = new Date();
-               var currenttime = date_ob.getHours() + ":" +(date_ob.getMinutes()<10?'0':'') + date_ob.getMinutes();
+               var currenttime = (date_ob.getHours()<10?'0':'')+date_ob.getHours() + ":" +(date_ob.getMinutes()<10?'0':'') + date_ob.getMinutes();
                if(item.inbound_setting.is_active=="Active")
                {
 
