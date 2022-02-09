@@ -133,6 +133,48 @@ $(function () {
           recurs_time: {
             required: true
           },
+          one_time_occurrence_inbound_date:{
+            required: "#one_time_occurrence_inbound_date:visible"
+          },
+          one_time_occurrence_inbound_time:{
+            required:"#one_time_occurrence_inbound_time:visible"
+          },
+          one_time_occurrence_outbound_date:{
+            required:"#one_time_occurrence_outbound_date:visible"
+          },
+          one_time_occurrence_outbound_time:{
+            required:"#one_time_occurrence_outbound_time:visible"
+          },
+          daily_frequency_once_time_inbound:{
+            required:"#daily_frequency_once_time_inbound:visible"
+          },
+          daily_frequency_once_time_outbound:{
+            required:"#daily_frequency_once_time_outbound:visible"
+          },
+          duration_inbound_start_date:{
+            required:'#duration_inbound_start_date:visible'
+          },
+          duration_outbound_start_date:{
+            required:'#duration_outbound_start_date:visible'
+          },
+          daily_frequency_every_time_count_start_inbound:{
+            required:'#daily_frequency_every_time_count_start_inbound:visible'
+          },
+          daily_frequency_every_time_count_start_outbound:{
+            required:'#daily_frequency_every_time_count_start_outbound:visible'
+          },
+          daily_frequency_every_time_count_end_inbound:{
+            required:"#daily_frequency_every_time_count_end_inbound:visible"
+          },
+          daily_frequency_every_time_count_end_outbound:{
+            required:"#daily_frequency_every_time_count_end_outbound:visible"
+          },
+          duration_inbound_end_date:{
+            required:'#duration_inbound_end_date:visible'
+          },
+          duration_outbound_end_date:{
+            required:"#duration_outbound_end_date:visible"
+          }
           
         },
         messages : {
@@ -268,8 +310,45 @@ $(function () {
                   success:function(response,textStatus,xhr){
                     if(xhr.status==200)
                     {
-                        $('input[name="s_configure_inbound"][value="'+response.Schedule_configure_inbound+'"]').prop('checked',true)
+                        $('input[name="s_configure_inbound"][value="'+response.Schedule_configure_inbound+'"]').prop('checked',true);
+                        if(response.Schedule_configure_inbound=='click_by_user')
+                        {
+                            $('div.relation-schedule-open').hide();
+                        }
+                        else
+                        {
+                          $('div.relation-schedule-open').show();
+                        }
+
+                        if(response.Schedule_configure_outbound=='click_by_user')
+                        {
+                            $('div.relation-outbound-schedule-open').hide();
+                        }
+                        else
+                        {
+                          $('div.relation-outbound-schedule-open').show();
+                        }
                         $('input[name="schedule_type_inbound"][value="'+response.schedule_type_inbound+'"]').prop('checked',true);
+                        if(response.schedule_type_inbound=='OneTime')
+                        {
+                          $('#inbound-data-recurring').hide();
+                          $('#inbound-data-one-time').show();
+                        }
+                        else
+                        {
+                          $('#inbound-data-recurring').show();
+                          $('#inbound-data-one-time').hide();
+                        }
+                        if(response.schedule_type_outbound=='OneTime')
+                        {
+                          $('#outbound-data-recurring').hide();
+                          $('#outbound-data-one-time').show();
+                        }
+                        else
+                        {
+                          $('#outbound-data-recurring').show();
+                          $('#outbound-data-one-time').hide();
+                        }
                         $('#occurs_time_inbound').val(response.occurs_inbound).change();
                         //$('#recurs_count_inbound').val(response.recurs_count_inbound);
                         //$('#recurs_time_inbound').val(response.recurs_time_inbound);
@@ -912,7 +991,7 @@ $(function () {
           //var recurs_count_inbound =$('#recurs_count_inbound').val();
           //var recurs_time_inbound =$('#recurs_time_inbound').val();
          
-          var Schedule_configure_outbound = $('input[name="s_configure_inbound"]:checked').val();
+          var Schedule_configure_outbound = $('input[name="s_configure_outbound"]:checked').val();
           var schedule_type_outbound = $('input[name="schedule_type_outbound"]:checked').val();
           if(schedule_type_outbound=='OneTime')
           {

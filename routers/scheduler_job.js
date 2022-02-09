@@ -5487,6 +5487,7 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                 //console.log(list_arr_inbound);
                 
             });
+            //console.log("total inbound runs");
             if (typeof list_arr_inbound !== 'undefined' && list_arr_inbound.length > 0) {
                 let date_ob = new Date();
                 var day = ('0' + date_ob.getDate()).slice(-2);
@@ -5551,7 +5552,7 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                 request(options, function (error, response) {
                                     //console.log(response);
                                     if (error) throw new Error(error);
-                                    console.log(JSON.parse(response.body));
+                                    //console.log(JSON.parse(response.body));
                                     //scheduelerunning++;
 
                                     var result = JSON.parse(response.body);
@@ -5576,7 +5577,7 @@ router.get('/getScheduleProjectInfo', function (req, res) {
 
                                                 //console.log(response);
                                                 console.log("update schedule setting date");
-                                                console.log(newschedulesetting);
+                                                //console.log(newschedulesetting);
                                             }
                                             //scheduelerunning++
                                             //res.json({'status':'true','msg':'Inbound Run Successfully'});

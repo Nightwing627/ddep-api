@@ -28,11 +28,11 @@ $(document).ready(function(){
                     {
                         if(data.isActive==0)
                         {
-                            $button_group+='<button type="button" data-value="1" data-id="'+data._id+'" class="btn btn-secondary btn_is_active">Active</button>';
+                            $button_group+='<button type="button" data-value="1" data-id="'+data._id+'" class="btn btn-secondary btn_is_active">Inactive</button>';
                         }
                         else
                         {
-                            $button_group+='<button type="button" data-value="0" data-id="'+data._id+'" class="btn btn-secondary btn_is_active">InActive</button>';
+                            $button_group+='<button type="button" data-value="0" data-id="'+data._id+'" class="btn btn-outline-success btn_is_active">Active</button>';
                         }
                     }
                     if(data.schedule_setting!=undefined && data.schedule_setting.Schedule_configure_inbound=='click_by_user')
@@ -52,6 +52,11 @@ $(document).ready(function(){
                      '-','-','-','-',
                      $button_group
                     ]).draw( false );
+                    if(data.isActive==0)
+                    {
+                      //alert("ram");
+                      $('#project_data_table tr').last().addClass('table-secondary');
+                    }
                  });  
                  $('body').find('.paginate_button').addClass('btn m-10 btn-sm btn-outline-primary  p-10');
             },  
@@ -148,15 +153,21 @@ $(document).ready(function(){
                     if(isActive==1)
                     {
                         $this.data('value','0');
-                        $this.html('InActive');
+                        $this.html('Active');
+                        $this.removeClass('btn-secondary');
+                        $this.addClass('btn-outline-success');
                         sweetAlert("success", response.message, "success");
+                        $this.parents('tr').removeClass('table-secondary');
                         //alert(response.message);
                     }
                     else
                     {
                         $this.data('value','1');
-                        $this.html('Active');
+                        $this.html('Inactive');
+                        $this.addClass('btn-secondary');
+                        $this.removeClass('btn-outline-success');
                         sweetAlert("success", response.message, "success");
+                        $this.parents('tr').addClass('table-secondary');
                     }
                 }
                 else

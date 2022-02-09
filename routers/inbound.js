@@ -647,7 +647,8 @@ router.post('/inboundrun',function(req,res){
                 } 
               else
               {
-                console.log(list.length);
+                //console.log(list.length);
+                  //console.log(list);
                   var filescounter=0;
                   if(list.length <= 0)
                   {
@@ -667,10 +668,6 @@ router.post('/inboundrun',function(req,res){
                             }
                             else
                             {
-                              
-                              var name = parseInt(crypto.randomBytes(2).toString('hex'), 16); //parseInt(date.getTime() + 1);
-                              console.log(name);
-                              stream.pipe(fs.createWriteStream(dir+'/'+projectdir+'/'+name+'.xml'));
                               let date_ob = new Date();
                               let date = ("0" + date_ob.getDate()).slice(-2);
 
@@ -688,7 +685,14 @@ router.post('/inboundrun',function(req,res){
 
                                 // current seconds
                                 let seconds = date_ob.getSeconds();
-                              var new_name = name+'_'+date+month+year+hours+minutes+seconds+'.xml'
+                                let milliseconds = date_ob.getMilliseconds();
+                              
+                              var name = list[index].name.split('.').slice(0, -1).join('.')+'_'+year+month+date+hours+minutes+seconds+milliseconds;//parseInt(crypto.randomBytes(2).toString('hex'), 16); //parseInt(date.getTime() + 1);
+                              console.log(name);
+                              stream.pipe(fs.createWriteStream(dir+'/'+projectdir+'/'+name+'.xml'));
+                              
+                              //var new_name = name+'_'+date+month+year+hours+minutes+seconds+'.xml'
+                              var new_name = name+'.xml'
                               ftp.rename(folderpath+'/'+list[index].name,folderpath+'/'+backup_folder+'/'+new_name,function(err){
                                 if(err)
                                 {
@@ -946,7 +950,9 @@ router.post('/outboundrun',function(req,res){
                         console.log(error);
                       }
                   })
-                var filenames = parseInt(crypto.randomBytes(2).toString('hex'), 16)+'.json';
+                //var filenames = parseInt(crypto.randomBytes(2).toString('hex'), 16)+'.json';
+                var filenames = file.split('.').slice(0, -1).join('.')+'.json';
+                console.log(filenames);
                 const writefile = fs.writeFileSync(out_month_folder+'/'+filenames,JSON.stringify(result));
                 /* fs.rename(directoryPath+'/'+file, month_folder+'/'+file, function (err) {
                   if (err){
