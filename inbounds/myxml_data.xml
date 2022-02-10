@@ -2,14 +2,14 @@
 
 <WebOrder> 
 	<POHeader> 
-		<OrderHandeling>
+		<OrderHandeling> 
 			<Variable>
 				<OH_ID>GarmentLabelFlag</OH_ID> 
 				<OH_Data>Y</OH_Data>
 			</Variable>
 			<Variable>
 				<OH_ID>ImportAs</OH_ID>
-				<OH_Data>PO</OH_Data>
+				<OH_Data>Complete</OH_Data>
 			</Variable>
 			<Variable>
 				<OH_ID>LastUpdateDate</OH_ID>
@@ -24,28 +24,25 @@
 				<OH_Data>False</OH_Data>
 			</Variable>
 		</OrderHandeling> 
-		<CustRef>
+		<CustRef> 
 			<Variable>
 				<CR_ID>Purchase Order No</CR_ID>
 				<CR_Data>QIO-82-Khroma Volition Pants</CR_Data>
 			</Variable>
-			<Variable>
-				<CR_ID></CR_ID>
-				<CR_Data></CR_Data>
-			</Variable>
 		</CustRef>
-		<SupplierDetail>
-			<SupplierNo>Honstar</SupplierNo>
-			<FactoryNo></FactoryNo>
+		<SupplierDetail> 
+			<SupplierNo></SupplierNo>
+			<FactoryNo>F9999</FactoryNo>
 		</SupplierDetail>
-		<ItemRefs>
+		<ItemRefs> 
+			<ITemRef>RAB01</ITemRef>
 		</ItemRefs>
 	</POHeader>
 	<EDIHeader> 
 		<EDI_Variables>
 			<Variable>
 				<EDI_HName>Country Of Manufacture</EDI_HName>
-				<EDI_HValue>Made in China</EDI_HValue>
+				<EDI_HValue>Made in China</EDI_HValue> 
 			</Variable>
 			<Variable>
 				<EDI_HName>Status</EDI_HName>
@@ -139,9 +136,13 @@
 			<SizeChartID>1000</SizeChartID> 
 			<EDIPrimarySize>Nonsized</EDIPrimarySize>
 			<Variable>
-				<TicketQuantity>1</TicketQuantity>
+				<TicketQuantity>1</TicketQuantity> 
 			</Variable>
 			<MatrixDetail>
+			<Variable>
+					<EDISizeDetail_Name>Sku Code</EDISizeDetail_Name>
+					<EDISizeDetail_Value>005385860</EDISizeDetail_Value>
+				</Variable>
 			</MatrixDetail>
 		</EDI_Size>
 	</EDISizeDetail>		

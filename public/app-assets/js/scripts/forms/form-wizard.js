@@ -112,6 +112,12 @@ $(function () {
           password: {
             required: true
           },
+          folderpath :{
+            required:true
+          },
+          api_url:{
+            required:true,
+          },
           /* api_url: {
             required: true
           }, */
@@ -191,7 +197,9 @@ $(function () {
       .find('.btn-next')
       .each(function (index) {
         $(this).on('click', function (e) {
+          var $e = e;
           var isValid = $(this).parent().siblings('form').valid();
+          var $thisform = $(this).parent().siblings('form');
           var project_id = $('#project_id').val();
           if (isValid) {
             if(index==0)
@@ -212,6 +220,11 @@ $(function () {
                     //alert("project saved successfully");
                     $('#project_id').val(response.id);
                     //console.log(response);
+                    numberedStepper.next();
+                  },
+                  error:function(textStatus,error)
+                  {
+                    return false;
                   }
                 });
               }
@@ -225,6 +238,11 @@ $(function () {
                   success:function(response){
                     sweetAlert("success", "Project Setting Saved Successfully", "success");
                     //console.log(response);
+                    numberedStepper.next();
+                  },
+                  error:function(textStatus,error)
+                  {
+                    return false;
                   }
                 });
               }
@@ -506,49 +524,70 @@ $(function () {
             }
             else if(index==1)
             {
-              var project_id = $('#project_id').val();
-              
-              var inbound_setting_id = $("#inbound_setting_id").val();
-              var inbound_format = $('#inboundFormat').val();
-              var sync_type = $('input[name="sync_type"]:checked').val();
-              var ftp_server_link = $('#ftp_server_link').val();
-  
-              var port = $('#port').val();
-              var login_name = $('#login_name').val();
-              var password = $('#password').val();
-              var folder = $('#folderpath').val();
-              var backup_folder = $('#backup_folder').val();
-              var is_password_encrypted = $('#is_password_encrypted').val();
-              var is_active = $('#is_active_inbound').data('value');
-              if(inbound_setting_id=="")
+              var check = $(this).parent().siblings('form').valid();
+              if(check)
               {
-
-                $.ajax({
-                  url:'/inbound_setting/save',  
-                  method:'post',  
-                  dataType:'json',
-                  data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,is_active:is_active},
-                  success:function(response){
-                    console.log(response);
-                    //alert("Setting saved successfully");
-                    $("#inbound_setting_id").val(response.id);
-                  }
-                });
+                
+                var project_id = $('#project_id').val();
+                
+                var inbound_setting_id = $("#inbound_setting_id").val();
+                var inbound_format = $('#inboundFormat').val();
+                var sync_type = $('input[name="sync_type"]:checked').val();
+                var ftp_server_link = $('#ftp_server_link').val();
+    
+                var port = $('#port').val();
+                var login_name = $('#login_name').val();
+                var password = $('#password').val();
+                var folder = $('#folderpath').val();
+                var backup_folder = $('#backup_folder').val();
+                var is_password_encrypted = $('#is_password_encrypted').val();
+                var is_active = $('#is_active_inbound').data('value');
+                if(inbound_setting_id=="")
+                {
+  
+                  $.ajax({
+                    url:'/inbound_setting/save',  
+                    method:'post',  
+                    dataType:'json',
+                    data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,is_active:is_active},
+                    success:function(response){
+                      console.log(response);
+                      //alert("Setting saved successfully");
+                      $("#inbound_setting_id").val(response.id);
+                      numberedStepper.next();
+                    },
+                    error: function (textStatus, errorThrown) {
+                     $e.preventDefault();
+                    }
+                  });
+                }
+                else
+                {
+                  $.ajax({
+                    url:'/inbound_setting/update/'+inbound_setting_id,  
+                    method:'put',  
+                    dataType:'json',
+                    data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,is_active:is_active},
+                    success:function(response){
+                      //console.log(response);
+                      //alert("Setting saved successfully");
+                      sweetAlert("success", "Inbound Setting Saved Successfully", "success");
+                      //$("#inbound_setting_id").val(response.id);
+                      numberedStepper.next();
+                    },
+                    error: function (textStatus, errorThrown) {
+                      $('#collapseTwo').slideDown('slow');
+                      $thisform.valid();
+                      return false;
+                      //console.log("error in ajax");
+                      
+                     }
+                  });
+                }
               }
               else
               {
-                $.ajax({
-                  url:'/inbound_setting/update/'+inbound_setting_id,  
-                  method:'put',  
-                  dataType:'json',
-                  data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,is_active:is_active},
-                  success:function(response){
-                    //console.log(response);
-                    //alert("Setting saved successfully");
-                    sweetAlert("success", "Inbound Setting Saved Successfully", "success");
-                    //$("#inbound_setting_id").val(response.id);
-                  }
-                });
+                alert("not valid");
               }
             }
             else if(index == 2)
@@ -559,33 +598,58 @@ $(function () {
               var outbound_setting_id = $('#outbound_setting_id').val();
               var project_id = $('#project_id').val();
               var is_active = $('#is_active_outbound').data('value');
-              if(outbound_setting_id=="")
+              var check = $(this).parent().siblings('form').valid();
+              if(check)
               {
-                $.ajax({
-                  url:'/outbound_setting/save',  
-                  method:'post',  
-                  dataType:'json',
-                  data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active:is_active},
-                  success:function(response){
-                    //console.log(response);
-                    //alert("Setting saved successfully");
-                    $("#outbound_setting_id").val(response.id);
-                  }
-                });
+                //alert("ram");
+                if(outbound_setting_id=="")
+                {
+                  $.ajax({
+                    url:'/outbound_setting/save',  
+                    method:'post',  
+                    dataType:'json',
+                    data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active:is_active},
+                    success:function(response){
+                      //console.log(response);
+                      //alert("Setting saved successfully");
+                      $("#outbound_setting_id").val(response.id);
+                      numberedStepper.next();
+                    },
+                    error:function(textStatus,errorThrown)
+                    {
+                      console.log("error in outbound");
+                      $('#collapseFour').slideDown('slow');
+                      $thisform.valid();
+                      return false;
+                    }
+                  });
+                }
+                else
+                {
+                  $.ajax({
+                    url:'/outbound_setting/update/'+outbound_setting_id,  
+                    method:'put',  
+                    dataType:'json',
+                    data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active},
+                    success:function(response){
+                      //console.log(response);
+                      //alert("Setting saved successfully");
+                      $("#outbound_setting_id").val(response.id);
+                      numberedStepper.next();
+                    },
+                    error:function(textStatus,errorThrown)
+                    { 
+                      console.log("error in outbound setting");
+                      $('#collapseFour').slideDown('slow');
+                      $thisform.valid();
+                      return false;
+                    }
+                  });
+                }
               }
               else
               {
-                $.ajax({
-                  url:'/outbound_setting/update/'+outbound_setting_id,  
-                  method:'put',  
-                  dataType:'json',
-                  data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active},
-                  success:function(response){
-                    //console.log(response);
-                    //alert("Setting saved successfully");
-                    $("#outbound_setting_id").val(response.id);
-                  }
-                });
+                
               }
             }
             else if(index == 3)
@@ -611,6 +675,7 @@ $(function () {
                  
                 $('#duration_outbound_end_date').removeClass('hidden');
               }
+              numberedStepper.next();
             }
             else if(index == 4)
             {
@@ -625,7 +690,7 @@ $(function () {
                 $('#duration_inbound_end_date').removeClass('hidden');
               } */
             }
-            numberedStepper.next();
+            
           } else {
             e.preventDefault();
           }
@@ -702,6 +767,11 @@ $(function () {
                 console.log(response);
                 //alert("Setting saved successfully");
                 $("#inbound_setting_id").val(response.id);
+              },
+              error:function(textStatus,errorThrown){
+                $('#collapseTwo').slideDown('slow');
+                $('#frm-save-inbound').valid();
+                return false;
               }
             });
           }
@@ -716,6 +786,13 @@ $(function () {
                 //console.log(response);
                 sweetAlert("success", "Inbound Setting Saved Successfully", "success");
                 //$("#inbound_setting_id").val(response.id);
+              },
+              error:function(textStatus,errorThrown){
+               
+                  $('#collapseTwo').slideDown('slow');
+                  $('#frm-save-inbound').valid();
+                  return false;
+                
               }
             });
           }
@@ -769,6 +846,11 @@ $(function () {
                 console.log(response);
                 //alert("Setting saved successfully");
                 $("#inbound_setting_id").val(response.id);
+              },
+              error:function(textStatus,errorThrown){
+                $('#collapseTwo').slideDown('slow');
+                $('#frm-save-inbound').valid();
+                return false;
               }
             });
           }
@@ -783,12 +865,18 @@ $(function () {
                 //console.log(response);
                 sweetAlert("success", "Inbound Setting Saved Successfully", "success");
                 //$("#inbound_setting_id").val(response.id);
+              },
+              error:function(textStatus,errorThrown){
+                $('#collapseTwo').slideDown('slow');
+                $('#frm-save-inbound').valid();
+                return false;
               }
             });
           }
          }
       })
       $('#is_active_outbound').on('click',function(e){
+        e.preventDefault();
         var is_active = $(this).data('value');
         if(is_active=="Inactive")
         {
@@ -806,7 +894,7 @@ $(function () {
           $(this).addClass('btn-secondary');
           $(this).html('Inactive')
         }
-        e.preventDefault();
+        
         var isValid = $('#frm-save-outbound').valid();
          var project_id = $('#project_id').val();
          var outbound_setting_id = $('#outbound_setting_id').val();
@@ -829,7 +917,14 @@ $(function () {
                     console.log(response);
                     //alert("Setting saved successfully");
                     $("#outbound_setting_id").val(response.id);
-                  }
+                  },
+                  error:function(textStatus,errorThrown)
+                    { 
+                      console.log("error in outbound setting");
+                      $('#collapseFour').slideDown('slow');
+                      $('#frm-save-outbound').valid();
+                      return false;
+                    }
                 });
               }
               else
@@ -841,9 +936,16 @@ $(function () {
                   data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active:is_active},
                   success:function(response){
                     //console.log(response);
-                    alert("Outbound Setting saved successfully");
+                    //alert("Outbound Setting saved successfully");
                     //$("#outbound_setting_id").val(response.id);
-                  }
+                  },
+                  error:function(textStatus,errorThrown)
+                    { 
+                      console.log("error in outbound setting");
+                      $('#collapseFour').slideDown('slow');
+                      $('#frm-save-outbound').valid();
+                      return false;
+                    }
                 });
               }
          }
@@ -873,7 +975,14 @@ $(function () {
                     console.log(response);
                     //alert("Setting saved successfully");
                     $("#outbound_setting_id").val(response.id);
-                  }
+                  },
+                  error:function(textStatus,errorThrown)
+                    { 
+                      console.log("error in outbound setting");
+                      $('#collapseFour').slideDown('slow');
+                      $('#frm-save-outbound').valid();
+                      return false;
+                    }
                 });
               }
               else
@@ -887,7 +996,14 @@ $(function () {
                     //console.log(response);
                     sweetAlert("success", "Outbound Setting Saved Successfully", "success");
                     //$("#outbound_setting_id").val(response.id);
-                  }
+                  },
+                  error:function(textStatus,errorThrown)
+                    { 
+                      console.log("error in outbound setting");
+                      $('#collapseFour').slideDown('slow');
+                      $('#frm-save-outbound').valid();
+                      return false;
+                    }
                 });
               }
          }
@@ -1095,6 +1211,10 @@ $(function () {
                 sweetAlert("success", "Setting Saved Successfully", "success");
                 $("#schedule_setting_id").val(response.id);
                 window.location.href = "/projects/project-list";
+              },
+              error:function(textStatus,errorThrown)
+              {
+                return false;
               }
             });
           }
@@ -1157,6 +1277,10 @@ $(function () {
                 sweetAlert("success", "Schedule Setting Saved Successfully", "success");
                 window.location.href = "/projects/project-list";
                 //$("#schedule_setting_id").val(response.id);
+              },
+              error:function(textStatus,errorThrown)
+              {
+                return false;
               }
             });
           }
@@ -1359,6 +1483,10 @@ $(function () {
     var password=$('#password').val();
     var port=$('#port').val();
     var folderpath=$('#folderpath').val();
+    var isValid = $('#frm-save-inbound').valid();
+    if(isValid)
+    {
+
       $.blockUI({
         message: '<div class="spinner-border text-primary" role="status"></div>',
         //timeout: 1000,
@@ -1403,6 +1531,7 @@ $(function () {
             //$("#outbound_setting_id").val(response.id);
           }
         });
+    }
   });
 
   // Vertical Wizard

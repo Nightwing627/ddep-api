@@ -50,17 +50,17 @@ exports.create = (req, res) => {
             message: "Synchronize Output Type is Required"
         });
     } */
-    /* if(!data.api_url) {
+    if(!data.api_url) {
         return res.status(400).send({
             message: "API URL is Required"
         }); 
-    }*/
+    }
     
     const outboundSetting = new OutboundSetting({
         project_id:data.project_id,
         outbound_format: data.outbound_format, 
         sync_type_out: data.sync_type_out || "API",
-        api_url: data.api_url || "",
+        api_url: data.api_url ,
         is_active : data.is_active || "Inactive"
     });
     outboundSetting.save()
@@ -153,11 +153,11 @@ exports.update = (req, res) => {
             message: "Synchronize Output Type is Required"
         });
     } */
-    /* if(!data.api_url) {
+    if(!data.api_url) {
         return res.status(400).send({
             message: "API URL is Required"
         });
-    } */
+    }
     
     const outboundSetting = new OutboundSetting({
         outbound_format: data.outbound_format, 

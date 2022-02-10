@@ -1130,7 +1130,9 @@ router.post('/testFtp',function(req,res){
     })();
 })
 router.post('/convertxmltojson',function(req,res){
-  let xml_string = fs.readFileSync("./inbounds/myxml_data.xml", "utf8");
+  let xml_string = req.body.xml_content;
+  xml_string = xml_string.replace(/<!--(?!\s*(?:\[if [^\]]+]|<!|>))(?:(?!-->)(.|\n))*-->/g,"");
+  //let xml_string = fs.readFileSync("./inbounds/myxml_data.xml", "utf8");
   const textOrDefault = (defaultValue) => `concat(
     text(),
     substring(
@@ -1140,7 +1142,7 @@ router.post('/convertxmltojson',function(req,res){
     )
 )`
    const xml = '`'+xml_string+'`';
-    //console.log("xml" + xml);
+    console.log("xml" + xml);
     
       const template = ['/WebOrder',{
   
@@ -1224,7 +1226,7 @@ router.post('/convertxmltojson',function(req,res){
             try{
 
               const result = await transform(xml, template)
-              res.json({status:"1",Msg:"home/TUU_XML/TUU_sample 2.xml File Converted Successfully",Data:result});
+              res.json({status:"1",Msg:"TUU XML File Converted Successfully",Data:result});
             }catch(err)
             {
               console.log(err);
