@@ -351,6 +351,8 @@ $(function () {
                         {
                           $('#inbound-data-recurring').hide();
                           $('#inbound-data-one-time').show();
+                          $('#one_time_occurrence_inbound_date').val(response.one_time_occurrence_inbound_date);
+                          $('#one_time_occurrence_inbound_time').val(response.one_time_occurrence_inbound_time);
                         }
                         else
                         {
@@ -361,6 +363,8 @@ $(function () {
                         {
                           $('#outbound-data-recurring').hide();
                           $('#outbound-data-one-time').show();
+                          $('#one_time_occurrence_outbound_date').val(response.one_time_occurrence_outbound_date);
+                          $('#one_time_occurrence_outbound_time').val(response.one_time_occurrence_outbound_time);
                         }
                         else
                         {
@@ -1057,7 +1061,7 @@ $(function () {
           var daily_frequency_every_time_count_start_inbound=$('#daily_frequency_every_time_count_start_inbound').val();
           var daily_frequency_every_time_count_end_inbound=$('#daily_frequency_every_time_count_end_inbound').val();
           var daily_frequency_every_time_count_end_outbound=$('#daily_frequency_every_time_count_end_outbound').val();
-          var daily_frequency_every_time_count_start_outbound=$('#daily_frequency_every_time_count_outbound').val();
+          var daily_frequency_every_time_count_start_outbound=$('#daily_frequency_every_time_count_start_outbound').val();
           var monthly_field_setting_inbound = [];
           var monthly_field_setting_outbound = [];
           var occurs_weekly_fields_inbound = [];
