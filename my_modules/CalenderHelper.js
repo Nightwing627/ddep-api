@@ -39,5 +39,15 @@ class CalenderHelper {
       
         return idate
       }
+      toDate(dStr,format) {
+        var now = new Date();
+        if (format == "h:m") {
+           now.setHours(dStr.substr(0,dStr.indexOf(":")));
+           now.setMinutes(dStr.substr(dStr.indexOf(":")+1));
+           now.setSeconds(0);
+           return now;
+        }else 
+          return "Invalid Format";
+      }
 }
 module.exports = CalenderHelper
