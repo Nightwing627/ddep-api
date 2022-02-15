@@ -620,6 +620,10 @@ router.post('/inboundrun',function(req,res){
     if (!fs.existsSync(dir)){
       fs.mkdirSync(dir);
     }
+    else
+    {
+      console.log("folder found");
+    }
     var projectdir = inboundSetting.project_id;
     if(!fs.existsSync(dir+'/'+projectdir)){
       fs.mkdirSync(dir+'/'+projectdir);
@@ -655,12 +659,15 @@ router.post('/inboundrun',function(req,res){
                     res.json({"Status":0,Msg:"Files Not Found !",Data:[]})
                   }
                 for (let index = 0; index < list.length; index++) {
+                    console.log(list[index]);
                     if((list[index].type!=="d")){
                         //console.log(filelist.push(list[index].name));
+
                         filescounter++;
+                        console.log(list[index].name);
+                        console.log("folder path found "+folderpath+'/'+list[index].name);
                           var content='';
                           ftp.get(folderpath+'/'+list[index].name, function(err, stream) {
-                            console.log(list[index].name);
                             //console.log(date.getTime());
                             if (err)
                             {

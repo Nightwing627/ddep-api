@@ -53,8 +53,11 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                 var createat = new Date(item.schedule_setting.createdAt);
                                 var createddate = createat.getDate() + '-' + createat.getMonth() + '-' + createat.getFullYear();
                                 var nextdates = new Date(item.schedule_setting.next_date_inbound);
-                                var createnextdate = nextdates.getDate() + '-' + nextdates.getMonth() + '-' + nextdates.getFullYear();
+                                var createnextdate = nextdates.getUTCDate() + '-' + nextdates.getUTCMonth() + '-' + nextdates.getUTCFullYear();
+                                var currentdate = date_ob.getDate() + '-' + date_ob.getMonth() + '-' + date_ob.getFullYear();
+                                    console.log(createnextdate);
                                 var start_date = new Date(item.schedule_setting.duration_inbound_start_date);
+                                //var m_createddate = new date()
                                 var end_date = '';
                                 if (item.schedule_setting.duration_inbound_is_end_date == "yes_end_date") {
                                     console.log("yes end date found");
@@ -68,54 +71,103 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                 }
                                 if (date_ob >= start_date && (end_date == '' || start_date <= end_date)) {
                                     console.log("start date match with condition");
-                                    if (createddate == createnextdate) {
+                                    if (currentdate==createnextdate) {
                                         if (item.schedule_setting.occurs_inbound == "daily") {
-                                            console.log("first time run inbound on daily mode");
+                                            console.log("time match run inbound on daily mode");
                                             var date = new Date();
                                             var mycalen = new my_calender();
                                             if(item.schedule_setting.daily_frequency_type_inbound == 'Occurs Once At') {
-                                                console.log("occurs once found !");
-                                                if (currenttime == item.schedule_setting.daily_frequency_once_time_inbound) {
-                                                    console.log("Inbound time match for project id =" + item.schedule_setting.project_id + "time = " + currenttime);
-                                                    var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.day_frequency_inbound_count));
-                                                    item.schedule_setting.next_date_inbound = next_date_inbound_days;
-                                                    console.log("Inbound time match in next date for project id =" + item.schedule_setting.project_id + "time = " + currenttime);
-                                                    console.log("inbound items count =>" + list_arr_inbound.length);
+                                                    console.log("occurs once found !");
+                                                    //date_ob.setSeconds(0);
+                                                    var next_date_inbound_my = new Date(item.schedule_setting.next_date_inbound);
+                                                    
+                                                    var schedule_time = mycalen.toDate(item.schedule_setting.daily_frequency_once_time_inbound,'h:m');
+                                                    var createddate_my = new Date(item.schedule_setting.createdAt);
+                                                    var finalhours_minute='';
+                                                    var finalhours_minute_current='';
+                                                    var next_inbound_time = '';
+                                                    if(nextdates.getUTCHours()=="00" && nextdates.getUTCMinutes()=="00")
+                                                    {
+                                                        next_inbound_time=item.schedule_setting.daily_frequency_once_time_inbound
+                                                    }
+                                                    else
+                                                    {
+                                                        var newtimestring = (nextdates.getUTCHours() < 10 ? '0' : '') + nextdates.getUTCHours() + ":" + (nextdates.getUTCMinutes() < 10 ? '0' : '') + nextdates.getUTCMinutes();
+                                                        next_inbound_time = newtimestring
+                                                    }
+                                                    
+                                                    if (currenttime == next_inbound_time) {
+                                                        console.log("Inbound time match for project id =" + item.schedule_setting.project_id + "time = " + currenttime);
+                                                        var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.day_frequency_inbound_count));
+                                                        next_date_inbound_days.setUTCHours(0,0,0,0);
+                                                        item.schedule_setting.next_date_inbound = next_date_inbound_days;
+                                                        console.log("Inbound time match in next date for project id =" + item.schedule_setting.project_id + "time = " + currenttime);
+                                                        console.log("inbound items count =>" + list_arr_inbound.length);
+                                                        list_arr_inbound.push(item);
+                                                    }
+                                                    else {
 
-                                                    list_arr_inbound.push(item);
-                                                }
-                                                else {
-
-                                                    console.log("occurnce once found time is >>" + item.schedule_setting.daily_frequency_once_time_inbound);
-                                                    console.log("current time is >>" + currenttime);
-                                                }
+                                                        console.log("occurnce once found time is >>" + next_inbound_time);
+                                                        console.log("current time is >>" + currenttime);
+                                                    }
                                             }
                                             if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs every') {
                                                 console.log("occurs every found");
+                                                mycalen = new my_calender();
+                                                mycalen.toDate()
                                                 var start_hours = item.schedule_setting.daily_frequency_every_time_count_start_inbound;
+                                                var m_start_hours = mycalen.toDate(start_hours,'h:m');
                                                 var finalstart_hours = start_hours.substring(0, 2);
                                                 var finalstart_minute = start_hours.substring(3);
                                                 var end_hours = item.schedule_setting.daily_frequency_every_time_count_end_inbound;
+                                                var m_end_hours = mycalen.toDate(end_hours,'h:m');
+                                                var next_inbound_time = '';
+                                                    if(nextdates.getUTCHours()=="00" && nextdates.getUTCMinutes()=="00")
+                                                    {
+                                                        next_inbound_time=start_hours;
+                                                    }
+                                                    else
+                                                    {
+                                                        var newtimestring = (nextdates.getUTCHours() < 10 ? '0' : '') + nextdates.getUTCHours() + ":" + (nextdates.getUTCMinutes() < 10 ? '0' : '') + nextdates.getUTCMinutes();
+                                                        next_inbound_time = newtimestring
+                                                    }
                                                 if (end_hours != "" && end_hours != undefined) {
                                                     console.log("end hours found >>" + end_hours);
                                                     //daily_frequency_every_time_count_start_inbound
                                                     var finalend_hours = end_hours.substring(0, 2);
                                                     var finalend_minute = end_hours.substring(3);
-                                                    const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                    const end = parseInt(finalend_hours) * 60 + parseInt(finalend_minute);
+                                                    //const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
+                                                    //const end = parseInt(finalend_hours) * 60 + parseInt(finalend_minute);
                                                     //const end =  19 * 60 + 57;
                                                     const obdate = new Date();
-                                                    const now = obdate.getHours() * 60 + obdate.getMinutes();
-                                                    if (start <= now && now <= end) {
+                                                    var next_inbound_time_hours =parseInt(next_inbound_time.substring(0, 2));
+                                                    var next_inbound_time_minutes = parseInt(next_inbound_time.substring(3));
+                                                    var obdate_hours = parseInt(obdate.getHours());
+                                                    var obdate_minutes = parseInt(obdate.getMinutes());
+                                                    var end_date_houres = parseInt(end_hours.substring(0, 2));
+                                                    var end_date_minutes = parseInt(end_hours.substring(3));
+                                                    var inbound_next_date_hourssettelment = (next_inbound_time_hours*60)+next_inbound_time_minutes;
+                                                    var inbound_next_date_enddate_houressettlement = (end_date_houres*60)+end_date_minutes;
+                                                    var current_hoursseettlement = (obdate_hours*60)+obdate_minutes;
+                                                    //const now = obdate.getHours() * 60 + obdate.getMinutes();
+                                                    if (inbound_next_date_hourssettelment <= current_hoursseettlement  && current_hoursseettlement <= inbound_next_date_enddate_houressettlement) {
+                                                        console.log("final end hours and > now");
                                                         var new_start_hour = "";
                                                         if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
                                                             console.log("hours setting found !");
-                                                            finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                            //finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
+                                                            //item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                            var next_date_update = new Date(item.schedule_setting.next_date_inbound);
+                                                                next_date_update.setUTCHours(next_inbound_time_hours+parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound));
+                                                            item.schedule_setting.next_date_inbound=next_date_update;
                                                         }
                                                         if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
                                                             console.log("minutes setting found !");
-                                                            finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
+                                                            var next_date_update = new Date(item.schedule_setting.next_date_inbound);
+                                                            next_date_update.setUTCMinutes(next_inbound_time_minutes.parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound));
+                                                            item.schedule_setting.next_date_inbound=next_date_update;
+                                                            //finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
+                                                            /* finalstart_minute = 
                                                             console.log("next minute set to >>" + finalstart_minute);
                                                             if (finalstart_minute > 59) {
                                                                 finalstart_hours = parseInt(finalstart_hours) + 1;
@@ -123,66 +175,76 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                             }
                                                             else {
                                                                 item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                            }
+                                                            } */
 
 
                                                         }
 
-                                                        else {
+                                                        /* else {
+                                                                //console.log("hours and ");
+                                                                console.log();
                                                             var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.day_frequency_inbound_count));
+                                                            next_date_inbound_days.setUTCHours(0,0,0,0);
                                                             item.schedule_setting.next_date_inbound = next_date_inbound_days;
+                                                            //item.schedule_setting.next_date_inbound = next_date_inbound_days;
                                                             console.log("next inbound date is >>" + item.schedule_setting.next_date_inbound);
-                                                        }
+                                                        } */
 
                                                     }
                                                     else {
+                                                        console.log("run time minuts =="+inbound_next_date_hourssettelment);
+                                                        console.log("current minuts =="+current_hoursseettlement);
+                                                        console.log("end minuts =="+inbound_next_date_enddate_houressettlement);
                                                         console.log("inbound next date genarate ");
                                                         var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.day_frequency_inbound_count));
+                                                        next_date_inbound_days.setUTCHours(0);
+                                                        next_date_inbound_days.setUTCMinutes(0);
+                                                        next_date_inbound_days.setUTCSeconds(0);
                                                         item.schedule_setting.next_date_inbound = next_date_inbound_days;
                                                         console.log("next inbound date is >>" + item.schedule_setting.next_date_inbound);
                                                     }
                                                     list_arr_inbound.push(item);
                                                 }
                                                 else {
-                                                    console.log("end hours found>>" + end_hours);
-                                                    const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                    //const end =  19 * 60 + 57;
-                                                    const obdate = new Date();
-                                                    const now = obdate.getHours() * 60 + obdate.getMinutes();
+                                                    console.log("end hours not found>>" + end_hours);
+                                                    // const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
+                                                    // //const end =  19 * 60 + 57;
+                                                    // const obdate = new Date();
+                                                    // const now = obdate.getHours() * 60 + obdate.getMinutes();
 
-                                                    if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
-                                                        finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                        if (finalstart_hours > 23) {
-                                                            var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.day_frequency_inbound_count));
-                                                            item.schedule_setting.next_date_inbound = next_date_inbound_days;
-                                                        }
-                                                        else {
+                                                    // if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
+                                                    //     finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
+                                                    //     if (finalstart_hours > 23) {
+                                                    //         var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.day_frequency_inbound_count));
+                                                    //         item.schedule_setting.next_date_inbound = next_date_inbound_days;
+                                                    //     }
+                                                    //     else {
 
-                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
-                                                        }
-                                                    }
-                                                    if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
-                                                        finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                        if (finalstart_minute > 59) {
-                                                            finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
-                                                        }
-                                                        else {
-                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                        }
-                                                    }
-                                                    if (finalstart_hours > 23) {
-                                                        console.log("final hours grater than 23 >>" + finalstart_hours);
-                                                        var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.day_frequency_inbound_count));
-                                                        item.schedule_setting.next_date_inbound = next_date_inbound_days;
-                                                    }
-                                                    else {
-                                                        console.log("final start hours < 23 >>" + finalstart_hours);
-                                                        if (start <= now) {
-                                                            console.log("array added in queue");
-                                                            list_arr_inbound.push(item);
-                                                        }
-                                                    }
+                                                    //         item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                    //     }
+                                                    // }
+                                                    // if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
+                                                    //     finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
+                                                    //     if (finalstart_minute > 59) {
+                                                    //         finalstart_hours = parseInt(finalstart_hours) + 1;
+                                                    //         item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                    //     }
+                                                    //     else {
+                                                    //         item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                    //     }
+                                                    // }
+                                                    // if (finalstart_hours > 23) {
+                                                    //     console.log("final hours grater than 23 >>" + finalstart_hours);
+                                                    //     var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.day_frequency_inbound_count));
+                                                    //     item.schedule_setting.next_date_inbound = next_date_inbound_days;
+                                                    // }
+                                                    // else {
+                                                    //     console.log("final start hours < 23 >>" + finalstart_hours);
+                                                    //     if (start <= now) {
+                                                    //         console.log("array added in queue");
+                                                    //         list_arr_inbound.push(item);
+                                                    //     }
+                                                    // }
 
                                                 }
 
@@ -205,8 +267,24 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                     if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs Once At') {
                                                         console.log("occurs Once found in Monthly Setting");
                                                         if (item.schedule_setting.monthly_frequency_day_inbound == today_date) {
-                                                            var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth() + parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                            if (currenttime == item.schedule_setting.daily_frequency_once_time_inbound) {
+                                                            var next_date_inbound = new Date(date_ob.setUTCMonth(date_ob.getMonth() + parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
+                                                            var next_date_inbound_my = new Date(item.schedule_setting.next_date_inbound);
+                                                    
+                                                                var schedule_time = mycalen.toDate(item.schedule_setting.daily_frequency_once_time_inbound,'h:m');
+                                                                var createddate_my = new Date(item.schedule_setting.createdAt);
+                                                                var finalhours_minute='';
+                                                                var finalhours_minute_current='';
+                                                                var next_inbound_time = '';
+                                                                if(nextdates.getUTCHours()=="00" && nextdates.getUTCMinutes()=="00")
+                                                                {
+                                                                    next_inbound_time=item.schedule_setting.daily_frequency_once_time_inbound
+                                                                }
+                                                                else
+                                                                {
+                                                                    var newtimestring = (nextdates.getUTCHours() < 10 ? '0' : '') + nextdates.getUTCHours() + ":" + (nextdates.getUTCMinutes() < 10 ? '0' : '') + nextdates.getUTCMinutes();
+                                                                    next_inbound_time = newtimestring
+                                                                }
+                                                            if (currenttime == next_inbound_time) {
                                                                 item.schedule_setting.next_date_inbound = next_date_inbound;
                                                                 list_arr_inbound.push(item);
                                                             }
@@ -1405,1351 +1483,11 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                             //list_arr_inbound.push(item);
                                         }
                                     }
-                                    else {
-                                        var curdate = new Date();
-                                        //var todaysdate = new Date(curdate.getFullYear(), curdate.getMonth(), curdate.getDate());
-                                        var todaysdate = curdate.getFullYear() + '-' + curdate.getMonth() + '-' + curdate.getDate();
-                                        var nextdate = new Date(item.schedule_setting.next_date_inbound);
-                                        //var nextdategen = new Date(nextdate.getFullYear(), nextdate.getMonth(), nextdate.getDate());
-                                        var nextdategen = nextdate.getFullYear() + '-' + nextdate.getMonth() + '-' + nextdate.getDate();
-
-                                        if (nextdategen == todaysdate) {
-                                            console.log("next date match with todays date inbound setting");
-                                            if (item.schedule_setting.occurs_inbound == "daily") {
-                                                console.log("first time run inbound on daily mode");
-                                                var date = new Date();
-                                                var mycalen = new my_calender();
-                                                if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs Once At') {
-                                                    console.log("occurs once found !");
-                                                    if (currenttime == item.schedule_setting.daily_frequency_once_time_inbound) {
-                                                        console.log("Inbound time match for project id =" + item.schedule_setting.project_id + "time = " + currenttime);
-                                                        var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.day_frequency_inbound_count));
-                                                        item.schedule_setting.next_date_inbound = next_date_inbound_days;
-                                                        console.log("Inbound time match in next date for project id =" + item.schedule_setting.project_id + "time = " + currenttime);
-                                                        console.log("inbound items count =>" + list_arr_inbound.length);
-                                                        list_arr_inbound.push(item);
-                                                    }
-                                                    else {
-
-                                                        console.log("occurnce once found time is >>" + item.schedule_setting.daily_frequency_once_time_inbound);
-                                                    }
-                                                }
-                                                if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs every') {
-                                                    console.log("occurs every found");
-                                                    var start_hours = item.schedule_setting.daily_frequency_every_time_count_start_inbound;
-                                                    var finalstart_hours = start_hours.substring(0, 2);
-                                                    var finalstart_minute = start_hours.substring(3);
-                                                    var end_hours = item.schedule_setting.daily_frequency_every_time_count_end_inbound;
-                                                    if (end_hours != "" && end_hours != undefined) {
-                                                        console.log("end hours found >>" + end_hours);
-                                                        //daily_frequency_every_time_count_start_inbound
-                                                        var finalend_hours = end_hours.substring(0, 2);
-                                                        var finalend_minute = end_hours.substring(3);
-                                                        const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                        const end = parseInt(finalend_hours) * 60 + parseInt(finalend_minute);
-                                                        //const end =  19 * 60 + 57;
-                                                        const obdate = new Date();
-                                                        const now = obdate.getHours() * 60 + obdate.getMinutes();
-                                                        if (start <= now && now <= end) {
-                                                            var new_start_hour = "";
-                                                            if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
-                                                                console.log("hours setting found !");
-                                                                finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
-                                                            }
-                                                            if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
-                                                                console.log("minutes setting found !");
-                                                                finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                if (finalstart_minute > 59) {
-                                                                    finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                    item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
-                                                                }
-                                                                else {
-                                                                    item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                                }
-                                                            }
-
-                                                        }
-                                                        else {
-                                                            var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.day_frequency_inbound_count));
-                                                            item.schedule_setting.next_date_inbound = next_date_inbound_days;
-                                                        }
-                                                        list_arr_inbound.push(item);
-                                                    }
-                                                    else {
-                                                        console.log("end hours found>>" + end_hours);
-                                                        const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                        //const end =  19 * 60 + 57;
-                                                        const obdate = new Date();
-                                                        const now = obdate.getHours() * 60 + obdate.getMinutes();
-
-
-                                                        if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
-                                                            finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                            if (finalstart_hours > 23) {
-                                                                var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.day_frequency_inbound_count));
-                                                                item.schedule_setting.next_date_inbound = next_date_inbound_days;
-                                                            }
-                                                            else {
-
-                                                                item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
-                                                            }
-                                                        }
-                                                        if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
-                                                            finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                            if (finalstart_minute > 59) {
-                                                                finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
-                                                            }
-                                                            else {
-                                                                item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                            }
-                                                        }
-                                                        if (finalstart_hours > 23) {
-                                                            console.log("final hours grater than 23 >>" + finalstart_hours);
-                                                            var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.day_frequency_inbound_count));
-                                                            item.schedule_setting.next_date_inbound = next_date_inbound_days;
-                                                        }
-                                                        else {
-                                                            console.log("final start hours < 23 >>" + finalstart_hours);
-                                                            if (start <= now) {
-                                                                console.log("array added in queue");
-                                                                list_arr_inbound.push(item);
-                                                            }
-                                                        }
-
-                                                    }
-
-                                                }
-                                                /* if(currenttime==item.schedule_setting.recurs_time_inbound)
-                                                {
-                                                    var date = new Date();
-                                                    var mycalen = new my_calender();
-                                                    var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.recurs_count_inbound));
-                                                    item.schedule_setting.next_date_inbound = next_date_inbound_days;
-                                                    console.log("Inbound time match in next date for project id =" +item.schedule_setting.project_id + "time = "+ currenttime);
-                                                    console.log("inbound items count =>"+list_arr_inbound.length);
-                                                    console.log("store inbound =>"+item.schedule_setting.project_id);
-                                                    list_arr_inbound.push(item);
-                                                }
-                                                else
-                                                {
-                                                    console.log("inbound time not match with server time is=>" +currenttime+"setting time is=>"+item.schedule_setting.recurs_time_inbound);
-                                                } */
-                                            }
-                                            else if (item.schedule_setting.occurs_inbound == "monthly") {
-
-
-                                                if (item.schedule_setting.monthly_field_setting_inbound[0].inbound_monthly_day == "day") {
-                                                    var today_date = date_ob.getDate();
-                                                    //console.log("today_date"+today_date);
-                                                    if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs Once At') {
-                                                        console.log("occurs Once found in Monthly Setting");
-                                                        if (item.schedule_setting.monthly_frequency_day_inbound == today_date) {
-                                                            var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth() + parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                            if (currenttime == item.schedule_setting.daily_frequency_once_time_inbound) {
-                                                                item.schedule_setting.next_date_inbound = next_date_inbound;
-                                                                list_arr_inbound.push(item);
-                                                            }
-                                                            else {
-
-                                                                console.log("occurnce once found time is >>" + item.schedule_setting.daily_frequency_once_time_inbound);
-                                                            }
-                                                        }
-                                                        else {
-                                                            console.log("monthly setting not match with todays date monthly date currently set is" + item.schedule_setting.monthly_frequency_day_inbound);
-                                                        }
-                                                    }
-                                                    if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs every') {
-                                                        console.log("occurs every found in monthly setting inbound");
-                                                        var start_hours = item.schedule_setting.daily_frequency_every_time_count_start_inbound;
-                                                        var finalstart_hours = start_hours.substring(0, 2);
-                                                        var finalstart_minute = start_hours.substring(3);
-                                                        var end_hours = item.schedule_setting.daily_frequency_every_time_count_end_inbound;
-                                                        if (end_hours != "" && end_hours != undefined) {
-                                                            console.log("end hours found >>" + end_hours);
-                                                            //daily_frequency_every_time_count_start_inbound
-                                                            var finalend_hours = end_hours.substring(0, 2);
-                                                            var finalend_minute = end_hours.substring(3);
-                                                            const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                            const end = parseInt(finalend_hours) * 60 + parseInt(finalend_minute);
-                                                            //const end =  19 * 60 + 57;
-                                                            const obdate = new Date();
-                                                            const now = obdate.getHours() * 60 + obdate.getMinutes();
-                                                            if (start <= now && now <= end) {
-                                                                var new_start_hour = "";
-                                                                if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
-                                                                    console.log("hours setting found !");
-                                                                    finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                    item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
-                                                                }
-                                                                if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
-                                                                    console.log("minutes setting found !");
-                                                                    finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                    if (finalstart_minute > 59) {
-                                                                        finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                        item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
-                                                                    }
-                                                                    else {
-                                                                        item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                                    }
-                                                                }
-                                                                list_arr_inbound.push(item);
-                                                            }
-                                                            else {
-                                                                var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth() + parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                item.schedule_setting.next_date_inbound = next_date_inbound;
-                                                            }
-                                                        }
-                                                        else {
-                                                            console.log("end hours found>>" + end_hours);
-                                                            const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                            //const end =  19 * 60 + 57;
-                                                            const obdate = new Date();
-                                                            const now = obdate.getHours() * 60 + obdate.getMinutes();
-
-
-                                                            if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
-                                                                finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                if (finalstart_hours > 23) {
-                                                                    var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.day_frequency_inbound_count));
-                                                                    item.schedule_setting.next_date_inbound = next_date_inbound_days;
-                                                                }
-                                                                else {
-
-                                                                    item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
-                                                                }
-                                                            }
-                                                            if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
-                                                                finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                if (finalstart_minute > 59) {
-                                                                    finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                    item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
-                                                                }
-                                                                else {
-                                                                    item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                                }
-                                                            }
-                                                            if (finalstart_hours > 23) {
-                                                                console.log("final hours grater than 23 >>" + finalstart_hours);
-                                                                var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth() + parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                item.schedule_setting.next_date_inbound = next_date_inbound;
-                                                            }
-                                                            else {
-                                                                console.log("final start hours < 23 >>" + finalstart_hours);
-                                                                if (start <= now) {
-                                                                    console.log("array added in queue");
-                                                                    list_arr_inbound.push(item);
-                                                                }
-                                                            }
-
-                                                        }
-
-                                                    }
-                                                }
-                                                if (item.schedule_setting.monthly_field_setting_inbound[0].inbound_monthly_day == "The") {
-                                                    var the_day_of = item.schedule_setting.monthly_field_setting_inbound[0].the_day_of;
-                                                    var the_days = item.schedule_setting.monthly_field_setting_inbound[0].the_days;
-                                                    var new_date;
-                                                    var date = new Date();
-                                                    var mycalen = new my_calender();
-                                                    if (the_day_of == "first") {
-
-
-                                                        if (the_days == "Sunday" || the_days == "Weekend") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(0, 1, date);
-                                                        }
-                                                        else if (the_days == "Saturday" || the_days == "Weekend") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(6, 1, date);
-                                                        }
-                                                        else if (the_days == "Monday") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(1, 1, date);
-                                                        }
-                                                        else if (the_days == "Tuesday") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(2, 1, date);
-                                                        }
-                                                        else if (the_days == "Wednesday") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(3, 1, date);
-                                                        }
-                                                        else if (the_days == "Thursday") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(4, 1, date);
-                                                        }
-                                                        else if (the_days == "Friday" || the_days == "Weekday") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(5, 1, date);
-                                                        }
-
-                                                    }
-                                                    else if (the_day_of == "second") {
-                                                        if (the_days == "Sunday" || the_days == "Weekend") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(0, 2, date);
-                                                        }
-                                                        else if (the_days == "Saturday" || the_days == "Weekend") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(6, 2, date);
-                                                        }
-                                                        else if (the_days == "Monday") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(1, 2, date);
-                                                        }
-                                                        else if (the_days == "Tuesday") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(2, 2, date);
-                                                        }
-                                                        else if (the_days == "Wednesday") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(3, 2, date);
-                                                        }
-                                                        else if (the_days == "Thursday") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(4, 2, date);
-                                                        }
-                                                        else if (the_days == "Friday" || the_days == "Weekday") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(5, 2, date);
-                                                        }
-                                                    }
-                                                    else if (the_day_of == "third") {
-                                                        if (the_days == "Sunday" || the_days == "Weekend") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(0, 3, date);
-                                                        }
-                                                        else if (the_days == "Saturday" || the_days == "Weekend") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(6, 3, date);
-                                                        }
-                                                        else if (the_days == "Monday") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(1, 3, date);
-                                                        }
-                                                        else if (the_days == "Tuesday") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(2, 3, date);
-                                                        }
-                                                        else if (the_days == "Wednesday") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(3, 3, date);
-                                                        }
-                                                        else if (the_days == "Thursday") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(4, 3, date);
-                                                        }
-                                                        else if (the_days == "Friday" || the_days == "Weekday") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(5, 3, date);
-                                                        }
-                                                    }
-                                                    else if (the_day_of == "Fourth") {
-                                                        if (the_days == "Sunday" || the_days == "Weekend") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(0, 4, date);
-                                                        }
-                                                        else if (the_days == "Saturday" || the_days == "Weekend") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(6, 4, date);
-                                                        }
-                                                        else if (the_days == "Monday") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(1, 4, date);
-                                                        }
-                                                        else if (the_days == "Tuesday") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(2, 4, date);
-                                                        }
-                                                        else if (the_days == "Wednesday") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(3, 4, date);
-                                                        }
-                                                        else if (the_days == "Thursday") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(4, 4, date);
-                                                        }
-                                                        else if (the_days == "Friday" || the_days == "Weekday") {
-                                                            new_date = mycalen.nthWeekdayOfMonth(5, 4, date);
-                                                        }
-
-
-                                                    }
-
-                                                    if (new_date == date) {
-                                                        //start logic daily frequency occurnce
-                                                        if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs Once At') {
-                                                            console.log("occurs Once found in Monthly Setting The");
-
-                                                            var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth() + parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                            if (currenttime == item.schedule_setting.daily_frequency_once_time_inbound) {
-                                                                var next_date_inbound = new Date(date.setMonth(date.getMonth() + parseInt(item.schedule_setting.monthly_frequency_the_inbound_count)));
-                                                                item.schedule_setting.next_date_inbound = next_date_inbound;
-                                                                list_arr_inbound.push(item);
-                                                            }
-                                                            else {
-
-                                                                console.log("occurnce once found time is >>" + item.schedule_setting.daily_frequency_once_time_inbound);
-                                                            }
-
-                                                        }
-                                                        if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs every') {
-                                                            console.log("occurs every found in monthly setting inbound");
-                                                            var start_hours = item.schedule_setting.daily_frequency_every_time_count_start_inbound;
-                                                            var finalstart_hours = start_hours.substring(0, 2);
-                                                            var finalstart_minute = start_hours.substring(3);
-                                                            var end_hours = item.schedule_setting.daily_frequency_every_time_count_end_inbound;
-                                                            if (end_hours != "" && end_hours != undefined) {
-                                                                console.log("end hours found >>" + end_hours);
-                                                                //daily_frequency_every_time_count_start_inbound
-                                                                var finalend_hours = end_hours.substring(0, 2);
-                                                                var finalend_minute = end_hours.substring(3);
-                                                                const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                                const end = parseInt(finalend_hours) * 60 + parseInt(finalend_minute);
-                                                                //const end =  19 * 60 + 57;
-                                                                const obdate = new Date();
-                                                                const now = obdate.getHours() * 60 + obdate.getMinutes();
-                                                                if (start <= now && now <= end) {
-                                                                    var new_start_hour = "";
-                                                                    if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
-                                                                        console.log("hours setting found !");
-                                                                        finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                        item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
-                                                                    }
-                                                                    if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
-                                                                        console.log("minutes setting found !");
-                                                                        finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                        if (finalstart_minute > 59) {
-                                                                            finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
-                                                                        }
-                                                                        else {
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                                        }
-                                                                    }
-                                                                    list_arr_inbound.push(item);
-                                                                }
-                                                                else {
-                                                                    var next_date_inbound = new Date(date.setMonth(date.getMonth() + parseInt(item.schedule_setting.monthly_frequency_the_inbound_count)));
-                                                                    item.schedule_setting.next_date_inbound = next_date_inbound;
-                                                                    //list_arr_inbound.push(item);
-                                                                }
-                                                            }
-                                                            else {
-                                                                console.log("end hours found>>" + end_hours);
-                                                                const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                                //const end =  19 * 60 + 57;
-                                                                const obdate = new Date();
-                                                                const now = obdate.getHours() * 60 + obdate.getMinutes();
-
-
-                                                                if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
-                                                                    finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                    if (finalstart_hours > 23) {
-                                                                        var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.day_frequency_inbound_count));
-                                                                        item.schedule_setting.next_date_inbound = next_date_inbound_days;
-                                                                    }
-                                                                    else {
-
-                                                                        item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
-                                                                    }
-                                                                }
-                                                                if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
-                                                                    finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                    if (finalstart_minute > 59) {
-                                                                        finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                        item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
-                                                                    }
-                                                                    else {
-                                                                        item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                                    }
-                                                                }
-                                                                if (finalstart_hours > 23) {
-                                                                    console.log("final hours grater than 23 >>" + finalstart_hours);
-                                                                    var next_date_inbound = new Date(date.setMonth(date.getMonth() + parseInt(item.schedule_setting.monthly_frequency_the_inbound_count)));
-                                                                    item.schedule_setting.next_date_inbound = next_date_inbound;
-                                                                    //list_arr_inbound.push(item);
-                                                                }
-                                                                else {
-                                                                    console.log("final start hours < 23 >>" + finalstart_hours);
-                                                                    if (start <= now) {
-                                                                        console.log("array added in queue");
-                                                                        list_arr_inbound.push(item);
-                                                                    }
-                                                                }
-
-                                                            }
-
-                                                        }
-                                                        // end logic daily frequency occurnce
-                                                        /* var next_date_inbound = new Date(date.setMonth(date.getMonth()+parseInt(item.schedule_setting.monthly_frequency_the_inbound_count)));
-                                                       if(currenttime==item.schedule_setting.recurs_time_inbound)
-                                                       {
-                                                           item.schedule_setting.next_date_inbound = next_date_inbound;
-                                                           list_arr_inbound.push(item);
-                                                       } */
-                                                    }
-                                                    else {
-                                                        console.log("monthly the setting not match with date >>" + new_date);
-                                                    }
-                                                }
-
-
-
-                                            }
-                                            else if (item.schedule_setting.occurs_inbound == "weekly") {
-                                                var weekdaycounter = 0;
-                                                item.schedule_setting.occurs_weekly_fields_inbound.forEach(weekday => {
-                                                    if (weekday.day == "Monday") {
-                                                        if (weekdaycounter == 0) {
-                                                            var mycalen = new my_calender();
-                                                            var weekdate = new Date();
-                                                            if (weekdate.getDay() > 1) {
-                                                                weekdate.setDate(weekdate.getDate() - (weekdate.getDay() - 1))
-                                                            }
-                                                            else if (weekdate.getDay() <= 1) {
-                                                                weekdate.setDate(weekdate.getDate() - (1 - weekdate.getDay()))
-                                                            }
-                                                            var date = mycalen.addWeeks(item.schedule_setting.weekly_frequency_inbound_count);
-                                                            item.schedule_setting.next_date_inbound = date;
-                                                            weekdaycounter++;
-                                                        }
-
-                                                        if (date_ob.getDay() == 1) {
-                                                            if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs Once At') {
-                                                                console.log("occurs Once found in Weekly Setting");
-
-                                                                //var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth()+parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                if (currenttime == item.schedule_setting.daily_frequency_once_time_inbound) {
-                                                                    //item.schedule_setting.next_date_inbound = next_date_inbound;
-                                                                    list_arr_inbound.push(item);
-                                                                }
-                                                                else {
-
-                                                                    console.log("occurnce once found time is >>" + item.schedule_setting.daily_frequency_once_time_inbound);
-                                                                }
-
-                                                            }
-                                                            if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs every') {
-                                                                console.log("occurs every found in monthly setting inbound");
-                                                                var start_hours = item.schedule_setting.daily_frequency_every_time_count_start_inbound;
-                                                                var finalstart_hours = start_hours.substring(0, 2);
-                                                                var finalstart_minute = start_hours.substring(3);
-                                                                var end_hours = item.schedule_setting.daily_frequency_every_time_count_end_inbound;
-                                                                if (end_hours != "" && end_hours != undefined) {
-                                                                    console.log("end hours found >>" + end_hours);
-                                                                    //daily_frequency_every_time_count_start_inbound
-                                                                    var finalend_hours = end_hours.substring(0, 2);
-                                                                    var finalend_minute = end_hours.substring(3);
-                                                                    const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                                    const end = parseInt(finalend_hours) * 60 + parseInt(finalend_minute);
-                                                                    //const end =  19 * 60 + 57;
-                                                                    const obdate = new Date();
-                                                                    const now = obdate.getHours() * 60 + obdate.getMinutes();
-                                                                    if (start <= now && now <= end) {
-                                                                        var new_start_hour = "";
-                                                                        if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
-                                                                            console.log("hours setting found !");
-                                                                            finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
-                                                                        }
-                                                                        if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
-                                                                            console.log("minutes setting found !");
-                                                                            finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                            if (finalstart_minute > 59) {
-                                                                                finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                                item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
-                                                                            }
-                                                                            else {
-                                                                                item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                                            }
-                                                                        }
-                                                                        list_arr_inbound.push(item);
-                                                                    }
-                                                                    else {
-                                                                        /* var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth()+parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                        item.schedule_setting.next_date_inbound = next_date_inbound; */
-                                                                    }
-                                                                }
-                                                                else {
-                                                                    console.log("end hours found>>" + end_hours);
-                                                                    const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                                    //const end =  19 * 60 + 57;
-                                                                    const obdate = new Date();
-                                                                    const now = obdate.getHours() * 60 + obdate.getMinutes();
-
-
-                                                                    if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
-                                                                        finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                        if (finalstart_hours > 23) {
-                                                                            // var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.day_frequency_inbound_count));
-                                                                            // item.schedule_setting.next_date_inbound = next_date_inbound_days;
-                                                                        }
-                                                                        else {
-
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
-                                                                        }
-                                                                    }
-                                                                    if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
-                                                                        finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                        if (finalstart_minute > 59) {
-                                                                            finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
-                                                                        }
-                                                                        else {
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                                        }
-                                                                    }
-                                                                    if (finalstart_hours > 23) {
-                                                                        console.log("final hours grater than 23 >>" + finalstart_hours);
-                                                                        // var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth()+parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                        // item.schedule_setting.next_date_inbound = next_date_inbound;
-                                                                    }
-                                                                    else {
-                                                                        console.log("final start hours < 23 >>" + finalstart_hours);
-                                                                        if (start <= now) {
-                                                                            console.log("array added in queue");
-                                                                            list_arr_inbound.push(item);
-                                                                        }
-                                                                    }
-
-                                                                }
-
-                                                            }
-                                                            /* if(currenttime==item.schedule_setting.recurs_time_inbound)
-                                                            {
-                        
-                                                                list_arr_inbound.push(item);
-                                                            } */
-                                                        }
-                                                    }
-                                                    if (weekday.day == "Tuesday") {
-                                                        if (weekdaycounter == 0) {
-                                                            var mycalen = new my_calender();
-                                                            var weekdate = new Date();
-                                                            if (weekdate.getDay() > 2) {
-                                                                weekdate.setDate(weekdate.getDate() - (weekdate.getDay() - 2))
-                                                            }
-                                                            else if (weekdate.getDay() <= 2) {
-                                                                weekdate.setDate(weekdate.getDate() + (2 - weekdate.getDay()))
-                                                            }
-                                                            var date = mycalen.addWeeks(item.schedule_setting.weekly_frequency_inbound_count);
-                                                            item.schedule_setting.next_date_inbound = date;
-                                                            weekdaycounter++;
-                                                        }
-
-                                                        if (date_ob.getDay() == 2) {
-                                                            if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs Once At') {
-                                                                console.log("occurs Once found in Weekly Setting");
-
-                                                                //var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth()+parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                if (currenttime == item.schedule_setting.daily_frequency_once_time_inbound) {
-                                                                    //item.schedule_setting.next_date_inbound = next_date_inbound;
-                                                                    list_arr_inbound.push(item);
-                                                                }
-                                                                else {
-
-                                                                    console.log("occurnce once found time is >>" + item.schedule_setting.daily_frequency_once_time_inbound);
-                                                                }
-
-                                                            }
-                                                            if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs every') {
-                                                                console.log("occurs every found in monthly setting inbound");
-                                                                var start_hours = item.schedule_setting.daily_frequency_every_time_count_start_inbound;
-                                                                var finalstart_hours = start_hours.substring(0, 2);
-                                                                var finalstart_minute = start_hours.substring(3);
-                                                                var end_hours = item.schedule_setting.daily_frequency_every_time_count_end_inbound;
-                                                                if (end_hours != "" && end_hours != undefined) {
-                                                                    console.log("end hours found >>" + end_hours);
-                                                                    //daily_frequency_every_time_count_start_inbound
-                                                                    var finalend_hours = end_hours.substring(0, 2);
-                                                                    var finalend_minute = end_hours.substring(3);
-                                                                    const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                                    const end = parseInt(finalend_hours) * 60 + parseInt(finalend_minute);
-                                                                    //const end =  19 * 60 + 57;
-                                                                    const obdate = new Date();
-                                                                    const now = obdate.getHours() * 60 + obdate.getMinutes();
-                                                                    if (start <= now && now <= end) {
-                                                                        var new_start_hour = "";
-                                                                        if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
-                                                                            console.log("hours setting found !");
-                                                                            finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
-                                                                        }
-                                                                        if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
-                                                                            console.log("minutes setting found !");
-                                                                            finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                            if (finalstart_minute > 59) {
-                                                                                finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                                item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
-                                                                            }
-                                                                            else {
-                                                                                item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                                            }
-                                                                        }
-                                                                        list_arr_inbound.push(item);
-                                                                    }
-                                                                    else {
-                                                                        /* var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth()+parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                        item.schedule_setting.next_date_inbound = next_date_inbound; */
-                                                                    }
-                                                                }
-                                                                else {
-                                                                    console.log("end hours found>>" + end_hours);
-                                                                    const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                                    //const end =  19 * 60 + 57;
-                                                                    const obdate = new Date();
-                                                                    const now = obdate.getHours() * 60 + obdate.getMinutes();
-
-
-                                                                    if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
-                                                                        finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                        if (finalstart_hours > 23) {
-                                                                            // var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.day_frequency_inbound_count));
-                                                                            // item.schedule_setting.next_date_inbound = next_date_inbound_days;
-                                                                        }
-                                                                        else {
-
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
-                                                                        }
-                                                                    }
-                                                                    if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
-                                                                        finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                        if (finalstart_minute > 59) {
-                                                                            finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
-                                                                        }
-                                                                        else {
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                                        }
-                                                                    }
-                                                                    if (finalstart_hours > 23) {
-                                                                        console.log("final hours grater than 23 >>" + finalstart_hours);
-                                                                        // var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth()+parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                        // item.schedule_setting.next_date_inbound = next_date_inbound;
-                                                                    }
-                                                                    else {
-                                                                        console.log("final start hours < 23 >>" + finalstart_hours);
-                                                                        if (start <= now) {
-                                                                            console.log("array added in queue");
-                                                                            list_arr_inbound.push(item);
-                                                                        }
-                                                                    }
-
-                                                                }
-
-                                                            }
-
-                                                            /* if(currenttime==item.schedule_setting.recurs_time_inbound)
-                                                            {
-                        
-                                                                list_arr_inbound.push(item);
-                                                            } */
-                                                        }
-                                                    }
-                                                    if (weekday.day == "Wednesday") {
-
-                                                        if (weekdaycounter == 0) {
-                                                            var mycalen = new my_calender();
-                                                            var weekdate = new Date();
-                                                            if (weekdate.getDay() > 3) {
-                                                                weekdate.setDate(weekdate.getDate() - (weekdate.getDay() - 3))
-                                                            }
-                                                            else if (weekdate.getDay() <= 3) {
-                                                                weekdate.setDate(weekdate.getDate() + (3 - weekdate.getDay()))
-                                                            }
-                                                            var date = mycalen.addWeeks(item.schedule_setting.weekly_frequency_inbound_count);
-                                                            item.schedule_setting.next_date_inbound = date;
-                                                            weekdaycounter++;
-                                                        }
-                                                        if (date_ob.getDay() == 3) {
-                                                            if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs Once At') {
-                                                                console.log("occurs Once found in Weekly Setting");
-
-                                                                //var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth()+parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                if (currenttime == item.schedule_setting.daily_frequency_once_time_inbound) {
-                                                                    //item.schedule_setting.next_date_inbound = next_date_inbound;
-                                                                    list_arr_inbound.push(item);
-                                                                }
-                                                                else {
-
-                                                                    console.log("occurnce once found time is >>" + item.schedule_setting.daily_frequency_once_time_inbound);
-                                                                }
-
-                                                            }
-                                                            if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs every') {
-                                                                console.log("occurs every found in monthly setting inbound");
-                                                                var start_hours = item.schedule_setting.daily_frequency_every_time_count_start_inbound;
-                                                                var finalstart_hours = start_hours.substring(0, 2);
-                                                                var finalstart_minute = start_hours.substring(3);
-                                                                var end_hours = item.schedule_setting.daily_frequency_every_time_count_end_inbound;
-                                                                if (end_hours != "" && end_hours != undefined) {
-                                                                    console.log("end hours found >>" + end_hours);
-                                                                    //daily_frequency_every_time_count_start_inbound
-                                                                    var finalend_hours = end_hours.substring(0, 2);
-                                                                    var finalend_minute = end_hours.substring(3);
-                                                                    const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                                    const end = parseInt(finalend_hours) * 60 + parseInt(finalend_minute);
-                                                                    //const end =  19 * 60 + 57;
-                                                                    const obdate = new Date();
-                                                                    const now = obdate.getHours() * 60 + obdate.getMinutes();
-                                                                    if (start <= now && now <= end) {
-                                                                        var new_start_hour = "";
-                                                                        if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
-                                                                            console.log("hours setting found !");
-                                                                            finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
-                                                                        }
-                                                                        if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
-                                                                            console.log("minutes setting found !");
-                                                                            finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                            if (finalstart_minute > 59) {
-                                                                                finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                                item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
-                                                                            }
-                                                                            else {
-                                                                                item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                                            }
-                                                                        }
-                                                                        list_arr_inbound.push(item);
-                                                                    }
-                                                                    else {
-                                                                        /* var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth()+parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                        item.schedule_setting.next_date_inbound = next_date_inbound; */
-                                                                    }
-                                                                }
-                                                                else {
-                                                                    console.log("end hours found>>" + end_hours);
-                                                                    const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                                    //const end =  19 * 60 + 57;
-                                                                    const obdate = new Date();
-                                                                    const now = obdate.getHours() * 60 + obdate.getMinutes();
-
-
-                                                                    if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
-                                                                        finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                        if (finalstart_hours > 23) {
-                                                                            // var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.day_frequency_inbound_count));
-                                                                            // item.schedule_setting.next_date_inbound = next_date_inbound_days;
-                                                                        }
-                                                                        else {
-
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
-                                                                        }
-                                                                    }
-                                                                    if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
-                                                                        finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                        if (finalstart_minute > 59) {
-                                                                            finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
-                                                                        }
-                                                                        else {
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                                        }
-                                                                    }
-                                                                    if (finalstart_hours > 23) {
-                                                                        console.log("final hours grater than 23 >>" + finalstart_hours);
-                                                                        // var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth()+parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                        // item.schedule_setting.next_date_inbound = next_date_inbound;
-                                                                    }
-                                                                    else {
-                                                                        console.log("final start hours < 23 >>" + finalstart_hours);
-                                                                        if (start <= now) {
-                                                                            console.log("array added in queue");
-                                                                            list_arr_inbound.push(item);
-                                                                        }
-                                                                    }
-
-                                                                }
-
-                                                            }
-
-                                                            /* if(currenttime==item.schedule_setting.recurs_time_inbound)
-                                                            {
-                        
-                                                                list_arr_inbound.push(item);
-                                                            } */
-                                                        }
-                                                    }
-                                                    if (weekday.day == "Thursday") {
-
-                                                        if (weekdaycounter == 0) {
-                                                            var mycalen = new my_calender();
-                                                            var weekdate = new Date();
-                                                            if (weekdate.getDay() > 4) {
-                                                                weekdate.setDate(weekdate.getDate() - (weekdate.getDay() - 4))
-                                                            }
-                                                            else if (weekdate.getDay() <= 4) {
-                                                                weekdate.setDate(weekdate.getDate() + (4 - weekdate.getDay()))
-                                                            }
-                                                            var date = mycalen.addWeeks(item.schedule_setting.weekly_frequency_inbound_count, weekdate);
-                                                            item.schedule_setting.next_date_inbound = date;
-                                                            weekdaycounter++;
-                                                        }
-                                                        if (date_ob.getDay() == 4) {
-                                                            if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs Once At') {
-                                                                console.log("occurs Once found in Weekly Setting");
-
-                                                                //var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth()+parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                if (currenttime == item.schedule_setting.daily_frequency_once_time_inbound) {
-                                                                    //item.schedule_setting.next_date_inbound = next_date_inbound;
-                                                                    list_arr_inbound.push(item);
-                                                                }
-                                                                else {
-
-                                                                    console.log("occurnce once found time is >>" + item.schedule_setting.daily_frequency_once_time_inbound);
-                                                                }
-
-                                                            }
-                                                            if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs every') {
-                                                                console.log("occurs every found in monthly setting inbound");
-                                                                var start_hours = item.schedule_setting.daily_frequency_every_time_count_start_inbound;
-                                                                var finalstart_hours = start_hours.substring(0, 2);
-                                                                var finalstart_minute = start_hours.substring(3);
-                                                                var end_hours = item.schedule_setting.daily_frequency_every_time_count_end_inbound;
-                                                                if (end_hours != "" && end_hours != undefined) {
-                                                                    console.log("end hours found >>" + end_hours);
-                                                                    //daily_frequency_every_time_count_start_inbound
-                                                                    var finalend_hours = end_hours.substring(0, 2);
-                                                                    var finalend_minute = end_hours.substring(3);
-                                                                    const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                                    const end = parseInt(finalend_hours) * 60 + parseInt(finalend_minute);
-                                                                    //const end =  19 * 60 + 57;
-                                                                    const obdate = new Date();
-                                                                    const now = obdate.getHours() * 60 + obdate.getMinutes();
-                                                                    if (start <= now && now <= end) {
-                                                                        var new_start_hour = "";
-                                                                        if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
-                                                                            console.log("hours setting found !");
-                                                                            finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
-                                                                        }
-                                                                        if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
-                                                                            console.log("minutes setting found !");
-                                                                            finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                            if (finalstart_minute > 59) {
-                                                                                finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                                item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
-                                                                            }
-                                                                            else {
-                                                                                item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                                            }
-                                                                        }
-                                                                        list_arr_inbound.push(item);
-                                                                    }
-                                                                    else {
-                                                                        /* var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth()+parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                        item.schedule_setting.next_date_inbound = next_date_inbound; */
-                                                                    }
-                                                                }
-                                                                else {
-                                                                    console.log("end hours found>>" + end_hours);
-                                                                    const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                                    //const end =  19 * 60 + 57;
-                                                                    const obdate = new Date();
-                                                                    const now = obdate.getHours() * 60 + obdate.getMinutes();
-
-
-                                                                    if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
-                                                                        finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                        if (finalstart_hours > 23) {
-                                                                            // var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.day_frequency_inbound_count));
-                                                                            // item.schedule_setting.next_date_inbound = next_date_inbound_days;
-                                                                        }
-                                                                        else {
-
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
-                                                                        }
-                                                                    }
-                                                                    if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
-                                                                        finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                        if (finalstart_minute > 59) {
-                                                                            finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
-                                                                        }
-                                                                        else {
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                                        }
-                                                                    }
-                                                                    if (finalstart_hours > 23) {
-                                                                        console.log("final hours grater than 23 >>" + finalstart_hours);
-                                                                        // var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth()+parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                        // item.schedule_setting.next_date_inbound = next_date_inbound;
-                                                                    }
-                                                                    else {
-                                                                        console.log("final start hours < 23 >>" + finalstart_hours);
-                                                                        if (start <= now) {
-                                                                            console.log("array added in queue");
-                                                                            list_arr_inbound.push(item);
-                                                                        }
-                                                                    }
-
-                                                                }
-
-                                                            }
-
-                                                            /* if(currenttime==item.schedule_setting.recurs_time_inbound)
-                                                            {
-                        
-                                                                list_arr_inbound.push(item);
-                                                            } */
-                                                        }
-                                                    }
-                                                    if (weekday.day == "Friday") {
-                                                        if (weekdaycounter == 0) {
-                                                            var weekdate = new Date();
-                                                            if (weekdate.getDay() > 5) {
-                                                                weekdate.setDate(weekdate.getDate() - (weekdate.getDay() - 5))
-                                                            }
-                                                            else if (weekdate.getDay() <= 5) {
-                                                                weekdate.setDate(weekdate.getDate() + (5 - weekdate.getDay()))
-                                                            }
-                                                            var mycalen = new my_calender();
-                                                            var date = mycalen.addWeeks(item.schedule_setting.weekly_frequency_inbound_count, weekdate);
-                                                            item.schedule_setting.next_date_inbound = date;
-                                                            weekdaycounter++;
-                                                        }
-                                                        if (date_ob.getDay() == 5) {
-                                                            if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs Once At') {
-                                                                console.log("occurs Once found in Weekly Setting");
-
-                                                                //var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth()+parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                if (currenttime == item.schedule_setting.daily_frequency_once_time_inbound) {
-                                                                    //item.schedule_setting.next_date_inbound = next_date_inbound;
-                                                                    list_arr_inbound.push(item);
-                                                                }
-                                                                else {
-
-                                                                    console.log("occurnce once found time is >>" + item.schedule_setting.daily_frequency_once_time_inbound);
-                                                                }
-
-                                                            }
-                                                            if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs every') {
-                                                                console.log("occurs every found in monthly setting inbound");
-                                                                var start_hours = item.schedule_setting.daily_frequency_every_time_count_start_inbound;
-                                                                var finalstart_hours = start_hours.substring(0, 2);
-                                                                var finalstart_minute = start_hours.substring(3);
-                                                                var end_hours = item.schedule_setting.daily_frequency_every_time_count_end_inbound;
-                                                                if (end_hours != "" && end_hours != undefined) {
-                                                                    console.log("end hours found >>" + end_hours);
-                                                                    //daily_frequency_every_time_count_start_inbound
-                                                                    var finalend_hours = end_hours.substring(0, 2);
-                                                                    var finalend_minute = end_hours.substring(3);
-                                                                    const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                                    const end = parseInt(finalend_hours) * 60 + parseInt(finalend_minute);
-                                                                    //const end =  19 * 60 + 57;
-                                                                    const obdate = new Date();
-                                                                    const now = obdate.getHours() * 60 + obdate.getMinutes();
-                                                                    if (start <= now && now <= end) {
-                                                                        var new_start_hour = "";
-                                                                        if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
-                                                                            console.log("hours setting found !");
-                                                                            finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
-                                                                        }
-                                                                        if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
-                                                                            console.log("minutes setting found !");
-                                                                            finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                            if (finalstart_minute > 59) {
-                                                                                finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                                item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
-                                                                            }
-                                                                            else {
-                                                                                item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                                            }
-                                                                        }
-                                                                        list_arr_inbound.push(item);
-                                                                    }
-                                                                    else {
-                                                                        /* var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth()+parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                        item.schedule_setting.next_date_inbound = next_date_inbound; */
-                                                                    }
-                                                                }
-                                                                else {
-                                                                    console.log("end hours found>>" + end_hours);
-                                                                    const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                                    //const end =  19 * 60 + 57;
-                                                                    const obdate = new Date();
-                                                                    const now = obdate.getHours() * 60 + obdate.getMinutes();
-
-
-                                                                    if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
-                                                                        finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                        if (finalstart_hours > 23) {
-                                                                            // var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.day_frequency_inbound_count));
-                                                                            // item.schedule_setting.next_date_inbound = next_date_inbound_days;
-                                                                        }
-                                                                        else {
-
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
-                                                                        }
-                                                                    }
-                                                                    if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
-                                                                        finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                        if (finalstart_minute > 59) {
-                                                                            finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
-                                                                        }
-                                                                        else {
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                                        }
-                                                                    }
-                                                                    if (finalstart_hours > 23) {
-                                                                        console.log("final hours grater than 23 >>" + finalstart_hours);
-                                                                        // var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth()+parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                        // item.schedule_setting.next_date_inbound = next_date_inbound;
-                                                                    }
-                                                                    else {
-                                                                        console.log("final start hours < 23 >>" + finalstart_hours);
-                                                                        if (start <= now) {
-                                                                            console.log("array added in queue");
-                                                                            list_arr_inbound.push(item);
-                                                                        }
-                                                                    }
-
-                                                                }
-
-                                                            }
-
-                                                            /* if(currenttime==item.schedule_setting.recurs_time_inbound)
-                                                            {
-                        
-                                                                list_arr_inbound.push(item);
-                                                            } */
-                                                        }
-                                                    }
-                                                    if (weekday.day == "Saturday") {
-                                                        if (weekdaycounter == 0) {
-                                                            var mycalen = new my_calender();
-                                                            var weekdate = new Date();
-                                                            if (weekdate.getDay() > 6) {
-                                                                weekdate.setDate(weekdate.getDate() - (weekdate.getDay() - 6))
-                                                            }
-                                                            else if (weekdate.getDay() <= 6) {
-                                                                weekdate.setDate(weekdate.getDate() + (6 - weekdate.getDay()))
-                                                            }
-                                                            var date = mycalen.addWeeks(item.schedule_setting.weekly_frequency_inbound_count, weekdate);
-                                                            item.schedule_setting.next_date_inbound = date;
-                                                            weekdaycounter++;
-                                                        }
-                                                        if (date_ob.getDay() == 6) {
-                                                            if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs Once At') {
-                                                                console.log("occurs Once found in Weekly Setting");
-
-                                                                //var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth()+parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                if (currenttime == item.schedule_setting.daily_frequency_once_time_inbound) {
-                                                                    //item.schedule_setting.next_date_inbound = next_date_inbound;
-                                                                    list_arr_inbound.push(item);
-                                                                }
-                                                                else {
-
-                                                                    console.log("occurnce once found time is >>" + item.schedule_setting.daily_frequency_once_time_inbound);
-                                                                }
-
-                                                            }
-                                                            if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs every') {
-                                                                console.log("occurs every found in monthly setting inbound");
-                                                                var start_hours = item.schedule_setting.daily_frequency_every_time_count_start_inbound;
-                                                                var finalstart_hours = start_hours.substring(0, 2);
-                                                                var finalstart_minute = start_hours.substring(3);
-                                                                var end_hours = item.schedule_setting.daily_frequency_every_time_count_end_inbound;
-                                                                if (end_hours != "" && end_hours != undefined) {
-                                                                    console.log("end hours found >>" + end_hours);
-                                                                    //daily_frequency_every_time_count_start_inbound
-                                                                    var finalend_hours = end_hours.substring(0, 2);
-                                                                    var finalend_minute = end_hours.substring(3);
-                                                                    const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                                    const end = parseInt(finalend_hours) * 60 + parseInt(finalend_minute);
-                                                                    //const end =  19 * 60 + 57;
-                                                                    const obdate = new Date();
-                                                                    const now = obdate.getHours() * 60 + obdate.getMinutes();
-                                                                    if (start <= now && now <= end) {
-                                                                        var new_start_hour = "";
-                                                                        if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
-                                                                            console.log("hours setting found !");
-                                                                            finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
-                                                                        }
-                                                                        if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
-                                                                            console.log("minutes setting found !");
-                                                                            finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                            if (finalstart_minute > 59) {
-                                                                                finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                                item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
-                                                                            }
-                                                                            else {
-                                                                                item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                                            }
-                                                                        }
-                                                                        list_arr_inbound.push(item);
-                                                                    }
-                                                                    else {
-                                                                        /* var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth()+parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                        item.schedule_setting.next_date_inbound = next_date_inbound; */
-                                                                    }
-                                                                }
-                                                                else {
-                                                                    console.log("end hours found>>" + end_hours);
-                                                                    const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                                    //const end =  19 * 60 + 57;
-                                                                    const obdate = new Date();
-                                                                    const now = obdate.getHours() * 60 + obdate.getMinutes();
-
-
-                                                                    if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
-                                                                        finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                        if (finalstart_hours > 23) {
-                                                                            // var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.day_frequency_inbound_count));
-                                                                            // item.schedule_setting.next_date_inbound = next_date_inbound_days;
-                                                                        }
-                                                                        else {
-
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
-                                                                        }
-                                                                    }
-                                                                    if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
-                                                                        finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                        if (finalstart_minute > 59) {
-                                                                            finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
-                                                                        }
-                                                                        else {
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                                        }
-                                                                    }
-                                                                    if (finalstart_hours > 23) {
-                                                                        console.log("final hours grater than 23 >>" + finalstart_hours);
-                                                                        // var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth()+parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                        // item.schedule_setting.next_date_inbound = next_date_inbound;
-                                                                    }
-                                                                    else {
-                                                                        console.log("final start hours < 23 >>" + finalstart_hours);
-                                                                        if (start <= now) {
-                                                                            console.log("array added in queue");
-                                                                            list_arr_inbound.push(item);
-                                                                        }
-                                                                    }
-
-                                                                }
-
-                                                            }
-                                                            /* if(currenttime==item.schedule_setting.recurs_time_inbound)
-                                                            {
-                        
-                                                                list_arr_inbound.push(item);
-                                                            } */
-                                                        }
-                                                    }
-                                                    if (weekday.day == "Sunday") {
-                                                        if (weekdaycounter == 0) {
-                                                            var mycalen = new my_calender();
-                                                            var weekdate = new Date();
-                                                            if (weekdate.getDay() > 0) {
-                                                                weekdate.setDate(weekdate.getDate() - (weekdate.getDay() - 0))
-                                                            }
-                                                            else if (weekdate.getDay() <= 0) {
-                                                                weekdate.setDate(weekdate.getDate() + (0 - weekdate.getDay()))
-                                                            }
-                                                            var date = mycalen.addWeeks(item.schedule_setting.weekly_frequency_inbound_count, weekdate);
-                                                            item.schedule_setting.next_date_inbound = date;
-                                                            weekdaycounter++;
-                                                        }
-                                                        if (date_ob.getDay() == 0) {
-                                                            if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs Once At') {
-                                                                console.log("occurs Once found in Weekly Setting");
-
-                                                                //var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth()+parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                if (currenttime == item.schedule_setting.daily_frequency_once_time_inbound) {
-                                                                    //item.schedule_setting.next_date_inbound = next_date_inbound;
-                                                                    list_arr_inbound.push(item);
-                                                                }
-                                                                else {
-
-                                                                    console.log("occurnce once found time is >>" + item.schedule_setting.daily_frequency_once_time_inbound);
-                                                                }
-
-                                                            }
-                                                            if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs every') {
-                                                                console.log("occurs every found in monthly setting inbound");
-                                                                var start_hours = item.schedule_setting.daily_frequency_every_time_count_start_inbound;
-                                                                var finalstart_hours = start_hours.substring(0, 2);
-                                                                var finalstart_minute = start_hours.substring(3);
-                                                                var end_hours = item.schedule_setting.daily_frequency_every_time_count_end_inbound;
-                                                                if (end_hours != "" && end_hours != undefined) {
-                                                                    console.log("end hours found >>" + end_hours);
-                                                                    //daily_frequency_every_time_count_start_inbound
-                                                                    var finalend_hours = end_hours.substring(0, 2);
-                                                                    var finalend_minute = end_hours.substring(3);
-                                                                    const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                                    const end = parseInt(finalend_hours) * 60 + parseInt(finalend_minute);
-                                                                    //const end =  19 * 60 + 57;
-                                                                    const obdate = new Date();
-                                                                    const now = obdate.getHours() * 60 + obdate.getMinutes();
-                                                                    if (start <= now && now <= end) {
-                                                                        var new_start_hour = "";
-                                                                        if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
-                                                                            console.log("hours setting found !");
-                                                                            finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
-                                                                        }
-                                                                        if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
-                                                                            console.log("minutes setting found !");
-                                                                            finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                            if (finalstart_minute > 59) {
-                                                                                finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                                item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
-                                                                            }
-                                                                            else {
-                                                                                item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                                            }
-                                                                        }
-                                                                        list_arr_inbound.push(item);
-                                                                    }
-                                                                    else {
-                                                                        /* var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth()+parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                        item.schedule_setting.next_date_inbound = next_date_inbound; */
-                                                                    }
-                                                                }
-                                                                else {
-                                                                    console.log("end hours found>>" + end_hours);
-                                                                    const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
-                                                                    //const end =  19 * 60 + 57;
-                                                                    const obdate = new Date();
-                                                                    const now = obdate.getHours() * 60 + obdate.getMinutes();
-
-
-                                                                    if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
-                                                                        finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                        if (finalstart_hours > 23) {
-                                                                            // var next_date_inbound_days = mycalen.addDays(parseInt(item.schedule_setting.day_frequency_inbound_count));
-                                                                            // item.schedule_setting.next_date_inbound = next_date_inbound_days;
-                                                                        }
-                                                                        else {
-
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
-                                                                        }
-                                                                    }
-                                                                    if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
-                                                                        finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                        if (finalstart_minute > 59) {
-                                                                            finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
-                                                                        }
-                                                                        else {
-                                                                            item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
-                                                                        }
-                                                                    }
-                                                                    if (finalstart_hours > 23) {
-                                                                        console.log("final hours grater than 23 >>" + finalstart_hours);
-                                                                        // var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth()+parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
-                                                                        // item.schedule_setting.next_date_inbound = next_date_inbound;
-                                                                    }
-                                                                    else {
-                                                                        console.log("final start hours < 23 >>" + finalstart_hours);
-                                                                        if (start <= now) {
-                                                                            console.log("array added in queue");
-                                                                            list_arr_inbound.push(item);
-                                                                        }
-                                                                    }
-
-                                                                }
-
-                                                            }
-
-                                                            /* if(currenttime==item.schedule_setting.recurs_time_inbound)
-                                                            {
-                        
-                                                                list_arr_inbound.push(item);
-                                                            } */
-                                                        }
-                                                    }
-                                                    weekdaycounter++;
-                                                })
-
-                                                //list_arr_inbound.push(item);
-                                            }
-
-                                        }
-                                        else {
-                                            console.log("current date and next not match in inbound setting");
-                                            console.log("next date =>" + nextdategen);
-                                            console.log("current date=>" + todaysdate);
-                                        }
+                                    else
+                                    {
+                                        console.log("current date and next date not match");
+                                        console.log("current date"+currentdate);
+                                        console.log("next date"+createnextdate);
                                     }
                                 }
                                 else {
@@ -5502,7 +4240,7 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                         if (item.schedule_setting.duration_inbound_is_end_date == "yes_end_date") {
                             console.log("end date set");
                             if (Date.parse(item.schedule_setting.duration_inbound_end_date) > Date.parse(gettodaydate)) {
-                                console.log("duration end date grater than today enddate = " + item.schedule_setting.duration_outbound_end_date);
+                                console.log("duration end date grater than today enddate = " + item.schedule_setting.duration_inbound_end_date);
                                 start_flag_inbound = "true";
                             }
                             else {
@@ -5559,6 +4297,7 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                     if (result.Status != undefined && result.Status == 1) {
                                         var newschedulesetting = item.schedule_setting;
                                         //var date = new Date();
+                                        console.log(result);
                                         //newschedulesetting.next_date_inbound = date;
                                         //console.log(newschedulesetting);
                                         var options = {

@@ -1069,11 +1069,12 @@ $(function () {
           var duration_inbound_end_date = $('#duration_inbound_end_date').val();
           var duration_inbound_start_date = $('#duration_inbound_start_date').val();
           var duration_inbound_is_end_date = $('input[name="duration_inbound_is_end_date"]:checked').val();
-
+          
           var duration_outbound_end_date = $('#duration_outbound_end_date').val();
           var duration_outbound_start_date = $('#duration_outbound_start_date').val();
           var duration_outbound_is_end_date = $('input[name="duration_outbound_is_end_date"]:checked').val();
           var occurs_inbound =$('#occurs_time_inbound').val();
+
           if(occurs_inbound=="daily")
           {
 
@@ -1124,7 +1125,7 @@ $(function () {
           //var recurs_time_outbound =$('#recurs_time_outbound').val();
           if(occurs_outbound=="daily")
           {
-
+            
           }
           else if(occurs_outbound=="monthly")
           {
@@ -1156,6 +1157,18 @@ $(function () {
               occurs_weekly_fields_outbound.push(tmp_week_obj);
             });
           }
+          var next_date_inbound_start = new Date($("#duration_inbound_start_date").val());
+          var next_date_inbound_string = next_date_inbound_start.toUTCString();
+          var next_date_inbound = new Date(next_date_inbound_string);
+          var next_date_outbound_start = new Date($("#duration_outbound_start_date").val());
+          var next_date_outbound_string = next_date_outbound_start.toUTCString();
+          var next_date_outbound = new Date(next_date_outbound_string);
+          next_date_inbound.setUTCHours(0,0,0,0);
+          
+          next_date_outbound.setUTCHours(0,0,0,0);
+         
+          console.log("next inbound >> "+next_date_inbound);
+          console.log("next outbound >> "+next_date_outbound);
           if(schedule_setting_id=="")
           {
             $.ajax({
@@ -1208,13 +1221,15 @@ $(function () {
                 duration_inbound_end_date:duration_inbound_end_date,
                 duration_outbound_start_date:duration_outbound_start_date,
                 duration_outbound_is_end_date:duration_outbound_is_end_date,
-                duration_outbound_end_date:duration_outbound_end_date
+                duration_outbound_end_date:duration_outbound_end_date,
+                next_date_inbound:next_date_inbound,
+                next_date_outbound:next_date_outbound
               },
               success:function(response){
                 console.log(response);
                 sweetAlert("success", "Setting Saved Successfully", "success");
                 $("#schedule_setting_id").val(response.id);
-                window.location.href = "/projects/project-list";
+                //window.location.href = "/projects/project-list";
               },
               error:function(textStatus,errorThrown)
               {

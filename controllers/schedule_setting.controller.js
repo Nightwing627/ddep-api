@@ -146,6 +146,9 @@ exports.create = (req, res) => {
         duration_outbound_start_date:data.duration_outbound_start_date||"",
         duration_outbound_is_end_date:data.duration_outbound_is_end_date||"",
         duration_outbound_end_date:data.duration_outbound_end_date||"",
+        next_date_inbound:data.next_date_inbound||"",
+        next_date_outbound:data.next_date_outbound||"",
+        
         //next_date_outbound:data.next_date_outbound,
         
     });
