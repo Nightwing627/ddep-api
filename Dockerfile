@@ -16,7 +16,7 @@ RUN npm install
 # 配置环境变量
 ENV HOST 0.0.0.0
 ENV PORT 8014
-ENV DBCONFIG_SERVER_1 mongodb://localhost:27017/ddep
+ENV DBCONFIG_SERVER_1 mongodb://192.168.254.233:27017/ddep
 
 # 暴露8004端口
 EXPOSE 8014
