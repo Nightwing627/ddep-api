@@ -299,42 +299,80 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                     }
                                                     if (item.schedule_setting.daily_frequency_type_inbound == 'Occurs every') {
                                                         console.log("occurs every found in monthly setting inbound");
+                                                        //var start_hours = item.schedule_setting.daily_frequency_every_time_count_start_inbound;
+                                                        //var finalstart_hours = start_hours.substring(0, 2);
+                                                        //var finalstart_minute = start_hours.substring(3);
+                                                        //var end_hours = item.schedule_setting.daily_frequency_every_time_count_end_inbound;
+
+                                                        // final hours new settings
                                                         var start_hours = item.schedule_setting.daily_frequency_every_time_count_start_inbound;
+                                                        var m_start_hours = mycalen.toDate(start_hours,'h:m');
                                                         var finalstart_hours = start_hours.substring(0, 2);
                                                         var finalstart_minute = start_hours.substring(3);
                                                         var end_hours = item.schedule_setting.daily_frequency_every_time_count_end_inbound;
+                                                        var m_end_hours = mycalen.toDate(end_hours,'h:m');
+                                                        var next_inbound_time = '';
+                                                            if(nextdates.getUTCHours()=="00" && nextdates.getUTCMinutes()=="00")
+                                                            {
+                                                                next_inbound_time=start_hours;
+                                                            }
+                                                            else
+                                                            {
+                                                                var newtimestring = (nextdates.getUTCHours() < 10 ? '0' : '') + nextdates.getUTCHours() + ":" + (nextdates.getUTCMinutes() < 10 ? '0' : '') + nextdates.getUTCMinutes();
+                                                                next_inbound_time = newtimestring
+                                                            }
                                                         if (end_hours != "" && end_hours != undefined) {
                                                             console.log("end hours found >>" + end_hours);
+
                                                             //daily_frequency_every_time_count_start_inbound
                                                             var finalend_hours = end_hours.substring(0, 2);
                                                             var finalend_minute = end_hours.substring(3);
                                                             const start = parseInt(finalstart_hours) * 60 + parseInt(finalstart_minute);
                                                             const end = parseInt(finalend_hours) * 60 + parseInt(finalend_minute);
                                                             //const end =  19 * 60 + 57;
+                                                            //const obdate = new Date();
+                                                            // final hors setting in monthly new
                                                             const obdate = new Date();
+                                                            var next_inbound_time_hours =parseInt(next_inbound_time.substring(0, 2));
+                                                            var next_inbound_time_minutes = parseInt(next_inbound_time.substring(3));
+                                                            var obdate_hours = parseInt(obdate.getHours());
+                                                            var obdate_minutes = parseInt(obdate.getMinutes());
+                                                            var end_date_houres = parseInt(end_hours.substring(0, 2));
+                                                            var end_date_minutes = parseInt(end_hours.substring(3));
+                                                            var inbound_next_date_hourssettelment = (next_inbound_time_hours*60)+next_inbound_time_minutes;
+                                                            var inbound_next_date_enddate_houressettlement = (end_date_houres*60)+end_date_minutes;
+                                                            var current_hoursseettlement = (obdate_hours*60)+obdate_minutes;
                                                             const now = obdate.getHours() * 60 + obdate.getMinutes();
-                                                            if (start <= now && now <= end) {
+                                                            if (inbound_next_date_hourssettelment <= current_hoursseettlement  && current_hoursseettlement <= inbound_next_date_enddate_houressettlement) {
                                                                 var new_start_hour = "";
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "hour") {
                                                                     console.log("hours setting found !");
                                                                     finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
-                                                                    item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                    //item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                 }
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
                                                                     console.log("minutes setting found !");
                                                                     finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
                                                                     if (finalstart_minute > 59) {
                                                                         finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                        item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                        //item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                     }
                                                                     else {
-                                                                        item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                        //item.schedule_setting.daily_frequency_every_time_count_inbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                        
                                                                     }
                                                                 }
+                                                                var next_inbound_dates = new Date(item.schedule_setting.next_date_inbound);
+                                                                next_inbound_dates.setUTCHours(finalstart_hours);
+                                                                next_inbound_dates.setUTCMinutes(finalstart_minute);
+                                                                next_inbound_dates.setUTCSeconds(0);
+                                                                item.schedule_setting.next_date_inbound = next_inbound_dates;
                                                                 list_arr_inbound.push(item);
                                                             }
                                                             else {
-                                                                var next_date_inbound = new Date(date_ob.setMonth(date_ob.getMonth() + parseInt(item.schedule_setting.monthly_frequency_day_inbound_count)));
+                                                                var next_date_inbound = new Date();
+                                                                next_date_inbound.setUTCDate(date_ob.getDate() + parseInt(item.schedule_setting.monthly_frequency_day_inbound_count));
+                                                                next_date_inbou
                                                                 item.schedule_setting.next_date_inbound = next_date_inbound;
                                                             }
                                                         }
@@ -1574,14 +1612,14 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                     if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                         console.log("hours setting found !");
                                                         finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                        //item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                     }
                                                     if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                         console.log("minutes setting found !");
                                                         finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                         if (finalstart_minute > 59) {
                                                             finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                            //item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                         }
                                                         else {
                                                             item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
@@ -1696,17 +1734,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                         if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                             console.log("hours setting found !");
                                                             finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                            //item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                         }
                                                         if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                             console.log("minutes setting found !");
                                                             finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                             if (finalstart_minute > 59) {
                                                                 finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                //item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                             }
                                                             else {
-                                                                item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                //item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                             }
                                                         }
                                                         list_arr_outbound.push(item);
