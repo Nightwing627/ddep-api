@@ -836,6 +836,77 @@ router.post('/outboundrun',function(req,res){
         }
       ],
     }]
+    const template2 = ['//WebOrder',{
+  
+        OrderHandeling:[
+          '//POHeader/OrderHandling/Variable',
+          {
+            ID:'ID',
+            Data:'Data'
+          }
+        ],
+        CustRef:[
+          '//WebOrder/POHeader/CustRef/Variable',
+          {
+            ID:'ID',
+            Data:'Data'
+          }
+        ],
+        SupplierDetail:['//WebOrder/POHeader/SupplierDetail/Variable',
+          {
+            Brand:textOrDefault('boden'),
+            ID:'ID',
+            Data:'Data'
+          }
+        ],
+        ItemRefs:[
+          '//POHeader/ItemRefs/Variable',
+          {
+            ID:'ID',
+            Data:'Data'
+            
+          }
+        ],
+        
+        EDIHeader:{
+          
+            EDIVariables:['//WebOrder/EDIHeader/EDIVariables/Variable',{
+              ID:"ID",
+              Data:"Data"
+            }],
+          EDICareandContent:{
+            Fibres:['//WebOrder/EDIHeader/EDICareandContent/Fibres/Variable',{
+              ID:"ID",
+              Data:"Data"
+            }],
+            FrabricStatments:['//WebOrder/EDIHeader/EDICareandContent/FrabricStatments/Variable',{
+              ID:'ID',
+              Data:'Data'
+            }],
+            CareSymbolMappingID:['//WebOrder/EDIHeader/EDICareandContent/CareSymbolMappingID/Variable',{
+              ID:'ID',
+              Data:'Data'
+            }]
+          }
+
+
+          },
+       
+        
+          EDISizeDetail:{
+            EDISize:{
+              Variable:['//WebOrder/EDISizeDetail/EDISize/Variable',{
+                ID:'ID',
+                Data:'Data'
+              }],
+              MatrixDetail:['//WebOrder/EDISizeDetail/EDISize/MatrixDetail/Variable',{
+                ID:'ID',
+                Data:'Data'
+              }]
+            }
+          }
+      
+      }]
   var options = {
     method:"GET",
     url:"outbound_setting/editAPI/"+project_id
@@ -901,7 +972,7 @@ router.post('/outboundrun',function(req,res){
           ;(async function () {
             try{
 
-              const result = await transform(xml, template);
+              const result = await transform(xml, template2);
               if(result.length!==0)
               {
                 console.log(api_url);
@@ -1136,7 +1207,7 @@ router.post('/testFtp',function(req,res){
       client.close()
     })();
 })
-router.post('/convertxmltojson',function(req,res){
+/* router.post('/convertxmltojson',function(req,res){
   let xml_string = req.body.xml_content;
   xml_string = xml_string.replace(/<!--(?!\s*(?:\[if [^\]]+]|<!|>))(?:(?!-->)(.|\n))*-->/g,"");
   //let xml_string = fs.readFileSync("./inbounds/myxml_data.xml", "utf8");
@@ -1220,6 +1291,115 @@ router.post('/convertxmltojson',function(req,res){
             
           }
         ],
+      }]
+            
+            
+            // name: 'String(name)',
+            // jerseyNumber: '@jerseyNumber',
+            // yearOfBirth: 'number(yearOfBirth)',
+            // isRetired: 'boolean(isRetired = "true")'
+        
+        
+        ;(async function () {
+            try{
+
+              const result = await transform(xml, template)
+              res.json({status:"1",Msg:"TUU XML File Converted Successfully",Data:result});
+            }catch(err)
+            {
+              console.log(err);
+            }
+            //console.log(JSON.stringify(result));
+        
+            //const prettyStr = await prettyPrint(xml, { indentSize: 4})
+            //console.log(prettyStr)
+        })()
+}) */
+router.post('/convertxmltojson',function(req,res){
+  let xml_string = req.body.xml_content;
+  xml_string = xml_string.replace(/<!--(?!\s*(?:\[if [^\]]+]|<!|>))(?:(?!-->)(.|\n))*-->/g,"");
+  //let xml_string = fs.readFileSync("./inbounds/myxml_data.xml", "utf8");
+  const textOrDefault = (defaultValue) => `concat(
+    text(),
+    substring(
+        "${defaultValue}",
+        1,
+        number(not(text())) * string-length("${defaultValue}")
+    )
+)`
+   const xml = '`'+xml_string+'`';
+    console.log("xml" + xml);
+    
+      const template = ['//WebOrder',{
+  
+        OrderHandeling:[
+          '//POHeader/OrderHandling/Variable',
+          {
+            ID:'ID',
+            Data:'Data'
+          }
+        ],
+        CustRef:[
+          '//WebOrder/POHeader/CustRef/Variable',
+          {
+            ID:'ID',
+            Data:'Data'
+          }
+        ],
+        SupplierDetail:['//WebOrder/POHeader/SupplierDetail/Variable',
+          {
+            Brand:textOrDefault('boden'),
+            ID:'ID',
+            Data:'Data'
+          }
+        ],
+        ItemRefs:[
+          '//POHeader/ItemRefs/Variable',
+          {
+            ID:'ID',
+            Data:'Data'
+            
+          }
+        ],
+        
+        EDIHeader:{
+          
+            EDIVariables:['//WebOrder/EDIHeader/EDIVariables/Variable',{
+              ID:"ID",
+              Data:"Data"
+            }],
+          EDICareandContent:{
+            Fibres:['//WebOrder/EDIHeader/EDICareandContent/Fibres/Variable',{
+              ID:"ID",
+              Data:"Data"
+            }],
+            FrabricStatments:['//WebOrder/EDIHeader/EDICareandContent/FrabricStatments/Variable',{
+              ID:'ID',
+              Data:'Data'
+            }],
+            CareSymbolMappingID:['//WebOrder/EDIHeader/EDICareandContent/CareSymbolMappingID/Variable',{
+              ID:'ID',
+              Data:'Data'
+            }]
+          }
+
+
+          },
+       
+        
+          EDISizeDetail:{
+            EDISize:{
+              Variable:['//WebOrder/EDISizeDetail/EDISize/Variable',{
+                ID:'ID',
+                Data:'Data'
+              }],
+              MatrixDetail:['//WebOrder/EDISizeDetail/EDISize/MatrixDetail/Variable',{
+                ID:'ID',
+                Data:'Data'
+              }]
+            }
+          }
+      
       }]
             
             

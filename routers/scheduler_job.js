@@ -1612,17 +1612,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                     if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                         console.log("hours setting found !");
                                                         finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                        //item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                        ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                     }
                                                     if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                         console.log("minutes setting found !");
                                                         finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                         if (finalstart_minute > 59) {
                                                             finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                            //item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                            ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                         }
                                                         else {
-                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                         }
                                                     }
 
@@ -1649,17 +1649,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                     }
                                                     else {
 
-                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                     }
                                                 }
                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                     finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                     if (finalstart_minute > 59) {
                                                         finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                     }
                                                     else {
-                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                     }
                                                 }
                                                 if (finalstart_hours > 23) {
@@ -1734,17 +1734,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                         if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                             console.log("hours setting found !");
                                                             finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                            //item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                            ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                         }
                                                         if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                             console.log("minutes setting found !");
                                                             finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                             if (finalstart_minute > 59) {
                                                                 finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                //item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                             }
                                                             else {
-                                                                //item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                             }
                                                         }
                                                         list_arr_outbound.push(item);
@@ -1770,17 +1770,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                         }
                                                         else {
 
-                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                         }
                                                     }
                                                     if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                         finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                         if (finalstart_minute > 59) {
                                                             finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                         }
                                                         else {
-                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                         }
                                                     }
                                                     if (finalstart_hours > 23) {
@@ -1942,17 +1942,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                             if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                                 console.log("hours setting found !");
                                                                 finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                                item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                             }
                                                             if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                 console.log("minutes setting found !");
                                                                 finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                 if (finalstart_minute > 59) {
                                                                     finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                    //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                 }
                                                                 else {
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                    //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                 }
                                                             }
                                                             list_arr_outbound.push(item);
@@ -1979,17 +1979,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                             }
                                                             else {
 
-                                                                item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                             }
                                                         }
                                                         if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                             finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                             if (finalstart_minute > 59) {
                                                                 finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                             }
                                                             else {
-                                                                item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                             }
                                                         }
                                                         if (finalstart_hours > 23) {
@@ -2078,17 +2078,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                                     console.log("hours setting found !");
                                                                     finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                 }
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                     console.log("minutes setting found !");
                                                                     finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                     if (finalstart_minute > 59) {
                                                                         finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                        ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                     }
                                                                     else {
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                        ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                     }
                                                                 }
                                                                 list_arr_outbound.push(item);
@@ -2114,17 +2114,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                 }
                                                                 else {
 
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                 }
                                                             }
                                                             if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                 finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                 if (finalstart_minute > 59) {
                                                                     finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                 }
                                                                 else {
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                 }
                                                             }
                                                             if (finalstart_hours > 23) {
@@ -2201,17 +2201,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                                     console.log("hours setting found !");
                                                                     finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                 }
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                     console.log("minutes setting found !");
                                                                     finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                     if (finalstart_minute > 59) {
                                                                         finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                        ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                     }
                                                                     else {
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                        ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                     }
                                                                 }
                                                                 list_arr_outbound.push(item);
@@ -2237,17 +2237,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                 }
                                                                 else {
 
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                 }
                                                             }
                                                             if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                 finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                 if (finalstart_minute > 59) {
                                                                     finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                 }
                                                                 else {
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                 }
                                                             }
                                                             if (finalstart_hours > 23) {
@@ -2325,17 +2325,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                                     console.log("hours setting found !");
                                                                     finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                 }
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                     console.log("minutes setting found !");
                                                                     finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                     if (finalstart_minute > 59) {
                                                                         finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                        ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                     }
                                                                     else {
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                        ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                     }
                                                                 }
                                                                 list_arr_outbound.push(item);
@@ -2361,17 +2361,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                 }
                                                                 else {
 
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                 }
                                                             }
                                                             if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                 finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                 if (finalstart_minute > 59) {
                                                                     finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                 }
                                                                 else {
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                 }
                                                             }
                                                             if (finalstart_hours > 23) {
@@ -2449,17 +2449,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                                     console.log("hours setting found !");
                                                                     finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                 }
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                     console.log("minutes setting found !");
                                                                     finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                     if (finalstart_minute > 59) {
                                                                         finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                        ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                     }
                                                                     else {
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                        ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                     }
                                                                 }
                                                                 list_arr_outbound.push(item);
@@ -2485,17 +2485,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                 }
                                                                 else {
 
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                   // //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                 }
                                                             }
                                                             if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                 finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                 if (finalstart_minute > 59) {
                                                                     finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                 }
                                                                 else {
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                 }
                                                             }
                                                             if (finalstart_hours > 23) {
@@ -2572,17 +2572,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                                     console.log("hours setting found !");
                                                                     finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                 }
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                     console.log("minutes setting found !");
                                                                     finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                     if (finalstart_minute > 59) {
                                                                         finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                        ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                     }
                                                                     else {
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                        ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                     }
                                                                 }
                                                                 list_arr_outbound.push(item);
@@ -2608,17 +2608,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                 }
                                                                 else {
 
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                 }
                                                             }
                                                             if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                 finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                 if (finalstart_minute > 59) {
                                                                     finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                 }
                                                                 else {
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                 }
                                                             }
                                                             if (finalstart_hours > 23) {
@@ -2695,17 +2695,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                                     console.log("hours setting found !");
                                                                     finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                 }
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                     console.log("minutes setting found !");
                                                                     finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                     if (finalstart_minute > 59) {
                                                                         finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                        ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                     }
                                                                     else {
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                        ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                     }
                                                                 }
                                                                 list_arr_outbound.push(item);
@@ -2731,17 +2731,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                 }
                                                                 else {
 
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                   // //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                 }
                                                             }
                                                             if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                 finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                 if (finalstart_minute > 59) {
                                                                     finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                 }
                                                                 else {
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                   ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                 }
                                                             }
                                                             if (finalstart_hours > 23) {
@@ -2817,17 +2817,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                                     console.log("hours setting found !");
                                                                     finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                 }
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                     console.log("minutes setting found !");
                                                                     finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                     if (finalstart_minute > 59) {
                                                                         finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                        ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                     }
                                                                     else {
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                     }
                                                                 }
                                                                 list_arr_outbound.push(item);
@@ -2853,17 +2853,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                 }
                                                                 else {
 
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                    //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                 }
                                                             }
                                                             if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                 finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                 if (finalstart_minute > 59) {
                                                                     finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                    ////daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                 }
                                                                 else {
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                   // //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                 }
                                                             }
                                                             if (finalstart_hours > 23) {
@@ -2944,17 +2944,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                         if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                             console.log("hours setting found !");
                                                             finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                         }
                                                         if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                             console.log("minutes setting found !");
                                                             finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                             if (finalstart_minute > 59) {
                                                                 finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                             }
                                                             else {
-                                                                item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                             }
                                                         }
 
@@ -2981,17 +2981,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                         }
                                                         else {
 
-                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                         }
                                                     }
                                                     if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                         finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                         if (finalstart_minute > 59) {
                                                             finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                         }
                                                         else {
-                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                         }
                                                     }
                                                     if (finalstart_hours > 23) {
@@ -3068,17 +3068,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                             if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                                 console.log("hours setting found !");
                                                                 finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                                item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                             }
                                                             if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                 console.log("minutes setting found !");
                                                                 finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                 if (finalstart_minute > 59) {
                                                                     finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                    //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                 }
                                                                 else {
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                    //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                 }
                                                             }
                                                             list_arr_outbound.push(item);
@@ -3104,17 +3104,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                             }
                                                             else {
 
-                                                                item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                             }
                                                         }
                                                         if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                             finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                             if (finalstart_minute > 59) {
                                                                 finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                             }
                                                             else {
-                                                                item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                             }
                                                         }
                                                         if (finalstart_hours > 23) {
@@ -3276,17 +3276,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                                     console.log("hours setting found !");
                                                                     finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                    //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                 }
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                     console.log("minutes setting found !");
                                                                     finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                     if (finalstart_minute > 59) {
                                                                         finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                     }
                                                                     else {
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                     }
                                                                 }
                                                                 list_arr_outbound.push(item);
@@ -3313,17 +3313,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                 }
                                                                 else {
 
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                    //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                 }
                                                             }
                                                             if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                 finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                 if (finalstart_minute > 59) {
                                                                     finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                    //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                 }
                                                                 else {
-                                                                    item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                    //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                 }
                                                             }
                                                             if (finalstart_hours > 23) {
@@ -3412,17 +3412,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                     if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                                         console.log("hours setting found !");
                                                                         finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                     }
                                                                     if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                         console.log("minutes setting found !");
                                                                         finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                         if (finalstart_minute > 59) {
                                                                             finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                         }
                                                                         else {
-                                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                         }
                                                                     }
                                                                     list_arr_outbound.push(item);
@@ -3448,17 +3448,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                     }
                                                                     else {
 
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                     }
                                                                 }
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                     finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                     if (finalstart_minute > 59) {
                                                                         finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                     }
                                                                     else {
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                     }
                                                                 }
                                                                 if (finalstart_hours > 23) {
@@ -3535,17 +3535,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                     if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                                         console.log("hours setting found !");
                                                                         finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                     }
                                                                     if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                         console.log("minutes setting found !");
                                                                         finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                         if (finalstart_minute > 59) {
                                                                             finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                         }
                                                                         else {
-                                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                         }
                                                                     }
                                                                     list_arr_outbound.push(item);
@@ -3571,17 +3571,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                     }
                                                                     else {
 
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                     }
                                                                 }
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                     finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                     if (finalstart_minute > 59) {
                                                                         finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                     }
                                                                     else {
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                     }
                                                                 }
                                                                 if (finalstart_hours > 23) {
@@ -3659,17 +3659,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                     if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                                         console.log("hours setting found !");
                                                                         finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                     }
                                                                     if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                         console.log("minutes setting found !");
                                                                         finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                         if (finalstart_minute > 59) {
                                                                             finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                         }
                                                                         else {
-                                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                         }
                                                                     }
                                                                     list_arr_outbound.push(item);
@@ -3695,17 +3695,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                     }
                                                                     else {
 
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                     }
                                                                 }
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                     finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                     if (finalstart_minute > 59) {
                                                                         finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                     }
                                                                     else {
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                     }
                                                                 }
                                                                 if (finalstart_hours > 23) {
@@ -3783,17 +3783,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                     if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                                         console.log("hours setting found !");
                                                                         finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                     }
                                                                     if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                         console.log("minutes setting found !");
                                                                         finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                         if (finalstart_minute > 59) {
                                                                             finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                         }
                                                                         else {
-                                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                         }
                                                                     }
                                                                     list_arr_outbound.push(item);
@@ -3819,17 +3819,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                     }
                                                                     else {
 
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                     }
                                                                 }
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                     finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                     if (finalstart_minute > 59) {
                                                                         finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                     }
                                                                     else {
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                     }
                                                                 }
                                                                 if (finalstart_hours > 23) {
@@ -3906,17 +3906,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                     if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                                         console.log("hours setting found !");
                                                                         finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                     }
                                                                     if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                         console.log("minutes setting found !");
                                                                         finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                         if (finalstart_minute > 59) {
                                                                             finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                         }
                                                                         else {
-                                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                         }
                                                                     }
                                                                     list_arr_outbound.push(item);
@@ -3942,17 +3942,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                     }
                                                                     else {
 
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                     }
                                                                 }
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                     finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                     if (finalstart_minute > 59) {
                                                                         finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                     }
                                                                     else {
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                     }
                                                                 }
                                                                 if (finalstart_hours > 23) {
@@ -4029,17 +4029,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                     if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                                         console.log("hours setting found !");
                                                                         finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                     }
                                                                     if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                         console.log("minutes setting found !");
                                                                         finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                         if (finalstart_minute > 59) {
                                                                             finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                         }
                                                                         else {
-                                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                         }
                                                                     }
                                                                     list_arr_outbound.push(item);
@@ -4065,17 +4065,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                     }
                                                                     else {
 
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                     }
                                                                 }
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                     finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                     if (finalstart_minute > 59) {
                                                                         finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                     }
                                                                     else {
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                     }
                                                                 }
                                                                 if (finalstart_hours > 23) {
@@ -4151,17 +4151,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                     if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "hour") {
                                                                         console.log("hours setting found !");
                                                                         finalstart_hours = parseInt(finalstart_hours) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                     }
                                                                     if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                         console.log("minutes setting found !");
                                                                         finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                         if (finalstart_minute > 59) {
                                                                             finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                         }
                                                                         else {
-                                                                            item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                            //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                         }
                                                                     }
                                                                     list_arr_outbound.push(item);
@@ -4187,17 +4187,17 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                                     }
                                                                     else {
 
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalend_minute;
                                                                     }
                                                                 }
                                                                 if (item.schedule_setting.daily_frequency_every_time_unit_outbound == "minute") {
                                                                     finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_outbound);
                                                                     if (finalstart_minute > 59) {
                                                                         finalstart_hours = parseInt(finalstart_hours) + 1;
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + 0 + "'";
                                                                     }
                                                                     else {
-                                                                        item.schedule_setting.daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
+                                                                        //daily_frequency_every_time_count_outbound = "'" + finalstart_hours + ":" + finalstart_minute + "'";
                                                                     }
                                                                 }
                                                                 if (finalstart_hours > 23) {
