@@ -854,7 +854,7 @@ router.post('/outboundrun',function(req,res){
         ],
         SupplierDetail:['//WebOrder/POHeader/SupplierDetail/Variable',
           {
-            Brand:textOrDefault('boden'),
+            //Brand:textOrDefault('boden'),
             ID:'ID',
             Data:'Data'
           }
@@ -973,6 +973,10 @@ router.post('/outboundrun',function(req,res){
             try{
 
               const result = await transform(xml, template2);
+              var data = result;
+              data[0].SupplierDetail.push({ID:"Brand","Data":"boden"});
+              //console.log(data[0].SupplierDetail);
+              //res.json({status:"1",Msg:"TUU XML File Converted Successfully",Data:data});
               if(result.length!==0)
               {
                 console.log(api_url);
@@ -983,7 +987,7 @@ router.post('/outboundrun',function(req,res){
                         'Content-Type': 'text/plain'
                       },
                       formData:{
-                        'TuuJson':JSON.stringify(result)
+                        'TuuJson':JSON.stringify(data)
                       },
                     }
                     request(options1, function (error, response) {
@@ -1328,7 +1332,7 @@ router.post('/convertxmltojson',function(req,res){
     )
 )`
    const xml = '`'+xml_string+'`';
-    console.log("xml" + xml);
+    //console.log("xml" + xml);
     
       const template = ['//WebOrder',{
   
@@ -1348,7 +1352,7 @@ router.post('/convertxmltojson',function(req,res){
         ],
         SupplierDetail:['//WebOrder/POHeader/SupplierDetail/Variable',
           {
-            Brand:textOrDefault('boden'),
+            //Brand:textOrDefault('boden'),
             ID:'ID',
             Data:'Data'
           }
@@ -1413,7 +1417,9 @@ router.post('/convertxmltojson',function(req,res){
             try{
 
               const result = await transform(xml, template)
-              res.json({status:"1",Msg:"TUU XML File Converted Successfully",Data:result});
+              var data = result;
+              data[0].SupplierDetail.push({ID:"Brand","Data":"boden"});
+              res.json({status:"1",Msg:"TUU XML File Converted Successfully",Data:data});
             }catch(err)
             {
               console.log(err);
