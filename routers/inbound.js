@@ -894,7 +894,8 @@ router.post('/outboundrun',function(req,res){
        
         
           EDISizeDetail:{
-            EDISize:{
+            EDISize:['//WebOrder/EDISizeDetail/EDISize',{
+
               Variable:['//WebOrder/EDISizeDetail/EDISize/Variable',{
                 ID:'ID',
                 Data:'Data'
@@ -903,7 +904,8 @@ router.post('/outboundrun',function(req,res){
                 ID:'ID',
                 Data:'Data'
               }]
-            }
+            }]
+            
           }
       
       }]
@@ -1392,7 +1394,8 @@ router.post('/convertxmltojson',function(req,res){
        
         
           EDISizeDetail:{
-            EDISize:{
+            EDISize:['//WebOrder/EDISizeDetail/EDISize',{
+
               Variable:['//WebOrder/EDISizeDetail/EDISize/Variable',{
                 ID:'ID',
                 Data:'Data'
@@ -1401,7 +1404,8 @@ router.post('/convertxmltojson',function(req,res){
                 ID:'ID',
                 Data:'Data'
               }]
-            }
+            }]
+            
           }
       
       }]

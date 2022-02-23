@@ -164,7 +164,7 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                                         if (item.schedule_setting.daily_frequency_every_time_unit_inbound == "minute") {
                                                             console.log("minutes setting found !");
                                                             var next_date_update = new Date(item.schedule_setting.next_date_inbound);
-                                                            next_date_update.setUTCMinutes(next_inbound_time_minutes.parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound));
+                                                            next_date_update.setUTCMinutes(next_inbound_time_minutes+parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound));
                                                             item.schedule_setting.next_date_inbound=next_date_update;
                                                             //finalstart_minute = parseInt(finalstart_minute) + parseInt(item.schedule_setting.daily_frequency_every_time_count_inbound);
                                                             /* finalstart_minute = 
