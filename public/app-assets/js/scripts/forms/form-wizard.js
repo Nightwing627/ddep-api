@@ -16,6 +16,8 @@ $(function () {
     verticalWizard = document.querySelector('.vertical-wizard-example'),
     modernWizard = document.querySelector('.modern-wizard-example'),
     modernVerticalWizard = document.querySelector('.modern-vertical-wizard-example');
+    var inbound_start_date;
+    var outbound_start_date;
     var project_detail ={};
           var inbound_server_detail = {};
           var outbound_detail = {};
@@ -201,6 +203,7 @@ $(function () {
           var isValid = $(this).parent().siblings('form').valid();
           var $thisform = $(this).parent().siblings('form');
           var project_id = $('#project_id').val();
+          
           if (isValid) {
             if(index==0)
             {
@@ -658,6 +661,32 @@ $(function () {
             }
             else if(index == 3)
             {
+              //alert("index 4 call");
+              inbound_start_date = $('#duration_inbound_start_date').val();
+              outbound_start_date = $('#duration_outbound_start_date').val();
+              var d = new Date();
+
+                  var month = d.getMonth()+1;
+                  var day = d.getDate();
+
+                  var output = d.getFullYear() + '-' +
+                      (month<10 ? '0' : '') + month + '-' +
+                      (day<10 ? '0' : '') + day;
+
+                if($('#duration_inbound_start_date').val()=="")
+                {
+                  
+                      $('#duration_inbound_start_date').val(output);
+                      document.getElementById("duration_inbound_start_date").setAttribute("min", output);
+                }
+                if($('#duration_outbound_start_date').val()=="")
+                {
+                  
+                      $('#duration_inbound_start_date').val(output);
+                      document.getElementById("duration_outbound_start_date").setAttribute("min", output);
+                }
+                //document.getElementById("duration_inbound_start_date").setAttribute("min", output);
+              
               if($('input[name="duration_inbound_is_end_date"]:checked').val()=="no_end_date")
               {
                
@@ -683,6 +712,7 @@ $(function () {
             }
             else if(index == 4)
             {
+               
               /* if($('input[name="duration_inbound_is_end_date"]:checked').val()=="no_end_date")
               {
                 console.log("NO>>>"+$('#duration_inbound_end_date').val());
@@ -804,28 +834,29 @@ $(function () {
       })
       $('#is_active_inbound').on('click',function(e){
         var is_active = $(this).data('value');
-        if(is_active=="Inactive")
-        {
-          is_active = "Active";
-          $(this).data('value',"Active");
-          $(this).removeClass('btn-secondary');
-          $(this).addClass('btn-success');
-          $(this).html('Active');
-        }
-        else
-        {
-          is_active = "Inactive";
-          $(this).data('value',"Inactive");
-          $(this).removeClass('btn-success');
-          $(this).addClass('btn-secondary');
-          $(this).html('Inactive')
-        }
+        
         e.preventDefault();
         var isValid = $('#frm-save-inbound').valid();
          var project_id = $('#project_id').val();
          var inbound_setting_id = $('#inbound_setting_id').val();
          if(isValid)
          {
+            if(is_active=="Inactive")
+            {
+              is_active = "Active";
+              $(this).data('value',"Active");
+              $(this).removeClass('btn-secondary');
+              $(this).addClass('btn-success');
+              $(this).html('Active');
+            }
+            else
+            {
+              is_active = "Inactive";
+              $(this).data('value',"Inactive");
+              $(this).removeClass('btn-success');
+              $(this).addClass('btn-secondary');
+              $(this).html('Inactive')
+            }
           var inbound_setting_id = $("#inbound_setting_id").val();
           var inbound_format = $('#inboundFormat').val();
           var sync_type = $('input[name="sync_type"]:checked').val();
@@ -878,26 +909,19 @@ $(function () {
             });
           }
          }
+         else
+         {
+            is_active = "Inactive";
+            $(this).data('value',"Inactive");
+            $(this).removeClass('btn-success');
+            $(this).addClass('btn-secondary');
+            $(this).html('Inactive');
+         }
       })
       $('#is_active_outbound').on('click',function(e){
         e.preventDefault();
         var is_active = $(this).data('value');
-        if(is_active=="Inactive")
-        {
-          is_active = "Active";
-          $(this).data('value',"Active");
-          $(this).removeClass('btn-secondary');
-          $(this).addClass('btn-success');
-          $(this).html('Active');
-        }
-        else
-        {
-          is_active = "Inactive";
-          $(this).data('value',"Inactive");
-          $(this).removeClass('btn-success');
-          $(this).addClass('btn-secondary');
-          $(this).html('Inactive')
-        }
+        
         
         var isValid = $('#frm-save-outbound').valid();
          var project_id = $('#project_id').val();
@@ -905,6 +929,22 @@ $(function () {
          var is_active = $('#is_active_outbound').data('value');
          if(isValid)
          {
+            if(is_active=="Inactive")
+            {
+              is_active = "Active";
+              $(this).data('value',"Active");
+              $(this).removeClass('btn-secondary');
+              $(this).addClass('btn-success');
+              $(this).html('Active');
+            }
+            else
+            {
+              is_active = "Inactive";
+              $(this).data('value',"Inactive");
+              $(this).removeClass('btn-success');
+              $(this).addClass('btn-secondary');
+              $(this).html('Inactive')
+            }
             var sync_type_out =$('input[name="sync_type_out"]:checked').val();
               var api_url = $('#api_url').val();
               var outbound_format = $('#outbound_format').val();
@@ -952,6 +992,14 @@ $(function () {
                     }
                 });
               }
+         }
+         else
+         {
+            is_active = "Inactive";
+            $(this).data('value',"Inactive");
+            $(this).removeClass('btn-success');
+            $(this).addClass('btn-secondary');
+            $(this).html('Inactive');
          }
       })
       $('#save_outbound').on('click',function(e){
@@ -1448,7 +1496,48 @@ $(function () {
          //$('#duration_outbound_end_date').addClass('hidden');
        }
     });
+    
+    $('#duration_inbound_start_date').on('change',function(){
+      //alert("change");
+      //alert(inbound_start_date);
+      if($('#duration_inbound_start_date').val()=="")
+      {
+        var d = new Date();
 
+        var month = d.getMonth()+1;
+        var day = d.getDate();
+
+        var output = d.getFullYear() + '-' +
+            (month<10 ? '0' : '') + month + '-' +
+            (day<10 ? '0' : '') + day;
+            $('#duration_inbound_start_date').val(output);
+            document.getElementById("duration_inbound_start_date").setAttribute("min", output);
+      }
+      else
+      {
+        document.getElementById("duration_inbound_start_date").setAttribute("min", inbound_start_date);
+      }
+    })
+    $('#duration_outbound_start_date').on('change',function(){
+      //alert("outbound change found")
+      if($('#duration_outbound_start_date').val()=="")
+      {
+        var d = new Date();
+
+                  var month = d.getMonth()+1;
+                  var day = d.getDate();
+
+                  var output = d.getFullYear() + '-' +
+                      (month<10 ? '0' : '') + month + '-' +
+                      (day<10 ? '0' : '') + day;
+            $('#duration_outbound_start_date').val(output);
+            document.getElementById("duration_outbound_start_date").setAttribute("min", output);
+      }
+      else
+      {
+        document.getElementById("duration_outbound_start_date").setAttribute("min", outbound_start_date);
+      }
+    })
     //outbound div
 
     $('input[name="daily_frequency_type_outbound"]').on('change',function(){
@@ -1552,7 +1641,7 @@ $(function () {
         });
     }
   });
-
+  $('#')
   // Vertical Wizard
   // --------------------------------------------------------------------
   if (typeof verticalWizard !== undefined && verticalWizard !== null) {
