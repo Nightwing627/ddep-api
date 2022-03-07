@@ -17,7 +17,9 @@ $(function () {
     modernWizard = document.querySelector('.modern-wizard-example'),
     modernVerticalWizard = document.querySelector('.modern-vertical-wizard-example');
     var inbound_start_date;
+    var inbound_end_date;
     var outbound_start_date;
+    var outbound_end_date;
     var project_detail ={};
           var inbound_server_detail = {};
           var outbound_detail = {};
@@ -685,6 +687,27 @@ $(function () {
                       $('#duration_inbound_start_date').val(output);
                       document.getElementById("duration_outbound_start_date").setAttribute("min", output);
                 }
+                var d = new Date(inbound_start_date);
+          
+                var month = d.getMonth()+1;
+                var day = d.getDate();
+
+                var output = d.getFullYear() + '-' +
+                    (month<10 ? '0' : '') + month + '-' +
+                    (day<10 ? '0' : '') + day;
+                    $('#duration_inbound_end_date').val(output);
+                    document.getElementById("duration_inbound_end_date").setAttribute("min", output);
+
+                    var d = new Date(outbound_start_date);
+          
+                    var month = d.getMonth()+1;
+                    var day = d.getDate();
+            
+                    var output = d.getFullYear() + '-' +
+                        (month<10 ? '0' : '') + month + '-' +
+                        (day<10 ? '0' : '') + day;
+                        $('#duration_outbound_end_date').val(output);
+                        document.getElementById("duration_outbound_end_date").setAttribute("min", output);
                 //document.getElementById("duration_inbound_start_date").setAttribute("min", output);
               
               if($('input[name="duration_inbound_is_end_date"]:checked').val()=="no_end_date")
@@ -1462,6 +1485,18 @@ $(function () {
         if($(this).val()=='yes_end_date')
         {
           $('#duration_inbound_end_date').removeClass('hidden');
+           //var start_date = 
+          var d = new Date(inbound_start_date);
+          
+        var month = d.getMonth()+1;
+        var day = d.getDate();
+
+        var output = d.getFullYear() + '-' +
+            (month<10 ? '0' : '') + month + '-' +
+            (day<10 ? '0' : '') + day;
+            $('#duration_inbound_end_date').val(output);
+            document.getElementById("duration_inbound_end_date").setAttribute("min", output);
+          //$('#duration_inbound_end_date').val
         }
         else
         {
@@ -1473,6 +1508,16 @@ $(function () {
        if($(this).val()=='yes_end_date')
        {
          $('#duration_outbound_end_date').removeClass('hidden');
+         var d = new Date(outbound_start_date);
+          
+        var month = d.getMonth()+1;
+        var day = d.getDate();
+
+        var output = d.getFullYear() + '-' +
+            (month<10 ? '0' : '') + month + '-' +
+            (day<10 ? '0' : '') + day;
+            $('#duration_outbound_end_date').val(output);
+            document.getElementById("duration_outbound_end_date").setAttribute("min", output);
        }
        else
        {
@@ -1512,11 +1557,22 @@ $(function () {
             (day<10 ? '0' : '') + day;
             $('#duration_inbound_start_date').val(output);
             document.getElementById("duration_inbound_start_date").setAttribute("min", output);
+
       }
       else
       {
         document.getElementById("duration_inbound_start_date").setAttribute("min", inbound_start_date);
       }
+      var d = new Date(inbound_start_date);
+          
+        var month = d.getMonth()+1;
+        var day = d.getDate();
+
+        var output = d.getFullYear() + '-' +
+            (month<10 ? '0' : '') + month + '-' +
+            (day<10 ? '0' : '') + day;
+            $('#duration_inbound_end_date').val(output);
+            document.getElementById("duration_inbound_end_date").setAttribute("min", output);
     })
     $('#duration_outbound_start_date').on('change',function(){
       //alert("outbound change found")
@@ -1537,6 +1593,16 @@ $(function () {
       {
         document.getElementById("duration_outbound_start_date").setAttribute("min", outbound_start_date);
       }
+      var d = new Date(outbound_start_date);
+          
+        var month = d.getMonth()+1;
+        var day = d.getDate();
+
+        var output = d.getFullYear() + '-' +
+            (month<10 ? '0' : '') + month + '-' +
+            (day<10 ? '0' : '') + day;
+            $('#duration_outbound_end_date').val(output);
+            document.getElementById("duration_outbound_end_date").setAttribute("min", output);
     })
     //outbound div
 
