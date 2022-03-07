@@ -28,7 +28,8 @@
   if (timePickr.length) {
     timePickr.flatpickr({
       enableTime: true,
-      noCalendar: true
+      noCalendar: true,
+      time_24hr:true
     });
   }
 
