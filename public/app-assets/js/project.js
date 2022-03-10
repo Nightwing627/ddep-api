@@ -43,13 +43,44 @@ $(document).ready(function(){
                     {
                         $button_group+='<button type="button" data-project-id="'+data.inbound_setting.project_id+'" data-is-active="'+data.outbound_setting.is_active+'" class="btn btn-secondary run_outbound">RunOutbound</button>'
                     }
+                    
                     $button_group+='<button type="button" class="btn btn-secondary">View</button></div>';
+                    var last_run_inbound = '-';
+                    var last_run_inbound_date = '-';
+                    var last_run_outbound = '-';
+                    var last_run_outbound_date = '-';
+                    if(data.inbound_history!=undefined && data.inbound_history.length >0)
+                    {
+                        if (data.inbound_history[0].status=="success")
+                        {
+                          last_run_inbound = '<button type="button" class="btn btn-success round waves-effect">success</button>';
+                        }
+                        else
+                        {
+                          last_run_inbound = '<button type="button" class="btn btn-danger round waves-effect">Fail</button>';
+
+                        }
+                        last_run_inbound_date = new Date(data.inbound_history[0].createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, '') ;
+                    }
+                    if(data.outbound_history!=undefined && data.outbound_history.length >0)
+                    {
+                        if (data.outbound_history[0].status=="success")
+                        {
+                          last_run_outbound = '<button type="button" class="btn btn-success round waves-effect">success</button>';
+                        }
+                        else
+                        {
+                          last_run_outbound = '<button type="button" class="btn btn-danger round waves-effect">Fail</button>';
+
+                        }
+                        last_run_outbound_date = new Date(data.outbound_history[0].createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, '') ;
+                    }
                     table.row.add( [
                      counter++,
                      data.CompanyName,
                      data.ProjectCode,
                      data.ProjectName,
-                     '-','-','-','-',
+                     last_run_inbound,last_run_inbound_date,last_run_outbound,last_run_outbound_date,
                      $button_group
                     ]).draw( false );
                     if(data.isActive==0)

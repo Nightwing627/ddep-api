@@ -4359,6 +4359,57 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                             //scheduelerunning++
                                             //res.json({'status':'true','msg':'Inbound Run Successfully'});
                                         });
+                                        var historyobj = {
+                                                "project_id":newschedulesetting.project_id,
+                                                "status":"success"
+                                        }
+                                        var options1 ={
+                                            'method': 'post',
+                                            'url': config.domain + '/inbound_history/save/',
+                                            'headers': {
+                                                'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify(historyobj)
+                                        };
+                                        request(options1, function (error, response) {
+                                            //console.log(response);
+                                            if (error) throw new Error(error)
+                                            else {
+
+                                                //console.log(response);
+                                                console.log("Inbound Successfully Run");
+                                                //console.log(newschedulesetting);
+                                            }
+                                            //scheduelerunning++
+                                            //res.json({'status':'true','msg':'Inbound Run Successfully'});
+                                        });
+                                    }
+                                    else
+                                    {
+                                        var historyobj = {
+                                            "project_id":newschedulesetting.project_id,
+                                            "status":"fail"
+                                        }
+                                        var options1 ={
+                                            'method': 'post',
+                                            'url': config.domain + '/inbound_history/save/',
+                                            'headers': {
+                                                'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify(historyobj)
+                                        };
+                                        request(options1, function (error, response) {
+                                            //console.log(response);
+                                            if (error) throw new Error(error)
+                                            else {
+
+                                                //console.log(response);
+                                                console.log("Inbound Successfully Run");
+                                                //console.log(newschedulesetting);
+                                            }
+                                            //scheduelerunning++
+                                            //res.json({'status':'true','msg':'Inbound Run Successfully'});
+                                        });
                                     }
 
 
@@ -4455,6 +4506,58 @@ router.get('/getScheduleProjectInfo', function (req, res) {
 
 
                                             console.log("update schedule setting date");
+                                        }
+                                        //scheduelerunning++
+                                        //res.json({'status':'true','msg':'Inbound Run Successfully'});
+                                    });
+
+                                    var historyobj = {
+                                        "project_id":newschedulesetting.project_id,
+                                        "status":"success"
+                                    }
+                                    var options1 ={
+                                        'method': 'post',
+                                        'url': config.domain + '/outbound_history/save/',
+                                        'headers': {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(historyobj)
+                                    };
+                                    request(options1, function (error, response) {
+                                        //console.log(response);
+                                        if (error) throw new Error(error)
+                                        else {
+
+                                            //console.log(response);
+                                            console.log("outbound Successfully Run");
+                                            //console.log(newschedulesetting);
+                                        }
+                                        //scheduelerunning++
+                                        //res.json({'status':'true','msg':'Inbound Run Successfully'});
+                                    });
+                                }
+                                else
+                                {
+                                    var historyobj = {
+                                        "project_id":newschedulesetting.project_id,
+                                        "status":"fail"
+                                    }
+                                    var options1 ={
+                                        'method': 'post',
+                                        'url': config.domain + '/outbound_history/save/',
+                                        'headers': {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(historyobj)
+                                    };
+                                    request(options1, function (error, response) {
+                                        //console.log(response);
+                                        if (error) throw new Error(error)
+                                        else {
+
+                                            //console.log(response);
+                                            console.log("Outbound Run Failed");
+                                            //console.log(newschedulesetting);
                                         }
                                         //scheduelerunning++
                                         //res.json({'status':'true','msg':'Inbound Run Successfully'});

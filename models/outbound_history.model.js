@@ -6,9 +6,7 @@ const OutboundHistorySchema = mongoose.Schema({
         project_id:{
             type:mongoose.Schema.Types.ObjectId,ref:'Project'
         } ,
-        outbound_id:{
-            type:mongoose.Schema.type.ObjectId,ref:'Inbound'
-        },
+       
         status:String,
         
      

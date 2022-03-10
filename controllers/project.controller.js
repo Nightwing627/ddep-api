@@ -46,6 +46,24 @@ exports.fullProject = (req,res)=>{
             as: "schedule_setting"
         }
     },
+    { "$lookup": {
+        "from": "inboundhistories",
+        "localField": "_id",
+        "foreignField": "project_id",
+        "as": "inbound_history"
+      }},
+      { "$addFields": {
+        "inbound_history": { "$slice": ["$inbound_history", -1] }
+      }},
+    { "$lookup": {
+        "from": "outboundhistories",
+        "localField": "_id",
+        "foreignField": "project_id",
+        "as": "outbound_history"
+      }},
+      { "$addFields": {
+        "outbound_history": { "$slice": ["$outbound_history", -1] }
+      }},
     {
         $unwind:{
             path: "$inbound_setting",
