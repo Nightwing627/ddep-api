@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<!--
+Template Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+Author: PixInvent
+Website: http://www.pixinvent.com/
+Contact: hello@pixinvent.com
+Follow: www.twitter.com/pixinvents
+Like: www.facebook.com/pixinvents
+Purchase: https://1.envato.market/vuexy_admin
+Renew Support: https://1.envato.market/vuexy_admin
+License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+
+-->
+<%- include('partials/head'); %>
+  <%- include('partials/header'); %>
+    <!-- Basic table -->
+    <section id="basic-datatable">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+
+            <div class="card-header border-bottom p-1">
+              <div class="head-label">
+                <h6 class="mb-0"></h6>
+              </div>
+              <div class="dt-action-buttons text-right">
+                <div class="dt-buttons d-inline-flex">
+                  <div class="dropdown">
+                    <button class="dt-button btn btn-outline-secondary dropdown-toggle mr-2" type="button"
+                      data-toggle="dropdown" tabindex="0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-download font-small-4 mr-50">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+                      </svg>
+                      <span>Import</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a class="dropdown-item" tabindex="0">
+                        <span>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-file font-small-4 mr-50">
+                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+                            <path d="M13 2v7h7" />
+                          </svg>
+                          XML
+                        </span>
+                      </a>
+                      <a class="dropdown-item" tabindex="0">
+                        <span>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-file font-small-4 mr-50">
+                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+                            <path d="M13 2v7h7" />
+                          </svg>
+                          Download XML Template
+                        </span>
+                      </a>
+                      <a class="dropdown-item" tabindex="0">
+                        <span>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-file font-small-4 mr-50">
+                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+                            <path d="M13 2v7h7" />
+                          </svg>
+                          CVS
+                        </span>
+                      </a>
+                      <a class="dropdown-item" tabindex="0">
+                        <span>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-file font-small-4 mr-50">
+                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+                            <path d="M13 2v7h7" />
+                          </svg>
+                          Download CSV Template
+                        </span>
+                      </a>
+                      <a class="dropdown-item" tabindex="0">
+                        <span>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-file font-small-4 mr-50">
+                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+                            <path d="M13 2v7h7" />
+                          </svg>
+                          Excel
+                        </span>
+                      </a>
+                      <a class="dropdown-item" tabindex="0">
+                        <span>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-file font-small-4 mr-50">
+                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+                            <path d="M13 2v7h7" />
+                          </svg>
+                          Download Excel Template
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="dropdown">
+                    <button class="dt-button btn btn-outline-secondary dropdown-toggle mr-2" type="button"
+                      data-toggle="dropdown" tabindex="0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-download font-small-4 mr-50">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+                      </svg>
+                      <span>Export</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a class="dropdown-item" tabindex="0">
+                        <span>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-file font-small-4 mr-50">
+                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+                            <path d="M13 2v7h7" />
+                          </svg>
+                          Download XML Template
+                        </span>
+                      </a>
+                      <a class="dropdown-item" tabindex="0">
+                        <span>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-file font-small-4 mr-50">
+                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+                            <path d="M13 2v7h7" />
+                          </svg>
+                          Download CSV Template
+                        </span>
+                      </a>
+                      <a class="dropdown-item" tabindex="0">
+                        <span>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-file font-small-4 mr-50">
+                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+                            <path d="M13 2v7h7" />
+                          </svg>
+                          Download Excel Template
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+
+                  <button class="dt-button create-new btn btn-primary" tabindex="0" aria-controls="DataTables_Table_0"
+                    type="button" id="btn_create_new_project" onclick=""><span><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus mr-50 font-small-4">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                      </svg>Create New Project</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <table class="datatables-basic table" id="project_data_table">
+              <thead>
+                <tr>
+                  <th>Line No</th>
+                  <th>Template Code</th>
+                  <th>Template Name</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal to add new record -->
+      <div class="modal modal-slide-in fade" id="modals-slide-in">
+        <div class="modal-dialog sidebar-sm">
+          <form class="add-new-record modal-content pt-0">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+            <div class="modal-header mb-1">
+              <h5 class="modal-title" id="exampleModalLabel">New Record</h5>
+            </div>
+            <div class="modal-body flex-grow-1">
+              <div class="form-group">
+                <label class="form-label" for="basic-icon-default-fullname">Full Name</label>
+                <input type="text" class="form-control dt-full-name" id="basic-icon-default-fullname"
+                  placeholder="John Doe" aria-label="John Doe" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="basic-icon-default-post">Post</label>
+                <input type="text" id="basic-icon-default-post" class="form-control dt-post" placeholder="Web Developer"
+                  aria-label="Web Developer" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="basic-icon-default-email">Email</label>
+                <input type="text" id="basic-icon-default-email" class="form-control dt-email"
+                  placeholder="john.doe@example.com" aria-label="john.doe@example.com" />
+                <small class="form-text text-muted"> You can use letters, numbers & periods </small>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="basic-icon-default-date">Joining Date</label>
+                <input type="text" class="form-control dt-date" id="basic-icon-default-date" placeholder="MM/DD/YYYY"
+                  aria-label="MM/DD/YYYY" />
+              </div>
+              <div class="form-group mb-4">
+                <label class="form-label" for="basic-icon-default-salary">Salary</label>
+                <input type="text" id="basic-icon-default-salary" class="form-control dt-salary" placeholder="$12000"
+                  aria-label="$12000" />
+              </div>
+              <button type="button" class="btn btn-primary data-submit mr-1">Submit</button>
+              <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- History Modal -->
+      <div class="modal fade text-left" id="history" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel4">History</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- <img class="w-100" src="app-assets/images/History.png"> -->
+              <table class="table text-center w-100 table-sm table-striped">
+                <thead>
+                  <tr>
+                    <th class="">Sr.</th>
+                    <th class="">InBound/ <br>OutBound</th>
+                    <th class="">Synchronize <br>Configure</th>
+                    <th class="">Status</th>
+                    <th class=" text-left">Warning</th>
+                    <th class="">Run Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>InBound</td>
+                    <td>API</td>
+                    <td>
+                      <svg width="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" style="enable-background:new 0 0 511.999 511.999" xml:space="preserve"><path style="fill:#F5C525;" d="M506.43 421.536 291.573 49.394c-15.814-27.391-55.327-27.401-71.147 0L5.568 421.536c-15.814 27.391 3.934 61.616 35.574 61.616h429.714c31.629.001 51.394-34.214 35.574-61.616zm-231.609-36.502c0 10.394-8.427 18.821-18.821 18.821s-18.821-8.427-18.821-18.821v-11.239c0-10.394 8.427-18.821 18.821-18.821s18.821 8.427 18.821 18.821v11.239zm0-73.332c0 10.394-8.427 18.821-18.821 18.821s-18.821-8.427-18.821-18.821v-107.89c0-10.394 8.427-18.821 18.821-18.821s18.821 8.427 18.821 18.821v107.89z"/></svg>
+                    </td>
+                    <td class="text-left">Wrong date format</td>
+                    <td>3/8/2021 12:00:00</td>
+                  </tr>
+
+                  <tr>
+                    <td>2</td>
+                    <td>OutBound</td>
+                    <td>API</td>
+                    <td>
+                      <svg width="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.755 511.755" style="enable-background:new 0 0 511.755 511.755" xml:space="preserve"><path style="fill:#329e23;" d="M436.891 74.867c-99.819-99.819-262.208-99.819-362.027 0-99.819 99.797-99.819 262.229 0 362.027 49.899 49.92 115.456 74.859 181.013 74.859s131.093-24.939 181.013-74.859c99.819-99.798 99.819-262.23.001-362.027zM398.96 185.629 249.627 334.963a21.275 21.275 0 0 1-15.083 6.251 21.277 21.277 0 0 1-15.083-6.251l-85.333-85.333c-8.341-8.341-8.341-21.824 0-30.165 8.341-8.341 21.824-8.341 30.165 0l70.251 70.251 134.251-134.251c8.341-8.341 21.824-8.341 30.165 0 8.341 8.34 8.341 21.823 0 30.164z"/></svg>
+                    </td>
+                    <td class="text-left">Wrong date format</td>
+                    <td>3/8/2021 12:00:00</td>
+                  </tr>
+
+                  <tr>
+                    <td>3</td>
+                    <td>InBound</td>
+                    <td>API</td>
+                    <td>
+                      <svg width="22px" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><path style="fill:#da1d1d;" class="clr-i-solid clr-i-solid-path-1" d="M18 6a12 12 0 1 0 12 12A12 12 0 0 0 18 6Zm-1.49 6a1.49 1.49 0 0 1 3 0v6.89a1.49 1.49 0 1 1-3 0ZM18 25.5a1.72 1.72 0 1 1 1.72-1.72A1.72 1.72 0 0 1 18 25.5Z"/><path fill="none" d="M0 0h36v36H0z"/></svg>
+                    </td>
+                    <td class="text-left">Cannot Access the Server</td>
+                    <td>3/8/2021 12:00:00</td>
+                  </tr>
+
+                  <tr>
+                    <td>4</td>
+                    <td>InBound</td>
+                    <td>API</td>
+                    <td>
+                      <svg width="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" style="enable-background:new 0 0 511.999 511.999" xml:space="preserve"><path style="fill:#F5C525;" d="M506.43 421.536 291.573 49.394c-15.814-27.391-55.327-27.401-71.147 0L5.568 421.536c-15.814 27.391 3.934 61.616 35.574 61.616h429.714c31.629.001 51.394-34.214 35.574-61.616zm-231.609-36.502c0 10.394-8.427 18.821-18.821 18.821s-18.821-8.427-18.821-18.821v-11.239c0-10.394 8.427-18.821 18.821-18.821s18.821 8.427 18.821 18.821v11.239zm0-73.332c0 10.394-8.427 18.821-18.821 18.821s-18.821-8.427-18.821-18.821v-107.89c0-10.394 8.427-18.821 18.821-18.821s18.821 8.427 18.821 18.821v107.89z"/></svg>
+                    </td>
+                    <td class="text-left">Wrong date format</td>
+                    <td>3/8/2021 12:00:00</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--/ Basic table -->
+
+    </div>
+    </div>
+    </div>
+    <!-- END: Content-->
+
+
+    <!-- BEGIN: Customizer-->
+    <div class="customizer d-none d-md-block"><a
+        class="customizer-toggle d-flex align-items-center justify-content-center" href="javascript:void(0);"><i
+          class="spinner" data-feather="settings"></i></a>
+      <div class="customizer-content">
+        <!-- Customizer header -->
+        <div class="customizer-header px-2 pt-1 pb-0 position-relative">
+          <h4 class="mb-0">Theme Customizer</h4>
+          <p class="m-0">Customize & Preview in Real Time</p>
+
+          <a class="customizer-close" href="javascript:void(0);"><i data-feather="x"></i></a>
+        </div>
+
+        <hr />
+
+        <!-- Styling & Text Direction -->
+        <div class="customizer-styling-direction px-2">
+          <p class="font-weight-bold">Skin</p>
+          <div class="d-flex">
+            <div class="custom-control custom-radio mr-1">
+              <input type="radio" id="skinlight" name="skinradio" class="custom-control-input layout-name" checked
+                data-layout="" />
+              <label class="custom-control-label" for="skinlight">Light</label>
+            </div>
+            <div class="custom-control custom-radio mr-1">
+              <input type="radio" id="skinbordered" name="skinradio" class="custom-control-input layout-name"
+                data-layout="bordered-layout" />
+              <label class="custom-control-label" for="skinbordered">Bordered</label>
+            </div>
+            <div class="custom-control custom-radio mr-1">
+              <input type="radio" id="skindark" name="skinradio" class="custom-control-input layout-name"
+                data-layout="dark-layout" />
+              <label class="custom-control-label" for="skindark">Dark</label>
+            </div>
+            <div class="custom-control custom-radio">
+              <input type="radio" id="skinsemidark" name="skinradio" class="custom-control-input layout-name"
+                data-layout="semi-dark-layout" />
+              <label class="custom-control-label" for="skinsemidark">Semi Dark</label>
+            </div>
+          </div>
+        </div>
+
+        <hr />
+
+        <!-- Menu -->
+        <div class="customizer-menu px-2">
+          <div id="customizer-menu-collapsible" class="d-flex">
+            <p class="font-weight-bold mr-auto m-0">Menu Collapsed</p>
+            <div class="custom-control custom-control-primary custom-switch">
+              <input type="checkbox" class="custom-control-input" id="collapse-sidebar-switch" />
+              <label class="custom-control-label" for="collapse-sidebar-switch"></label>
+            </div>
+          </div>
+        </div>
+        <hr />
+
+        <!-- Layout Width -->
+        <div class="customizer-footer px-2">
+          <p class="font-weight-bold">Layout Width</p>
+          <div class="d-flex">
+            <div class="custom-control custom-radio mr-1">
+              <input type="radio" id="layout-width-full" name="layoutWidth" class="custom-control-input" checked />
+              <label class="custom-control-label" for="layout-width-full">Full Width</label>
+            </div>
+            <div class="custom-control custom-radio mr-1">
+              <input type="radio" id="layout-width-boxed" name="layoutWidth" class="custom-control-input" />
+              <label class="custom-control-label" for="layout-width-boxed">Boxed</label>
+            </div>
+          </div>
+        </div>
+        <hr />
+
+        <!-- Navbar -->
+        <div class="customizer-navbar px-2">
+          <div id="customizer-navbar-colors">
+            <p class="font-weight-bold">Navbar Color</p>
+            <ul class="list-inline unstyled-list">
+              <li class="color-box bg-white border selected" data-navbar-default=""></li>
+              <li class="color-box bg-primary" data-navbar-color="bg-primary"></li>
+              <li class="color-box bg-secondary" data-navbar-color="bg-secondary"></li>
+              <li class="color-box bg-success" data-navbar-color="bg-success"></li>
+              <li class="color-box bg-danger" data-navbar-color="bg-danger"></li>
+              <li class="color-box bg-info" data-navbar-color="bg-info"></li>
+              <li class="color-box bg-warning" data-navbar-color="bg-warning"></li>
+              <li class="color-box bg-dark" data-navbar-color="bg-dark"></li>
+            </ul>
+          </div>
+
+          <p class="navbar-type-text font-weight-bold">Navbar Type</p>
+          <div class="d-flex">
+            <div class="custom-control custom-radio mr-1">
+              <input type="radio" id="nav-type-floating" name="navType" class="custom-control-input" checked />
+              <label class="custom-control-label" for="nav-type-floating">Floating</label>
+            </div>
+            <div class="custom-control custom-radio mr-1">
+              <input type="radio" id="nav-type-sticky" name="navType" class="custom-control-input" />
+              <label class="custom-control-label" for="nav-type-sticky">Sticky</label>
+            </div>
+            <div class="custom-control custom-radio mr-1">
+              <input type="radio" id="nav-type-static" name="navType" class="custom-control-input" />
+              <label class="custom-control-label" for="nav-type-static">Static</label>
+            </div>
+            <div class="custom-control custom-radio">
+              <input type="radio" id="nav-type-hidden" name="navType" class="custom-control-input" />
+              <label class="custom-control-label" for="nav-type-hidden">Hidden</label>
+            </div>
+          </div>
+        </div>
+        <hr />
+
+        <!-- Footer -->
+        <div class="customizer-footer px-2">
+          <p class="font-weight-bold">Footer Type</p>
+          <div class="d-flex">
+            <div class="custom-control custom-radio mr-1">
+              <input type="radio" id="footer-type-sticky" name="footerType" class="custom-control-input" />
+              <label class="custom-control-label" for="footer-type-sticky">Sticky</label>
+            </div>
+            <div class="custom-control custom-radio mr-1">
+              <input type="radio" id="footer-type-static" name="footerType" class="custom-control-input" checked />
+              <label class="custom-control-label" for="footer-type-static">Static</label>
+            </div>
+            <div class="custom-control custom-radio mr-1">
+              <input type="radio" id="footer-type-hidden" name="footerType" class="custom-control-input" />
+              <label class="custom-control-label" for="footer-type-hidden">Hidden</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- End: Customizer-->
+
+    <!-- Buynow Button-->
+
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+
+    <%- include('partials/footer') %>
+      <script src="/app-assets/js/template.js"></script>
+
+      </html>

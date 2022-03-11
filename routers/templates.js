@@ -16,9 +16,10 @@ router.get('/add',function(req,res){
 })
 router.get('/list',templates.findAll);
 router.put('/update/:id',templates.update);
-// router.get('/project-list',function(req,res){
-//     res.render('pages/list-project');
-// });
+router.delete('/delete/:id',templates.delete);
+router.get('/template-list',function(req,res){
+    res.render('pages/list-template');
+});
 
 
 

@@ -123,7 +123,7 @@ exports.update = (req, res) => {
    
    
     
-    if(!data.TemplateCode) {
+    /* if(!data.TemplateCode) {
         return res.status(400).send({
             message: "Template Code Required"
         });
@@ -137,19 +137,15 @@ exports.update = (req, res) => {
         return res.status(400).send({
             message: "Template Type Required"
         });
-    }
+    } */
 
     Templates.findByIdAndUpdate(req.params.id,data, { new: true })
     .then((Templates) => {
         //console.log(req.params.id);
       if (!Templates) {
-        return res.status(404).send({
-          message: "Template Not Updated"
-        });
+        res.json({"Status":"0","Msg":"Not Updated Successfully","ErrMsg":"","Data":[]});
       }
-      res.status(200).send({
-          message:"Template Updated"
-      });
+      res.json({"Status":"1","Msg":"Updated Successfully","ErrMsg":"","Data":[]});
     })
     .catch((err) => {
       return res.status(404).send({
