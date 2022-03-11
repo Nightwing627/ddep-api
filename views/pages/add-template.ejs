@@ -25,41 +25,50 @@ License: You must have a valid license purchased only from themeforest(the above
           </div>
         </div>
         <div class="card-body">
-            <form class="form form-horizontal">
+            <form class="form form_template" id="form_template" name="form_template" method="post">
                 <div class="row">
-                  <div class="col-4">
+                  <div class="col-3">
                     <div class="form-group row">
                       <div class="col-sm-12 col-form-label">
-                        <label for="first-name">Template Name</label>
+                        <label for="TemplateName">Template Name</label>
                       </div>
                       <div class="col-sm-9">
-                        <input type="text" id="first-name" class="form-control" name="fname" placeholder="First Name" />
+                        <input type="text" id="TemplateName" class="form-control" name="TemplateName" placeholder="Template Name" />
                       </div>
                     </div>
                   </div>
-                  <div class="col-4">
+                  <div class="col-3">
                     <div class="form-group row">
                       <div class="col-sm-12 col-form-label">
                         <label for="email-id">Template Code</label>
                       </div>
                       <div class="col-sm-9">
-                        <input type="text" id="template_code" class="form-control" name="template-code" placeholder="Template Code" />
+                        <input type="text" id="TemplateCode" class="form-control" name="TemplateCode" placeholder="Template Code" />
                       </div>
                     </div>
                   </div>
-                  <div class="col-4">
-                    <div class="form-group">
-                        <label for="basicSelect">Template Type</label>
-                        <select class="form-control" id="basicSelect">
-                          <option>Field Level</option>
-                          <option>Tree Level</option>
-                        </select>
+                  <div class="col-3">
+                    <div class="form-group row">
+                        <div class="col-sm-12 col-form-label">
+                          <label for="TemplateType col-sm-9">Template Type</label>
+                        </div>
+                        <div class="col-sm-9">
+                          <select class="form-control" id="TemplateType">
+                            <option value="field Level">Field Level</option>
+                            <option value="Tree Level">Tree Level</option>
+                          </select>
+                        </div>
                       </div>
                   </div>
                   
-                  <div class="col-sm-9 offset-sm-3">
-                    <button type="reset" class="btn btn-primary mr-1">Submit</button>
-                    <button type="reset" class="btn btn-outline-secondary">Reset</button>
+                  <div class="col-sm-3">
+                    <div class="form-group row">
+                      <div class="col-sm-12"><label for="">&nbsp;</label></div>
+                      <div class="col-sm-9">
+
+                        <button type="button" id="add_template_btn" class="btn btn-primary mr-1 mt-1">Submit</button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </form>
@@ -241,4 +250,29 @@ License: You must have a valid license purchased only from themeforest(the above
     <div class="drag-target"></div>
 
     <%- include('partials/footer') %>
+    <script src="/app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+    <script src="/app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+    <script src="/app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+    <!-- END: Page Vendor JS-->
+    <!-- BEGIN: Page JS-->
+    <!-- <script src="/app-assets/js/scripts/forms/form-wizard.min.js"></script> -->
+    <!-- <script src="/app-assets/js/scripts/forms/form-wizard.js"></script> -->
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="/app-assets/vendors/js/forms/spinner/jquery.bootstrap-touchspin.js"></script>
+    <script src="/app-assets/js/scripts/forms/form-number-input.js"></script>
+    <script src="/app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
+    
+    <script src="/app-assets/vendors/js/pickers/pickadate/picker.js"></script>
+    <script src="/app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
+    <!-- <script src="/app-assets/vendors/js/pickers/pickadate/picker.time.js"></script> -->
+    <script src="/app-assets/vendors/js/pickers/pickadate/legacy.js"></script>
+    <script src="/app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+    <script src="/app-assets/js/scripts/forms/pickers/form-pickers.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.11.0/sweetalert2.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.11.0/sweetalert2.all.min.js"></script>
+    <script src="app-assets/js/template.js"></script>
+    <!-- END: Page Vendor JS-->
+    <!-- <script src="/app-assets/js/scripts/forms/pickers/form-pickers.min.js"></script> -->
+    <!-- END: Page JS-->
 </html>

@@ -22,6 +22,7 @@ var outboundRouter = require('./routers/outbound');
 var scheduler_job = require('./routers/scheduler_job');
 var inboundHistoryRouter = require('./routers/inbound_history');
 var outboundHistoryRouter = require('./routers/outbound_history');
+var TemplateRouter = require('./routers/templates');
 var app = express();
 var axios = require('axios');
 app.set('views', path.join(__dirname, 'views'));
@@ -46,6 +47,7 @@ app.use('/outbound',outboundRouter);
 app.use('/scheduler_job',scheduler_job);
 app.use('/inbound_history',inboundHistoryRouter);
 app.use('/outbound_history',outboundHistoryRouter);
+app.use('/templates',TemplateRouter);
 //const host = req.get('host');
 ;
 
