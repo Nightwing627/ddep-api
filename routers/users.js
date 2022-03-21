@@ -1306,23 +1306,5 @@ router.post('/syncuser',upload.none(),function(req,res,next){
     });
     res.json({"Status":"1","Msg":"Records Saved successfully","ErrMsg":"","Data":[]});
 })
-router.post('/testsync',upload.none(),function(req,res,next){
-  var Aes = new ase();
-      var jsondata = req.body;
-      var http_req = req.protocol+'://';
-      const host = req.get('host');
-      if(host!="localhost:8004")
-      {
-        http_req="https://";
-      }
-    const origin = req.get('origin');
-    
-      
-     //console.log(req.secure);
-    var post_data_s = Aes.Decrypt(unescape(jsondata.SyncData));
-    
-    var syncjson = eval("("+post_data_s+")");
-    console.log(syncjson.tbl_legal_entity);
-    res.json({"data":syncjson[0].tbl_legal_entity});
-});
+
 module.exports = router;

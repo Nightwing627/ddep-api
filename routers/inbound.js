@@ -581,7 +581,7 @@ router.get('/testjson',function(req,res){
       //res.json({status:"1",Data:"result"});
 })
 router.post('/inboundrun',function(req,res){
-  console.log(req.body.project_id);
+  //console.log(req.body.project_id);
   var options = {
     method:"GET",
     url:"inbound_setting/editAPI/"+req.body.project_id
@@ -1325,6 +1325,7 @@ router.post('/convertxmltojson',function(req,res){
   let xml_string = req.body.xml_content;
   xml_string = xml_string.replace(/<!--(?!\s*(?:\[if [^\]]+]|<!|>))(?:(?!-->)(.|\n))*-->/g,"");
   //let xml_string = fs.readFileSync("./inbounds/myxml_data.xml", "utf8");
+  console.log(xml_string);
   const textOrDefault = (defaultValue) => `concat(
     text(),
     substring(
