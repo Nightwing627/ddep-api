@@ -1376,10 +1376,17 @@ router.post('/convertxmltojson',function(req,res){
               Data:"Data"
             }],
           EDICareandContent:{
-            Fibres:['//WebOrder/EDIHeader/EDICareandContent/Fibres/Variable',{
-              ID:"ID",
-              Data:"Data"
-            }],
+            Fibres:{
+
+              FibreComponents_1:['//WebOrder/EDIHeader/EDICareandContent/Fibre/FibreComponents[1]/Variable',{
+                ID:"ID",
+                Data:"Data"
+              }],
+              FibreComponents_2:['//WebOrder/EDIHeader/EDICareandContent/Fibre/FibreComponents[2]/Variable',{
+                ID:"ID",
+                Data:"Data"
+              }],
+            },
             FrabricStatments:['//WebOrder/EDIHeader/EDICareandContent/FrabricStatments/Variable',{
               ID:'ID',
               Data:'Data'
