@@ -874,20 +874,28 @@ router.post('/outboundrun',function(req,res){
               ID:"ID",
               Data:"Data"
             }],
-          EDICareandContent:{
-            Fibres:['//WebOrder/EDIHeader/EDICareandContent/Fibres/Variable',{
-              ID:"ID",
-              Data:"Data"
-            }],
-            FrabricStatments:['//WebOrder/EDIHeader/EDICareandContent/FrabricStatments/Variable',{
-              ID:'ID',
-              Data:'Data'
-            }],
-            CareSymbolMappingID:['//WebOrder/EDIHeader/EDICareandContent/CareSymbolMappingID/Variable',{
-              ID:'ID',
-              Data:'Data'
-            }]
-          }
+            EDICareandContent:{
+              Fibres:{
+  
+                FibreComponents_1:['//WebOrder/EDIHeader/EDICareandContent/Fibre/FibreComponents[1]/Variable',{
+                  ID:"ID",
+                  Data:"Data"
+                }],
+                FibreComponents_2:['//WebOrder/EDIHeader/EDICareandContent/Fibre/FibreComponents[2]/Variable',{
+                  ID:"ID",
+                  Data:"Data"
+                }],
+              },
+              FrabricStatments:['//WebOrder/EDIHeader/EDICareandContent/FrabricStatments/Variable',{
+                ID:'ID',
+                Data:'Data'
+              }],
+              CareSymbolMappingID:['//WebOrder/EDIHeader/EDICareandContent/CareSymbolMappingID/Variable',{
+                ID:'ID',
+                Data:'Data'
+              }]
+            }
+  
 
 
           },
