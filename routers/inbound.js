@@ -502,8 +502,8 @@ router.get('/testjson',function(req,res){
                                 '//POHeader/SupplierDetail',
                                 {
                                   Brand:textOrDefault('testwithmike'),
-                                  SupplierNo:'SupplierNo',
-                                  FactoryNo:'FactoryNo'
+                                  ID:'ID',
+                                  Data:'Data'
                                 }
                               ],
                               ItemRefs:[
@@ -788,8 +788,8 @@ router.post('/outboundrun',function(req,res){
         '//POHeader/SupplierDetail',
         {
           Brand:textOrDefault('boden'),
-          SupplierNo:'SupplierNo',
-          FactoryNo:'FactoryNo'
+          ID:'ID',
+          Data:'Data'
         }
       ],
       ItemRefs:[
@@ -857,8 +857,8 @@ router.post('/outboundrun',function(req,res){
         SupplierDetail:['//POHeader/SupplierDetail/Variable',
           {
             Brand:textOrDefault(project_code),
-            SupplierNo:'ID',
-            FactoryNo:'Data'
+            ID:'ID',
+            Data:'Data'
           }
         ],
         ItemRefs:[
@@ -1392,8 +1392,8 @@ router.post('/convertxmltojson',function(req,res){
             //ID:'SupplierNo',
             //Data:'FactoryNo'
             Brand:textOrDefault('boden'),
-            SupplierNo:"ID",
-            FactoryNo:"Data"
+            ID:"ID",
+            Data:"Data"
           }
         ],
         ItemRefs:[
