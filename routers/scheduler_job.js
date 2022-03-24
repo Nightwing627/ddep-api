@@ -4473,6 +4473,7 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                             },
                             body: JSON.stringify({
                                 "project_id": project_id,
+                                "project_code":project_code
                             })
                         }
                         request(options, function (error, response) {
