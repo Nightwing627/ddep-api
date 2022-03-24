@@ -787,7 +787,7 @@ router.post('/outboundrun',function(req,res){
       SupplierDetail:[
         '//POHeader/SupplierDetail',
         {
-          Brand:textOrDefault('boden'),
+          //Brand:textOrDefault('boden'),
           ID:'ID',
           Data:'Data'
         }
@@ -856,7 +856,7 @@ router.post('/outboundrun',function(req,res){
         ],
         SupplierDetail:['//POHeader/SupplierDetail/Variable',
           {
-            Brand:textOrDefault(project_code),
+            //Brand:textOrDefault(project_code),
             ID:'ID',
             Data:'Data'
           }
@@ -985,7 +985,7 @@ router.post('/outboundrun',function(req,res){
 
               const result = await transform(xml, template2);
               var data = result;
-              data[0].SupplierDetail.push({Brand:project_code});
+              data[0].SupplierDetail.push({ID:"Brand",Data:project_code});
               if((data[0].EDISizeDetail.EDISize.length ==undefined  || data[0].EDISizeDetail.EDISize.length ==0) && (data[0].EDISizeDetail.MatrixDetail==undefined || data[0].EDISizeDetail.MatrixDetail.length==0))
               {
                 delete data[0].EDISizeDetail;
@@ -1391,7 +1391,7 @@ router.post('/convertxmltojson',function(req,res){
           {
             //ID:'SupplierNo',
             //Data:'FactoryNo'
-            Brand:textOrDefault('boden'),
+            //Brand:textOrDefault('boden'),
             ID:"ID",
             Data:"Data"
           }
@@ -1466,6 +1466,7 @@ router.post('/convertxmltojson',function(req,res){
 
               const result = await transform(xml, template)
               var data = result;
+              data[0].SupplierDetail.push({ID:"Brand",Data:"boden"});
               //data[0].SupplierDetail.push({"Brand":"boden"});
               // if(data[0].EDISizeDetail.EDISize.length > 0 )
               // {
