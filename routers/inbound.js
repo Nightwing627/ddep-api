@@ -617,7 +617,7 @@ router.post('/inboundrun',function(req,res){
       backup_folder='backup';
     }
     var date = new Date();
-    var dir = './inbounds';
+    var dir = './output/inbounds';
     if (!fs.existsSync(dir)){
       fs.mkdirSync(dir);
     }
@@ -759,7 +759,7 @@ router.post('/outboundrun',function(req,res){
   var project_id = req.body.project_id;
   var project_code = req.body.project_code;
   console.log(project_id);
-  var directoryPath= 'inbounds/'+project_id;
+  var directoryPath= 'output/inbounds/'+project_id;
   const textOrDefault = (defaultValue) => `concat(
     text(),
     substring(
@@ -936,8 +936,8 @@ router.post('/outboundrun',function(req,res){
   
     // make project/date wise folder
     var date = new Date();
-    var dir = './history/inbounds';
-    var out_dir ='./history/outbounds';
+    var dir = './output/history/inbounds';
+    var out_dir ='./output/history/outbounds';
     if (!fs.existsSync(dir)){
       fs.mkdirSync(dir);
     }
@@ -1125,11 +1125,11 @@ router.post('/outboundrun',function(req,res){
 router.post('/testfiles',function(req,res){
   var project_id = req.body.project_id;
   //console.log(project_id);
-  var directoryPath= 'inbounds/'+project_id;
+  var directoryPath= 'output/inbounds/'+project_id;
   // make project/date wise folder
   var date = new Date();
-  var dir = './history/inbounds';
-  var out_dir ='./history/outbounds';
+  var dir = './output/history/inbounds';
+  var out_dir ='./output/history/outbounds';
   if (!fs.existsSync(dir)){
     fs.mkdirSync(dir);
   }
