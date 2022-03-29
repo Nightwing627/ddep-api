@@ -6,8 +6,8 @@ var path = require('path');
 var request = require('request');
 const crypto = require('crypto');
 const { transform, prettyPrint } = require('camaro');
-
-const ftp = require("basic-ftp")
+var parseXML = require('xml-parse-from-string')
+//const ftp = require("basic-ftp")
 //const ftp = require('../my_modules/FTPClient');
 //const newftp = require('../my_modules/FTP');
 var Client = require('ftp');
@@ -1360,6 +1360,7 @@ router.post('/convertxmltojson',function(req,res){
   xml_string = xml_string.replace(/<!--(?!\s*(?:\[if [^\]]+]|<!|>))(?:(?!-->)(.|\n))*-->/g,"");
   //let xml_string = fs.readFileSync("./inbounds/myxml_data.xml", "utf8");
   //console.log(xml_string);
+  //var doc = parseXML(xml_string);
   const textOrDefault = (defaultValue) => `concat(
     text(),
     substring(
