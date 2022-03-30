@@ -986,7 +986,42 @@ router.post('/outboundrun',function(req,res){
 
               const result = await transform(xml, template2);
               var data = result;
-              data[0].SupplierDetail.push({ID:"Brand",Data:project_code});
+              var nodes = xpath.select('//EDIHeader/EDICareandContent/Fibre/FibreComponents', root);
+              //console.log(nodes.length);
+              var counter=1;
+              var fibres={}
+              nodes.forEach(function(item,i){
+                var fibrecomponents='';
+                //console.log(counter);
+                if(i==0)
+                {
+
+                  var fibrecomponents =nodes[i].localName;
+                }
+                else
+                {
+                  var fibrecomponents =nodes[i].localName + "_"+i;
+                }
+                var Variablenodes = xpath.select('//EDIHeader/EDICareandContent/Fibre/FibreComponents['+ counter +']/Variable', root);
+                //console.log(Variablenodes[1].localName + ": " + Variablenodes);
+                var node_variable_counter=1
+                fibres[fibrecomponents] = [];
+                Variablenodes.forEach(function(item,j){
+                  var id = xpath.select('//EDIHeader/EDICareandContent/Fibre/FibreComponents['+ counter +']/Variable['+node_variable_counter +']/ID', root);
+                  var data = xpath.select('//EDIHeader/EDICareandContent/Fibre/FibreComponents['+ counter +']/Variable['+node_variable_counter+']/Data', root);
+                  
+                  fibres[fibrecomponents][j]={'ID':id[0].firstChild.data,'Data':data[0].firstChild.data};
+                  node_variable_counter++;
+                  
+                })
+                counter++;
+                //console.log(Variablenodes.firstChile);
+              })
+              //console.log(fibres);
+              data[0].SupplierDetail.push({ID:"Brand",Data:"boden"});
+              
+              data[0].EDIHeader.EDICareandContent.Fibres = fibres;
+              
               if((data[0].EDISizeDetail.EDISize.length ==undefined  || data[0].EDISizeDetail.EDISize.length ==0) && (data[0].EDISizeDetail.MatrixDetail==undefined || data[0].EDISizeDetail.MatrixDetail.length==0))
               {
                 delete data[0].EDISizeDetail;
@@ -1011,6 +1046,18 @@ router.post('/outboundrun',function(req,res){
               {
                 delete data[0].SupplierDetail;
                 
+              }
+              if(data[0].EDIHeader.EDICareandContent.Fibres==undefined || data[0].EDIHeader.EDICareandContent.Fibres.length==0)
+              {
+                delete data[0].EDIHeader.EDICareandContent.Fibres;
+              }
+              if(data[0].EDIHeader.EDICareandContent.FrabricStatments==undefined || data[0].EDIHeader.EDICareandContent.FrabricStatments.length==0)
+              {
+                delete data[0].EDIHeader.EDICareandContent.FrabricStatments;
+              }
+              if(data[0].EDIHeader.EDICareandContent.CareSymbolMappingID==undefined || data[0].EDIHeader.EDICareandContent.CareSymbolMappingID.length==0)
+              {
+                delete data[0].EDIHeader.EDICareandContent.CareSymbolMappingID;
               }
               //console.log(data[0].SupplierDetail);
               //res.json({status:"1",Msg:"TUU XML File Converted Successfully",Data:data});
@@ -1453,33 +1500,48 @@ router.post('/convertxmltojson',function(req,res){
           }
       
       }]
-            
-            
-            // name: 'String(name)',
-            // jerseyNumber: '@jerseyNumber',
-            // yearOfBirth: 'number(yearOfBirth)',
-            // isRetired: 'boolean(isRetired = "true")'
-        
-        
+     
         ;(async function () {
             try{
 
               const result = await transform(xml, template)
               var data = result;
               var nodes = xpath.select('//EDIHeader/EDICareandContent/Fibre/FibreComponents', root);
-              console.log(nodes.length);
+              //console.log(nodes.length);
+              var counter=1;
+              var fibres={}
+              nodes.forEach(function(item,i){
+                var fibrecomponents='';
+                //console.log(counter);
+                if(i==0)
+                {
 
+                  var fibrecomponents =nodes[i].localName;
+                }
+                else
+                {
+                  var fibrecomponents =nodes[i].localName + "_"+i;
+                }
+                var Variablenodes = xpath.select('//EDIHeader/EDICareandContent/Fibre/FibreComponents['+ counter +']/Variable', root);
+                //console.log(Variablenodes[1].localName + ": " + Variablenodes);
+                var node_variable_counter=1
+                fibres[fibrecomponents] = [];
+                Variablenodes.forEach(function(item,j){
+                  var id = xpath.select('//EDIHeader/EDICareandContent/Fibre/FibreComponents['+ counter +']/Variable['+node_variable_counter +']/ID', root);
+                  var data = xpath.select('//EDIHeader/EDICareandContent/Fibre/FibreComponents['+ counter +']/Variable['+node_variable_counter+']/Data', root);
+                  
+                  fibres[fibrecomponents][j]={'ID':id[0].firstChild.data,'Data':data[0].firstChild.data};
+                  node_variable_counter++;
+                  
+                })
+                counter++;
+                //console.log(Variablenodes.firstChile);
+              })
+              //console.log(fibres);
               data[0].SupplierDetail.push({ID:"Brand",Data:"boden"});
-              //data[0].SupplierDetail.push({"Brand":"boden"});
-              // if(data[0].EDISizeDetail.EDISize.length > 0 )
-              // {
-              //   console.log("edisize detail found");
-              // }
-              // else
-              // {
-              //   console.log(data[0].SupplierDetail);
-              //   console.log(data[0].EDISizeDetail.EDISize.length);
-              // }
+              
+              data[0].EDIHeader.EDICareandContent.Fibres = fibres;
+              
               if((data[0].EDISizeDetail.EDISize.length ==undefined  || data[0].EDISizeDetail.EDISize.length ==0) && (data[0].EDISizeDetail.MatrixDetail==undefined || data[0].EDISizeDetail.MatrixDetail.length==0))
               {
                 delete data[0].EDISizeDetail;
@@ -1504,6 +1566,18 @@ router.post('/convertxmltojson',function(req,res){
               {
                 delete data[0].SupplierDetail;
                 
+              }
+              if(data[0].EDIHeader.EDICareandContent.Fibres==undefined || data[0].EDIHeader.EDICareandContent.Fibres.length==0)
+              {
+                delete data[0].EDIHeader.EDICareandContent.Fibres;
+              }
+              if(data[0].EDIHeader.EDICareandContent.FrabricStatments==undefined || data[0].EDIHeader.EDICareandContent.FrabricStatments.length==0)
+              {
+                delete data[0].EDIHeader.EDICareandContent.FrabricStatments;
+              }
+              if(data[0].EDIHeader.EDICareandContent.CareSymbolMappingID==undefined || data[0].EDIHeader.EDICareandContent.CareSymbolMappingID.length==0)
+              {
+                delete data[0].EDIHeader.EDICareandContent.CareSymbolMappingID;
               }
               res.json({status:"1",Msg:"TUU XML File Converted Successfully",Data:data});
               
