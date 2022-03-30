@@ -31,8 +31,9 @@
         "passport-local-mongoose": "^6.1.0",
         "path": "^0.12.7",
         "request": "^2.88.2",
-        "xml-parse-from-string": "^1.0.1",
-        "xml2js": "^0.4.23"
+        "xml2js": "^0.4.23",
+        "xmldom": "^0.6.0",
+        "xpath": "0.0.32"
     },
     "repository": {
         "type": "git",

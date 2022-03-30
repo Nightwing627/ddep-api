@@ -6,7 +6,8 @@ var path = require('path');
 var request = require('request');
 const crypto = require('crypto');
 const { transform, prettyPrint } = require('camaro');
-var parseXML = require('xml-parse-from-string')
+var xmldom = require('xmldom');
+var xpath = require('xpath');
 //const ftp = require("basic-ftp")
 //const ftp = require('../my_modules/FTPClient');
 //const newftp = require('../my_modules/FTP');
@@ -1360,7 +1361,8 @@ router.post('/convertxmltojson',function(req,res){
   xml_string = xml_string.replace(/<!--(?!\s*(?:\[if [^\]]+]|<!|>))(?:(?!-->)(.|\n))*-->/g,"");
   //let xml_string = fs.readFileSync("./inbounds/myxml_data.xml", "utf8");
   //console.log(xml_string);
-  //var doc = parseXML(xml_string);
+  var parser = new xmldom.DOMParser();
+  var root = parser.parseFromString(xml_string, 'text/xml');
   const textOrDefault = (defaultValue) => `concat(
     text(),
     substring(
@@ -1415,14 +1417,11 @@ router.post('/convertxmltojson',function(req,res){
             EDICareandContent:{
               Fibres:{
 
-                FibreComponents_1:['//EDIHeader/EDICareandContent/Fibre/FibreComponents[1]/Variable',{
+                FibreComponents:['//EDIHeader/EDICareandContent/Fibre/FibreComponents/Variable',{
                   ID:"ID",
                   Data:"Data"
                 }],
-                FibreComponents_2:['//EDIHeader/EDICareandContent/Fibre/FibreComponents[2]/Variable',{
-                  ID:"ID",
-                  Data:"Data"
-                }],
+                
               },
               FrabricStatments:['//EDIHeader/EDICareandContent/FrabricStatments/Variable',{
                 ID:'ID',
@@ -1467,6 +1466,9 @@ router.post('/convertxmltojson',function(req,res){
 
               const result = await transform(xml, template)
               var data = result;
+              var nodes = xpath.select('//EDIHeader/EDICareandContent/Fibre/FibreComponents', root);
+              console.log(nodes.length);
+
               data[0].SupplierDetail.push({ID:"Brand",Data:"boden"});
               //data[0].SupplierDetail.push({"Brand":"boden"});
               // if(data[0].EDISizeDetail.EDISize.length > 0 )
