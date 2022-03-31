@@ -771,7 +771,7 @@ router.post('/outboundrun',function(req,res){
     )`
     const template = ['/WebOrder',{
 
-      OrderHandeling:[
+      OrderHandling:[
         '//POHeader/OrderHandeling/Variable',
         {
           ID:'OH_ID',
@@ -996,11 +996,11 @@ router.post('/outboundrun',function(req,res){
                 if(i==0)
                 {
 
-                  var fibrecomponents =nodes[i].localName;
+                  var fibrecomponents =nodes[i].localName+ "_"+counter;
                 }
                 else
                 {
-                  var fibrecomponents =nodes[i].localName + "_"+i;
+                  var fibrecomponents =nodes[i].localName + "_"+counter;
                 }
                 var Variablenodes = xpath.select('//EDIHeader/EDICareandContent/Fibre/FibreComponents['+ counter +']/Variable', root);
                 //console.log(Variablenodes[1].localName + ": " + Variablenodes);
@@ -1516,11 +1516,11 @@ router.post('/convertxmltojson',function(req,res){
                 if(i==0)
                 {
 
-                  var fibrecomponents =nodes[i].localName;
+                  var fibrecomponents =nodes[i].localName+ "_"+counter;
                 }
                 else
                 {
-                  var fibrecomponents =nodes[i].localName + "_"+i;
+                  var fibrecomponents =nodes[i].localName + "_"+counter;
                 }
                 var Variablenodes = xpath.select('//EDIHeader/EDICareandContent/Fibre/FibreComponents['+ counter +']/Variable', root);
                 //console.log(Variablenodes[1].localName + ": " + Variablenodes);
