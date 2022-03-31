@@ -841,7 +841,7 @@ router.post('/outboundrun',function(req,res){
     }]
     const template2 = ['//WebOrder',{
   
-        OrderHandeling:[
+        OrderHandling:[
           '//POHeader/OrderHandling/Variable',
           {
             ID:'ID',
@@ -1423,7 +1423,7 @@ router.post('/convertxmltojson',function(req,res){
       
       const template = ['//WebOrder',{
   
-        OrderHandeling:[
+        OrderHandling:[
           '//POHeader/OrderHandling/Variable',
           {
             ID:'ID',
