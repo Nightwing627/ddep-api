@@ -90,14 +90,22 @@ cron.schedule('* * * * *',()=>{
   console.log("run by schedule every minit");
     calltestfun();
 });
+
+cron.schedule("0 0 0 * * *", function() {
+  monitor.logFileCleanUp();
+  console.log("running a task every day 00:00 hours");
+});
+
   mongoose.connect(dbConfig.url, {
     useNewUrlParser: true,
     
     
   }).then(() => {
       console.log("Successfully connected to the database");    
+      // monitor.exceptionErrorStore('error_page', 'error_module', 'error_info', 'error_url', 'error_http_status_code', 'error_username', 'error_company_code');
   }).catch(err => {
       console.log('Could not connect to the database. Exiting now...', err);
+      // monitor.databaseConnectError('page', 'function', 'developer', 'error_description');
       process.exit();
   });
   
