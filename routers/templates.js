@@ -7,7 +7,7 @@ router.use(express.json());
 //app.use(cookieParser());
 router.use(express.static(path.join(__dirname, 'public')));
 router.use(express.static('public'));
-const templates = require('../controllers/Templates.controller.js');
+const templates = require('../controllers/templates.controller.js');
 router.post('/save', templates.create);
 router.put('/:id',templates.update);
 router.get('/editAPI/:id',templates.findOne);
