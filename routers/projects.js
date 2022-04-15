@@ -18,13 +18,16 @@ const outbound_setting = require('../controllers/outbound_setting.controller.js'
 const schedule_setting = require('../controllers/schedule_setting.controller.js');
 const { json } = require('body-parser');
 router.post('/save', projects.create);
+
 router.put('/update/:id',projects.update);
+
 router.post('/checkcodeexist',projects.checkecodexsit);
 router.get('/add',function(req,res){
     res.render('pages/add-projects');
 })
 router.get('/list',projects.findAll);
 router.get('/fulllist',projects.fullProject);
+
 router.get('/project-list',function(req,res){
     res.render('pages/list-project',{alldata:null});
 });
@@ -32,6 +35,8 @@ router.post('/upload',function(req,res){
     const client = new ftp('ftp1.innoways.com', 21, 'zennaxx', 'k59*7cmR', true);
     client.upload('./upload.txt', 'home/upload.txt', 755);
 });
+
+
 router.post('/download',function(req,res){
     var host = req.body.host;
     var port = req.body.port;
