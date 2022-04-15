@@ -98,7 +98,7 @@ $(function () {
             }
           },
           ProjectName: {
-            required: true
+            required: true,
           },
           CompanyName: {
             required: true

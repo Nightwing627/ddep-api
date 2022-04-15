@@ -214,6 +214,16 @@ exports.update = (req, res) => {
    //data = JSON.parse(data);
    
    
+    if(!data.ProjectName) {
+        return res.status(400).send({
+            message: "Project Name Not Found"
+        });
+    }
+    if(!data.CompanyName) {
+        return res.status(400).send({
+            message: "Company Name is Required"
+        });
+    }
     
     
     const project = new Project({

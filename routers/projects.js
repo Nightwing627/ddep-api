@@ -19,7 +19,9 @@ const schedule_setting = require('../controllers/schedule_setting.controller.js'
 const ase = require('../my_modules/aes');
 const { json } = require('body-parser');
 router.post('/save', projects.create);
+
 router.put('/update/:id',projects.update);
+
 router.post('/checkcodeexist',projects.checkecodexsit);
 router.get('/add',function(req,res){
     var ddep_api_prefix = config.domain+'/'+config.companyCode+'/';
@@ -27,6 +29,7 @@ router.get('/add',function(req,res){
 })
 router.get('/list',projects.findAll);
 router.get('/fulllist',projects.fullProject);
+
 router.get('/project-list',function(req,res){
     var Aes = new ase();
     let inFields = req.body;
@@ -43,6 +46,8 @@ router.post('/upload',function(req,res){
     const client = new ftp('ftp1.innoways.com', 21, 'zennaxx', 'k59*7cmR', true);
     client.upload('./upload.txt', 'home/upload.txt', 755);
 });
+
+
 router.post('/download',function(req,res){
     var host = req.body.host;
     var port = req.body.port;
