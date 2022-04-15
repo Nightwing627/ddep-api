@@ -77,13 +77,22 @@ exports.create = (req, res) => {
         });
     }
     
-    if(((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='DDEP_API')|| (data.sync_type=="API" && api_type[1]!=undefined && api_type[1]=='DDEP_API')) && data.ddep_api_url=="")
+    if(((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='DDEP_API')|| (data.sync_type=="API" && api_type[1]!=undefined && api_type[1]=='DDEP_API')) && data.api_ddep_api=="")
     {
         return res.status(400).send({
             message: "DDEP API URL is Required"
         });
+    } 
+    if(((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='DDEP_API')|| (data.sync_type=="API" && api_type[1]!=undefined && api_type[1]=='DDEP_API')) && data.api_ddep_api!="")
+    {
+        var re = new RegExp(/^(\/)[a-zA-Z0-9-_\/]+$/);
+        if (!re.test(data.api_ddep_api)) {
+            return res.status(400).send({
+                message: "DDEP API is not valid (must start with a '/' and must contain any letter, capitalize letter, number, dash or underscore)"
+            });
+        }
     }
-    if((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='User_API') && data.user_api_url=="")
+    if((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='User_API') && data.api_user_api=="")
     {
         return res.status(400).send({
             message: "User API URL is Required"
@@ -102,18 +111,41 @@ exports.create = (req, res) => {
         folder:data.folder || "",
         is_password_encrypted:data.is_password_encrypted || "",
         api_type:data.api_type || "",
-        user_api_url:data.user_api_url || "",
-        ddep_api_url:data.ddep_api_url || "",
+        api_user_api:data.api_user_api || "",
+        api_ddep_api:data.api_ddep_api || "",
         createdBy:"",
         updateBy : ""
     });
     inboundSetting.save()
     .then(data => {
         //res.send(data);
-        res.status(200).send({id:data._id, msg:"Setting Saved Successfully"});
+        res.status(200).send({
+            code: "0",
+            MsgCode: "10001",
+            MsgType: "Save-Data-Success",
+            MsgLang: "en",
+            ShortMsg: "Save Successful",
+            LongMsg: "The Setting detail information was save successful",
+            InternalMsg: "",
+            EnableAlert: "No",
+            DisplayMsgBy: "ShortMsg",
+            msg: "Setting save successfully",
+            id: data._id,
+            Data: []
+        });
     }).catch(err => {
-        res.status(500).send({
-            message: err.message || "Some error occurred while creating the User."
+            res.status(500).send({
+            code: "1",
+            MsgCode: "50001",
+            MsgType: "Exception-Error",
+            MsgLang: "en",
+            ShortMsg: "Update Fail",
+            LongMsg: err.message || "Some error occurred while creating the project.",
+            InternalMsg: "",
+            EnableAlert: "No",
+            DisplayMsgBy: "LongMsg",
+            message: err.message || "Some error occurred while creating the project.",
+            Data: []
         });
     });
 };
@@ -139,7 +171,6 @@ exports.countAll=(req,res)=>{
     });
 }
 exports.searchUser = (req,res)=>{
-
 }
 // Find a single note with a noteId
 exports.findOne = (req, res) => {
@@ -168,18 +199,16 @@ exports.update = (req, res) => {
     // }
     //var data = JSON.parse(req.body);
 
-   //data = JSON.stringify(req.body);
-   //data = JSON.parse(data);
-   var checkinbound =isJson(data);
-   var api_type = data.api_type.split(',');
-   if(checkinbound)
-   {
+    //data = JSON.stringify(req.body);
+    //data = JSON.parse(data);
+    var checkinbound =isJson(data);
+    if(checkinbound)
+    {
 
        data = JSON.parse(data);
-   }
+    }
    
-   
-    
+    var api_type = data.api_type.split(',');
     if(!data.project_id) {
         return res.status(400).send({
             message: "Project Not Found"
@@ -195,29 +224,29 @@ exports.update = (req, res) => {
             message: "Select Syncronize Type"
         });
     }
-    if(!data.ftp_server_link) {
+    if((data.sync_type=="FTP" || data.sync_type=="FTP") && !data.ftp_server_link) {
         return res.status(400).send({
             message: "FTP URL is Required"
         });
     }
-    if(!data.port) {
+    if((data.sync_type=="FTP" || data.sync_type=="FTP") && !data.port) {
         return res.status(400).send({
             message: "Port Number is Required"
         });
     }
-    if(!data.login_name) {
+    if((data.sync_type=="FTP" || data.sync_type=="FTP") && !data.login_name) {
         return res.status(400).send({
             message: "Login Name is Required"
         });
     }
-    if(!data.password) {
+    if((data.sync_type=="FTP" || data.sync_type=="FTP") && !data.password) {
         return res.status(400).send({
             message: "Password is Required"
         });
     }
-    if(!data.folder) {
+    if((data.sync_type=="FTP" || data.sync_type=="FTP") && !data.folder) {
         return res.status(400).send({
-            message: "Folder path is Required"
+            message: "folder path is Required"
         });
     }
     if((data.sync_type=="API" && api_type[0]==undefined || api_type[0]=="")) {
@@ -226,18 +255,28 @@ exports.update = (req, res) => {
         });
     }
     
-    if(((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='DDEP_API')|| (data.sync_type=="API" && api_type[1]!=undefined && api_type[1]=='DDEP_API')) && data.ddep_api_url=="")
+    if(((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='DDEP_API')|| (data.sync_type=="API" && api_type[1]!=undefined && api_type[1]=='DDEP_API')) && data.api_ddep_api=="")
     {
         return res.status(400).send({
             message: "DDEP API URL is Required"
         });
     }
-    if((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='User_API') && data.user_api_url=="")
+    if(((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='DDEP_API')|| (data.sync_type=="API" && api_type[1]!=undefined && api_type[1]=='DDEP_API')) && data.api_ddep_api!="")
+    {
+        var re = new RegExp(/^(\/)[a-zA-Z0-9-_\/]+$/);
+        if (!re.test(data.api_ddep_api)) {
+            return res.status(400).send({
+                message: "DDEP API is not valid (must start with a '/' and must contain any letter, capitalize letter, number, dash or underscore)"
+            });
+        }
+    }
+    if((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='User_API') && data.api_user_api=="")
     {
         return res.status(400).send({
             message: "User API URL is Required"
         });
     }
+
     data.createdBy="",
       data.updateBy = ""
     const inboundSetting = new InboundSetting({
@@ -254,8 +293,8 @@ exports.update = (req, res) => {
         backup_folder:data.backup_folder || "",
         is_active : data.is_active || "Inactive",
         api_type:data.api_type,
-        user_api_url:data.user_api_url || "",
-        ddep_api_url:data.ddep_api_url || "",
+        api_user_api:data.api_user_api || "",
+        api_ddep_api:data.api_ddep_api || "",
         createdBy:"",
         updateBy : ""
             
@@ -265,17 +304,46 @@ exports.update = (req, res) => {
         //console.log(req.params.id);
       if (!InboundSetting) {
         return res.status(404).send({
-          message: "no Project found"
+          code: "1",
+          MsgCode: "10002",
+          MsgType: "Invalid-Source",
+          MsgLang: "en",
+          ShortMsg: "Update Fail",
+          LongMsg: "Project not found",
+          InternalMsg: "",
+          EnableAlert: "No",
+          DisplayMsgBy: "LongMsg",
+          message: "no Project found",
+          Data: []
         });
       }
       res.status(200).send({
-          message:"Setting Update Successfully"
+          code: "0",
+          MsgCode: "10001",
+          MsgType: "Update-Data-Success",
+          MsgLang: "en",
+          ShortMsg: "Update Successful",
+          LongMsg: "The Setting detail information was update successful",
+          InternalMsg: "",
+          EnableAlert: "No",
+          DisplayMsgBy: "ShortMsg",
+          message: "Setting update successfully",
+          Data: []
       });
     })
     .catch((err) => {
       return res.status(404).send({
-        message: "error while updating the Project",
-        err:err
+        code: "1",
+        MsgCode: "50001",
+        MsgType: "Exception-Error",
+        MsgLang: "en",
+        ShortMsg: "Update Fail",
+        LongMsg: err.message || "Some error occurred while updating the project.",
+        InternalMsg: "",
+        EnableAlert: "No",
+        DisplayMsgBy: "LongMsg",
+        message: err.message || "Some error occurred while updating the project.",
+        Data: []
       });
     });
 

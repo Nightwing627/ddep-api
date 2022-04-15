@@ -259,29 +259,32 @@ License: You must have a valid license purchased only from themeforest(the above
                                                   </div>
                                                   <div id="collapse1In" role="tabpanel" aria-labelledby="apiInTab" class="collapse show" style="">
                                                     <div class="card-body">
-                                                      <div id="user_api_url_input" class="demo-inline-spacing">
+                                                      <div id="api_user_api_input" class="demo-inline-spacing" style="display: none;">
                                                         <div class="col-md-2">
                                                           User API<font style="color:red">*</font>
                                                         </div>
                                                         <div class="col-md-9">
                                                           <div class="form-group">
                                                             <div class="demo-inline-spacing">
-                                                              <input type="text" name="user_api_url" class="form-control" id="user_api_url">
+                                                              <input type="text" name="api_user_api" class="form-control" id="api_user_api">
                                                             </div>
                                                           </div>
                                                         </div>
                                                       </div>
-                                                      <div id="ddep_api_url_input" class="demo-inline-spacing">
+                                                      <div id="api_ddep_api_input" class="demo-inline-spacing" style="display: none;">
                                                         <div class="col-md-2">
                                                           DDEP API<font style="color:red">*</font>
                                                         </div>
                                                         <div class="col-md-9">
-                                                          <div class="col-md-3">
-                                                          </div>
-                                                          <div class="col-md-9">
-                                                            <div class="form-group">
-                                                              <div class="demo-inline-spacing">
-                                                                <input type="text" name="ddep_api_url" class="form-control" id="ddep_api_url">
+                                                          <div class="row">
+                                                            <div class="col-md-3" style="margin: auto;">
+                                                              <span><%= api_prefix %></span>
+                                                            </div>
+                                                            <div class="col-md-9">
+                                                              <div class="form-group">
+                                                                <div class="demo-inline-spacing">
+                                                                  <input type="text" name="api_ddep_api" class="form-control" id="api_ddep_api">
+                                                                </div>
                                                               </div>
                                                             </div>
                                                           </div>

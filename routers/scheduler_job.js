@@ -44,7 +44,7 @@ router.get('/getScheduleProjectInfo', function (req, res) {
 
                     let date_ob = new Date();
                     var currenttime = (date_ob.getHours() < 10 ? '0' : '') + date_ob.getHours() + ":" + (date_ob.getMinutes() < 10 ? '0' : '') + date_ob.getMinutes();
-                    if (item.inbound_setting.is_active == "Active") {
+                    if (item.inbound_setting.is_active == "Active" && item.inbound_setting.api_type != "DDEP_API") {
 
                         if (item.schedule_setting.Schedule_configure_inbound != 'click_by_user') {
                             if (item.schedule_setting.schedule_type_inbound == "Recurring") {

@@ -15,8 +15,8 @@ const InboundSettingSchema = mongoose.Schema({
     is_password_encrypted:String,
     backup_folder:String,
     api_type:String,
-    user_api_url:String,
-    ddep_api_url:String,
+    api_ddep_api:String,
+    api_user_api:String,
     createdBy:String,
     updateBy:String,
     is_active:{
