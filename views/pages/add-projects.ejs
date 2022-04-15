@@ -210,126 +210,189 @@ License: You must have a valid license purchased only from themeforest(the above
                                   <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                                     <div class="card-body">
                                       <div class="row">
-                                        <div class="form-group col-md-2">
-                                            <label class="form-label required" for="first-name">Synchronize Configure</label> 
-                                        </div>
-                                        <div class="form-group col-md-9">
-                                          <!-- <div class="row">
-                                            <div class="custom-control custom-radio col-md-2">
-                                              <input type="radio" name="syncronize_configure_inbound" id="syncronize_configure_inbound" class="radio-inline" value="FTP_SFTP" checked/>
-                                              <span>FTP/SFTP</span>
-                                            </div>
-                                          </div> -->
-
-                                          <div class="custom-control custom-radio">
-                                            <input type="radio" name="syncronize_configure_inbound" id="syncronize_configure_inbound" class="custom-control-input" value="FTP_SFTP" checked/>
-                                            <label class="custom-control-label" for="syncronize_configure_inbound">FTP/SFTP</label>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div class="row">
-                                        <div class="form-group col-md-2">
-                                            <label class="form-label required" for="first-name">FTP/SFTP</label> 
-                                        </div>
-                                        <div class="form-group col-md-9">
-                                          <div class="row">                
-                                            <!-- <div class="custom-control custom-radio col-md-2">
-                                              <input type="radio" name="sync_type" id="Sync_type_ftp" class="radio-inline" value="FTP" /><span>FTP</span>
-                                            </div>
-                                            <div class="custom-control custom-radio col-md-2">
-                                              <input type="radio" name="sync_type" id="Sync_type_sftp" class="radio-inline" value="SFTP" /><span>SFTP</span>
+                                        <div class="form-group col-md-12">
+                                          <label class="form-label required" for="first-name">Synchronize Configure</label>
+                                          <div class="form-group col-md-12">
+                                            <!-- <div class="custom-control custom-radio">
+                                              <input type="radio" name="syncronize_configure_inbound" id="syncronize_configure_inbound" class="custom-control-input" value="FTP_SFTP" checked/>
+                                              <label class="custom-control-label" for="syncronize_configure_inbound">FTP/SFTP</label>
                                             </div> -->
-                                            <div class="col-md-2 col-6">
+                                            <div class="row">
                                               <div class="custom-control custom-radio">
-                                                <input type="radio" name="sync_type" id="Sync_type_ftp" class="custom-control-input" value="FTP" checked />
+                                                <input type="radio" name="sync_type" id="Sync_type_api" class="custom-control-input" value="API" checked />
+                                                <label class="custom-control-label" for="Sync_type_api">API</label>
+                                              </div>&nbsp;&nbsp;
+                                              <div class="custom-control custom-radio">
+                                                <input type="radio" name="sync_type" id="Sync_type_ftp" class="custom-control-input" value="FTP" />
                                                 <label class="custom-control-label" for="Sync_type_ftp">FTP</label>
-                                              </div>
-                                            </div>
-                                            <div class="col-md-2 col-6">
+                                              </div>&nbsp;&nbsp;
                                               <div class="custom-control custom-radio">
                                                 <input type="radio" name="sync_type" id="Sync_type_sftp" class="custom-control-input" value="SFTP" />
                                                 <label class="custom-control-label" for="Sync_type_sftp">SFTP</label>
+                                              </div>&nbsp;&nbsp;
+                                            </div>
+                                          </div>
+                                          <div id="api_options" class="form-group col-md-12">
+                                            <div class="row">
+                                              <div class="custom-control custom-chckbox col-md-2">
+                                                <input type="checkbox" name="api_type_user" id="Api_type_user" class="custom-control-input" value="User_API" />
+                                                <label class="custom-control-label" for="Api_type_user">User API</label>
+                                              </div>
+                                              <div class="custom-control custom-chckbox col-md-2">
+                                                <input type="checkbox" name="api_type_ddep" id="Api_type_ddep" class="custom-control-input" value="DDEP_API" />
+                                                <label class="custom-control-label" for="Api_type_ddep">DDEP API</label>
                                               </div>
                                             </div>
                                           </div>
                                         </div>
                                       </div>
-                                      <div class="row">
-                                          <div class="form-group col-md-2">
-                                              <label class="form-label required" for="first-name">FTP/SFPT Server</label>
-                                          </div>
-                                          <div class="form-group col-md-9">
-                                              <input type="text" name="ftp_server_link" id="ftp_server_link" class="form-control" placeholder="ftp.example.com" />
-                                          </div>
-                                      </div>
-                                      <!-- <div class="row">
-                                          <div class="form-group col-md-3">
-                                              <label class="form-label required" for="first-name">Host</label>
-                                          </div> 
-                                           <div class="form-group col-md-9">
-                                              <input type="text" name="host" id="host" class="form-control" placeholder="" />
-                                          </div>
-                                      </div> -->
-                                      <div class="row">
-                                          <div class="form-group col-md-2">
-                                              <label class="form-label required" for="first-name">Port</label>
-                                          </div>
-                                          <div class="form-group col-md-9">
-                                              <input type="text" name="port" id="port" class="form-control" placeholder="" />
-                                          </div>
-                                      </div>
-                                      <div class="row">
-                                          <div class="form-group col-md-2">
-                                              <label class="form-label required" for="first-name">Login Name</label>
-                                          </div>
-                                          <div class="form-group col-md-9">
-                                              <input type="text" name="login_name" id="login_name" class="form-control" placeholder="" />
-                                          </div>
-                                      </div>
-                                      <div class="row">
-                                          <div class="form-group col-md-2">
-                                              <label class="form-label required" for="first-name">Password</label>
-                                          </div>
-                                          <div class="form-group col-md-9">
-                                              <input type="password" name="password" id="password" class="form-control" placeholder="" />
-                                          </div>
-                                      </div>
-                                      <div class="row">
-                                          <div class="form-group col-md-2">
-                                              <label class="form-label required" for="first-name">Is Password Encrypted</label>
-                                          </div>
-                                          <div class="form-group col-md-9">
-                                            <select class="select2 form-control form-control-lg" id="is_password_encrypted" name="is_password_encrypted">
-                                              <option value="yes">Yes</option>
-                                              <option value="no">No</option>
-                                            </select>
-                                          </div>
-                                      </div>
-                                      <div class="row">
-                                        <div class="form-group col-md-2">
-                                            <label class="form-label required" for="first-name">Folder</label>
-                                        </div>
-                                        <div class="form-group col-md-9">
-                                          <input type="text" name="folderpath" id="folderpath" class="form-control" placeholder="" />
-                                        </div>
-                                      </div>
-                                      <div class="row">
-                                        <div class="form-group col-md-2">
-                                            <label class="form-label" for="first-name">Backup Folder</label>
-                                        </div>
-                                        <div class="form-group col-md-9">
-                                          <input type="text" name="backup_folder" id="backup_folder" class="form-control" placeholder="" />
-                                        </div>
-                                      </div>
-                                      <div class="row mt-1">
-                                        <div class="col-md-3"></div>
-                                        <div class="form-group col-md-9">
-                                          <button type="button" id="conntest" class="btn btn-primary waves-effect waves-float waves-light">Connection Test</button>
-                                          <span class="text-success ml-2" id="conn-alert" style="display: none;">Successfully connected with server</span>
-                                          <!-- <span class="text-danger ml-2">Server details you have enter is wrong</span> -->
-                                        </div>
-                                      </div>
                                     </div>
+                                    <section id="collapsibleIn">
+                                      <div class="row">
+                                        <div class="col-sm-12">
+                                          <div class="card collapse-icon">
+                                            <div class="card-body">
+                                              <div class="collapse-default">
+                                                <div class="card sync_confige_tabs" id="apiInUrlDiv" style="display: none;">
+                                                  <div id="apiInTab" class="card-header" data-toggle="collapse" role="button" data-target="#collapse1In" aria-expanded="true" aria-controls="collapse1In">
+                                                    <span class="lead collapse-title"> API </span>
+                                                  </div>
+                                                  <div id="collapse1In" role="tabpanel" aria-labelledby="apiInTab" class="collapse show" style="">
+                                                    <div class="card-body">
+                                                      <div id="user_api_url_input" class="demo-inline-spacing">
+                                                        <div class="col-md-2">
+                                                          User API<font style="color:red">*</font>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                          <div class="form-group">
+                                                            <div class="demo-inline-spacing">
+                                                              <input type="text" name="user_api_url" class="form-control" id="user_api_url">
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                      <div id="ddep_api_url_input" class="demo-inline-spacing">
+                                                        <div class="col-md-2">
+                                                          DDEP API<font style="color:red">*</font>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                          <div class="col-md-3">
+                                                          </div>
+                                                          <div class="col-md-9">
+                                                            <div class="form-group">
+                                                              <div class="demo-inline-spacing">
+                                                                <input type="text" name="ddep_api_url" class="form-control" id="ddep_api_url">
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div class="card sync_confige_tabs" id="ftpInDiv" style="display: none;">
+                                                  <div id="ftpInDivTab" class="card-header collapse-header" data-toggle="collapse" role="button" data-target="#collapse2In" aria-expanded="true" aria-controls="collapse2In">
+                                                    <span class="lead collapse-title"> FTP</span>
+                                                  </div>
+                                                  <div id="collapse2In" role="tabpanel" aria-labelledby="ftpInDivTab" class="collapse show" aria-expanded="false" style="">
+                                                    <div class="card-body">
+                                                      <!-- <div class="row">
+                                                        <div class="form-group col-md-2">
+                                                            <label class="form-label required" for="first-name">FTP/SFTP</label> 
+                                                        </div>
+                                                        <div class="form-group col-md-9">
+                                                          <div class="row">
+                                                            <div class="col-md-2 col-6">
+                                                              <div class="custom-control custom-radio">
+                                                                <input type="radio" name="sync_type" id="Sync_type_ftp" class="custom-control-input" value="FTP" checked />
+                                                                <label class="custom-control-label" for="Sync_type_ftp">FTP</label>
+                                                              </div>
+                                                            </div>
+                                                            <div class="col-md-2 col-6">
+                                                              <div class="custom-control custom-radio">
+                                                                <input type="radio" name="sync_type" id="Sync_type_sftp" class="custom-control-input" value="SFTP" />
+                                                                <label class="custom-control-label" for="Sync_type_sftp">SFTP</label>
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                      </div> -->
+                                                      <div class="row">
+                                                          <div class="form-group col-md-2">
+                                                              <label class="form-label required" for="first-name">FTP/SFPT Server</label>
+                                                          </div>
+                                                          <div class="form-group col-md-9">
+                                                              <input type="text" name="ftp_server_link" id="ftp_server_link" class="form-control" placeholder="ftp.example.com" />
+                                                          </div>
+                                                      </div>
+                                                      <div class="row">
+                                                          <div class="form-group col-md-2">
+                                                              <label class="form-label required" for="first-name">Port</label>
+                                                          </div>
+                                                          <div class="form-group col-md-9">
+                                                              <input type="text" name="port" id="port" class="form-control" placeholder="" />
+                                                          </div>
+                                                      </div>
+                                                      <div class="row">
+                                                          <div class="form-group col-md-2">
+                                                              <label class="form-label required" for="first-name">Login Name</label>
+                                                          </div>
+                                                          <div class="form-group col-md-9">
+                                                              <input type="text" name="login_name" id="login_name" class="form-control" placeholder="" />
+                                                          </div>
+                                                      </div>
+                                                      <div class="row">
+                                                          <div class="form-group col-md-2">
+                                                              <label class="form-label required" for="first-name">Password</label>
+                                                          </div>
+                                                          <div class="form-group col-md-9">
+                                                              <input type="password" name="password" id="password" class="form-control" placeholder="" />
+                                                          </div>
+                                                      </div>
+                                                      <div class="row">
+                                                          <div class="form-group col-md-2">
+                                                              <label class="form-label required" for="first-name">Is Password Encrypted</label>
+                                                          </div>
+                                                          <div class="form-group col-md-9">
+                                                            <select class="select2 form-control form-control-lg" id="is_password_encrypted" name="is_password_encrypted">
+                                                              <option value="yes">Yes</option>
+                                                              <option value="no">No</option>
+                                                            </select>
+                                                          </div>
+                                                      </div>
+                                                      <div class="row">
+                                                        <div class="form-group col-md-2">
+                                                            <label class="form-label required" for="first-name">Folder</label>
+                                                        </div>
+                                                        <div class="form-group col-md-9">
+                                                          <input type="text" name="folderpath" id="folderpath" class="form-control" placeholder="" />
+                                                        </div>
+                                                      </div>
+                                                      <div class="row">
+                                                        <div class="form-group col-md-2">
+                                                            <label class="form-label" for="first-name">Backup Folder</label>
+                                                        </div>
+                                                        <div class="form-group col-md-9">
+                                                          <input type="text" name="backup_folder" id="backup_folder" class="form-control" placeholder="" />
+                                                        </div>
+                                                      </div>
+                                                      <div class="row mt-1">
+                                                        <div class="col-md-3"></div>
+                                                        <div class="form-group col-md-9">
+                                                          <button type="button" id="conntest" class="btn btn-primary waves-effect waves-float waves-light">Connection Test</button>
+                                                          <span class="text-success ml-2" id="conn-alert" style="display: none;">Successfully connected with server</span>
+                                                          <!-- <span class="text-danger ml-2">Server details you have enter is wrong</span> -->
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </section>
                                   </div>
                                 </div>
                                 
@@ -519,7 +582,7 @@ License: You must have a valid license purchased only from themeforest(the above
             <input type="hidden" name="schedule_setting_id" id="schedule_setting_id" value="">
             <div class="collapse-margin" id="accordionExample">
               
-              <div class="card">
+              <div class="card" id="inbound_shedule_setting_tab">
                 <div class="card-header collapsed" id="headingTwo" data-toggle="collapse" role="button" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                   <span class="lead collapse-title" style="color:blue">Inbound  </span>
                 </div>

@@ -82,16 +82,11 @@ $(function () {
           ProjectCode: {
             required: true,
             remote : {
-              
               type : 'POST',
               url : "/projects/checkcodeexist",
               data : {
-                  ProjectCode: function() { return $("#ProjectCode").val();
-                },
-                project_id: function() { return $("#project_id").val();
-              },
-                
-              
+                ProjectCode: function() { return $("#ProjectCode").val(); },
+                project_id: function() { return $("#project_id").val(); },
               },
             }
           },
@@ -122,9 +117,6 @@ $(function () {
           api_url:{
             required:true,
           },
-          /* api_url: {
-            required: true
-          }, */
           Schedule_configure: {
             required: true
           },
@@ -138,10 +130,32 @@ $(function () {
             required: true,
             min:1,
             digits:true
-
           },
           recurs_time: {
             required: true
+          },
+          api_type_user: {
+            required: function (element) {
+              if($('#Api_type_ddep').is(":checked")) {
+                return false;
+              }
+              return true;
+            },
+          },
+          api_type_ddep: {
+            required: function (element) {
+              if($('#Api_type_user').is(":checked")) {
+                return false;
+              }
+              return true;
+            },
+          },
+          user_api_url: {
+            required: true
+          },
+          ddep_api_url: {
+            required: true,
+            maxlength: 20
           },
           one_time_occurrence_inbound_date:{
             required: "#one_time_occurrence_inbound_date:visible"
@@ -269,6 +283,49 @@ $(function () {
                       $('#login_name').val(response.login_name);
                       $('#password').val(response.password);
                       $('input[value="'+response.sync_type+'"]').prop('checked',true);
+                      if (response.sync_type == 'API' || response.sync_type == '') {
+                        $('#apiInUrlDiv').show();
+                        $('#api_options').show();
+                        $('#user_api_url_input').show();
+                        $('#ddep_api_url_input').show();
+                        var api_type = response.api_type.split(',');
+                        if(api_type.includes("User_API"))
+                        {
+                          $('#Api_type_user').prop("checked",true);
+                          $('#Api_type_user').trigger('change');
+                          $('#user_api_url').val(response.user_api_url)
+                        }
+                        else
+                        {
+                          $('#Api_type_user').prop("checked",false);
+                          $('#Api_type_user').trigger('change');
+                        }
+                        if(api_type.includes("DDEP_API"))
+                        {
+                          $('#Api_type_ddep').prop("checked",true);
+                          $('#Api_type_ddep').trigger('change');
+                          $('#ddep_api_url').val(response.ddep_api_url);
+                        }
+                        else
+                        { 
+                          $('#Api_type_ddep').prop("checked",false);
+                          $('#Api_type_ddep').trigger('change');
+                        }
+                      }
+                      else
+                      {
+                        $('#apiInUrlDiv').hide();
+                        $('#api_options').hide();
+                        $('#user_api_url_input').hide();
+                        $('#ddep_api_url_input').hide();
+                      }
+                      if (response.sync_type == 'FTP' || response.sync_type == 'SFTP') {
+                        $('#ftpInDiv').show();
+                        $('#apiInUrlDiv').hide();
+                        $('#api_options').hide();
+                        $('#user_api_url_input').hide();
+                        $('#ddep_api_url_input').hide();
+                      }
                       $('#folderpath').val(response.folder);
                       $('#backup_folder').val(response.backup_folder);
                       $('#is_password_encrypted option[value="'+response.is_password_encrypted+'"]').prop('selected',true);
@@ -551,6 +608,34 @@ $(function () {
                 var backup_folder = $('#backup_folder').val();
                 var is_password_encrypted = $('#is_password_encrypted').val();
                 var is_active = $('#is_active_inbound').data('value');
+                var ddep_api_url = $('#ddep_api_url').val()==undefined ? "":$('#ddep_api_url').val();
+                var user_api_url = $('#user_api_url').val()==undefined ? "":$('#user_api_url').val();
+                var  api_type = '';
+                if($('#Api_type_user').prop('checked')==true)
+                {
+                  if(api_type=="")
+                  {
+
+                    api_type = $('#Api_type_user').val();
+                  }
+                  else
+                  {
+                    api_type = $('#Api_type_user').val() + ',' + $('#Api_type_ddep').val();
+                  }
+                }
+                
+                if($('#Api_type_ddep').prop('checked')==true)
+                {
+                  if(api_type=="")
+                  {
+
+                    api_type = $('#Api_type_ddep').val();
+                  }
+                  else
+                  {
+                    api_type = $('#Api_type_user').val() + ',' + $('#Api_type_ddep').val();
+                  }
+                }
                 if(inbound_setting_id=="")
                 {
   
@@ -558,7 +643,7 @@ $(function () {
                     url:'/inbound_setting/save',  
                     method:'post',  
                     dataType:'json',
-                    data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,is_active:is_active},
+                    data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,ddep_api_url:ddep_api_url,user_api_url:user_api_url,api_type:api_type,is_active:is_active},
                     success:function(response){
                       console.log(response);
                       //alert("Setting saved successfully");
@@ -576,7 +661,7 @@ $(function () {
                     url:'/inbound_setting/update/'+inbound_setting_id,  
                     method:'put',  
                     dataType:'json',
-                    data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,is_active:is_active},
+                    data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,ddep_api_url:ddep_api_url,user_api_url:user_api_url,api_type:api_type,is_active:is_active},
                     success:function(response){
                       //console.log(response);
                       //alert("Setting saved successfully");
@@ -812,6 +897,34 @@ $(function () {
           var backup_folder = $('#backup_folder').val();
           var is_password_encrypted = $('#is_password_encrypted').val();
           var is_active = $('#is_active_inbound').data('value');
+          var ddep_api_url = $('#ddep_api_url').val()==undefined ? "":$('#ddep_api_url').val();
+          var user_api_url = $('#user_api_url').val()==undefined ? "":$('#user_api_url').val();
+          var  api_type = '';
+          if($('#Api_type_user').prop('checked')==true)
+          {
+            if(api_type=="")
+            {
+
+              api_type = $('#Api_type_user').val();
+            }
+            else
+            {
+              api_type = $('#Api_type_user').val() + ',' + $('#Api_type_ddep').val();
+            }
+          }
+          
+          if($('#Api_type_ddep').prop('checked')==true)
+          {
+            if(api_type=="")
+            {
+
+              api_type = $('#Api_type_ddep').val();
+            }
+            else
+            {
+              api_type = $('#Api_type_user').val() + ',' + $('#Api_type_ddep').val();
+            }
+          }
           if(inbound_setting_id=="")
           {
 
@@ -819,7 +932,7 @@ $(function () {
               url:'/inbound_setting/save',  
               method:'post',  
               dataType:'json',
-              data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,is_active:is_active},
+              data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,ddep_api_url:ddep_api_url,user_api_url:user_api_url,api_type:api_type,is_active:is_active},
               success:function(response){
                 console.log(response);
                 //alert("Setting saved successfully");
@@ -838,7 +951,7 @@ $(function () {
               url:'/inbound_setting/update/'+inbound_setting_id,  
               method:'put',  
               dataType:'json',
-              data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,is_active:is_active},
+              data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,ddep_api_url:ddep_api_url,user_api_url:user_api_url,api_type:api_type,is_active:is_active},
               success:function(response){
                 //console.log(response);
                 sweetAlert("success", "Inbound Setting Saved Successfully", "success");
@@ -1780,4 +1893,47 @@ $(function () {
       });
   }
   
+});
+
+$('body').on('change', 'input:radio[name=sync_type]', function() {
+  $('.sync_confige_tabs').hide();
+  $('#api_options').hide();
+  $('#user_api_url_input').hide();
+  $('#ddep_api_url_input').hide();
+  if (this.value == 'FTP' || this.value == 'SFTP') {
+    $('#ftpInDiv').show();
+    $('#inbound_shedule_setting_tab').show();
+  }
+  if (this.value == 'API') {
+    $('#apiInUrlDiv').show();
+    $('#api_options').show();
+  }
+});
+
+$('body').on('change', '#Api_type_user', function() {
+  if($(this).is(":checked")) {
+    $('#user_api_url_input').show();
+    $('#inbound_shedule_setting_tab').show();
+  } else {
+    $('#user_api_url_input').hide();
+    if($('#Api_type_ddep').is(":checked")) {
+      $('#inbound_shedule_setting_tab').hide();
+    } else {
+      $('#inbound_shedule_setting_tab').show();
+    }
+  }
+});
+
+$('body').on('change', '#Api_type_ddep', function() {
+  if($(this).is(":checked")) {
+    $('#ddep_api_url_input').show();
+    if($('#Api_type_user').is(":checked")) {
+      $('#inbound_shedule_setting_tab').show();
+    } else {
+      $('#inbound_shedule_setting_tab').hide();
+    }
+  } else {
+    $('#ddep_api_url_input').hide();
+    $('#inbound_shedule_setting_tab').show();
+  }
 });

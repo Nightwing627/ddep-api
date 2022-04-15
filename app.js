@@ -23,6 +23,11 @@ var scheduler_job = require('./routers/scheduler_job');
 var inboundHistoryRouter = require('./routers/inbound_history');
 var outboundHistoryRouter = require('./routers/outbound_history');
 var TemplateRouter = require('./routers/templates');
+
+const monitorClass = require('./monitor/monitor.js');
+
+var monitor = new monitorClass();
+
 var app = express();
 var axios = require('axios');
 app.set('views', path.join(__dirname, 'views'));
@@ -105,7 +110,7 @@ cron.schedule("0 0 0 * * *", function() {
       // monitor.exceptionErrorStore('error_page', 'error_module', 'error_info', 'error_url', 'error_http_status_code', 'error_username', 'error_company_code');
   }).catch(err => {
       console.log('Could not connect to the database. Exiting now...', err);
-      // monitor.databaseConnectError('page', 'function', 'developer', 'error_description');
+      monitor.databaseConnectError('app.js', 'database connect', 'Vijay', err);
       process.exit();
   });
   
