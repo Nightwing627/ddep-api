@@ -30,7 +30,7 @@ exports.create = (req, res) => {
        data.InboundSetting = JSON.parse(data);
    }
    
-    
+    var api_type = data.api_type.split(',');
     if(!data.project_id) {
         return res.status(400).send({
             message: "Project Not Found"
@@ -46,48 +46,71 @@ exports.create = (req, res) => {
             message: "Select Syncronize Type"
         });
     }
-    if(!data.ftp_server_link) {
+    if((data.sync_type=="FTP" || data.sync_type=="FTP") && !data.ftp_server_link) {
         return res.status(400).send({
             message: "FTP URL is Required"
         });
     }
-    if(!data.port) {
+    if((data.sync_type=="FTP" || data.sync_type=="FTP") && !data.port) {
         return res.status(400).send({
             message: "Port Number is Required"
         });
     }
-    if(!data.login_name) {
+    if((data.sync_type=="FTP" || data.sync_type=="FTP") && !data.login_name) {
         return res.status(400).send({
             message: "Login Name is Required"
         });
     }
-    if(!data.password) {
+    if((data.sync_type=="FTP" || data.sync_type=="FTP") && !data.password) {
         return res.status(400).send({
             message: "Password is Required"
         });
     }
-    if(!data.folder) {
+    if((data.sync_type=="FTP" || data.sync_type=="FTP") && !data.folder) {
         return res.status(400).send({
             message: "folder path is Required"
         });
     }
+    if((data.sync_type=="API" && api_type[0]==undefined || api_type[0]=="")) {
+        return res.status(400).send({
+            message: "API Type is Required"
+        });
+    }
     
+    if(((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='DDEP_API')|| (data.sync_type=="API" && api_type[1]!=undefined && api_type[1]=='DDEP_API')) && data.ddep_api_url=="")
+    {
+        return res.status(400).send({
+            message: "DDEP API URL is Required"
+        });
+    }
+    if((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='User_API') && data.user_api_url=="")
+    {
+        return res.status(400).send({
+            message: "User API URL is Required"
+        });
+    }
+
     const inboundSetting = new InboundSetting({
         project_id:data.project_id,
         inbound_format: data.inbound_format, 
-        sync_type: data.sync_type,
-        ftp_server_link: data.ftp_server_link,
-        host: data.host,
-        port: data.port,
-        login_name: data.login_name,
-        password: data.password,
-        folder:data.folder,
-        is_password_encrypted:data.is_password_encrypted
+        sync_type: data.sync_type || "",
+        ftp_server_link: data.ftp_server_link || "",
+        host: data.host || "",
+        port: data.port || "",
+        login_name: data.login_name || "",
+        password: data.password || "",
+        folder:data.folder || "",
+        is_password_encrypted:data.is_password_encrypted || "",
+        api_type:data.api_type || "",
+        user_api_url:data.user_api_url || "",
+        ddep_api_url:data.ddep_api_url || "",
+        createdBy:"",
+        updateBy : ""
     });
     inboundSetting.save()
     .then(data => {
         //res.send(data);
-        res.status(200).send({id:data._id,msg:"Setting Saved Successfully"});
+        res.status(200).send({id:data._id, msg:"Setting Saved Successfully"});
     }).catch(err => {
         res.status(500).send({
             message: err.message || "Some error occurred while creating the User."
@@ -148,7 +171,7 @@ exports.update = (req, res) => {
    //data = JSON.stringify(req.body);
    //data = JSON.parse(data);
    var checkinbound =isJson(data);
-   
+   var api_type = data.api_type.split(',');
    if(checkinbound)
    {
 
@@ -197,8 +220,26 @@ exports.update = (req, res) => {
             message: "Folder path is Required"
         });
     }
+    if((data.sync_type=="API" && api_type[0]==undefined || api_type[0]=="")) {
+        return res.status(400).send({
+            message: "API Type is Required"
+        });
+    }
     
-    
+    if(((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='DDEP_API')|| (data.sync_type=="API" && api_type[1]!=undefined && api_type[1]=='DDEP_API')) && data.ddep_api_url=="")
+    {
+        return res.status(400).send({
+            message: "DDEP API URL is Required"
+        });
+    }
+    if((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='User_API') && data.user_api_url=="")
+    {
+        return res.status(400).send({
+            message: "User API URL is Required"
+        });
+    }
+    data.createdBy="",
+      data.updateBy = ""
     const inboundSetting = new InboundSetting({
         project_id: data.project_id, 
         inbound_format: data.inbound_format, 
@@ -211,7 +252,12 @@ exports.update = (req, res) => {
         folder:data.folder,
         is_password_encrypted:data.is_password_encryptedm,
         backup_folder:data.backup_folder || "",
-        is_active : data.is_active || "Inactive"
+        is_active : data.is_active || "Inactive",
+        api_type:data.api_type,
+        user_api_url:data.user_api_url || "",
+        ddep_api_url:data.ddep_api_url || "",
+        createdBy:"",
+        updateBy : ""
             
     });
     InboundSetting.findByIdAndUpdate(req.params.id,data, { new: true })
