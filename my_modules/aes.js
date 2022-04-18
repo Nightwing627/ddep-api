@@ -31,7 +31,7 @@ class AesHelper {
         return decrypted.toString(CryptoJS.enc.Utf8)
     }
     
-    /*AES Encrypt*/
+    /*AES EncryptECB*/
     EncryptECB(data) {
         const dataStr = data
         const encrypted = CryptoJS.AES.encrypt(dataStr, CryptoJS.enc.Latin1.parse(config.aesEcbKey), {
@@ -42,7 +42,7 @@ class AesHelper {
         return encrypted.toString()
     }
     
-    /*AES DecryptCEB*/
+    /*AES DecryptECB*/
     DecryptECB(data) {
         const data2 = data.replace(/\n/gm, "");
         const decrypted = CryptoJS.AES.decrypt(data2, CryptoJS.enc.Latin1.parse(config.aesEcbKey), {

@@ -32,12 +32,27 @@ router.get('/fulllist',projects.fullProject);
 
 router.get('/project-list',function(req,res){
     var Aes = new ase();
+    /*var string = '401ef866-5289-488d-8f12-9e28be343730,Cherry.liu,gima-dev.a4apple.cn:63303,Cherry.liu,da622fe7484a2503be59b3f6df12700a,dms1,,siia,dev';
+    var tokenData = Aes.EncryptECB(unescape(string));
+    console.log(tokenData);
+    tokenData = Aes.DecryptECB(unescape(tokenData));
+    console.log(tokenData);
+    if (tokenData != "") {
+        const tokenDataToArr = tokenData.toString().split(",");
+        config.userName = tokenDataToArr[1];
+        console.log(tokenDataToArr[1]);
+        config.companyCode = tokenDataToArr[tokenDataToArr.length - 2];
+        console.log(tokenDataToArr[tokenDataToArr.length - 2]);
+    }*/
     let inFields = req.body;
+    console.log(inFields);
     if (inFields.access_token != undefined) {
-        var tokenData = Aes.Decrypt(unescape(inFields.access_token));
+        var tokenData = Aes.DecryptECB(unescape(inFields.access_token));
+        console.log(tokenData);
         if (tokenData != "") {
             const tokenDataToArr = tokenData.toString().split(",");
-            config.companyCode = tokenDataToArr[tokenDataToArr.length - 1];
+            config.userName = tokenDataToArr[1];
+            config.companyCode = tokenDataToArr[tokenDataToArr.length - 2];
         }
     }
     res.render('pages/list-project',{alldata:null});
