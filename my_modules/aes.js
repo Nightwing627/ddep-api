@@ -4,8 +4,6 @@ const crypto = require('crypto');
 /**User package*/
 const config = require('../config/default');
 
-
-
 class AesHelper {
     constructor() {
     }
@@ -52,7 +50,5 @@ class AesHelper {
         })
         return decrypted.toString(CryptoJS.enc.Utf8)
     }
-    
-
 }
 module.exports = AesHelper
