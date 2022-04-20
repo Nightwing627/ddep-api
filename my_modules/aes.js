@@ -32,23 +32,26 @@ class AesHelper {
     /*AES EncryptECB*/
     EncryptECB(data) {
         const dataStr = data
-        const encrypted = CryptoJS.AES.encrypt(dataStr, CryptoJS.enc.Latin1.parse(config.aesEcbKey), {
-            iv: CryptoJS.enc.Latin1.parse(config.aseIv),
+        const encrypted = CryptoJS.AES.encrypt(dataStr,  CryptoJS.enc.Latin1.parse(config.aesEcbKey), {
+            keySize: 128 / 8,
             mode: CryptoJS.mode.ECB,
             padding: CryptoJS.pad.Pkcs7
         })
-        return encrypted.toString()
+        const base64Cipher = encrypted.ciphertext.toString(CryptoJS.enc.Base64).replace(/[+]/gm, ' ');
+        return base64Cipher;
     }
-    
+
     /*AES DecryptECB*/
     DecryptECB(data) {
-        const data2 = data.replace(/\n/gm, "");
-        const decrypted = CryptoJS.AES.decrypt(data2, CryptoJS.enc.Latin1.parse(config.aesEcbKey), {
-            iv: CryptoJS.enc.Latin1.parse(config.aseIv),
+        const dataStr =  data.replace(/[ ]/gm, "+") 
+        console.log(dataStr);
+        const decrypted = CryptoJS.AES.decrypt(dataStr,  CryptoJS.enc.Latin1.parse(config.aesEcbKey), {
+            keySize: 128 / 8,
             mode: CryptoJS.mode.ECB,
             padding: CryptoJS.pad.Pkcs7
         })
-        return decrypted.toString(CryptoJS.enc.Utf8)
+        const base64Cipher = decrypted.toString(CryptoJS.enc.Utf8)
+        return base64Cipher;
     }
 }
 module.exports = AesHelper
