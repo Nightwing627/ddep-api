@@ -680,22 +680,22 @@ router.post('/inboundrun',function(req,res){
                               let date_ob = new Date();
                               let date = ("0" + date_ob.getDate()).slice(-2);
 
-                                // current month
-                                let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+                              // current month
+                              let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
 
-                                // current year
-                                let year = date_ob.getFullYear();
+                              // current year
+                              let year = date_ob.getFullYear();
 
-                                // current hours
-                                let hours = date_ob.getHours();
+                              // current hours
+                              let hours = date_ob.getHours();
 
-                                // current minutes
-                                let minutes = date_ob.getMinutes();
+                              // current minutes
+                              let minutes = date_ob.getMinutes();
 
-                                // current seconds
-                                let seconds = date_ob.getSeconds();
-                                let milliseconds = date_ob.getMilliseconds();
-                              
+                              // current seconds
+                              let seconds = date_ob.getSeconds();
+                              let milliseconds = date_ob.getMilliseconds();
+                            
                               var name = list[index].name.split('.').slice(0, -1).join('.')+'_'+year+month+date+hours+minutes+seconds+milliseconds;//parseInt(crypto.randomBytes(2).toString('hex'), 16); //parseInt(date.getTime() + 1);
                               console.log(name);
                               stream.pipe(fs.createWriteStream(dir+'/'+projectdir+'/'+name+'.xml'));

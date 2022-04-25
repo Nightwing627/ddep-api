@@ -16,6 +16,7 @@ const projects = require('../controllers/project.controller.js');
 const inbound_setting = require('../controllers/inbound_setting.controller.js');
 const outbound_setting = require('../controllers/outbound_setting.controller.js');
 const schedule_setting = require('../controllers/schedule_setting.controller.js');
+const ase = require('../my_modules/aes');
 const { json } = require('body-parser');
 router.post('/save', projects.create);
 
@@ -23,12 +24,47 @@ router.put('/update/:id',projects.update);
 
 router.post('/checkcodeexist',projects.checkecodexsit);
 router.get('/add',function(req,res){
-    res.render('pages/add-projects');
+    var ddep_api_prefix = config.domain+'/'+config.companyCode+'/';
+    res.render('pages/add-projects', {api_prefix:ddep_api_prefix});
 })
 router.get('/list',projects.findAll);
 router.get('/fulllist',projects.fullProject);
 
-router.get('/project-list',function(req,res){
+router.get('/project-list', function(req, res){
+    res.render('pages/list-project',{alldata:null});
+});
+router.post('/project-list', function(req, res){
+    var Aes = new ase();
+    /*var string = '401ef866-5289-488d-8f12-9e28be343730,Cherry.liu,gima-dev.a4apple.cn:63303,Cherry.liu,da622fe7484a2503be59b3f6df12700a,dms1,,siia,dev';
+    var tokenData = Aes.EncryptECB(unescape(string));
+    console.log(tokenData);
+    tokenData = Aes.DecryptECB(unescape(tokenData));
+    console.log(tokenData);
+    if (tokenData != "") {
+        const tokenDataToArr = tokenData.toString().split(",");
+        config.userName = tokenDataToArr[1];
+        console.log(tokenDataToArr[1]);
+        config.companyCode = tokenDataToArr[tokenDataToArr.length - 2];
+        console.log(tokenDataToArr[tokenDataToArr.length - 2]);
+    }*/
+    let inFields = req.body;
+    let inParam = req.query;
+    console.log(inParam);
+    if (inFields.access_token != undefined) {} else {
+        inFields = inParam;
+    }
+    console.log(inFields);
+    if (inFields.access_token != undefined) {
+        var tokenData = Aes.DecryptECB(inFields.access_token);
+        console.log(tokenData);
+        if (tokenData != "") {
+            const tokenDataToArr = tokenData.toString().split(",");
+            config.userName = tokenDataToArr[1];
+            console.log(tokenDataToArr[1]);
+            config.companyCode = tokenDataToArr[tokenDataToArr.length - 2];
+            console.log(tokenDataToArr[tokenDataToArr.length - 2]);
+        }
+    }
     res.render('pages/list-project',{alldata:null});
 });
 router.post('/upload',function(req,res){
@@ -125,12 +161,13 @@ router.get('/editAPI/:id',projects.findOne);
     
 router.get('/edit/:id',function(req,res){
     request(config.domain+'/projects/editAPI/'+req.params.id, function (error, response, body) {
+    var ddep_api_prefix = config.domain+'/'+config.companyCode+'/';
     
     var data = JSON.parse(body);
     if(response.statusCode==200)
     {
         //console.log(data);
-        res.render('pages/add-projects',{alldata:data});
+        res.render('pages/add-projects',{alldata:data,api_prefix:ddep_api_prefix});
     }
     else
     {

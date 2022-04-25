@@ -1,5 +1,6 @@
 bodyParser = require('body-parser');
 const InboundSetting = require('../models/inbound_setting.model.js');
+const config = require('../config/default');
 
 // Create and Save a new Note
 function isJson(str) {
@@ -71,20 +72,34 @@ exports.create = (req, res) => {
             message: "folder path is Required"
         });
     }
-    if((data.sync_type=="API" && (api_type[0]==undefined || api_type[0]==""))) {
+    if(data.sync_type=="API" && (api_type[0]==undefined || api_type[0]=="")) {
         return res.status(400).send({
             message: "API Type is Required"
         });
     }
     
-    if(((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='DDEP_API')|| 
-    (data.sync_type=="API" && api_type[1]!=undefined && api_type[1]=='DDEP_API')) && data.ddep_api_url=="")
+    if(((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='DDEP_API')|| (data.sync_type=="API" && api_type[1]!=undefined && api_type[1]=='DDEP_API')) && data.api_ddep_api=="")
     {
         return res.status(400).send({
             message: "DDEP API URL is Required"
         });
+    } 
+    if(((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='DDEP_API')|| (data.sync_type=="API" && api_type[1]!=undefined && api_type[1]=='DDEP_API')) && data.api_ddep_api!="")
+    {
+        var re = new RegExp(/^(\/)[a-zA-Z0-9-_\/]+$/);
+        if (!re.test(data.api_ddep_api)) {
+            return res.status(400).send({
+                message: "DDEP API is not valid (must start with a '/' and must contain any letter, capitalize letter, number, dash or underscore)"
+            });
+        }
     }
-    if((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='User_API') && data.user_api_url=="")
+    if(((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='DDEP_API') || (data.sync_type=="API" && api_type[1]!=undefined && api_type[1]=='DDEP_API')) && data.api_ddep_api_receive_parameter_name=="")
+    {
+        return res.status(400).send({
+            message: "Receive parameter name is Required"
+        });
+    }
+    if((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='User_API') && data.api_user_api=="")
     {
         return res.status(400).send({
             message: "User API URL is Required"
@@ -96,25 +111,49 @@ exports.create = (req, res) => {
         inbound_format: data.inbound_format, 
         sync_type: data.sync_type || "",
         ftp_server_link: data.ftp_server_link || "",
-        host: data.host || "",
-        port: data.port || "",
-        login_name: data.login_name || "",
-        password: data.password || "",
-        folder:data.folder || "",
-        is_password_encrypted:data.is_password_encrypted || "",
+        ftp_port: data.port || "",
+        ftp_login_name: data.login_name || "",
+        ftp_password: data.password || "",
+        ftp_folder:data.folder || "",
+        ftp_backup_folder:data.backup_folder || "",
         api_type:data.api_type || "",
-        user_api_url:data.user_api_url || "",
-        ddep_api_url:data.ddep_api_url || "",
-        createdBy:"",
-        updateBy : ""
+        api_user_api:data.api_user_api || "",
+        api_ddep_api:data.api_ddep_api || "",
+        api_ddep_api_get_or_post: data.api_ddep_api_get_or_post || "GET",
+        api_ddep_api_receive_parameter_name: data.api_ddep_api_receive_parameter_name || "",
+        createdBy: config.userName,
+        updateBy : config.userName
     });
     inboundSetting.save()
     .then(data => {
         //res.send(data);
-        res.status(200).send({id:data._id, msg:"Setting Saved Successfully"});
+        res.status(200).send({
+            code: "0",
+            MsgCode: "10001",
+            MsgType: "Save-Data-Success",
+            MsgLang: "en",
+            ShortMsg: "Save Successful",
+            LongMsg: "The Setting detail information was save successful",
+            InternalMsg: "",
+            EnableAlert: "No",
+            DisplayMsgBy: "ShortMsg",
+            msg: "Setting save successfully",
+            id: data._id,
+            Data: []
+        });
     }).catch(err => {
-        res.status(500).send({
-            message: err.message || "Some error occurred while creating the User."
+            res.status(500).send({
+            code: "1",
+            MsgCode: "50001",
+            MsgType: "Exception-Error",
+            MsgLang: "en",
+            ShortMsg: "Update Fail",
+            LongMsg: err.message || "Some error occurred while creating the project.",
+            InternalMsg: "",
+            EnableAlert: "No",
+            DisplayMsgBy: "LongMsg",
+            message: err.message || "Some error occurred while creating the project.",
+            Data: []
         });
     });
 };
@@ -140,7 +179,6 @@ exports.countAll=(req,res)=>{
     });
 }
 exports.searchUser = (req,res)=>{
-
 }
 // Find a single note with a noteId
 exports.findOne = (req, res) => {
@@ -169,18 +207,15 @@ exports.update = (req, res) => {
     // }
     //var data = JSON.parse(req.body);
 
-   //data = JSON.stringify(req.body);
-   //data = JSON.parse(data);
-   var checkinbound =isJson(data);
-   var api_type = data.api_type.split(',');
-   if(checkinbound)
-   {
-
+    //data = JSON.stringify(req.body);
+    //data = JSON.parse(data);
+    var checkinbound =isJson(data);
+    if(checkinbound)
+    {
        data = JSON.parse(data);
-   }
+    }
    
-   
-    
+    var api_type = data.api_type.split(',');
     if(!data.project_id) {
         return res.status(400).send({
             message: "Project Not Found"
@@ -196,90 +231,132 @@ exports.update = (req, res) => {
             message: "Select Syncronize Type"
         });
     }
-    if(!data.ftp_server_link) {
+    if((data.sync_type=="FTP" || data.sync_type=="FTP") && !data.ftp_server_link) {
         return res.status(400).send({
             message: "FTP URL is Required"
         });
     }
-    if(!data.port) {
+    if((data.sync_type=="FTP" || data.sync_type=="FTP") && !data.port) {
         return res.status(400).send({
             message: "Port Number is Required"
         });
     }
-    if(!data.login_name) {
+    if((data.sync_type=="FTP" || data.sync_type=="FTP") && !data.login_name) {
         return res.status(400).send({
             message: "Login Name is Required"
         });
     }
-    if(!data.password) {
+    if((data.sync_type=="FTP" || data.sync_type=="FTP") && !data.password) {
         return res.status(400).send({
             message: "Password is Required"
         });
     }
-    if(!data.folder) {
+    if((data.sync_type=="FTP" || data.sync_type=="FTP") && !data.folder) {
         return res.status(400).send({
-            message: "Folder path is Required"
+            message: "folder path is Required"
         });
     }
-    if((data.sync_type=="API" && (api_type[0]==undefined || api_type[0]==""))) {
+    if(data.sync_type=="API" && (api_type[0]==undefined || api_type[0]=="")) {
         return res.status(400).send({
             message: "API Type is Required"
         });
     }
     
-    if(((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='DDEP_API')|| (data.sync_type=="API" && api_type[1]!=undefined && api_type[1]=='DDEP_API')) && data.ddep_api_url=="")
+    if(((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='DDEP_API') || (data.sync_type=="API" && api_type[1]!=undefined && api_type[1]=='DDEP_API')) && data.api_ddep_api=="")
     {
         return res.status(400).send({
             message: "DDEP API URL is Required"
         });
     }
-    if((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='User_API') && data.user_api_url=="")
+    if(((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='DDEP_API')|| (data.sync_type=="API" && api_type[1]!=undefined && api_type[1]=='DDEP_API')) && data.api_ddep_api!="")
+    {
+        var re = new RegExp(/^(\/)[a-zA-Z0-9-_\/]+$/);
+        if (!re.test(data.api_ddep_api)) {
+            return res.status(400).send({
+                message: "DDEP API is not valid (must start with a '/' and must contain any letter, capitalize letter, number, dash or underscore)"
+            });
+        }
+    }
+    if(((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='DDEP_API') || (data.sync_type=="API" && api_type[1]!=undefined && api_type[1]=='DDEP_API')) && data.api_ddep_api_receive_parameter_name=="")
+    {
+        return res.status(400).send({
+            message: "Receive parameter name is Required"
+        });
+    }
+    if((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='User_API') && data.api_user_api=="")
     {
         return res.status(400).send({
             message: "User API URL is Required"
         });
     }
-    data.createdBy="",
-      data.updateBy = ""
-    const inboundSetting = new InboundSetting({
-        project_id: data.project_id, 
-        inbound_format: data.inbound_format, 
-        sync_type: data.sync_type,
-        ftp_server_link: data.ftp_server_link,
-        host: data.host,
-        port: data.port,
-        login_name: data.login_name,
-        password: data.password,
-        folder:data.folder,
-        is_password_encrypted:data.is_password_encryptedm,
-        backup_folder:data.backup_folder || "",
-        is_active : data.is_active || "Inactive",
-        api_type:data.api_type,
-        user_api_url:data.user_api_url || "",
-        ddep_api_url:data.ddep_api_url || "",
-        createdBy:"",
-        updateBy : ""
-            
-    });
-    InboundSetting.findByIdAndUpdate(req.params.id,data, { new: true })
+
+    var data1 = {};
+    data1.project_id = data.project_id, 
+    data1.inbound_format = data.inbound_format, 
+    data1.sync_type = data.sync_type,
+    data1.ftp_server_link = data.ftp_server_link,
+    data1.ftp_port = data.port,
+    data1.ftp_login_name = data.login_name,
+    data1.ftp_password = data.password,
+    data1.ftp_folder = data.folder,
+    data1.ftp_backup_folder = data.backup_folder || "",
+    data1.is_active = data.is_active || "Inactive",
+    data1.api_type = data.api_type,
+    data1.api_user_api = data.api_user_api || "",
+    data1.api_ddep_api = data.api_ddep_api || "",
+    data1.api_ddep_api_get_or_post = data.api_ddep_api_get_or_post || "GET",
+    data1.api_ddep_api_receive_parameter_name = data.api_ddep_api_receive_parameter_name || "",
+    data1.createdBy = config.userName,
+    data1.updateBy = config.userName
+
+    InboundSetting.findByIdAndUpdate(req.params.id, data1, { new: true })
     .then((InboundSetting) => {
         //console.log(req.params.id);
       if (!InboundSetting) {
         return res.status(404).send({
-          message: "no Project found"
+          code: "1",
+          MsgCode: "10002",
+          MsgType: "Invalid-Source",
+          MsgLang: "en",
+          ShortMsg: "Update Fail",
+          LongMsg: "Project not found",
+          InternalMsg: "",
+          EnableAlert: "No",
+          DisplayMsgBy: "LongMsg",
+          message: "no Project found",
+          Data: []
         });
       }
       res.status(200).send({
-          message:"Setting Update Successfully"
+          code: "0",
+          MsgCode: "10001",
+          MsgType: "Update-Data-Success",
+          MsgLang: "en",
+          ShortMsg: "Update Successful",
+          LongMsg: "The Setting detail information was update successful",
+          InternalMsg: "",
+          EnableAlert: "No",
+          DisplayMsgBy: "ShortMsg",
+          message: "Setting update successfully",
+          Data: []
       });
     })
     .catch((err) => {
+        console.log(err);
       return res.status(404).send({
-        message: "error while updating the Project",
-        err:err
+        code: "1",
+        MsgCode: "50001",
+        MsgType: "Exception-Error",
+        MsgLang: "en",
+        ShortMsg: "Update Fail",
+        LongMsg: err.message || "Some error occurred while updating the project.",
+        InternalMsg: "",
+        EnableAlert: "No",
+        DisplayMsgBy: "LongMsg",
+        message: err.message || "Some error occurred while updating the project.",
+        Data: []
       });
     });
-
 };
 
 // Delete a note with the specified noteId in the request
