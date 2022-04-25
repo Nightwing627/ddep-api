@@ -23,6 +23,7 @@ var scheduler_job = require('./routers/scheduler_job');
 var inboundHistoryRouter = require('./routers/inbound_history');
 var outboundHistoryRouter = require('./routers/outbound_history');
 var TemplateRouter = require('./routers/templates');
+var MappingRouter = require('./routers/mapping');
 
 const monitorClass = require('./monitor/monitor.js');
 
@@ -61,8 +62,8 @@ app.use('/project/item/inbound_history',inboundHistoryRouter);
 app.use('/outbound_history',outboundHistoryRouter);
 app.use('/project/item/outbound_history',outboundHistoryRouter);
 app.use('/templates',TemplateRouter);
+app.use('/project/item/mapping',MappingRouter);
 //const host = req.get('host');
-;
 
 
 app.use(function(req, res, next) {

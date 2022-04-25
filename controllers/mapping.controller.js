@@ -1,5 +1,5 @@
 bodyParser = require('body-parser');
-const Mapping = require('../models/mapping.model.js');
+const mapping = require('../models/mapping.model.js');
 
 // Create and Save a new Note
 function isJson(str) {
@@ -31,7 +31,7 @@ exports.create = (req, res) => {
    }
     
     
-    const Mapping = new Mapping({
+    const Mapping = new mapping({
         item_code:data.item_code,
         company_code:data.company_code,
         inbound_format:data.inbound_format,

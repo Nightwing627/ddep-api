@@ -71,13 +71,14 @@ exports.create = (req, res) => {
             message: "folder path is Required"
         });
     }
-    if((data.sync_type=="API" && api_type[0]==undefined || api_type[0]=="")) {
+    if((data.sync_type=="API" && (api_type[0]==undefined || api_type[0]==""))) {
         return res.status(400).send({
             message: "API Type is Required"
         });
     }
     
-    if(((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='DDEP_API')|| (data.sync_type=="API" && api_type[1]!=undefined && api_type[1]=='DDEP_API')) && data.ddep_api_url=="")
+    if(((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='DDEP_API')|| 
+    (data.sync_type=="API" && api_type[1]!=undefined && api_type[1]=='DDEP_API')) && data.ddep_api_url=="")
     {
         return res.status(400).send({
             message: "DDEP API URL is Required"
@@ -220,7 +221,7 @@ exports.update = (req, res) => {
             message: "Folder path is Required"
         });
     }
-    if((data.sync_type=="API" && api_type[0]==undefined || api_type[0]=="")) {
+    if((data.sync_type=="API" && (api_type[0]==undefined || api_type[0]==""))) {
         return res.status(400).send({
             message: "API Type is Required"
         });
