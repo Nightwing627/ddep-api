@@ -1,0 +1,104 @@
+ {
+            "OrderHandling": [
+                {
+                    "ID": "GarmentLabelFlag",
+                    "Data": "Y"
+                },
+                {
+                    "ID": "ImportAs",
+                    "Data": "PO"
+                },
+                {
+                    "ID": "LastUpdateDate",
+                    "Data": "20220331134533"
+                },
+                {
+                    "ID": "SizeChartModel",
+                    "Data": "Data"
+                }
+            ],
+            "CustRef": [
+                {
+                    "ID": "Purchase Order No",
+                    "Data": "QCB-39-Stance Mountain Tee"
+                }
+            ],
+            "SupplierDetail": [
+                {
+                    "ID": "FactoryNo",
+                    "Data": "Sainty Bangladesh"
+                },
+                {
+                    "ID": "SupplierNo",
+                    "Data": "Sainty Bangladesh"
+                },
+                {
+                    "ID": "Brand",
+                    "Data": "boden"
+                }
+            ],
+            "ItemRefs": [
+                {
+                    "ID": "ItemRef",
+                    "Data": "RAB01"
+                }
+            ],
+            "EDIHeader": {
+                "EDIVariables": [
+                    {
+                        "ID": "Country Of Manufacture",
+                        "Data": "Made in Bangladesh"
+                    },
+                    {
+                        "ID": "organic_logo",
+                        "Data": "CD"
+                    }
+                ],
+                "EDICareandContent": {
+                    "Fibres": {
+                        "FibreComponents_1": [
+                            {
+                                "ID": "FibreComponent",
+                                "Data": "Main Body:"
+                            },
+                            {
+                                "ID": "FibreName",
+                                "Data": "Cotton-Organic"
+                            },
+                            {
+                                "ID": "Percent",
+                                "Data": "100"
+                            }
+                        ]
+                    },
+                    "FrabricStatments": [
+                        {
+                            "ID": "Statement",
+                            "Data": "Iron on reverse"
+                        }
+                    ],
+                    "CareSymbolMappingID": [
+                        {
+                            "ID": "CareMapping_1",
+                            "Data": "WASH - 30 normal wash.jpg"
+                        },
+                        {
+                            "ID": "CareMapping_2",
+                            "Data": "BLEACH - Do not bleach.jpg"
+                        },
+                        {
+                            "ID": "CareMapping_3",
+                            "Data": "DRY - Tumble dry, DO NOT.jpg"
+                        },
+                        {
+                            "ID": "CareMapping_4",
+                            "Data": "IRON - Cool iron (max temp 110C).jpg"
+                        },
+                        {
+                            "ID": "CareMapping_5",
+                            "Data": "DRY CLEAN - DO NOT dry clean.jpg"
+                        }
+                    ]
+                }
+            }
+        }

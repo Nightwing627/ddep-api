@@ -1,0 +1,144 @@
+ {
+            "OrderHandling": [
+                {
+                    "ID": "GarmentLabelFlag",
+                    "Data": "Y"
+                },
+                {
+                    "ID": "ImportAs",
+                    "Data": "PO"
+                },
+                {
+                    "ID": "LastUpdateDate",
+                    "Data": "20220331134533"
+                },
+                {
+                    "ID": "SizeChartModel",
+                    "Data": "Data"
+                }
+            ],
+            "CustRef": [
+                {
+                    "ID": "Purchase Order No",
+                    "Data": "QDB-13-Microlight Alpine Jacket Wmns"
+                }
+            ],
+            "SupplierDetail": [
+                {
+                    "ID": "FactoryNo",
+                    "Data": "Inkordan"
+                },
+                {
+                    "ID": "SupplierNo",
+                    "Data": "Inkordan"
+                },
+                {
+                    "ID": "Brand",
+                    "Data": "boden"
+                }
+            ],
+            "ItemRefs": [
+                {
+                    "ID": "ItemRef",
+                    "Data": "RAB01"
+                }
+            ],
+            "EDIHeader": {
+                "EDIVariables": [
+                    {
+                        "ID": "Country Of Manufacture",
+                        "Data": "Made in Indonesia"
+                    },
+                    {
+                        "ID": "MadeFrom_logo",
+                        "Data": "CD"
+                    },
+                    {
+                        "ID": "nickwac_logo",
+                        "Data": "C"
+                    }
+                ],
+                "EDICareandContent": {
+                    "Fibres": {
+                        "FibreComponents_1": [
+                            {
+                                "ID": "FibreComponent",
+                                "Data": "Outer:"
+                            },
+                            {
+                                "ID": "FibreName",
+                                "Data": "PolyamIDe (Recycled fibres)"
+                            },
+                            {
+                                "ID": "Percent",
+                                "Data": "100"
+                            }
+                        ],
+                        "FibreComponents_2": [
+                            {
+                                "ID": "FibreComponent",
+                                "Data": "Lining:"
+                            },
+                            {
+                                "ID": "FibreName",
+                                "Data": "PolyamIDe  (Recycled fibres)"
+                            },
+                            {
+                                "ID": "Percent",
+                                "Data": "100"
+                            }
+                        ],
+                        "FibreComponents_3": [
+                            {
+                                "ID": "FibreComponent",
+                                "Data": "Insulation:"
+                            },
+                            {
+                                "ID": "FibreName",
+                                "Data": "Down"
+                            },
+                            {
+                                "ID": "Percent",
+                                "Data": "80"
+                            },
+                            {
+                                "ID": "FibreName",
+                                "Data": "Waterfowl feather"
+                            },
+                            {
+                                "ID": "Percent",
+                                "Data": "20"
+                            }
+                        ]
+                    },
+                    "FrabricStatments": [
+                        {
+                            "ID": "Statement",
+                            "Data": "Sterilization permit number PA-9814 (IT)"
+                        }
+                    ],
+                    "CareSymbolMappingID": [
+                        {
+                            "ID": "CareMapping_1",
+                            "Data": "WASH - 30 mild wash.jpg"
+                        },
+                        {
+                            "ID": "CareMapping_2",
+                            "Data": "BLEACH - Do not bleach.jpg"
+                        },
+                        {
+                            "ID": "CareMapping_3",
+                            "Data": "DRY - Tumble dry, Low (60C).jpg"
+                        },
+                        {
+                            "ID": "CareMapping_4",
+                            "Data": "IRON - DO NOT iron.jpg"
+                        },
+                        {
+                            "ID": "CareMapping_5",
+                            "Data": "DRY CLEAN - DO NOT dry clean.jpg"
+                        }
+                    ]
+                }
+            }
+        }
