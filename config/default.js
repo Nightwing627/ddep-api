@@ -9,5 +9,6 @@ const Config = {
     domain:process.env.SITE_URL,
     companyCode: "ddep",
     userName: "Divyesh",
+    ddepPrefix: "dapi",
 }
-module.exports =  Config
+module.exports = Config

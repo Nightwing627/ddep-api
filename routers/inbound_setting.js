@@ -11,9 +11,11 @@ const inbound_setting = require('../controllers/inbound_setting.controller.js');
 router.post('/save', inbound_setting.create);
 router.put('/:id',inbound_setting.update);
 router.get('/editAPI/:id',inbound_setting.findOne);
+router.post('/editddepAPI', inbound_setting.findOneByDdepInput);
 // router.get('/add',function(req,res)+
 //     res.render('pages/add-projects');
 // })
+router.post('/checkddepinputexist',inbound_setting.checkddepinputexist);
 router.get('/list',inbound_setting.findAll);
 router.put('/update/:id',inbound_setting.update);
 // router.get('/project-list',function(req,res){

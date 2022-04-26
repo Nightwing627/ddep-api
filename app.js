@@ -62,8 +62,6 @@ app.use('/outbound_history',outboundHistoryRouter);
 app.use('/project/item/outbound_history',outboundHistoryRouter);
 app.use('/templates',TemplateRouter);
 //const host = req.get('host');
-;
-
 
 app.use(function(req, res, next) {
     next(createError(404));

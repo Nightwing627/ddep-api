@@ -157,7 +157,6 @@ License: You must have a valid license purchased only from themeforest(the above
                 </div>
                 
                 <button class="btn btn-primary mt-1" id="save_project" type="submit">Save</button>
-                
             </form>
             <hr>
             <div class="d-flex justify-content-between">
@@ -233,18 +232,6 @@ License: You must have a valid license purchased only from themeforest(the above
                                               </div>&nbsp;&nbsp;
                                             </div>
                                           </div>
-                                          <div id="api_options" class="form-group col-md-12">
-                                            <div class="row">
-                                              <div class="custom-control custom-chckbox col-md-2">
-                                                <input type="checkbox" name="api_type_user" id="Api_type_user" class="custom-control-input" value="User_API" />
-                                                <label class="custom-control-label" for="Api_type_user">User API</label>
-                                              </div>
-                                              <div class="custom-control custom-chckbox col-md-2">
-                                                <input type="checkbox" name="api_type_ddep" id="Api_type_ddep" class="custom-control-input" value="DDEP_API" />
-                                                <label class="custom-control-label" for="Api_type_ddep">DDEP API</label>
-                                              </div>
-                                            </div>
-                                          </div>
                                         </div>
                                       </div>
                                     </div>
@@ -254,13 +241,25 @@ License: You must have a valid license purchased only from themeforest(the above
                                           <div class="card collapse-icon">
                                             <div class="card-body">
                                               <div class="collapse-default">
-                                                <div class="card sync_confige_tabs" id="apiInUrlDiv" style="display: none;">
+                                                <div class="card sync_confige_tabs" id="apiInUrlDiv">
                                                   <div id="apiInTab" class="card-header" data-toggle="collapse" role="button" data-target="#collapse1In" aria-expanded="true" aria-controls="collapse1In">
                                                     <span class="lead collapse-title"> API </span>
                                                   </div>
                                                   <div id="collapse1In" role="tabpanel" aria-labelledby="apiInTab" class="collapse show" style="">
                                                     <div class="card-body">
-                                                      <div id="api_user_api_input" class="demo-inline-spacing" style="display: none;">
+                                                      <div id="api_options" class="form-group col-md-12">
+                                                        <div class="row">
+                                                          <div class="custom-control custom-radio">
+                                                            <input type="radio" name="api_type" id="Api_type_user" class="custom-control-input" value="User_API" checked />
+                                                            <label class="custom-control-label" for="Api_type_user">User API</label>
+                                                          </div>&nbsp;&nbsp;
+                                                          <div class="custom-control custom-radio">
+                                                            <input type="radio" name="api_type" id="Api_type_ddep" class="custom-control-input" value="DDEP_API" />
+                                                            <label class="custom-control-label" for="Api_type_ddep">DDEP API</label>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                      <div id="api_user_api_input" class="demo-inline-spacing">
                                                         <div class="col-md-2">
                                                           User API<font style="color:red">*</font>
                                                         </div>
@@ -270,18 +269,6 @@ License: You must have a valid license purchased only from themeforest(the above
                                                               <input type="text" name="api_user_api" class="form-control" id="api_user_api">
                                                             </div>
                                                           </div>
-                                                        </div>
-                                                      </div>
-                                                      <div id="api_ddep_api_input_method" class="demo-inline-spacing" style="display: none;">
-                                                        <div class="row ml-1">
-                                                          <div class="custom-control custom-radio">
-                                                            <input type="radio" name="api_ddep_api_get_or_post" id="api_ddep_api_get" class="custom-control-input" value="GET" checked />
-                                                            <label class="custom-control-label" for="api_ddep_api_get">GET</label>
-                                                          </div>&nbsp;&nbsp;
-                                                          <div class="custom-control custom-radio">
-                                                            <input type="radio" name="api_ddep_api_get_or_post" id="api_ddep_api_post" class="custom-control-input" value="POST" />
-                                                            <label class="custom-control-label" for="api_ddep_api_post">POST</label>
-                                                          </div>&nbsp;&nbsp;
                                                         </div>
                                                       </div>
                                                       <div id="api_ddep_api_input" class="demo-inline-spacing" style="display: none;">
@@ -297,22 +284,6 @@ License: You must have a valid license purchased only from themeforest(the above
                                                               <div class="form-group">
                                                                 <div class="demo-inline-spacing">
                                                                   <input type="text" name="api_ddep_api" class="form-control" id="api_ddep_api">
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                      <div id="api_ddep_api_input_parameter" class="demo-inline-spacing" style="display: none;">
-                                                        <div class="col-md-2">
-                                                          Receive Parameter Name<font style="color:red">*</font>
-                                                        </div>
-                                                        <div class="col-md-9">
-                                                          <div class="row">
-                                                            <div class="col-md-12">
-                                                              <div class="form-group">
-                                                                <div class="demo-inline-spacing">
-                                                                  <input type="text" name="api_ddep_api_receive_parameter_name" class="form-control" id="api_ddep_api_receive_parameter_name">
                                                                 </div>
                                                               </div>
                                                             </div>
@@ -993,7 +964,7 @@ License: You must have a valid license purchased only from themeforest(the above
                   </div>
                 </div>
               </div>
-              <div class="card">
+              <div class="card" id="outbound_shedule_setting_tab">
                 <div class="card-header collapsed" id="headingTwo" data-toggle="collapse" role="button" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseTwo">
                   <span class="lead collapse-title" style="color:blue">Outbound </span>
                 </div>

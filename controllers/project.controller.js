@@ -214,12 +214,12 @@ exports.update = (req, res) => {
    //data = JSON.parse(data);
    
    
-    if(!data.ProjectName) {
+    if(!data.ProjectName && data.isActive == undefined) {
         return res.status(400).send({
             message: "Project Name Not Found"
         });
     }
-    if(!data.CompanyName) {
+    if(!data.CompanyName && data.isActive == undefined) {
         return res.status(400).send({
             message: "Company Name is Required"
         });

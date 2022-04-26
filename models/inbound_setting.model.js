@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+var uniqueValidator = require('mongoose-unique-validator');
 
 const InboundSettingSchema = mongoose.Schema({
     project_id:{
@@ -14,8 +15,11 @@ const InboundSettingSchema = mongoose.Schema({
     ftp_folder:String,
     ftp_backup_folder:String,
     api_type:String,
-    api_ddep_api:String,
-    api_ddep_api_get_or_post:String,
+    api_ddep_api: {
+        type: String,
+        unique: true
+    },
+    // api_ddep_api_get_or_post: String,
     api_ddep_api_receive_parameter_name:String,
     api_user_api:String,
     createdBy:String,
@@ -29,4 +33,5 @@ const InboundSettingSchema = mongoose.Schema({
     timestamps: true
 });
 
+InboundSettingSchema.plugin(uniqueValidator);
 module.exports = mongoose.model('InboundSetting', InboundSettingSchema);
