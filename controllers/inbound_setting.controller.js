@@ -116,7 +116,6 @@ exports.create = (req, res) => {
         createdBy: config.userName,
         updateBy : config.userName
     });
-        // api_ddep_api_get_or_post: data.api_ddep_api_get_or_post || "GET",
     inboundSetting.save()
     .then(data => {
         //res.send(data);
@@ -299,7 +298,7 @@ exports.update = (req, res) => {
     }
     if((data.sync_type=="FTP" || data.sync_type=="FTP") && !data.folder) {
         return res.status(400).send({
-            message: "folder path is Required"
+            message: "Folder path is Required"
         });
     }
     if(data.sync_type == "API" && (api_type == undefined || api_type == "")) {
@@ -350,7 +349,7 @@ exports.update = (req, res) => {
 
     var variables = { new: true };
     if (data.api_ddep_api != '') {
-        variables = { new: true, runValidators: true, context: 'query' };
+        // variables = { new: true, runValidators: true, context: 'query' };
     }
 
     InboundSetting.findByIdAndUpdate(req.params.id, data1, variables)

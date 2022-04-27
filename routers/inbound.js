@@ -21,13 +21,9 @@ router.use(express.static('public'));
 const inbound = require('../controllers/inbound.controller.js');
 const { log, time } = require('console');
 const { json } = require('body-parser');
-
 router.post('/run', inbound.create);
-
 router.post('/findbyproject_id',inbound.findByProjectId);
-
 router.put('/:id',inbound.update);
-
 router.post('/runbyuser',function(req,res){
     var options = {
         'method': 'POST',
