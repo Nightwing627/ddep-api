@@ -6,8 +6,8 @@ var request = require('request');
 const { transform, prettyPrint } = require('camaro');
 var xpath = require('xpath');
 var xmldom = require('xmldom');
-require('body-parser-xml')(bodyParser);
-router.use(bodyParser.xml());
+// require('body-parser-xml')(bodyParser);
+// router.use(bodyParser.xml());
 var fs = require('fs');
 
 router.get('/', function(req, res, next) {
