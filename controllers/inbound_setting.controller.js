@@ -86,7 +86,7 @@ exports.create = (req, res) => {
     } 
     if(((data.sync_type=="API" && api_type[0]!=undefined && api_type[0]=='DDEP_API')|| (data.sync_type=="API" && api_type[1]!=undefined && api_type[1]=='DDEP_API')) && data.api_ddep_api!="")
     {
-        var re = new RegExp(/^(\/)[a-zA-Z0-9-_]+$/);
+        var re = new RegExp(/^(\/)[a-zA-Z0-9-_\/]+$/);
         if (!re.test(data.api_ddep_api)) {
             return res.status(400).send({
                 message: "DDEP API is not valid (must start with a '/' and must contain any letter, capitalize letter, number, dash or underscore)"
@@ -202,7 +202,7 @@ exports.findOneByDdepInput = (req, res) => {
                 MsgType: "Invalid-Source",
                 MsgLang: "en",
                 ShortMsg: "Get Fail",
-                LongMsg: "Not found Project with ddep api " + ddepInput,
+                LongMsg: "Not found Project with ddep api input = " + ddepInput,
                 InternalMsg: "",
                 EnableAlert: "No",
                 DisplayMsgBy: "ShortMsg",
@@ -236,7 +236,7 @@ exports.findOneByDdepInput = (req, res) => {
             InternalMsg: "",
             EnableAlert: "No",
             DisplayMsgBy: "LongMsg",
-            message: "Error retrieving Project with ddep api=" + ddepInput,
+            message: "Error retrieving Project with ddep api input = " + ddepInput,
             Data: []
         });
     });
@@ -315,7 +315,7 @@ exports.update = (req, res) => {
     }
     if(data.sync_type == "API" && api_type != undefined && api_type == 'DDEP_API' && data.api_ddep_api != "")
     {
-        var re = new RegExp(/^(\/)[a-zA-Z0-9-_]+$/);
+        var re = new RegExp(/^(\/)[a-zA-Z0-9-_\/]+$/);
         if (!re.test(data.api_ddep_api)) {
             return res.status(400).send({
                 message: "DDEP API is not valid (must start with a '/' and must contain any letter, capitalize letter, number, dash or underscore)"

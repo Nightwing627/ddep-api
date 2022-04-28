@@ -150,7 +150,7 @@ $(function () {
           api_ddep_api: {
             required: true,
             maxlength: 20,
-            regex: /^(\/)[a-zA-Z0-9-_]+$/,
+            regex: /^(\/)[a-zA-Z0-9-_\/]+$/,
             remote : {
               type : 'POST',
               url : "/inbound_setting/checkddepinputexist",

@@ -10,5 +10,5 @@ const Config = {
     companyCode: "ddep",
     userName: "Divyesh",
     ddepPrefix: "dapi",
-} 
+}
 module.exports = Config

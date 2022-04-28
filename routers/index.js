@@ -15,9 +15,54 @@ router.get('/', function(req, res, next) {
 	res.redirect('/projects/project-list');
 });
 
-router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput', function(req, res) {
+router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
 	var reqBody = req.query;
 	var ddepInput = '/'+req.params.ddepInput;
+	if (req.params.ddepInput1 != undefined && req.params.ddepInput1 != '') {
+		ddepInput += '/'+req.params.ddepInput1;
+	}
+	if (req.params.ddepInput2 != undefined && req.params.ddepInput2 != '') {
+		ddepInput += '/'+req.params.ddepInput2;
+	}
+	if (req.params.ddepInput3 != undefined && req.params.ddepInput3 != '') {
+		ddepInput += '/'+req.params.ddepInput3;
+	}
+	if (req.params.ddepInput4 != undefined && req.params.ddepInput4 != '') {
+		ddepInput += '/'+req.params.ddepInput4;
+	}
+	if (req.params.ddepInput5 != undefined && req.params.ddepInput5 != '') {
+		ddepInput += '/'+req.params.ddepInput5;
+	}
+	if (req.params.ddepInput6 != undefined && req.params.ddepInput6 != '') {
+		ddepInput += '/'+req.params.ddepInput6;
+	}
+	if (req.params.ddepInput7 != undefined && req.params.ddepInput7 != '') {
+		ddepInput += '/'+req.params.ddepInput7;
+	}
+	if (req.params.ddepInput8 != undefined && req.params.ddepInput8 != '') {
+		ddepInput += '/'+req.params.ddepInput8;
+	}
+	if (req.params.ddepInput9 != undefined && req.params.ddepInput9 != '') {
+		ddepInput += '/'+req.params.ddepInput9;
+	}
+	console.log(reqBody);
+
+	var bodyData = JSON.parse(JSON.stringify(reqBody.object));
+	console.log(bodyData.length);
+	if(bodyData.length == undefined || bodyData.length == 0) {
+		return res.json({
+			code: "1",
+			MsgCode: "50001",
+			MsgType: "Invalid-Source",
+			MsgLang: "en",
+			ShortMsg: "Fail",
+			LongMsg: "Please enter data in body.",
+			InternalMsg: "",
+			EnableAlert: "No",
+			DisplayMsgBy: "LongMsg",
+			Data: []
+		});
+	}
 
 	var inbound_url = config.domain+"/inbound_setting/editddepAPI/";
 
@@ -235,10 +280,54 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput', function(req, res) 
 	});
 });
 
-router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput', function(req, res) {
+router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
 	var reqBody = req.body;
 	var ddepInput = '/'+req.params.ddepInput;
+	if (req.params.ddepInput1 != undefined && req.params.ddepInput1 != '') {
+		ddepInput += '/'+req.params.ddepInput1;
+	}
+	if (req.params.ddepInput2 != undefined && req.params.ddepInput2 != '') {
+		ddepInput += '/'+req.params.ddepInput2;
+	}
+	if (req.params.ddepInput3 != undefined && req.params.ddepInput3 != '') {
+		ddepInput += '/'+req.params.ddepInput3;
+	}
+	if (req.params.ddepInput4 != undefined && req.params.ddepInput4 != '') {
+		ddepInput += '/'+req.params.ddepInput4;
+	}
+	if (req.params.ddepInput5 != undefined && req.params.ddepInput5 != '') {
+		ddepInput += '/'+req.params.ddepInput5;
+	}
+	if (req.params.ddepInput6 != undefined && req.params.ddepInput6 != '') {
+		ddepInput += '/'+req.params.ddepInput6;
+	}
+	if (req.params.ddepInput7 != undefined && req.params.ddepInput7 != '') {
+		ddepInput += '/'+req.params.ddepInput7;
+	}
+	if (req.params.ddepInput8 != undefined && req.params.ddepInput8 != '') {
+		ddepInput += '/'+req.params.ddepInput8;
+	}
+	if (req.params.ddepInput9 != undefined && req.params.ddepInput9 != '') {
+		ddepInput += '/'+req.params.ddepInput9;
+	}
 	console.log(reqBody);
+
+	var bodyData = JSON.parse(JSON.stringify(req.body));
+	console.log(bodyData.length);
+	if(bodyData.length == undefined || bodyData.length == 0) {
+		return res.json({
+			code: "1",
+			MsgCode: "50001",
+			MsgType: "Invalid-Source",
+			MsgLang: "en",
+			ShortMsg: "Fail",
+			LongMsg: "Please enter data in body.",
+			InternalMsg: "",
+			EnableAlert: "No",
+			DisplayMsgBy: "LongMsg",
+			Data: []
+		});
+	}
 
 	ddep_api(reqBody, ddepInput, res);
 
@@ -688,7 +777,7 @@ function ddep_api(reqBody, ddepInput, res)
 											MsgType: "Exception-Error",
 											MsgLang: "en",
 											ShortMsg: "Data Send Fail",
-											LongMsg: dataoutboundres.Msg || "Some error occurred while creating the project.",
+											LongMsg: dataoutboundres.Msg || "Some error occurred while outbound post the data.",
 											InternalMsg: "",
 											EnableAlert: "No",
 											DisplayMsgBy: "LongMsg",
