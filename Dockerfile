@@ -12,7 +12,7 @@ RUN npm install
 #RUN npm ci
 
 #upgrade npm 
-
+RUN npm install npm@8.1.0
 
 # remove development dependencies(不会报错，但是大小变化不大)
 #RUN npm prune --production
