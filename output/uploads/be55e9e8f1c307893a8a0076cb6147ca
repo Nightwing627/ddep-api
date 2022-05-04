@@ -1,0 +1,1182 @@
+{
+	"info": {
+		"_postman_id": "a87f02a0-e42d-4ca9-8c0e-01b7fd68a843",
+		"name": "ddep",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "syncUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "enable_fg",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "two_auth_fg",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "user_name",
+									"value": "vijay",
+									"type": "text"
+								},
+								{
+									"key": "display_name",
+									"value": "vijayvadher",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "vijay@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "staff_other_code",
+									"value": "1234455",
+									"type": "text"
+								},
+								{
+									"key": "first_name",
+									"value": "vijay",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "vadher",
+									"type": "text"
+								},
+								{
+									"key": "Local_lang_name",
+									"value": "eng",
+									"type": "text"
+								},
+								{
+									"key": "skype_address",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "tel_city_idd",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "tel",
+									"value": "987654321",
+									"type": "text"
+								},
+								{
+									"key": "fax_country_idd",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "fax_city_idd",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "fax",
+									"value": "1234567890",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "ch",
+									"type": "text"
+								},
+								{
+									"key": "state",
+									"value": "bj",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "abc",
+									"type": "text"
+								},
+								{
+									"key": "postal_code",
+									"value": "123456",
+									"type": "text"
+								},
+								{
+									"key": "address1",
+									"value": "test address",
+									"type": "text"
+								},
+								{
+									"key": "address2",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "address3",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "mobile_country_idd",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "mobile_city_idd",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "mobile",
+									"value": "1234567890",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/sync-user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"sync-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user-list",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "enable_fg",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "two_auth_fg",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "user_name",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "display_name",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "test2@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "staff_other_code",
+									"value": "1234",
+									"type": "text"
+								},
+								{
+									"key": "first_name",
+									"value": "testfirstname",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "testlastname",
+									"type": "text"
+								},
+								{
+									"key": "Local_lang_name",
+									"value": "eng",
+									"type": "text"
+								},
+								{
+									"key": "skype_address",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "tel_city_idd",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "tel",
+									"value": "1234567890",
+									"type": "text"
+								},
+								{
+									"key": "fax_country_idd",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "fax_city_idd",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "fax",
+									"value": "1234567890",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "ch",
+									"type": "text"
+								},
+								{
+									"key": "state",
+									"value": "bj",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "abc",
+									"type": "text"
+								},
+								{
+									"key": "postal_code",
+									"value": "123456",
+									"type": "text"
+								},
+								{
+									"key": "address1",
+									"value": "test address",
+									"type": "text"
+								},
+								{
+									"key": "address2",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "address3",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "mobile_country_idd",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "mobile_city_idd",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "mobile",
+									"value": "1234567890",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/list",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "enable_fg",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "two_auth_fg",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "user_name",
+									"value": "demo",
+									"type": "text"
+								},
+								{
+									"key": "display_name",
+									"value": "demo user",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "demo@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "staff_other_code",
+									"value": "9999999999",
+									"type": "text"
+								},
+								{
+									"key": "first_name",
+									"value": "demo test",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "demo last",
+									"type": "text"
+								},
+								{
+									"key": "Local_lang_name",
+									"value": "eng",
+									"type": "text"
+								},
+								{
+									"key": "skype_address",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "tel_city_idd",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "tel",
+									"value": "987654321",
+									"type": "text"
+								},
+								{
+									"key": "fax_country_idd",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "fax_city_idd",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "fax",
+									"value": "1234567890",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "ch",
+									"type": "text"
+								},
+								{
+									"key": "state",
+									"value": "bj",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "abc",
+									"type": "text"
+								},
+								{
+									"key": "postal_code",
+									"value": "123456",
+									"type": "text"
+								},
+								{
+									"key": "address1",
+									"value": "test address",
+									"type": "text"
+								},
+								{
+									"key": "address2",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "address3",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "mobile_country_idd",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "mobile_city_idd",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "mobile",
+									"value": "1234567890",
+									"type": "text"
+								},
+								{
+									"key": "Department_code",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "req.params.id",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8004/users/61448b6744f3ae9dc6385d58",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8004",
+							"path": [
+								"users",
+								"61448b6744f3ae9dc6385d58"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "syncUserEncrypted",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman.",
+								"key": "Content-Type",
+								"value": "multipart/form-data",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "SyncData",
+									"value": "X1XCsbecCqhLnvQ2lHTUfGx6bMrVJ0kO0FrWpVkCKpVjcL%2bqpxgNjIgAOEwljUGnIO1BvGHBehVwmfdAO5TTwZEJEN2yQWMcEcDHwmNrr4qZuHC3Tz9BfYJlwKWnIfzzBDC0oV0g6QPR0VvfeNVgd2BcuZVtf7JY%2f8TG4bwnxALviY8ZImFrb4ntJRtjr93mrC7F2K7jUopHIgUvmqkOGbDo2rWZYjTp0l3ux4JJ8ZPM97PGba6bcUOOds4hJY9yi%2fxSXZBw0GyTyV89zP861fyFy6ZBIXayl6j88YY5wgF%2fyDmzmQWU167biXNBKhktW7OYeSk31rhflvLbtPSRg2yePs5c%2bNPM%2f2wtiRhtHYPMo0DojlEv%2f5Zd%2frvmQKlNQaHwHoPqWggHFXlAdz2CDZ%2fjbllXTJTfPJPzquwCBegYgxg%2fU%2fqGr2VBExPE4%2b94f5MM0ZvGqzQXvuDRRKCkGO5VMYoQc3RXxbqXMnhYAFE0kpHpBuHHtRmpGa6vkfOaoUZ3vZCe90w0VktrXE0IMgI9Fi2jAHycSX0jf%2bKiTuDaqI3cpybu1SpIxk5UEqwPYENHFsi1xVrxNnTzwcUXOelpk%2bpUac4tZGvh%2bq1C6gqDFQZ89JF%2bDYA1%2bfHFtgBrdswQDSVKeaBVj0UZr%2fxr0tKQYSwCZQ%2fa2i7hAQO33Uc%2bVWPZfPXRbKHu5Knqs5kk8fzZsepidfX6f07KpeFZQdE%2fj9wKOVbbh6xeoj6tgsN3hOv6b4bJ%2fFIvp2FcDHMvaxaZjdfUK71Szt0xpD0owfMFSvrL%2btCb1M2NVE87KE8HSyQaL1VOBH67Q9XwcSiM80qLDvHK4lUKResozZ%2fJFnW4E7Wbagxkk3C1AJuPl%2bFNCqy3tHL4%2fDceDceGQ9lJi8I9PJdXBBdcp1Bdggyn89E27m2XzfcSEsnyePFHUzng8RkB8ewOOX5Si7vAcAmhkaCOn1V6owDGNFsqt3f3fGA2QqoJZLqz2A2ovLwCIMI5CgCc4ZPUw1HLmSz4DXxu6apNGdXp6TtKmKUakQEUiI7I5fDtCG0ySTXro5aIYQxEtxWUJP1fzPFulEYHmHML2vYY1QP4%2fzvGlCq1kw%2bvHdkILaGwPaHKxfnZ9rYV%2fc7gsHcZTDxpOHHAbqqqkRtT%2fWUS3M5%2fXYr3HvXGEzzwdQjvjUEblIUm8mGObpPAPGX7TdKwaeyu47wLpQ4QGu%2bk0XRLL3V4ehLAzkxuz0K1RFDumGLGQCA5Tm6egNKJsUCd7X6XrwSMmZ2kXrwB%2fmCOEfvb%2ftjXBRas7tbbt6NowuytJ6FNAcjBb8Zkz1AO1F63Q5dGw9qCWRWgBSXsRbDv92TtBjkWEdyfsgKa0839kNKk%2fF2CiOnOCrZ%2fcPhlRXBCVkQ7c%2bSucz3hj9dawq51RQHa%2fdYMwExrpj2V8WAsN1ty4x6FeU0TDCsyZJXDoWELsvEBqpm7hbHvt6ap84qsD3v5b1bRldTbXfpOPXJztblUJtCvxem3%2bA8KSkUI3n9mOoQX1OM7FSXmHOMBAyqqk%2boxjPxo4C2FYUPb66N0qnISlEA%2fq0EyFjZOny4pkfNidEUuHpddt4of%2bM%2fXRmv%2f2zn5hs1i0N8Io4o5Ykm%2bHAvVyUolEi5bWqP0OG6i%2blFZn%2b9e1fI3WgYv0lJ8Z%2fbemUM%2bqit6YVGy3mwDJeaLb6ltVQ6MzPIVci691wJTYcH2867yLo6BqVuQ4BCb9kf6qorB5RXkxgXRpJBlHoItLr%2bqYrDVC83yw6TZ15A%2b4r6xUAYC2tFqTwoPXctBUj4L3krqVTKlScpDlJVkgQTDFqDf1X5PGiQK72uGoOnyQ7I%3d",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8004/users/syncuser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8004",
+							"path": [
+								"users",
+								"syncuser"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "projects",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ProjectCode\":\"004\",\r\n    \"ProjectId\":\"616ecacb5593bb6f186bb05c\",\r\n    \"InboundData\":{}\r\n   \r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8004/inbound/run",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8004",
+							"path": [
+								"inbound",
+								"run"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "enable_fg",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "two_auth_fg",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "user_name",
+									"value": "demo",
+									"type": "text"
+								},
+								{
+									"key": "display_name",
+									"value": "demo user",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "demo@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "staff_other_code",
+									"value": "9999999999",
+									"type": "text"
+								},
+								{
+									"key": "first_name",
+									"value": "demo test",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "demo last",
+									"type": "text"
+								},
+								{
+									"key": "Local_lang_name",
+									"value": "eng",
+									"type": "text"
+								},
+								{
+									"key": "skype_address",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "tel_city_idd",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "tel",
+									"value": "987654321",
+									"type": "text"
+								},
+								{
+									"key": "fax_country_idd",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "fax_city_idd",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "fax",
+									"value": "1234567890",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "ch",
+									"type": "text"
+								},
+								{
+									"key": "state",
+									"value": "bj",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "abc",
+									"type": "text"
+								},
+								{
+									"key": "postal_code",
+									"value": "123456",
+									"type": "text"
+								},
+								{
+									"key": "address1",
+									"value": "test address",
+									"type": "text"
+								},
+								{
+									"key": "address2",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "address3",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "mobile_country_idd",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "mobile_city_idd",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "mobile",
+									"value": "1234567890",
+									"type": "text"
+								},
+								{
+									"key": "Department_code",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "req.params.id",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8004/projects/list",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8004",
+							"path": [
+								"projects",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "save_projects",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ProjectName\":\"newprojectstep1\",\r\n    \"ProjectCode\":\"001\",\r\n    \"CompanyName\":\"step1company\"\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8004/projects/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8004",
+							"path": [
+								"projects",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "save_inbound_setting_step",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"project_id\":\"6180dba0e88d6048e1762b19\",\r\n        \"inbound_format\":\"XML\",\r\n        \"sync_type\":\"ftp\",\r\n        \"ftp_server_link\":\"example.com\",\r\n        \"host\":\"demohost\",\r\n        \"port\":\"22\",\r\n        \"login_name\":\"demouser\",\r\n        \"password\":\"123456\"\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8004/inbound_setting/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8004",
+							"path": [
+								"inbound_setting",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "save_outbound_setting_step",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"project_id\":\"6180dba0e88d6048e1762b19\",\r\n         \"outbound_format\":\"Json\",\r\n            \"sync_type_out\":\"API\",\r\n            \"api_url\":\"api.example.com/api\"\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8004/outbound_setting/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8004",
+							"path": [
+								"outbound_setting",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "save_schedule_step",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n       \"project_id\":\"6180dba0e88d6048e1762b19\",\r\n        \"Schedule_configure_inbound\":\"JSON\",\r\n        \"schedule_type_inbound\":\"API\",\r\n        \"occurs_inbound\":\"weekly\",\r\n        \"occurs_weekly_fields_inbound\":[\r\n            {\"day\":\"monday\"},\r\n            {\"day\":\"wednesday\"}\r\n        ],\r\n        \"next_day_inbound\":\"\",\r\n        \"recurs_count_inbound\":\"1\",\r\n        \"recurs_time_inbound\":\"12:00\",\r\n        \"Schedule_configure_outbound\":\"JSON\",\r\n        \"schedule_type_outbound\":\"API\",\r\n        \"occurs_outbound\":\"1\",\r\n        \"recurs_count_outbound\":\"1\",\r\n        \"recurs_time_outbound\":\"12:00\"\r\n        \r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8004/schedule_setting/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8004",
+							"path": [
+								"schedule_setting",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit project",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"ProjectCode\":\"finaltest\",\r\n\"ProjectName\":\"finaltest\",\r\n\"CompanyName\":\"finaltest\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8004/projects/update/61813940a89636396f4da631",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8004",
+							"path": [
+								"projects",
+								"update",
+								"61813940a89636396f4da631"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "inbound",
+			"item": [
+				{
+					"name": "run",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"project_code\":\"004\",\r\n    \"project_id\":\"616ecacb5593bb6f186bb05c\",\r\n    \"inbound_data\":{\r\n   \"POHeader\": {\r\n      \"OrderHandeling\": [\r\n         {\r\n            \"OH_ID\": \"ImportAs\",\r\n            \"OH_Data\": \"Complete\"\r\n         },\r\n         {\r\n            \"OH_ID\": \"LastUpdateDate\",\r\n            \"OH_Data\": \"20210305\"\r\n         },\r\n         {\r\n            \"OH_ID\": \"SizeChartModel\",\r\n            \"OH_Data\": \"Generic\"\r\n         },\r\n         {\r\n            \"OH_ID\": \"AdjustWastage\",\r\n            \"OH_Data\": \"False\"\r\n         }\r\n      ],\r\n      \"CustRef\": {\r\n         \"Variable\": {\r\n            \"CR_ID\": \"PO\",\r\n            \"CR_Data\": \"213506\"\r\n         }\r\n      },\r\n      \"SupplierDetail\": {\r\n         \"SupplierNo\": \"9999\",\r\n         \"FactoryNo\": []\r\n      },\r\n      \"ItemRefs\": {}\r\n   },\r\n   \"EDIHeader\": {\r\n      \"EDI_Variables\": [\r\n         {\r\n            \"EDI_HName\": \"PO\",\r\n            \"EDI_HValue\": \"213506\"\r\n         },\r\n         {\r\n            \"EDI_HName\": \"Season\",\r\n            \"EDI_HValue\": \"204\"\r\n         },\r\n         {\r\n            \"EDI_HName\": \"ARTIKEL\",\r\n            \"EDI_HValue\": \"36335090\"\r\n         },\r\n         {\r\n            \"EDI_HName\": \"Color\",\r\n            \"EDI_HValue\": \"818\"\r\n         },\r\n         {\r\n            \"EDI_HName\": \"Component\",\r\n            \"EDI_HValue\": []\r\n         },\r\n         {\r\n            \"EDI_HName\": \"Color\",\r\n            \"EDI_HValue\": \"818\"\r\n         },\r\n         {\r\n            \"EDI_HName\": \"Country-of-Origin-1\",\r\n            \"EDI_HValue\": \"CHINA\"\r\n         }\r\n      ],\r\n      \"EDI_CareandContent\": {\r\n         \"Fibre\": [\r\n            {\r\n               \"FibreComponentName\": \"SHELL FABRIC 1\",\r\n               \"Variable\": [\r\n                  {\r\n                     \"FibreName\": \"POLYAMIDE\",\r\n                     \"FibrePercent\": \"50\"\r\n                  },\r\n                  {\r\n                     \"FibreName\": \"abaca\",\r\n                     \"FibrePercent\": \"50\"\r\n                  }\r\n               ]\r\n            },\r\n            {\r\n               \"FibreComponentName\": \"LINING 1\",\r\n               \"Variable\": {\r\n                  \"FibreName\": \"POLYAMIDE\",\r\n                  \"FibrePercent\": \"100\"\r\n               }\r\n            },\r\n            {\r\n               \"FibreComponentName\": \"PADDING 1\",\r\n               \"Variable\": {\r\n                  \"FibreName\": \"DUCK DOWN\",\r\n                  \"FibrePercent\": \"100\"\r\n               }\r\n            },\r\n            {\r\n               \"FibreComponentName\": [],\r\n               \"Variable\": {\r\n                  \"FibreName\": \"CONTAINS NON-TEXTILE PARTS OF ANIMAL ORIGIN\",\r\n                  \"FibrePercent\": []\r\n               }\r\n            }\r\n         ],\r\n         \"FrabricStatments\": [\r\n            {\r\n               \"Statment\": \"USE MILD DETERGENTS DO NOT USE FABRIC SOFTENER\"\r\n            },\r\n            {\r\n               \"Statment\": \"DO NOT KEEP IN MOIST CONDITION\"\r\n            },\r\n            {\r\n               \"Statment\": \"DO NOT IRON PRINT\"\r\n            }\r\n         ],\r\n         \"CareSymbolMappingID\": [\r\n            {\r\n               \"CareMappingID\": \"e\"\r\n            },\r\n            {\r\n               \"CareMappingID\": \"o\"\r\n            },\r\n            {\r\n               \"CareMappingID\": \"s\"\r\n            },\r\n            {\r\n               \"CareMappingID\": \"n\"\r\n            },\r\n            {\r\n               \"CareMappingID\": \"U\"\r\n            },\r\n            {\r\n               \"CareMappingID\": \"A\"\r\n            },\r\n            {\r\n               \"CareMappingID\": []\r\n            },\r\n            {\r\n               \"CareMappingID\": []\r\n            },\r\n            {\r\n               \"CareMappingID\": []\r\n            },\r\n            {\r\n               \"CareMappingID\": []\r\n            }\r\n         ]\r\n      }\r\n   },\r\n   \"EDISizeDetail\": {\r\n      \"EDI_Size\": {\r\n         \"SizeChartID\": [],\r\n         \"EDIPrimarySize\": \"8\",\r\n         \"Variable\": {\r\n            \"TicketQuantity\": \"20\"\r\n         },\r\n         \"MatrixDetail\": [\r\n            {\r\n               \"EDISizeDetail_Name\": \"Unisex\",\r\n               \"EDISizeDetail_Value\": \"M\"\r\n            },\r\n            {\r\n               \"EDISizeDetail_Name\": \"Size\",\r\n               \"EDISizeDetail_Value\": \"38\"\r\n            }\r\n         ]\r\n      }\r\n   }\r\n}\r\n   \r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8004/inbound/run",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8004",
+							"path": [
+								"inbound",
+								"run"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ftpconnection multiple",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8004/inbound/ftpconnectiontest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8004",
+							"path": [
+								"inbound",
+								"ftpconnectiontest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "testjsoninbound",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8004/inbound/testjson",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8004",
+							"path": [
+								"inbound",
+								"testjson"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "finalinbound",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "project_id",
+									"value": "61c95a8b8aeb5b84a2612a50",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8004/inbound/inboundrun",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8004",
+							"path": [
+								"inbound",
+								"inboundrun"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "finaloutbound",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "project_id",
+									"value": "61c95a8b8aeb5b84a2612a50",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8004/inbound/outboundrun",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8004",
+							"path": [
+								"inbound",
+								"outboundrun"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "outbound",
+			"item": [
+				{
+					"name": "run",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \r\n    \"project_id\":\"61c02a5b4c08470021b7042f\",\r\n    \"api_url\":\"https://portalpredeployadmin.1-label.com/api/TUUEdi/TuuImportApi.aspx\"\r\n\r\n   \r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8004/outbound/useroutboundtest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8004",
+							"path": [
+								"outbound",
+								"useroutboundtest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "OUTBOUND DDEPAPI",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/plain",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "TuuJson",
+									"value": "[\n    {\n        \"OrderHandeling\":[\n            {\n                \"ID\":\"GarmentLabelFlag\",\n                \"value\":\"\"\n            },\n            {\n                \"ID\":\"ImportAs\",\n                \"value\":\"StyleNumber\"\n            },\n            {\n                \"ID\":\"LastUpdateDate\",\n                \"value\":\"\"\n            },\n            {\n                \"ID\":\"SizeChartModel\",\n                \"value\":\"Data\"\n            },\n            {\n                \"ID\":\"AdjustWastage\",\n                \"value\":\"True\"\n            }\n        ],\n        \"CustRef\":[\n            {\n                \"ID\":\"Consolidated PO ID\",\n                \"value\":\"\"\n            },\n            {\n                \"ID\":\"PO\",\n                \"value\":\"00000Boden009\"\n            },\n            {\n                \"ID\":\"POTCODE\",\n                \"value\":\"W2C\"\n            },\n            {\n                \"ID\":\"CARECODE\",\n                \"value\":\"Amber Test211122\"\n            }\n        ],\n        \"SupplierDetail\":[\n            {\n                \"Brand\":\"Boden\",\n                \"SupplierNo\":\"\",\n                \"FactoryNo\":\"Test01\"\n            }\n        ],\n        \"ItemRefs\":[\n            {\n                \"ItemRef\":\"\"\n            },\n            {\n                \"ItemRef\":\"\"\n            }\n        ],\n        \"EDI_Variables\":[\n            {\n                \"ID\":\"COO\",\n                \"value\":\"MADE IN BULGARIA\"\n            },\n            {\n                \"ID\":\"Send date\",\n                \"value\":\"\"\n            },\n            {\n                \"ID\":\"ContentNo\",\n                \"value\":\"ASLL-ABC-20211100011\"\n            },\n            {\n                \"ID\":\"CareNo\",\n                \"value\":\"\"\n            },\n            {\n                \"ID\":\"Dep\",\n                \"value\":\"DEP FOR STYLE TO 00000Boden009\"\n            },\n            {\n                \"ID\":\"Sub\",\n                \"value\":\"SUB FOR STYLE TO 00000Boden009\"\n            },\n            {\n                \"ID\":\"Sty\",\n                \"value\":\"STY FOR STYLE TO 00000Boden009\"\n            },\n            {\n                \"ID\":\"NOP\",\n                \"value\":\"NOP TO 00000Boden009\"\n            },\n            {\n                \"ID\":\"MINIDATE\",\n                \"value\":\"20211122\"\n            },\n            {\n                \"ID\":\"GPU\",\n                \"value\":\"GPU TO 00000Boden009\"\n            },\n            {\n                \"ID\":\"WASHREF\",\n                \"value\":\"WASH TO 00000Boden009\"\n            },\n            {\n                \"ID\":\"FOOT-U\",\n                \"value\":\"FOOT TO 00000Boden009\"\n            },\n            {\n                \"ID\":\"FOOT-L\",\n                \"value\":\"L TO 00000Boden009\"\n            },\n            {\n                \"ID\":\"FOOT-S\",\n                \"value\":\"S TO 00000Boden009\"\n            },\n            {\n                \"ID\":\"AC\",\n                \"value\":\"\"\n            }\n        ],\n        \"FibreComponet\":[\n        ],\n        \"FrabricStatments\":[\n        ],\n        \"CareSymbolMappingID\":[\n        ],\n        \"SizeDetail\":[\n            {\n                \"SizeChartID\":\"\",\n                \"Size\":\"S\",\n                \"TicketQuantity\":[\n                    {\n                        \"Quantity\":550\n                    },\n                    {\n                        \"Quantity\":600\n                    }\n                ],\n                \"MatrixDetail\":[\n                    {\n                        \"ID\":\"sku code\",\n                        \"Value\":\"005633858\"\n                    },\n                    {\n                        \"ID\":\"Size Description\",\n                        \"Value\":\"0\"\n                    },\n                    {\n                        \"ID\":\"USSIZE\",\n                        \"Value\":\"USSIZE S \"\n                    },\n                    {\n                        \"ID\":\"US BARCODE\",\n                        \"Value\":\"US S \"\n                    },\n                    {\n                        \"ID\":\"USPRICE\",\n                        \"Value\":\"USPRICE S \"\n                    },\n                    {\n                        \"ID\":\"COLOUR\",\n                        \"Value\":\"COLOUR S \"\n                     },\n                    {\n                        \"ID\":\"COLCODE\",\n                        \"Value\":\"COLCODE S \"\n                     },\n                    {\n                        \"ID\":\"CORE BARCODE\",\n                        \"Value\":\"CORE S\"\n                     }\n                ]\n            },\n            {\n                \"SizeChartID\":\"\",\n                \"Size\":\"M\",\n                \"TicketQuantity\":[\n                    {\n                        \"Quantity\":10\n                    },\n                    {\n                        \"Quantity\":20\n                    }\n                ],\n                \"MatrixDetail\":[\n                    {\n                        \"ID\":\"sku code\",\n                        \"Value\":\"001285858\"\n                    },\n                    {\n                        \"ID\":\"Size Description\",\n                        \"Value\":\"2\"\n                    },\n                    {\n                        \"ID\":\"USSIZE\",\n                        \"Value\":\"USSIZE M\"\n                    },\n                    {\n                        \"ID\":\"US BARCODE\",\n                        \"Value\":\"US M \"\n                    },\n                    {\n                        \"ID\":\"USPRICE\",\n                        \"Value\":\"USPRICE M \"\n                    },\n                    {\n                        \"ID\":\"COLOUR\",\n                        \"Value\":\"COLOUR M \"\n                     },\n                    {\n                        \"ID\":\"COLCODE\",\n                        \"Value\":\"COLCODE M \"\n                     },\n                    {\n                        \"ID\":\"CORE BARCODE\",\n                        \"Value\":\"CORE M\"\n                     }\n                ]\n            }\n        ]\n    },\n    {\n        \"OrderHandeling\":[\n            {\n                \"ID\":\"GarmentLabelFlag\",\n                \"value\":\"\"\n            },\n            {\n                \"ID\":\"ImportAs\",\n                \"value\":\"StyleNumber\"\n            },\n            {\n                \"ID\":\"LastUpdateDate\",\n                \"value\":\"\"\n            },\n            {\n                \"ID\":\"SizeChartModel\",\n                \"value\":\"Data\"\n            },\n            {\n                \"ID\":\"AdjustWastage\",\n                \"value\":\"True\"\n            }\n        ],\n        \"CustRef\":[\n            {\n                \"ID\":\"Consolidated PO ID\",\n                \"value\":\"\"\n            },\n            {\n                \"ID\":\"PO\",\n                \"value\":\"00000Boden010\"\n            },\n            {\n                \"ID\":\"POTCODE\",\n                \"value\":\"\"\n            },\n            {\n                \"ID\":\"CARECODE\",\n                \"value\":\"\"\n            }\n        ],\n        \"SupplierDetail\":[\n            {\n                \"Brand\":\"Boden\",\n                \"SupplierNo\":\"\",\n                \"FactoryNo\":\"Test01\"\n            }\n        ],\n        \"ItemRefs\":[\n            {\n                \"ItemRef\":\"\"\n            },\n            {\n                \"ItemRef\":\"\"\n            },\n            {\n                \"ItemRef\":\"\"\n            },\n            {\n                \"ItemRef\":\"\"\n            }\n        ],\n        \"EDI_Variables\":[\n            {\n                \"ID\":\"COO\",\n                \"value\":\"MADE IN CHINA\"\n            },\n            {\n                \"ID\":\"Send date\",\n                \"value\":\"\"\n            },\n            {\n                \"ID\":\"ContentNo\",\n                \"value\":\"\"\n            },\n            {\n                \"ID\":\"CareNo\",\n                \"value\":\"\"\n            },\n            {\n                \"ID\":\"Dep\",\n                \"value\":\"DEP FOR STYLE TO 00000Boden010\"\n            },\n            {\n                \"ID\":\"Sub\",\n                \"value\":\"SUB FOR STYLE TO 00000Boden010\"\n            },\n            {\n                \"ID\":\"Sty\",\n                \"value\":\"STY FOR STYLE TO 00000Boden010\"\n            },\n            {\n                \"ID\":\"NOP\",\n                \"value\":\"NOP TO 00000Boden010\"\n            },\n            {\n                \"ID\":\"MINIDATE\",\n                \"value\":\"20211124\"\n            },\n            {\n                \"ID\":\"GPU\",\n                \"value\":\"GPU-10\"\n            },\n            {\n                \"ID\":\"WASHREF\",\n                \"value\":\"WASH-10\"\n            },\n            {\n                \"ID\":\"FOOT-U\",\n                \"value\":\"FOOT-10\"\n            },\n            {\n                \"ID\":\"FOOT-L\",\n                \"value\":\"L-10\"\n            },\n            {\n                \"ID\":\"FOOT-S\",\n                \"value\":\"S-10\"\n            },\n            {\n                \"ID\":\"AC\",\n                \"value\":\"AC-10\"\n            }\n        ],\n        \"FibreComponet\":[\n\n        ],\n        \"FrabricStatments\":[\n\n        ],\n        \"CareSymbolMappingID\":[\n\n        ],\n        \"SizeDetail\":[\n            {\n                \"SizeChartID\":\"\",\n                \"Size\":\"OS\",\n                \"TicketQuantity\":[\n                    {\n                        \"Quantity\":1000\n                    },\n                    {\n                        \"Quantity\":100\n                    }\n                ],\n                \"MatrixDetail\":[\n                    {\n                        \"ID\":\"Size Description\",\n                        \"Value\":\"OS\"\n                    },\n                    {\n                        \"ID\":\"USSIZE\",\n                        \"Value\":\"USSIZE OS\"\n                    },\n                    {\n                        \"ID\":\"US BARCODE\",\n                        \"Value\":\"US OS \"\n                    },\n                    {\n                        \"ID\":\"USPRICE\",\n                        \"Value\":\"USPRICE OS\"\n                    },\n                    {\n                        \"ID\":\"COLOUR\",\n                        \"Value\":\"COLOUR OS\"\n                     },\n                    {\n                        \"ID\":\"COLCODE\",\n                        \"Value\":\"COLCODE OS\"\n                     },\n                    {\n                        \"ID\":\"CORE BARCODE\",\n                        \"Value\":\"CORE OS\"\n                     }\n                ]\n                    }\n                ]\n                    }\n                ]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://portalpredeployadmin.1-label.com/api/TUUEdi/TuuImportApi.aspx",
+							"protocol": "https",
+							"host": [
+								"portalpredeployadmin",
+								"1-label",
+								"com"
+							],
+							"path": [
+								"api",
+								"TUUEdi",
+								"TuuImportApi.aspx"
+							],
+							"query": [
+								{
+									"key": "TuuJson",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Scheduler",
+			"item": [
+				{
+					"name": "Scheduler API",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8004/scheduler_job/getScheduleProjectInfoTest/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8004",
+							"path": [
+								"scheduler_job",
+								"getScheduleProjectInfoTest",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "XML To JSON",
+			"item": [
+				{
+					"name": "xml_to_json",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "xml_content",
+									"value": "<?xml version = \"1.0\" encoding = \"utf-8\"?>\n\n<WebOrder> <!-- version 0.5 Removed sequential numbering from all reoccuring elements)-->\n\t<POHeader> \n\t\t<OrderHandeling> <!--Key Fields expected by 1Label for triggering and unlocking certain functionality.  E.g. Telling Portal that this order is for batch ordering-->\n\t\t\t<Variable>\n\t\t\t\t<OH_ID>GarmentLabelFlag</OH_ID> \n\t\t\t\t<OH_Data>Y</OH_Data>\n\t\t\t</Variable>\n\t\t\t<Variable>\n\t\t\t\t<OH_ID>ImportAs</OH_ID>\n\t\t\t\t<OH_Data>Complete</OH_Data>\n\t\t\t</Variable>\n\t\t\t<Variable>\n\t\t\t\t<OH_ID>LastUpdateDate</OH_ID>\n\t\t\t\t<OH_Data>20220119120060</OH_Data>\n\t\t\t</Variable>\n\t\t\t<Variable>\n\t\t\t\t<OH_ID>SizeChartModel</OH_ID>\n\t\t\t\t<OH_Data>Data</OH_Data><!-- **QUESTION: what do we do for non sized** -->\n\t\t\t</Variable>\n\t\t\t<Variable>\n\t\t\t\t<OH_ID>AdjustWastage</OH_ID>\n\t\t\t\t<OH_Data>False</OH_Data>\n\t\t\t</Variable>\n\t\t</OrderHandeling> \n\t\t<CustRef> <!--Primary Key for PO data, e.g Retailer ref no.  Used for searching and grouping orders in order listing screens-->\n\t\t\t<Variable>\n\t\t\t\t<CR_ID>Purchase Order No</CR_ID>\n\t\t\t\t<CR_Data>QIO-82-Khroma Volition Pants</CR_Data>\n\t\t\t</Variable>\n\t\t</CustRef>\n\t\t<SupplierDetail> <!--Supplier codes and address data-->\n\t\t\t<SupplierNo>Honstar</SupplierNo>\n\t\t\t<FactoryNo>F9999</FactoryNo>\n\t\t</SupplierDetail>\n\t\t<ItemRefs> <!-- Max of 10. Optional-->\n\t\t\t<ITemRef>RAB01</ITemRef>\n\t\t</ItemRefs>\n\t</POHeader>\n\t<EDIHeader> <!--Header data. Applicable to whole order  - all size records - Will display in main body of order form.  AKA - Order form variables and C&C)-->\n\t\t<EDI_Variables>\n\t\t\t<Variable>\n\t\t\t\t<EDI_HName>Country Of Manufacture</EDI_HName> <!--Field name / description-->\n\t\t\t\t<EDI_HValue>Made in China</EDI_HValue> <!--Field Value-->\n\t\t\t</Variable>\n\t\t\t<Variable>\n\t\t\t\t<EDI_HName>Status</EDI_HName>\n\t\t\t\t<EDI_HValue>New Colour</EDI_HValue>\n\t\t\t</Variable>\n\t\t</EDI_Variables>\n\t\t<EDI_CareandContent>\n\t\t\t<Fibre>\n\t\t\t\t\t<FibreComponent>\n\t\t\t\t\t\t\t<FibreComponentName>Outer</FibreComponentName>\n\t\t\t\t\t\t\t<Variable>\n\t\t\t\t\t\t\t\t<FibreName>Polyester</FibreName>\n\t\t\t\t\t\t\t\t<FibrePercent>100</FibrePercent>\n\t\t\t\t\t\t\t</Variable>\n\t\t\t\t\t</FibreComponent>\n\t\t\t\t\t<FibreComponent>\n\t\t\t\t\t\t<FibreComponentName>Panels</FibreComponentName>\n\t\t\t\t\t\t\t<Variable>\n\t\t\t\t\t\t\t\t<FibreName>Polyamide</FibreName>\n\t\t\t\t\t\t\t\t<FibrePercent>100</FibrePercent>\n\t\t\t\t\t\t\t</Variable>\n\t\t\t\t\t</FibreComponent>\n\t\t\t\t\t<FibreComponent>\n\t\t\t\t\t\t<FibreComponentName>Reinforcement panels</FibreComponentName>\n\t\t\t\t\t\t\t<Variable>\n\t\t\t\t\t\t\t\t<FibreName>Polyamide</FibreName>\n\t\t\t\t\t\t\t\t<FibrePercent>54</FibrePercent>\n\t\t\t\t\t\t\t</Variable>\n\t\t\t\t\t\t\t<Variable>\n\t\t\t\t\t\t\t\t<FibreName>Polyester</FibreName>\n\t\t\t\t\t\t\t\t<FibrePercent>33</FibrePercent>\n\t\t\t\t\t\t\t</Variable>\n\t\t\t\t\t\t\t<Variable>\n\t\t\t\t\t\t\t\t<FibreName>Polyurethane</FibreName>\n\t\t\t\t\t\t\t\t<FibrePercent>13</FibrePercent>\n\t\t\t\t\t\t\t</Variable>\n\t\t\t\t\t</FibreComponent>\n\t\t\t\t\t<FibreComponent>\n\t\t\t\t\t\t<FibreComponentName>Lining</FibreComponentName>\n\t\t\t\t\t\t\t<Variable>\n\t\t\t\t\t\t\t\t<FibreName>Polyan</FibreName>\n\t\t\t\t\t\t\t\t<FibrePercent>100</FibrePercent>\n\t\t\t\t\t\t\t</Variable>\n\t\t\t\t\t</FibreComponent>\n\t\t\t\t\t<FibreComponent>\n\t\t\t\t\t\t<FibreComponentName>Insulation</FibreComponentName>\n\t\t\t\t\t\t\t<Variable>\n\t\t\t\t\t\t\t\t<FibreName>Polyester</FibreName>\n\t\t\t\t\t\t\t\t<FibrePercent>100</FibrePercent>\n\t\t\t\t\t\t\t</Variable>\n\t\t\t\t\t</FibreComponent>\n\t\t\t</Fibre>\n\t\t\t<FrabricStatments>\n\t\t\t\t<Variable>\n\t\t\t\t\t<Statment>Do not place valuables that may be affected by dampness in external pockets of this garment.</Statment>\n\t\t\t\t</Variable>\n\t\t\t\t<Variable>\n\t\t\t\t\t<Statment>Close all zips and velcro before washing</Statment>\n\t\t\t\t</Variable>\n\t\t\t\t<Variable>\n\t\t\t\t\t<Statment>Use non-biological liquid detergents or pure soap</Statment>\n\t\t\t\t</Variable>\n\t\t\t\t<Variable>\n\t\t\t\t\t<Statment>Line dry or tumble dry. Once dry, tumble dry for 20 minutes more or iron warm to reactivate  water-repellent treatment.</Statment>\n\t\t\t\t</Variable>\n\t\t\t\t<Variable>\n\t\t\t\t\t<Statment>For specific care instructions always refer to garment manufacturer's recommendations. For more details: gore-tex.com/care</Statment>\n\t\t\t\t</Variable>\n\t\t\t</FrabricStatments>\n\t\t\t<CareSymbolMappingID> <!--below will map to sequence in brand setup and order form-->\n\t\t\t\t<Variable>\n\t\t\t\t\t<CareMappingID>WASH - 30 mild wash.jpg</CareMappingID> <!--Content of tag will match -->\n\t\t\t\t</Variable>\n\t\t\t\t<Variable>\n\t\t\t\t\t<CareMappingID>BLEACH - Do not bleach.jpg</CareMappingID>\n\t\t\t\t</Variable>\n\t\t\t\t<Variable>\n\t\t\t\t\t<CareMappingID>DRY - Tumble dry, Low (60C).jpg</CareMappingID>\n\t\t\t\t</Variable>\n\t\t\t\t<Variable>\n\t\t\t\t\t<CareMappingID>IRON - DO NOT iron.jpg</CareMappingID>\n\t\t\t\t</Variable>\n\t\t\t\t<Variable>\n\t\t\t\t\t<CareMappingID>DRY CLEAN - DO NOT dry clean.jpg</CareMappingID>\n\t\t\t\t</Variable>\n\t\t\t</CareSymbolMappingID>\n\t\t</EDI_CareandContent>\n\t</EDIHeader>\n\t<EDISizeDetail> <!--Data specific to the size record level-->\n\t\t<EDI_Size> <!--Size record level data.  Data which changes per size and will display in size matrix.  \n\t\t\t\t\tIf 'non sized then' size qty will only show in first element, in the relevent ticket quantity field, \n\t\t\t\t\tIf only none size items contained then only build one size element-->\n\t\t\t<SizeChartID>1000</SizeChartID> <!--To be used when size chart is supplied or is identifiable. If this is differnt in next element then system would split to next Portal record in order form-->\n\t\t\t<EDIPrimarySize>Nonsized</EDIPrimarySize>\n\t\t\t<Variable>\n\t\t\t\t<TicketQuantity>1</TicketQuantity> <!--Must match the same no of items set in the item tag-->\n\t\t\t</Variable>\n\t\t\t<MatrixDetail>\n\t\t\t</MatrixDetail>\n\t\t</EDI_Size>\n\t</EDISizeDetail>\t\t\n</WebOrder>",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8014/inbound/convertxmltojson",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8014",
+							"path": [
+								"inbound",
+								"convertxmltojson"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -64,7 +64,7 @@ app.use('/project/item/outbound_history',outboundHistoryRouter);
 app.use('/templates',TemplateRouter);
 app.use('/project/item/mapping',MappingRouter);
 //const host = req.get('host');
-
+//app.use(express.urlencoded({ extended: true }));
 
 app.use(function(req, res, next) {
     next(createError(404));
@@ -102,7 +102,7 @@ app.use(function(req, res, next) {
   }
 cron.schedule('* * * * *',()=>{
   console.log("run by schedule every minit");
-    calltestfun();
+    //calltestfun();
 });
 
 cron.schedule("0 0 0 * * *", function() {

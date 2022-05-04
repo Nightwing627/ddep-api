@@ -5,7 +5,6 @@ const mappingoutbounduploadSchema = mongoose.Schema({
         compnay_code:String,
         bound_format:String,
         file:String,
-        is_active:String,
         createdBy:String,
         updateBy:String,
     },{
