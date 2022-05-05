@@ -1,5 +1,5 @@
 # 指定基于node:latest 这个镜像继续制作当前应用镜像
-FROM node:14.17.5-alpine
+FROM node:16.13.0-alpine
 
 # 将根目录下的文件都copy到container（运行此镜像的容器）文件系统的app文件夹下
 ADD . /app/
