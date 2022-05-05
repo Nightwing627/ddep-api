@@ -7,7 +7,9 @@ ADD . /app/
 WORKDIR /app
 
 
-RUN npm config set strict-ssl false
+run npm config set registry http://registry.npm.taobao.org/
+run npm --registry http://registry.cnpmjs.org info underscore
+
 
 # 安装项目依赖包
 RUN npm install
