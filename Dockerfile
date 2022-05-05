@@ -6,17 +6,17 @@ ADD . /app/
 # cd到app文件夹下
 WORKDIR /app
 
-
-run npm config set proxy null
-run npm config set https-proxy null
+RUN apk add yarn
+#run npm config set proxy null
+#run npm config set https-proxy null
 
 
 run npm config set registry http://registry.cnpmjs.org/
 
-run npm install -g cnpm --registry=https://registry.npm.taobao.org
+#run npm install -g cnpm --registry=https://registry.npm.taobao.org
 
 # 安装项目依赖包
-RUN cnpm install
+RUN yarn install
 
 #RUN npm ci
 
