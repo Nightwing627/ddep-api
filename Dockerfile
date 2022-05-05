@@ -13,7 +13,7 @@ run npm config set https-proxy null
 
 run npm config set registry https://registry.npmmirror.com
 
-npm install -g cnpm --registry=https://registry.npmmirror.com
+run npm install -g cnpm --registry=https://registry.npmmirror.com
 
 # 安装项目依赖包
 RUN cnpm install
