@@ -9,7 +9,7 @@ WORKDIR /app
 
 
 
-run npm install -g cnpm --registry=https://registry.npmmirror.com
+run npm install -g cnpm 
 
 # 安装项目依赖包
 
