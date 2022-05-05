@@ -7,11 +7,16 @@ ADD . /app/
 WORKDIR /app
 
 
-run npm config set registry http://registry.npm.taobao.org/
+run npm config set proxy null
+run npm config set https-proxy null
 
+
+run npm config set registry http://registry.cnpmjs.org/
+
+run npm install -g cnpm --registry=https://registry.npm.taobao.org
 
 # 安装项目依赖包
-RUN npm install
+RUN cnpm install
 
 #RUN npm ci
 
