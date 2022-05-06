@@ -7,14 +7,7 @@ ADD . /app/
 WORKDIR /app
 
 
-
-
-run npm install -g cnpm 
-
 # 安装项目依赖包
-
-RUN cnpm install -g npm@8.1.0
-RUN npm install
 
 
 # remove development dependencies(不会报错，但是大小变化不大)
