@@ -100,9 +100,19 @@ app.use(function(req, res, next) {
       });
       
   }
+  function calltestfun2()
+  {
+      axios.get(config.domain+'/scheduler_job/scheduling/')
+      .then(response => {
+        console.log(response.data);
+      }).catch(error => {
+        console.log(error);
+      });
+      
+  }
 cron.schedule('* * * * *',()=>{
   console.log("run by schedule every minit");
-    //calltestfun();
+    calltestfun2();
 });
 
 cron.schedule("0 0 0 * * *", function() {
