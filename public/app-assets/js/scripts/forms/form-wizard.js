@@ -142,21 +142,8 @@ $(function () {
           recurs_time: {
             required: true
           },
-          api_type_user: {
-            required: function (element) {
-              if($('#Api_type_ddep').is(":checked")) {
-                return false;
-              }
-              return true;
-            },
-          },
-          api_type_ddep: {
-            required: function (element) {
-              if($('#Api_type_user').is(":checked")) {
-                return false;
-              }
-              return true;
-            },
+          api_type: {
+            required: true
           },
           api_user_api: {
             required: true
@@ -164,11 +151,19 @@ $(function () {
           api_ddep_api: {
             required: true,
             maxlength: 20,
-            regex: /^(\/)[a-zA-Z0-9-_\/]+$/
+            regex: /^(\/)[a-zA-Z0-9-_\/]+$/,
+            remote : {
+              type : 'POST',
+              url : "/inbound_setting/checkddepinputexist",
+              data : {
+                api_ddep_api: function() { return $("#api_ddep_api").val(); },
+                project_id: function() { return $("#project_id").val(); },
+              },
+            }
           },
-          api_ddep_api_get_or_post: {
+          /*api_ddep_api_get_or_post: {
             required: true
-          },
+          },*/
           api_ddep_api_receive_parameter_name: {
             required: true
           },
@@ -214,15 +209,16 @@ $(function () {
           duration_outbound_end_date:{
             required:"#duration_outbound_end_date:visible"
           }
-          
         },
         messages : {
           ProjectCode : {
-              required : "Project Code Is Required",
-              remote : "Project Code already exists."
+            required : "Project Code Is Required",
+            remote : "Project Code already exists."
+          },
+          api_ddep_api : {
+            remote : "DDEP API input already exists."
           }
-      }
-
+        }
       });
     });
 
@@ -292,6 +288,13 @@ $(function () {
                     {
                       $("#inbound_setting_id").val(response._id);
                       $('#inboundFormat').val(response.inbound_format);
+                      if (response.inbound_format == 'json') {
+                        $('#inboundFormat > option:eq(1)').attr('selected', true);
+                      } else {
+                        $('#inboundFormat > option:eq(0)').attr('selected', true);
+                      }
+                      $('#select2-inboundFormat-container').attr("title", response.inbound_format);
+                      $('#select2-inboundFormat-container').html(response.inbound_format);
                       $('#ftp_server_link').val(response.ftp_server_link);
                       //$('#host').val(response.host);
                       if (response.ftp_port == '' || response.ftp_port == undefined) {
@@ -313,38 +316,19 @@ $(function () {
                       if (response.sync_type == 'API' || response.sync_type == '' || response.sync_type == undefined) {
                         $('#apiInUrlDiv').show();
                         $('#api_options').show();
-                        var api_type = response.api_type.split(',');
-                        if(api_type.includes("User_API"))
+                        var api_type = response.api_type;
+                        $('input[value="'+response.api_type+'"]').prop('checked',true);
+                        if(api_type == "User_API")
                         {
-                          $('#Api_type_user').prop("checked",true);
-                          $('#Api_type_user').trigger('change');
+                          $('#api_ddep_api_input').hide();
                           $('#api_user_api_input').show();
-                          $('#api_user_api').val(response.api_user_api)
+                          $('#api_user_api').val(response.api_user_api);
                         }
-                        else
+                        if(api_type == "DDEP_API")
                         {
-                          $('#Api_type_user').prop("checked",false);
-                          $('#Api_type_user').trigger('change');
-                        }
-                        if(api_type.includes("DDEP_API"))
-                        {
+                          $('#api_user_api_input').hide();
                           $('#api_ddep_api_input').show();
-                          $('#api_ddep_api_input_method').show();
-                          $('#api_ddep_api_input_parameter').show();
-                          $('#Api_type_ddep').prop("checked",true);
-                          $('#Api_type_ddep').trigger('change');
                           $('#api_ddep_api').val(response.api_ddep_api);
-                          $('#api_ddep_api_receive_parameter_name').val(response.api_ddep_api_receive_parameter_name);
-                          if (response.api_ddep_api_get_or_post == 'POST') {
-                            $('#api_ddep_api_post').prop("checked",true);
-                          } else {
-                            $('#api_ddep_api_get').prop("checked",true);
-                          }
-                        }
-                        else
-                        { 
-                          $('#Api_type_ddep').prop("checked",false);
-                          $('#Api_type_ddep').trigger('change');
                         }
                       }
                       else
@@ -647,7 +631,7 @@ $(function () {
                 var inbound_format = $('#inboundFormat').val();
                 var sync_type = $('input[name="sync_type"]:checked').val();
                 var ftp_server_link = $('#ftp_server_link').val();
-    
+
                 var port = $('#port').val();
                 var login_name = $('#login_name').val();
                 var password = $('#password').val();
@@ -657,45 +641,28 @@ $(function () {
                 var is_active = $('#is_active_inbound').data('value');
                 var api_ddep_api = $('#api_ddep_api').val()==undefined ? "":$('#api_ddep_api').val();
                 var api_user_api = $('#api_user_api').val()==undefined ? "":$('#api_user_api').val();
-                var api_ddep_api_get_or_post = $('input[name="api_ddep_api_get_or_post"]:checked').val();;
-                var api_ddep_api_receive_parameter_name = $('#api_ddep_api_receive_parameter_name').val();;
-                var  api_type = '';
-                if($('#Api_type_user').prop('checked')==true)
+                // var api_ddep_api_get_or_post = $('input[name="api_ddep_api_get_or_post"]:checked').val();
+                var api_ddep_api_receive_parameter_name = $('#api_ddep_api_receive_parameter_name').val();
+                var api_type = $('input[name="api_type"]:checked').val();
+                if(api_type == 'DDEP_API')
                 {
-                  if(api_type=="")
-                  {
-
-                    api_type = $('#Api_type_user').val();
-                  }
-                  else
-                  {
-                    api_type = $('#Api_type_user').val() + ',' + $('#Api_type_ddep').val();
-                  }
+                  $('#inbound_shedule_setting_tab').hide();
+                  $('#outbound_shedule_setting_tab').hide();
                 }
-                
-                if($('#Api_type_ddep').prop('checked')==true)
+                if(api_type == 'User_API')
                 {
-                  if(api_type=="")
-                  {
-
-                    api_type = $('#Api_type_ddep').val();
-                  }
-                  else
-                  {
-                    api_type = $('#Api_type_user').val() + ',' + $('#Api_type_ddep').val();
-                  }
+                  $('#inbound_shedule_setting_tab').show();
+                  $('#outbound_shedule_setting_tab').hide();
                 }
                 if(inbound_setting_id=="")
                 {
-  
                   $.ajax({
                     url:'/inbound_setting/save',  
                     method:'post',  
                     dataType:'json',
-                    data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,api_ddep_api:api_ddep_api,api_user_api:api_user_api,api_type:api_type,is_active:is_active,api_ddep_api_get_or_post:api_ddep_api_get_or_post,api_ddep_api_receive_parameter_name:api_ddep_api_receive_parameter_name},
+                    data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,api_ddep_api:api_ddep_api,api_user_api:api_user_api,api_type:api_type,is_active:is_active,api_ddep_api_receive_parameter_name:api_ddep_api_receive_parameter_name},
                     success:function(response){
                       console.log(response);
-                      //alert("Setting saved successfully");
                       $("#inbound_setting_id").val(response.id);
                       numberedStepper.next();
                     },
@@ -710,12 +677,10 @@ $(function () {
                     url:'/inbound_setting/update/'+inbound_setting_id,  
                     method:'put',  
                     dataType:'json',
-                    data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,api_ddep_api:api_ddep_api,api_user_api:api_user_api,api_type:api_type,is_active:is_active,api_ddep_api_get_or_post:api_ddep_api_get_or_post,api_ddep_api_receive_parameter_name:api_ddep_api_receive_parameter_name},
+                    data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,api_ddep_api:api_ddep_api,api_user_api:api_user_api,api_type:api_type,is_active:is_active,api_ddep_api_receive_parameter_name:api_ddep_api_receive_parameter_name},
                     success:function(response){
-                      //console.log(response);
-                      //alert("Setting saved successfully");
+                      // $('#inbound_shedule_setting_tab').show();
                       sweetAlert("success", "Inbound Setting Saved Successfully", "success");
-                      //$("#inbound_setting_id").val(response.id);
                       numberedStepper.next();
                     },
                     error: function (textStatus, errorThrown) {
@@ -948,31 +913,16 @@ $(function () {
           var is_active = $('#is_active_inbound').data('value');
           var api_ddep_api = $('#api_ddep_api').val()==undefined ? "":$('#api_ddep_api').val();
           var api_user_api = $('#api_user_api').val()==undefined ? "":$('#api_user_api').val();
-          var  api_type = '';
-          if($('#Api_type_user').prop('checked')==true)
+          var api_type = $('input[name="api_type"]:checked').val();
+          if(api_type == 'DDEP_API')
           {
-            if(api_type=="")
-            {
-
-              api_type = $('#Api_type_user').val();
-            }
-            else
-            {
-              api_type = $('#Api_type_user').val() + ',' + $('#Api_type_ddep').val();
-            }
+            $('#inbound_shedule_setting_tab').hide();
+            $('#outbound_shedule_setting_tab').hide();
           }
-          
-          if($('#Api_type_ddep').prop('checked')==true)
+          if(api_type == 'User_API')
           {
-            if(api_type=="")
-            {
-
-              api_type = $('#Api_type_ddep').val();
-            }
-            else
-            {
-              api_type = $('#Api_type_user').val() + ',' + $('#Api_type_ddep').val();
-            }
+            $('#inbound_shedule_setting_tab').show();
+            $('#outbound_shedule_setting_tab').hide();
           }
           if(inbound_setting_id=="")
           {
@@ -1083,6 +1033,7 @@ $(function () {
               data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,is_active:is_active},
               success:function(response){
                 //console.log(response);
+
                 sweetAlert("success", "Inbound Setting Saved Successfully", "success");
                 //$("#inbound_setting_id").val(response.id);
               },
@@ -1979,13 +1930,10 @@ $(function () {
 $('body').on('change', 'input:radio[name=sync_type]', function() {
   $('.sync_confige_tabs').hide();
   $('#api_options').hide();
-  $('#api_user_api_input').hide();
-  $('#api_ddep_api_input').hide();
   $('#api_ddep_api_input_method').hide();
   $('#api_ddep_api_input_parameter').hide();
   if (this.value == 'FTP' || this.value == 'SFTP') {
     $('#ftpInDiv').show();
-    $('#inbound_shedule_setting_tab').show();
   }
   if (this.value == 'API') {
     $('#apiInUrlDiv').show();
@@ -1993,36 +1941,13 @@ $('body').on('change', 'input:radio[name=sync_type]', function() {
   }
 });
 
-$('body').on('change', '#Api_type_user', function() {
-  $('#apiInUrlDiv').show();
-  if($(this).is(":checked")) {
+$('body').on('change', 'input:radio[name=api_type]', function() {
+  if (this.value == 'User_API') {
     $('#api_user_api_input').show();
-    $('#inbound_shedule_setting_tab').show();
-  } else {
-    $('#api_user_api_input').hide();
-    if($('#Api_type_ddep').is(":checked")) {
-      $('#inbound_shedule_setting_tab').hide();
-    } else {
-      $('#inbound_shedule_setting_tab').show();
-    }
-  }
-});
-
-$('body').on('change', '#Api_type_ddep', function() {
-  $('#apiInUrlDiv').show();
-  if($(this).is(":checked")) {
-    $('#api_ddep_api_input').show();
-    $('#api_ddep_api_input_method').show();
-    $('#api_ddep_api_input_parameter').show();
-    if($('#Api_type_user').is(":checked")) {
-      $('#inbound_shedule_setting_tab').show();
-    } else {
-      $('#inbound_shedule_setting_tab').hide();
-    }
-  } else {
     $('#api_ddep_api_input').hide();
-    $('#api_ddep_api_input_method').hide();
-    $('#api_ddep_api_input_parameter').hide();
-    $('#inbound_shedule_setting_tab').show();
+  }
+  if (this.value == 'DDEP_API') {
+    $('#api_ddep_api_input').show();
+    $('#api_user_api_input').hide();
   }
 });

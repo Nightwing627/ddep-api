@@ -24,7 +24,7 @@ router.put('/update/:id',projects.update);
 
 router.post('/checkcodeexist',projects.checkecodexsit);
 router.get('/add',function(req,res){
-    var ddep_api_prefix = config.domain+'/'+config.companyCode+'/';
+    var ddep_api_prefix = config.domain+'/'+config.ddepPrefix+'/'+config.companyCode;
     res.render('pages/add-projects', {api_prefix:ddep_api_prefix});
 })
 router.get('/list',projects.findAll);
@@ -161,7 +161,7 @@ router.get('/editAPI/:id',projects.findOne);
     
 router.get('/edit/:id',function(req,res){
     request(config.domain+'/projects/editAPI/'+req.params.id, function (error, response, body) {
-    var ddep_api_prefix = config.domain+'/'+config.companyCode+'/';
+    var ddep_api_prefix = config.domain+'/'+config.ddepPrefix+'/'+config.companyCode;
     
     var data = JSON.parse(body);
     if(response.statusCode==200)

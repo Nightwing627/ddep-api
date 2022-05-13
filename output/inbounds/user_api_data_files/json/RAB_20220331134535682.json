@@ -1,0 +1,162 @@
+{
+            "OrderHandling": [
+                {
+                    "ID": "GarmentLabelFlag",
+                    "Data": "Y"
+                },
+                {
+                    "ID": "ImportAs",
+                    "Data": "PO"
+                },
+                {
+                    "ID": "LastUpdateDate",
+                    "Data": "20220331134535"
+                },
+                {
+                    "ID": "SizeChartModel",
+                    "Data": "Data"
+                }
+            ],
+            "CustRef": [
+                {
+                    "ID": "Purchase Order No",
+                    "Data": "QIO-80-Khroma Volition Jacket"
+                }
+            ],
+            "SupplierDetail": [
+                {
+                    "ID": "FactoryNo",
+                    "Data": "Honstar"
+                },
+                {
+                    "ID": "SupplierNo",
+                    "Data": "Honstar"
+                },
+                {
+                    "ID": "Brand",
+                    "Data": "boden"
+                }
+            ],
+            "ItemRefs": [
+                {
+                    "ID": "ItemRef",
+                    "Data": "RAB01"
+                }
+            ],
+            "EDIHeader": {
+                "EDIVariables": [
+                    {
+                        "ID": "Country Of Manufacture",
+                        "Data": "Made in China"
+                    }
+                ],
+                "EDICareandContent": {
+                    "Fibres": {
+                        "FibreComponents_1": [
+                            {
+                                "ID": "FibreComponent",
+                                "Data": "Outer:"
+                            },
+                            {
+                                "ID": "FibreName",
+                                "Data": "PolyamIDe with ePTFE membrane"
+                            },
+                            {
+                                "ID": "Percent",
+                                "Data": "100"
+                            }
+                        ],
+                        "FibreComponents_2": [
+                            {
+                                "ID": "FibreComponent",
+                                "Data": "Lining:"
+                            },
+                            {
+                                "ID": "FibreName",
+                                "Data": "PolyamIDe  (Recycled fibres)"
+                            },
+                            {
+                                "ID": "Percent",
+                                "Data": "100"
+                            }
+                        ],
+                        "FibreComponents_3": [
+                            {
+                                "ID": "FibreComponent",
+                                "Data": "Lining 2"
+                            },
+                            {
+                                "ID": "FibreName",
+                                "Data": "PolyamIDe"
+                            },
+                            {
+                                "ID": "Percent",
+                                "Data": "85"
+                            },
+                            {
+                                "ID": "FibreName",
+                                "Data": "Elastane"
+                            },
+                            {
+                                "ID": "Percent",
+                                "Data": "15"
+                            }
+                        ],
+                        "FibreComponents_4": [
+                            {
+                                "ID": "FibreComponent",
+                                "Data": "Insulation "
+                            },
+                            {
+                                "ID": "FibreName",
+                                "Data": "Polyester"
+                            },
+                            {
+                                "ID": "Percent",
+                                "Data": "100"
+                            }
+                        ]
+                    },
+                    "FrabricStatments": [
+                        {
+                            "ID": "Statement",
+                            "Data": "Close all closures before wash"
+                        },
+                        {
+                            "ID": "Statement",
+                            "Data": "Use LiquID Detergent"
+                        },
+                        {
+                            "ID": "Statement",
+                            "Data": "To reactivate water-repellent treatment tumble dry at low temperature or iron on cool setting"
+                        },
+                        {
+                            "ID": "Statement",
+                            "Data": "For specific care instructions always refer to\n garment manufacturer's recommendations.\n For more details: gore-tex.com/care"
+                        }
+                    ],
+                    "CareSymbolMappingID": [
+                        {
+                            "ID": "CareMapping_1",
+                            "Data": "WASH - 30 mild wash.jpg"
+                        },
+                        {
+                            "ID": "CareMapping_2",
+                            "Data": "BLEACH - Do not bleach.jpg"
+                        },
+                        {
+                            "ID": "CareMapping_3",
+                            "Data": "DRY - Tumble dry, Low (60C).jpg"
+                        },
+                        {
+                            "ID": "CareMapping_4",
+                            "Data": "IRON - DO NOT iron.jpg"
+                        },
+                        {
+                            "ID": "CareMapping_5",
+                            "Data": "DRY CLEAN - DO NOT dry clean.jpg"
+                        }
+                    ]
+                }
+            }
+        }

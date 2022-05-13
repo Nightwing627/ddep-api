@@ -1560,7 +1560,7 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                             console.log("inbound project=>" + item.schedule_setting.project_id + " set is click_by_user");
                         }
                     }
-                    if (item.outbound_setting.is_active == "Active") {
+                    if (item.outbound_setting.is_active == "Active" && item.inbound_setting.sync_type != "API") {
 
                         if (item.schedule_setting.Schedule_configure_outbound != 'click_by_user') {
                             let date_ob = new Date();
@@ -4332,8 +4332,8 @@ router.get('/getScheduleProjectInfo', function (req, res) {
                                     //scheduelerunning++;
 
                                     var result = JSON.parse(response.body);
+                                    var newschedulesetting = item.schedule_setting;
                                     if (result.Status != undefined && result.Status == 1) {
-                                        var newschedulesetting = item.schedule_setting;
                                         //var date = new Date();
                                         console.log(result);
                                         //newschedulesetting.next_date_inbound = date;

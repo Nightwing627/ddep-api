@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WebOrder>
+    <EDIHeader>
+        <EDICareandContent>
+            <CareSymbolMappingID>
+                <Variable>
+                    <ID>CareMapping_1</ID>
+                    <Data>WASH - 30 normal wash.jpg</Data>
+                </Variable>
+                <Variable>
+                    <ID>CareMapping_2</ID>
+                    <Data>BLEACH - Do not bleach.jpg</Data>
+                </Variable>
+                <Variable>
+                    <ID>CareMapping_3</ID>
+                    <Data>DRY - Tumble dry, DO NOT.jpg</Data>
+                </Variable>
+                <Variable>
+                    <ID>CareMapping_4</ID>
+                    <Data>IRON - Cool iron (max temp 110C).jpg</Data>
+                </Variable>
+                <Variable>
+                    <ID>CareMapping_5</ID>
+                    <Data>DRY CLEAN - DO NOT dry clean.jpg</Data>
+                </Variable>
+            </CareSymbolMappingID>
+            <Fibre>
+                <FibreComponents>
+                    <Variable>
+                        <ID>FibreComponent</ID>
+                        <Data>Main Body:</Data>
+                    </Variable>
+                    <Variable>
+                        <ID>FibreName</ID>
+                        <Data>Cotton-Organic</Data>
+                    </Variable>
+                    <Variable>
+                        <ID>Percent</ID>
+                        <Data>85</Data>
+                    </Variable>
+                    <Variable>
+                        <ID>FibreName</ID>
+                        <Data>Viscose</Data>
+                    </Variable>
+                    <Variable>
+                        <ID>Percent</ID>
+                        <Data>15</Data>
+                    </Variable>
+                </FibreComponents>
+            </Fibre>
+            <FrabricStatments>
+                <Variable>
+                    <ID>Statement</ID>
+                    <Data>Iron on reverse</Data>
+                </Variable>
+            </FrabricStatments>
+        </EDICareandContent>
+        <EDIVariables>
+            <Variable>
+                <ID>Country Of Manufacture</ID>
+                <Data>Made in Bangladesh</Data>
+            </Variable>
+            <Variable>
+                <ID>organic_logo</ID>
+                <Data>CD</Data>
+            </Variable>
+        </EDIVariables>
+    </EDIHeader>
+    <POHeader>
+        <CustRef>
+            <Variable>
+                <ID>Purchase Order No</ID>
+                <Data>QCB-39-Stance Mountain Tee - Grey Marl</Data>
+            </Variable>
+        </CustRef>
+        <ItemRefs>
+            <Variable>
+                <ID>ItemRef</ID>
+                <Data>RAB01</Data>
+            </Variable>
+        </ItemRefs>
+        <OrderHandling>
+            <Variable>
+                <ID>GarmentLabelFlag</ID>
+                <Data>Y</Data>
+            </Variable>
+            <Variable>
+                <ID>ImportAs</ID>
+                <Data>PO</Data>
+            </Variable>
+            <Variable>
+                <ID>LastUpdateDate</ID>
+                <Data>20220331134533</Data>
+            </Variable>
+            <Variable>
+                <ID>SizeChartModel</ID>
+                <Data>Data</Data>
+            </Variable>
+        </OrderHandling>
+        <SupplierDetail>
+            <Variable>
+                <ID>FactoryNo</ID>
+                <Data>Sainty Bangladesh</Data>
+            </Variable>
+            <Variable>
+                <ID>SupplierNo</ID>
+                <Data>Sainty Bangladesh</Data>
+            </Variable>
+        </SupplierDetail>
+    </POHeader>
+</WebOrder>

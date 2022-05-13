@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WebOrder>
+    <EDIHeader>
+        <EDICareandContent>
+            <CareSymbolMappingID>
+                <Variable>
+                    <ID>CareMapping_1</ID>
+                    <Data>WASH - 30 mild wash.jpg</Data>
+                </Variable>
+                <Variable>
+                    <ID>CareMapping_2</ID>
+                    <Data>BLEACH - Do not bleach.jpg</Data>
+                </Variable>
+                <Variable>
+                    <ID>CareMapping_3</ID>
+                    <Data>DRY - Tumble dry, Low (60C).jpg</Data>
+                </Variable>
+                <Variable>
+                    <ID>CareMapping_4</ID>
+                    <Data>IRON - DO NOT iron.jpg</Data>
+                </Variable>
+                <Variable>
+                    <ID>CareMapping_5</ID>
+                    <Data>DRY CLEAN - DO NOT dry clean.jpg</Data>
+                </Variable>
+            </CareSymbolMappingID>
+            <Fibre>
+                <FibreComponents>
+                    <Variable>
+                        <ID>FibreComponent</ID>
+                        <Data>Outer:</Data>
+                    </Variable>
+                    <Variable>
+                        <ID>FibreName</ID>
+                        <Data>PolyamIDe with ePTFE membrane</Data>
+                    </Variable>
+                    <Variable>
+                        <ID>Percent</ID>
+                        <Data>100</Data>
+                    </Variable>
+                </FibreComponents>
+                <FibreComponents>
+                    <Variable>
+                        <ID>FibreComponent</ID>
+                        <Data>Lining:</Data>
+                    </Variable>
+                    <Variable>
+                        <ID>FibreName</ID>
+                        <Data>PolyamIDe  (Recycled fibres)</Data>
+                    </Variable>
+                    <Variable>
+                        <ID>Percent</ID>
+                        <Data>100</Data>
+                    </Variable>
+                </FibreComponents>
+                <FibreComponents>
+                    <Variable>
+                        <ID>FibreComponent</ID>
+                        <Data>Lining 2</Data>
+                    </Variable>
+                    <Variable>
+                        <ID>FibreName</ID>
+                        <Data>PolyamIDe</Data>
+                    </Variable>
+                    <Variable>
+                        <ID>Percent</ID>
+                        <Data>85</Data>
+                    </Variable>
+                    <Variable>
+                        <ID>FibreName</ID>
+                        <Data>Elastane</Data>
+                    </Variable>
+                    <Variable>
+                        <ID>Percent</ID>
+                        <Data>15</Data>
+                    </Variable>
+                </FibreComponents>
+                <FibreComponents>
+                    <Variable>
+                        <ID>FibreComponent</ID>
+                        <Data>Insulation </Data>
+                    </Variable>
+                    <Variable>
+                        <ID>FibreName</ID>
+                        <Data>Polyester</Data>
+                    </Variable>
+                    <Variable>
+                        <ID>Percent</ID>
+                        <Data>100</Data>
+                    </Variable>
+                </FibreComponents>
+            </Fibre>
+            <FrabricStatments>
+                <Variable>
+                    <ID>Statement</ID>
+                    <Data>Close all closures before wash</Data>
+                </Variable>
+                <Variable>
+                    <ID>Statement</ID>
+                    <Data>Use LiquID Detergent</Data>
+                </Variable>
+                <Variable>
+                    <ID>Statement</ID>
+                    <Data>To reactivate water-repellent treatment tumble dry at low temperature or iron on cool setting</Data>
+                </Variable>
+                <Variable>
+                    <ID>Statement</ID>
+                    <Data>For specific care instructions always refer to
+ garment manufacturer's recommendations.
+ For more details: gore-tex.com/care</Data>
+                </Variable>
+            </FrabricStatments>
+        </EDICareandContent>
+        <EDIVariables>
+            <Variable>
+                <ID>Country Of Manufacture</ID>
+                <Data>Made in China</Data>
+            </Variable>
+        </EDIVariables>
+    </EDIHeader>
+    <POHeader>
+        <CustRef>
+            <Variable>
+                <ID>Purchase Order No</ID>
+                <Data>QIO-80-Khroma Volition Jacket</Data>
+            </Variable>
+        </CustRef>
+        <ItemRefs>
+            <Variable>
+                <ID>ItemRef</ID>
+                <Data>RAB01</Data>
+            </Variable>
+        </ItemRefs>
+        <OrderHandling>
+            <Variable>
+                <ID>GarmentLabelFlag</ID>
+                <Data>Y</Data>
+            </Variable>
+            <Variable>
+                <ID>ImportAs</ID>
+                <Data>PO</Data>
+            </Variable>
+            <Variable>
+                <ID>LastUpdateDate</ID>
+                <Data>20220331134535</Data>
+            </Variable>
+            <Variable>
+                <ID>SizeChartModel</ID>
+                <Data>Data</Data>
+            </Variable>
+        </OrderHandling>
+        <SupplierDetail>
+            <Variable>
+                <ID>FactoryNo</ID>
+                <Data>Honstar</Data>
+            </Variable>
+            <Variable>
+                <ID>SupplierNo</ID>
+                <Data>Honstar</Data>
+            </Variable>
+        </SupplierDetail>
+    </POHeader>
+</WebOrder>

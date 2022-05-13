@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WebOrder>
+    <EDIHeader>
+        <EDICareandContent>
+            <CareSymbolMappingID>
+                <Variable>
+                    <ID>CareMapping_1</ID>
+                    <Data>WASH - 30 mild wash.jpg</Data>
+                </Variable>
+                <Variable>
+                    <ID>CareMapping_2</ID>
+                    <Data>BLEACH - Do not bleach.jpg</Data>
+                </Variable>
+                <Variable>
+                    <ID>CareMapping_3</ID>
+                    <Data>DRY - Tumble dry, Low (60C).jpg</Data>
+                </Variable>
+                <Variable>
+                    <ID>CareMapping_4</ID>
+                    <Data>IRON - DO NOT iron.jpg</Data>
+                </Variable>
+                <Variable>
+                    <ID>CareMapping_5</ID>
+                    <Data>DRY CLEAN - DO NOT dry clean.jpg</Data>
+                </Variable>
+            </CareSymbolMappingID>
+            <Fibre>
+                <FibreComponents>
+                    <Variable>
+                        <ID>FibreComponent</ID>
+                        <Data>Outer:</Data>
+                    </Variable>
+                    <Variable>
+                        <ID>FibreName</ID>
+                        <Data>PolyamIDe (Recycled fibres)</Data>
+                    </Variable>
+                    <Variable>
+                        <ID>Percent</ID>
+                        <Data>100</Data>
+                    </Variable>
+                </FibreComponents>
+                <FibreComponents>
+                    <Variable>
+                        <ID>FibreComponent</ID>
+                        <Data>Lining:</Data>
+                    </Variable>
+                    <Variable>
+                        <ID>FibreName</ID>
+                        <Data>PolyamIDe  (Recycled fibres)</Data>
+                    </Variable>
+                    <Variable>
+                        <ID>Percent</ID>
+                        <Data>100</Data>
+                    </Variable>
+                </FibreComponents>
+                <FibreComponents>
+                    <Variable>
+                        <ID>FibreComponent</ID>
+                        <Data>Insulation:</Data>
+                    </Variable>
+                    <Variable>
+                        <ID>FibreName</ID>
+                        <Data>Down</Data>
+                    </Variable>
+                    <Variable>
+                        <ID>Percent</ID>
+                        <Data>80</Data>
+                    </Variable>
+                    <Variable>
+                        <ID>FibreName</ID>
+                        <Data>Waterfowl feather</Data>
+                    </Variable>
+                    <Variable>
+                        <ID>Percent</ID>
+                        <Data>20</Data>
+                    </Variable>
+                </FibreComponents>
+            </Fibre>
+            <FrabricStatments>
+                <Variable>
+                    <ID>Statement</ID>
+                    <Data>Sterilization permit number PA-9814 (IT)</Data>
+                </Variable>
+            </FrabricStatments>
+        </EDICareandContent>
+        <EDIVariables>
+            <Variable>
+                <ID>Country Of Manufacture</ID>
+                <Data>Made in Indonesia</Data>
+            </Variable>
+            <Variable>
+                <ID>MadeFrom_logo</ID>
+                <Data>CD</Data>
+            </Variable>
+            <Variable>
+                <ID>nickwac_logo</ID>
+                <Data>C</Data>
+            </Variable>
+        </EDIVariables>
+    </EDIHeader>
+    <POHeader>
+        <CustRef>
+            <Variable>
+                <ID>Purchase Order No</ID>
+                <Data>QDB-18-Microlight Vest</Data>
+            </Variable>
+        </CustRef>
+        <ItemRefs>
+            <Variable>
+                <ID>ItemRef</ID>
+                <Data>RAB01</Data>
+            </Variable>
+        </ItemRefs>
+        <OrderHandling>
+            <Variable>
+                <ID>GarmentLabelFlag</ID>
+                <Data>Y</Data>
+            </Variable>
+            <Variable>
+                <ID>ImportAs</ID>
+                <Data>PO</Data>
+            </Variable>
+            <Variable>
+                <ID>LastUpdateDate</ID>
+                <Data>20220331134533</Data>
+            </Variable>
+            <Variable>
+                <ID>SizeChartModel</ID>
+                <Data>Data</Data>
+            </Variable>
+        </OrderHandling>
+        <SupplierDetail>
+            <Variable>
+                <ID>FactoryNo</ID>
+                <Data>Inkordan</Data>
+            </Variable>
+            <Variable>
+                <ID>SupplierNo</ID>
+                <Data>Inkordan</Data>
+            </Variable>
+        </SupplierDetail>
+    </POHeader>
+</WebOrder>
