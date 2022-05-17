@@ -16,6 +16,7 @@ $(function () {
     verticalWizard = document.querySelector('.vertical-wizard-example'),
     modernWizard = document.querySelector('.modern-wizard-example'),
     modernVerticalWizard = document.querySelector('.modern-vertical-wizard-example');
+    const milliseconds = (h, m, s) => ((h*60*60+m*60+s)*1000);
     var inbound_start_date;
     var inbound_end_date;
     var outbound_start_date;
@@ -1342,13 +1343,43 @@ $(function () {
           }
           var next_date_inbound_start = new Date($("#duration_inbound_start_date").val());
           var next_date_inbound_string = next_date_inbound_start.toUTCString();
-          var next_date_inbound = new Date(next_date_inbound_string);
+          var next_date_inbound = parseInt(next_date_inbound_start.getTime()+(next_date_inbound_start.getTimezoneOffset()*60*1000));//new Date(next_date_inbound_string);
           var next_date_outbound_start = new Date($("#duration_outbound_start_date").val());
           var next_date_outbound_string = next_date_outbound_start.toUTCString();
-          var next_date_outbound = new Date(next_date_outbound_string);
-          next_date_inbound.setUTCHours(0,0,0,0);
+          var next_date_outbound = parseInt(next_date_outbound_start.getTime()+(next_date_outbound_start.getTimezoneOffset()*60*1000));
+          if(daily_frequency_type_inbound=="Occurs Once At")
+          {
+            var inbound_time = daily_frequency_once_time_inbound;
+            var inbound_parts = inbound_time.split(":");
+            var result_inbound = milliseconds(inbound_parts[0],inbound_parts[1], 0);
+            next_date_inbound = parseInt(next_date_inbound+result_inbound);
+          }
+          else
+          {
+            var inbound_time=daily_frequency_every_time_count_start_inbound
+            var inbound_parts = inbound_time.split(":");
+            var result_inbound = milliseconds(inbound_parts[0], inbound_parts[1], 0);
+            next_date_inbound = parseInt(next_date_inbound+result_inbound);
+          }
+
+          if(daily_frequency_type_outbound=="Occurs Once At")
+          {
+            var outbound_time = daily_frequency_once_time_outbound;
+            var outbound_parts = outbound_time.split(":");
+            var result_outbound = milliseconds(outbound_parts[0], outbound_parts[1], 0);
+            next_date_outbound = parseInt(next_date_outbound+result_outbound);
+          }
+          else
+          {
+            var outbound_time=daily_frequency_every_time_count_start_outbound
+            var outbound_parts = outbound_time.split(":");
+            var result_outbound = milliseconds(outbound_parts[0], outbound_parts[1], 0);
+            next_date_outbound = parseInt(next_date_outbound+result_outbound);
+          }
+          //var next_date_outbound = new Date(next_date_outbound_string);
+          //next_date_inbound.setUTCHours(0,0,0,0);
           
-          next_date_outbound.setUTCHours(0,0,0,0);
+          //next_date_outbound.setUTCHours(0,0,0,0);
          
           console.log("next inbound >> "+next_date_inbound);
           console.log("next outbound >> "+next_date_outbound);
@@ -1472,7 +1503,9 @@ $(function () {
                 duration_inbound_end_date:duration_inbound_end_date,
                 duration_outbound_start_date:duration_outbound_start_date,
                 duration_outbound_is_end_date:duration_outbound_is_end_date,
-                duration_outbound_end_date:duration_outbound_end_date
+                duration_outbound_end_date:duration_outbound_end_date,
+                next_date_inbound:next_date_inbound,
+                next_date_outbound:next_date_outbound
               },
               success:function(response){
                 //console.log(response);

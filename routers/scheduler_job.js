@@ -4595,6 +4595,563 @@ router.get('/testAPI', function (req, res) {
     var date = mycalen.nthWeekdayOfMonth(6, 3, date);
     res.json({ "msg": date });
 })
+router.get('/scheduling',function(req,res){
+    var list_arr_inbound = [];
+    var list_arr_outbound = [];
+    const milliseconds = (h, m, s) => ((h*60*60+m*60+s)*1000);
+    request(config.domain + '/projects/fulllist/', function (error, response, body) {
 
+        var data = JSON.parse(body);
+        //console.log(data);
+        if (response.statusCode == 200) {
+            //console.log(data.data);
+            //res.json(data.data);
+            //res.render('pages/add-projects',{alldata:data});
+            console.log("scanning total project="+data.data.length);
+            var couters = 0
+            data.data.forEach(item => {
+                if (item.schedule_setting != undefined && item.inbound_setting != undefined && item.outbound_setting != undefined && item.isActive == 1) {
+                    console.log("active project found");
+                    const date_ob = new Date();
+                    const static_date = new Date();
+                    static_date.setHours(0);
+                    static_date.setMinutes(0);
+                    static_date.setSeconds(0);
+                    static_date.setMilliseconds(0);
+                    //let current_time_milisecond = parseInt(date_ob.getTime()-date_ob.getTimezoneOffset()*60*1000);
+                    let current_time_milisecond = parseInt(date_ob.getTime());
+                    let next_date_milisecond = parseInt(item.schedule_setting.next_date_inbound);
+                    let next_date_milisecond_outbound = parseInt(item.schedule_setting.next_date_outbound);
+                    var new_next_date_milisecond = next_date_milisecond;
+                    var new_next_date_milisecond_outbound = next_date_milisecond_outbound;
+                    //console.log(current_time_milisecond);
+                    if(item.inbound_setting.is_active == "Active" && item.inbound_setting.api_type != "DDEP_API")
+                    {
+                        if (item.schedule_setting.Schedule_configure_inbound != 'click_by_user') {
+                            if (item.schedule_setting.schedule_type_inbound == "Recurring"){
+                                var end_date = '';
+                                var end_date_milisecond='';
+                                if (item.schedule_setting.duration_inbound_is_end_date == "yes_end_date") {
+                                    if (item.schedule_setting.duration_inbound_end_date != "" && item.schedule_setting.duration_inbound_end_date != undefined) {
+                                        end_date = new Date(item.schedule_setting.duration_inbound_end_date);
+                                        end_date_milisecond = parseInt(end_date.getTime());
+                                        console.log("yes end date");
+                                        //console.log("set new end date >>" + end_date);
+                                    }
+                                    else {
+                                        console.log("End Date Not Set");
+                                    }
+                                }
+                                if(end_date_milisecond=="" || (end_date_milisecond >=next_date_milisecond)){
+                                    //console.log("end date < current date found");
+                                    if(new_next_date_milisecond==current_time_milisecond || new_next_date_milisecond <= current_time_milisecond-50000){ 
+                                        //var new_next_date_milisecond = next_date_milisecond;
+                                        if (item.schedule_setting.occurs_inbound == "daily") {
+                                            if(item.schedule_setting.daily_frequency_type_inbound == 'Occurs Once At') {
+                                                console.log("occers once found");
+                                                new_next_date_milisecond =parseInt(new_next_date_milisecond+(item.schedule_setting.day_frequency_inbound_count*24*60*60*1000));
+                                            }
+                                            if(item.schedule_setting.daily_frequency_type_inbound == 'Occurs every') {
+                                                console.log("occurs every found");
+                                                var inbound_time=item.schedule_setting.daily_frequency_every_time_count_start_inbound
+                                                var inbound_parts = inbound_time.split(":");
+                                                var result_inbound = milliseconds(inbound_parts[0], inbound_parts[1], 0);
+                                                var inbound_time_end = item.schedule_setting.daily_frequency_every_time_count_end_inbound;
+                                                var inbound_end_parts = inbound_time_end.split(":");
+                                                var result_inbound_end =  milliseconds(inbound_end_parts[0], inbound_end_parts[1], 0);
+                                                var inbuond_end_time_final = parseInt(static_date.getTime()+result_inbound_end);
+                                                console.log(inbuond_end_time_final);
+                                                if(new_next_date_milisecond <= inbuond_end_time_final)
+                                                {
+                                                    if(item.schedule_setting.daily_frequency_every_time_unit_inbound=="hour")
+                                                    {
+                                                        if((new_next_date_milisecond+item.schedule_setting.daily_frequency_every_time_count_inbound*60*60*1000) >=inbuond_end_time_final)
+                                                        {
+                                                            new_next_date_milisecond = parseInt(static_date.getTime()+item.schedule_setting.day_frequency_inbound_count*24*60*60*1000)+result_inbound;
+                                                        }
+                                                        else
+                                                        {
+                                                            new_next_date_milisecond = parseInt(new_next_date_milisecond+(item.schedule_setting.daily_frequency_every_time_count_inbound*60*60*1000));
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        if((new_next_date_milisecond+item.schedule_setting.daily_frequency_every_time_count_inbound*60*1000) >=inbuond_end_time_final)
+                                                        {
+                                                            new_next_date_milisecond = parseInt(static_date.getTime()+item.schedule_setting.day_frequency_inbound_count*24*60*60*1000)+result_inbound;
+                                                        }
+                                                        else
+                                                        {
+
+                                                            new_next_date_milisecond = parseInt(new_next_date_milisecond+(item.schedule_setting.daily_frequency_every_time_count_inbound*60*1000));
+                                                        }
+
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    new_next_date_milisecond = next_date_milisecond+(item.schedule_setting.day_frequency_inbound_count*24*60*60*1000);
+
+                                                }
+                                                //itemdaily_frequency_every_time_count_start_inbound
+                                            }
+                                            
+                                        }
+                                        if (item.schedule_setting.occurs_inbound == "monthly") {
+                                            if(item.schedule_setting.daily_frequency_type_inbound == 'Occurs Once At') {
+                                            }
+                                            if(item.schedule_setting.daily_frequency_type_inbound == 'Occurs every') {
+                                            }
+                                        }
+                                        if (item.schedule_setting.occurs_inbound == "weekly") {
+                                            if(item.schedule_setting.daily_frequency_type_inbound == 'Occurs Once At') {
+                                            }
+                                            if(item.schedule_setting.daily_frequency_type_inbound == 'Occurs every') {
+                                            }
+                                        }
+                                        item.schedule_setting.next_date_inbound = new_next_date_milisecond
+                                        list_arr_inbound.push(item);
+                                    }
+                                    else
+                                    {
+                                        console.log("current time not match with schedule time");
+                                        console.log("schedule time is"+new Date(parseInt(new_next_date_milisecond+60000)).toString());
+                                        console.log("current time is"+new Date(parseInt(current_time_milisecond)).toString());
+                                        console.log("milisecond"+new_next_date_milisecond);
+                                    }
+                                    
+                                }
+                                else
+                                {
+                                    console.log("current date setting not match with end date");
+                                }
+                            }
+                            else{
+
+                            }
+
+                        }
+                    }
+                    if(item.outbound_setting.is_active == "Active")
+                    {
+                        if (item.schedule_setting.Schedule_configure_outbound != 'click_by_user') {
+                            if (item.schedule_setting.schedule_type_outbound == "Recurring"){
+                                var end_date = '';
+                                var end_date_milisecond='';
+                                if (item.schedule_setting.duration_outbound_is_end_date == "yes_end_date") {
+                                    if (item.schedule_setting.duration_outbound_end_date != "" && item.schedule_setting.duration_outbound_end_date != undefined) {
+                                        end_date = new Date(item.schedule_setting.duration_outbound_end_date);
+                                        end_date_milisecond = parseInt(end_date.getTime());
+                                        console.log("yes end date");
+                                        //console.log("set new end date >>" + end_date);
+                                    }
+                                    else {
+                                        console.log("End Date Not Set");
+                                    }
+                                }
+                                if(end_date_milisecond=="" || (end_date_milisecond >=next_date_milisecond_outbound)){
+                                    //console.log("end date < current date found");
+                                    if(new_next_date_milisecond_outbound==current_time_milisecond || new_next_date_milisecond_outbound <= current_time_milisecond-50000){ 
+                                        //var new_next_date_milisecond_outbound = next_date_milisecond;
+                                        if (item.schedule_setting.occurs_outbound == "daily") {
+                                            if(item.schedule_setting.daily_frequency_type_outbound == 'Occurs Once At') {
+                                                console.log("occers once found");
+                                                new_next_date_milisecond_outbound =parseInt(new_next_date_milisecond_outbound+(item.schedule_setting.day_frequency_outbound_count*24*60*60*1000));
+                                            }
+                                            if(item.schedule_setting.daily_frequency_type_outbound == 'Occurs every') {
+                                                console.log("occurs every found");
+                                                var outbound_time=item.schedule_setting.daily_frequency_every_time_count_start_outbound
+                                                var outbound_parts = outbound_time.split(":");
+                                                var result_outbound = milliseconds(outbound_parts[0], outbound_parts[1], 0);
+                                                var outbound_time_end = item.schedule_setting.daily_frequency_every_time_count_end_outbound;
+                                                var outbound_end_parts = outbound_time_end.split(":");
+                                                var result_outbound_end =  milliseconds(outbound_end_parts[0], outbound_end_parts[1], 0);
+                                                var inbuond_end_time_final = parseInt(static_date.getTime()+result_outbound_end);
+                                                console.log(inbuond_end_time_final);
+                                                if(new_next_date_milisecond_outbound <= inbuond_end_time_final)
+                                                {
+                                                    if(item.schedule_setting.daily_frequency_every_time_unit_outbound=="hour")
+                                                    {
+                                                        if((new_next_date_milisecond_outbound+item.schedule_setting.daily_frequency_every_time_count_outbound*60*60*1000) >=inbuond_end_time_final)
+                                                        {
+                                                            new_next_date_milisecond_outbound = parseInt(static_date.getTime()+item.schedule_setting.day_frequency_outbound_count*24*60*60*1000)+result_outbound;
+                                                        }
+                                                        else
+                                                        {
+                                                            new_next_date_milisecond_outbound = parseInt(new_next_date_milisecond_outbound+(item.schedule_setting.daily_frequency_every_time_count_outbound*60*60*1000));
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        if((new_next_date_milisecond_outbound+item.schedule_setting.daily_frequency_every_time_count_outbound*60*1000) >=inbuond_end_time_final)
+                                                        {
+                                                            new_next_date_milisecond_outbound = parseInt(static_date.getTime()+item.schedule_setting.day_frequency_outbound_count*24*60*60*1000)+result_outbound;
+                                                        }
+                                                        else
+                                                        {
+
+                                                            new_next_date_milisecond_outbound = parseInt(new_next_date_milisecond_outbound+(item.schedule_setting.daily_frequency_every_time_count_outbound*60*1000));
+                                                        }
+
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    new_next_date_milisecond_outbound = next_date_milisecond+(item.schedule_setting.day_frequency_outbound_count*24*60*60*1000);
+
+                                                }
+                                                //itemdaily_frequency_every_time_count_start_outbound
+                                            }
+                                            
+                                        }
+                                        if (item.schedule_setting.occurs_outbound == "monthly") {
+                                            if(item.schedule_setting.daily_frequency_type_outbound == 'Occurs Once At') {
+                                            }
+                                            if(item.schedule_setting.daily_frequency_type_outbound == 'Occurs every') {
+                                            }
+                                        }
+                                        if (item.schedule_setting.occurs_outbound == "weekly") {
+                                            if(item.schedule_setting.daily_frequency_type_outbound == 'Occurs Once At') {
+                                            }
+                                            if(item.schedule_setting.daily_frequency_type_outbound == 'Occurs every') {
+                                            }
+                                        }
+                                        item.schedule_setting.next_date_outbound = new_next_date_milisecond_outbound
+                                        list_arr_outbound.push(item);
+                                    }
+                                    else
+                                    {
+                                        console.log("current time not match with schedule time outbound");
+                                        console.log("schedule time outbound is"+new Date(parseInt(new_next_date_milisecond_outbound+60000)).toString());
+                                        console.log("current time is"+new Date(parseInt(current_time_milisecond)).toString());
+                                        console.log("milisecond"+new_next_date_milisecond_outbound);
+                                    }
+                                    
+                                }
+                                else
+                                {
+                                    console.log("current date setting not match with end date");
+                                }
+                            }
+                            else{
+
+                            }
+
+                        }
+                    }
+                }
+            })
+            if (typeof list_arr_inbound !== 'undefined' && list_arr_inbound.length > 0) {
+                
+                // the array is defined and has at least one element
+                list_arr_inbound.forEach(item => {
+                    var start_flag_inbound = "true";
+
+                    
+
+                    if (start_flag_inbound == "true") {
+                        console.log("time match inbound");
+                        console.log("Inbound run for project :" + item.inbound_setting.project_id);
+                        var host = item.inbound_setting.ftp_server_link;
+                        var port = item.inbound_setting.port;
+                        var username = item.inbound_setting.login_name;
+                        var password = item.inbound_setting.password;
+                        var folder = item.inbound_setting.folder;
+                        var project_id = item.inbound_setting.project_id;
+                        var project_code = item.ProjectCode;
+                        //const client = new ftp(host, port, username ,password, true);
+                        // console.log(client.clientList());
+
+                        try {
+                            if (project_id != undefined && project_id != "") {
+
+                                //console.log(result);
+
+                                var options = {
+                                    'method': 'POST',
+                                    'url': config.domain + '/inbound/inboundrun',
+                                    'headers': {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+
+                                        "project_id": project_id,
+
+                                    })
+
+                                };
+                                request(options, function (error, response) {
+                                    //console.log(response);
+                                    if (error) throw new Error(error);
+                                    //console.log(JSON.parse(response.body));
+                                    //scheduelerunning++;
+
+                                    var result = JSON.parse(response.body);
+                                    var newschedulesetting = item.schedule_setting;
+                                    if (result.Status != undefined && result.Status == 1) {
+                                        //var date = new Date();
+                                        console.log(result);
+                                        //newschedulesetting.next_date_inbound = date;
+                                        console.log(newschedulesetting);
+                                        var options = {
+                                            'method': 'put',
+                                            'url': config.domain + '/schedule_setting/update/' + item.schedule_setting._id,
+                                            'headers': {
+                                                'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify(newschedulesetting)
+
+                                        };
+                                        request(options, function (error, response) {
+                                            //console.log(response);
+                                            if (error) throw new Error(error)
+                                            else {
+
+                                                //console.log(response);
+                                                console.log("update schedule setting date");
+                                                //console.log(newschedulesetting);
+                                            }
+                                            //scheduelerunning++
+                                            //res.json({'status':'true','msg':'Inbound Run Successfully'});
+                                        });
+                                        var historyobj = {
+                                                "project_id":newschedulesetting.project_id,
+                                                "status":"success"
+                                        }
+                                        var options1 ={
+                                            'method': 'post',
+                                            'url': config.domain + '/inbound_history/save/',
+                                            'headers': {
+                                                'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify(historyobj)
+                                        };
+                                        request(options1, function (error, response) {
+                                            //console.log(response);
+                                            if (error) throw new Error(error)
+                                            else {
+
+                                                //console.log(response);
+                                                console.log("Inbound Successfully Run");
+                                                //console.log(newschedulesetting);
+                                            }
+                                            //scheduelerunning++
+                                            //res.json({'status':'true','msg':'Inbound Run Successfully'});
+                                        });
+                                    }
+                                    else
+                                    {
+                                        var options = {
+                                            'method': 'put',
+                                            'url': config.domain + '/schedule_setting/update/' + item.schedule_setting._id,
+                                            'headers': {
+                                                'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify(newschedulesetting)
+
+                                        };
+                                        request(options, function (error, response) {
+                                            //console.log(response);
+                                            if (error) throw new Error(error)
+                                            else {
+
+                                                //console.log(response);
+                                                console.log("update schedule setting date");
+                                                //console.log(newschedulesetting);
+                                            }
+                                            //scheduelerunning++
+                                            //res.json({'status':'true','msg':'Inbound Run Successfully'});
+                                        });
+                                        var historyobj = {
+                                            "project_id":newschedulesetting.project_id,
+                                            "status":"fail"
+                                        }
+                                        var options1 ={
+                                            'method': 'post',
+                                            'url': config.domain + '/inbound_history/save/',
+                                            'headers': {
+                                                'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify(historyobj)
+                                        };
+                                        request(options1, function (error, response) {
+                                            //console.log(response);
+                                            if (error) throw new Error(error)
+                                            else {
+
+                                                //console.log(response);
+                                                console.log("Inbound Successfully Run");
+                                                //console.log(newschedulesetting);
+                                            }
+                                            //scheduelerunning++
+                                            //res.json({'status':'true','msg':'Inbound Run Successfully'});
+                                        });
+                                    }
+
+
+                                    //res.json({'status':'true','msg':'Inbound Run Successfully'});
+                                });
+                                //console.log("inbound run");
+                            }
+                            else {
+                                console.log('Project Not Found');
+                                //res.json({'status':'false','msg':'Connection Time Out Please Try Again'});
+                            }
+                        } catch (err) {
+                            console.log('catch' + err);
+                            //res.json({'status':'false','msg':'FTP Not Connected'});
+                        }
+                    }
+                });
+            }
+            if (typeof list_arr_outbound !== 'undefined' && list_arr_outbound.length > 0) {
+                // the array is defined and has at least one element
+                
+                list_arr_outbound.forEach(item => {
+                    var start_flag_outbound = "true";
+
+                    
+                    if (start_flag_outbound == "true") {
+
+                        console.log("time match outbound");
+                        console.log("outbound run for project :" + item.outbound_setting.project_id);
+                        var project_id = item.outbound_setting.project_id;
+                        var project_code = item.ProjectCode;
+                        var newschedulesetting = item.schedule_setting;
+                        // console.log(client.clientList());
+                        var options = {
+                            'method': 'POST',
+                            'url': config.domain + '/inbound/outboundrun',
+                            'headers': {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                "project_id": project_id,
+                                "project_code":project_code
+                            })
+                        }
+                        request(options, function (error, response) {
+                            if (error) {
+                                console.log(error);
+                                //throw new Error(error);
+                            }
+                            else {
+                                var result = JSON.parse(response.body);
+
+                                if (result.Status != undefined && result.Status == 1) {
+                                    
+                                    //var date = new Date();
+                                    //newschedulesetting.next_date_inbound = date;
+                                    //console.log(newschedulesetting);
+                                    var options = {
+                                        'method': 'put',
+                                        'url': config.domain + '/schedule_setting/update/' + item.schedule_setting._id,
+                                        'headers': {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(newschedulesetting)
+
+                                    };
+                                    request(options, function (error, response) {
+                                        //console.log(response);
+                                        if (error) {
+                                            console.log("update schedule setting error");
+                                        }
+                                        else {
+
+
+                                            console.log("update schedule setting date");
+                                        }
+                                        //scheduelerunning++
+                                        //res.json({'status':'true','msg':'Inbound Run Successfully'});
+                                    });
+
+                                    var historyobj = {
+                                        "project_id":newschedulesetting.project_id,
+                                        "status":"success"
+                                    }
+                                    var options1 ={
+                                        'method': 'post',
+                                        'url': config.domain + '/outbound_history/save/',
+                                        'headers': {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(historyobj)
+                                    };
+                                    request(options1, function (error, response) {
+                                        //console.log(response);
+                                        if (error) throw new Error(error)
+                                        else {
+
+                                            //console.log(response);
+                                            console.log("outbound Successfully Run");
+                                            //console.log(newschedulesetting);
+                                        }
+                                        //scheduelerunning++
+                                        //res.json({'status':'true','msg':'Inbound Run Successfully'});
+                                    });
+                                }
+                                else
+                                {
+                                    var options = {
+                                        'method': 'put',
+                                        'url': config.domain + '/schedule_setting/update/' + item.schedule_setting._id,
+                                        'headers': {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(newschedulesetting)
+
+                                    };
+                                    request(options, function (error, response) {
+                                        //console.log(response);
+                                        if (error) {
+                                            console.log("update schedule setting error");
+                                        }
+                                        else {
+
+
+                                            console.log("update schedule setting date");
+                                        }
+                                        //scheduelerunning++
+                                        //res.json({'status':'true','msg':'Inbound Run Successfully'});
+                                    });
+                                    var historyobj = {
+                                        "project_id":newschedulesetting.project_id,
+                                        "status":"fail"
+                                    }
+                                    var options1 ={
+                                        'method': 'post',
+                                        'url': config.domain + '/outbound_history/save/',
+                                        'headers': {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(historyobj)
+                                    };
+                                    request(options1, function (error, response) {
+                                        //console.log(response);
+                                        if (error) throw new Error(error)
+                                        else {
+
+                                            //console.log(response);
+                                            console.log("Outbound Run Failed");
+                                            //console.log(newschedulesetting);
+                                        }
+                                        //scheduelerunning++
+                                        //res.json({'status':'true','msg':'Inbound Run Successfully'});
+                                    });
+                                }
+
+                            }
+                        })
+                    }
+                    else {
+                        console.log("schedule start date and end date not match");
+                    }
+
+                });
+            }
+        }
+    })
+});
 
 module.exports = router;

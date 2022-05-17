@@ -1,0 +1,194 @@
+Log of DateFri May 06 2022 09:16:00 GMT+0530 (India Standard Time)
+
+scanning total project=1
+active project found
+
+
+Log for Project id=>62726537306b48d8a4d962bd
+Inbound run for project :62726537306b48d8a4d962bd
+outbound run for project :62726537306b48d8a4d962bd
+time match inbound
+time match outbound
+update schedule setting date
+{"Status":1,"Msg":"Files Not Found !","Data":[]}
+update schedule setting date
+scanning total project=1
+time match inbound
+Inbound run for project :62726537306b48d8a4d962bd
+outbound run for project :62726537306b48d8a4d962bd
+time match outbound
+active project found
+
+
+Log for Project id=>62726537306b48d8a4d962bd
+update schedule setting date
+{"Status":1,"Msg":"Files Not Found !","Data":[]}
+update schedule setting date
+scanning total project=1
+active project found
+
+
+Log for Project id=>62726537306b48d8a4d962bd
+time match inbound
+Inbound run for project :62726537306b48d8a4d962bd
+time match outbound
+outbound run for project :62726537306b48d8a4d962bd
+update schedule setting date
+{"Status":1,"Msg":"Files Not Found !","Data":[]}
+update schedule setting date
+scanning total project=1
+
+
+Log for Project id=>62726537306b48d8a4d962bd
+active project found
+time match inbound
+Inbound run for project :62726537306b48d8a4d962bd
+outbound run for project :62726537306b48d8a4d962bd
+time match outbound
+update schedule setting date
+{"Status":1,"Msg":"Files Not Found !","Data":[]}
+update schedule setting date
+scanning total project=1
+active project found
+
+
+Log for Project id=>62726537306b48d8a4d962bd
+time match inbound
+Inbound run for project :62726537306b48d8a4d962bd
+outbound run for project :62726537306b48d8a4d962bd
+time match outbound
+update schedule setting date
+{"Status":1,"Msg":"Files Not Found !","Data":[]}
+update schedule setting date
+scanning total project=1
+active project found
+
+
+Log for Project id=>62726537306b48d8a4d962bd
+time match inbound
+Inbound run for project :62726537306b48d8a4d962bd
+outbound run for project :62726537306b48d8a4d962bd
+time match outbound
+update schedule setting date
+{"Status":1,"Msg":"Files Not Found !","Data":[]}
+update schedule setting date
+scanning total project=1
+active project found
+
+
+Log for Project id=>62726537306b48d8a4d962bd
+time match inbound
+Inbound run for project :62726537306b48d8a4d962bd
+outbound run for project :62726537306b48d8a4d962bd
+time match outbound
+update schedule setting date
+{"Status":1,"Msg":"Files Not Found !","Data":[]}
+update schedule setting date
+scanning total project=1
+active project found
+
+
+Log for Project id=>62726537306b48d8a4d962bd
+Inbound run for project :62726537306b48d8a4d962bd
+time match outbound
+outbound run for project :62726537306b48d8a4d962bd
+time match inbound
+update schedule setting date
+{"Status":1,"Msg":"Files Not Found !","Data":[]}
+update schedule setting date
+scanning total project=1
+
+
+Log for Project id=>62726537306b48d8a4d962bd
+active project found
+Inbound run for project :62726537306b48d8a4d962bd
+time match inbound
+time match outbound
+outbound run for project :62726537306b48d8a4d962bd
+update schedule setting date
+{"Status":1,"Msg":"Files Not Found !","Data":[]}
+update schedule setting date
+scanning total project=1
+active project found
+
+
+Log for Project id=>62726537306b48d8a4d962bd
+time match inbound
+Inbound run for project :62726537306b48d8a4d962bd
+outbound run for project :62726537306b48d8a4d962bd
+time match outbound
+update schedule setting date
+{"Status":1,"Msg":"Files Not Found !","Data":[]}
+update schedule setting date
+active project found
+
+
+Log for Project id=>62726537306b48d8a4d962bd
+scanning total project=1
+Inbound run for project :62726537306b48d8a4d962bd
+time match outbound
+time match inbound
+outbound run for project :62726537306b48d8a4d962bd
+update schedule setting date
+{"Status":1,"Msg":"Files Not Found !","Data":[]}
+update schedule setting date
+active project found
+scanning total project=1
+
+
+Log for Project id=>62726537306b48d8a4d962bd
+Inbound run for project :62726537306b48d8a4d962bd
+time match outbound
+time match inbound
+outbound run for project :62726537306b48d8a4d962bd
+update schedule setting date
+{"Status":1,"Msg":"Files Not Found !","Data":[]}
+update schedule setting date
+scanning total project=1
+active project found
+
+
+Log for Project id=>62726537306b48d8a4d962bd
+Inbound run for project :62726537306b48d8a4d962bd
+time match outbound
+outbound run for project :62726537306b48d8a4d962bd
+time match inbound
+update schedule setting date
+{"Status":1,"Msg":"Files Not Found !","Data":[]}
+update schedule setting date
+scanning total project=1
+
+
+Log for Project id=>62726537306b48d8a4d962bd
+time match inbound
+active project found
+Inbound run for project :62726537306b48d8a4d962bd
+time match outbound
+outbound run for project :62726537306b48d8a4d962bd
+update schedule setting date
+{"Status":1,"Msg":"Files Not Found !","Data":[]}
+update schedule setting date
+scanning total project=1
+active project found
+
+
+Log for Project id=>62726537306b48d8a4d962bd
+time match inbound
+Inbound run for project :62726537306b48d8a4d962bd
+time match outbound
+outbound run for project :62726537306b48d8a4d962bd
+update schedule setting date
+{"Status":1,"Msg":"Files Not Found !","Data":[]}
+update schedule setting date
+scanning total project=1
+active project found
+
+
+Log for Project id=>62726537306b48d8a4d962bd
+time match inbound
+Inbound run for project :62726537306b48d8a4d962bd
+time match outbound
+outbound run for project :62726537306b48d8a4d962bd
+update schedule setting date
+{"Status":1,"Msg":"Files Not Found !","Data":[]}
+update schedule setting date

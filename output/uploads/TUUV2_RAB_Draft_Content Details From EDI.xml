@@ -1,0 +1,166 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+
+<WebOrder> <!-- version 2.1 New tag structure)-->
+	<POHeader> 
+		<OrderHandling> <!--Key Fields expected by 1Label for triggering and unlocking certain functionality.  E.g. Telling Portal that this order is for batch ordering-->
+			<Variable>
+				<ID>GarmentLabelFlag</ID> 
+				<Data>Y</Data>
+			</Variable>
+			<Variable>
+				<ID>ImportAs</ID>
+				<Data>Draft</Data>
+			</Variable>
+			<Variable>
+				<ID>LastUpdateDate</ID>
+				<Data>20220119120060</Data>
+			</Variable>
+			<Variable>
+				<ID>SizeChartModel</ID>
+				<Data>Data</Data><!-- **QUESTION: what do we do for non sized** -->
+			</Variable>
+			<Variable>
+				<ID>AdjustWastage</ID>
+				<Data>False</Data>
+			</Variable>
+		</OrderHandling> 
+		<CustRef> <!--Primary Key for PO data, e.g Retailer ref no.  Used for searching and grouping orders in order listing screens-->
+			<Variable>
+				<ID>Purchase Order No</ID>
+				<Data>QIO-82-Khroma Volition Pants</Data>
+			</Variable>
+		</CustRef>
+		<SupplierDetail> <!--Supplier codes and address data-->
+			<Variable>
+				<ID>SupplierNo</ID>
+				<Data>Honstar</Data>
+			</Variable>
+			<Variable>
+				<ID>FactoryNo</ID>
+				<Data>TRM123</Data>
+			</Variable>
+		</SupplierDetail>
+		<ItemRefs> <!-- Max of 10. Optional-->
+			<Variable>
+				<ID>ITemRef</ID>
+				<Data>RAB01</Data>
+			</Variable>
+		</ItemRefs>
+	</POHeader>
+	<EDIHeader> <!--Header data. Applicable to whole order  - all size records - Will display in main body of order form.  AKA - Order form variables and C&C)-->
+		<EDIVariables>
+			<Variable>
+				<ID>Country Of Manufacture</ID> <!--Field name / description-->
+				<Data>Made in China</Data> <!--Field Value-->
+			</Variable>
+			<Variable>
+				<ID>Status</ID>
+				<Data>New Colour</Data>
+			</Variable>
+		</EDIVariables>
+		<EDICareandContent>
+			<Fibres>
+				<Variable>
+					<ID>FibreComponent</ID>
+					<Data>Outer</Data>
+				</Variable>
+				<Variable>
+					<ID>FibreName</ID>
+					<Data>Cotton</Data>
+				</Variable>
+				<Variable>
+					<ID>Percent</ID>
+					<Data>100</Data>
+				</Variable>
+				<Variable>
+					<ID>FibreComponent</ID>
+					<Data>Panels</Data>
+				</Variable>
+				<Variable>
+					<ID>FibreName</ID>
+					<Data>Polyamide</Data>
+				</Variable>
+				<Variable>
+					<ID>Percent</ID>
+					<Data>55</Data>
+				</Variable>
+				<Variable>
+					<ID>FibreName</ID>
+					<Data>Polyester</Data>
+				</Variable>
+				<Variable>
+					<ID>Percent</ID>
+					<Data>33</Data>
+				</Variable>
+				<Variable>
+					<ID>FibreName</ID>
+					<Data>Polyurethane</Data>
+				</Variable>
+				<Variable>
+					<ID>Percent</ID>
+					<Data>13</Data>
+				</Variable>
+			</Fibres>
+			<FrabricStatments>
+				<Variable>
+					<ID>Statment</ID> 
+					<Data>Do not place valuables that may be affected by dampness in external pockets of this garment.</Data>
+				</Variable>
+				<Variable>
+					<ID>Statment</ID> 
+					<Data>Close all zips and velcro before washing</Data>
+				</Variable>
+				<Variable>
+					<ID>Statment</ID> 
+					<Data>Use non-biological liquid detergents or pure soap</Data>
+				</Variable>
+				<Variable>
+					<ID>Statment</ID> 
+					<Data>Line dry or tumble dry. Once dry, tumble dry for 20 minutes more or iron warm to reactivate  water-repellent treatment.</Data>
+				</Variable>
+				<Variable>
+					<ID>Statment</ID> 
+					<Data>For specific care instructions always refer to garment manufacturer's recommendations. For more details: gore-tex.com/care</Data>
+				</Variable>
+			</FrabricStatments>
+			<CareSymbolMappingID> <!--below will map to sequence in brand setup and order form-->
+				<Variable>
+					<ID>CareMapping_1</ID>
+					<Data>WASH - 30 mild wash.jpg</Data><!--Content of tag will match -->
+				</Variable>
+				<Variable>
+					<ID>CareMapping_2</ID>
+					<Data>BLEACH - Do not bleach.jpg</Data>
+				</Variable>
+				<Variable>
+					<ID>CareMapping_3</ID>
+					<Data>DRY - Tumble dry, Low (60C).jpg</Data>
+				</Variable>
+				<Variable>
+					<ID>CareMapping_4</ID>
+					<Data>IRON - DO NOT iron.jpg</Data>
+				</Variable>
+				<Variable>
+					<ID>CareMapping_5</ID>
+					<Data>DRY CLEAN - DO NOT dry clean.jpg</Data>
+				</Variable>
+			</CareSymbolMappingID>
+		</EDICareandContent>
+	</EDIHeader>
+	<EDISizeDetail> <!--Data specific to the size record level-->
+		<EDISize> <!--Size record level data.  Data which changes per size and will display in size matrix.  
+					If 'non sized then' size qty will only show in first element, in the relevent ticket quantity field, 
+					If only none size items contained then only build one size element-->
+			<Variable>
+				<ID>TicketQuantity</ID> <!--Must match the same no of items set in the item tag-->
+				<Data>1000</Data>
+			</Variable>
+			<MatrixDetail>
+				<Variable> 
+					<ID>Barcode</ID> <!--Must match the same no of items set in the item tag-->
+					<Data>1234567890123</Data>
+				</Variable>
+			</MatrixDetail>
+		</EDISize>
+	</EDISizeDetail>		
+</WebOrder>
