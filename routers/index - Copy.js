@@ -8,9 +8,9 @@ var xpath = require('xpath');
 var xmldom = require('xmldom');
 var multer = require('multer');
 var upload = multer();
-router.use(express.json());
+router.use(express.json()); 
 router.use(express.urlencoded({ extended: true }));
-router.use(upload.array());
+router.use(upload.array()); 
 router.use(express.static('public'));
 require('body-parser-xml')(bodyParser);
 router.use(bodyParser.xml());
@@ -23,30 +23,6 @@ router.get('/', function(req, res, next) {
 
 router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
 	var reqBody = req.body;
-	var reqQuery = req.query;
-	var reqRawHeader = req.rawHeaders;
-	console.log(reqRawHeader);
-
-	var queryString = '';
-	Object.entries(reqQuery).forEach(([key, value]) => {
-		if (queryString != '') {
-			queryString += '&';
-		}
-		queryString += key+'='+value;
-	});
-	console.log(queryString);
-
-	var newHeader = {};
-	for (var i = 0; i < reqRawHeader.length; i++) {
-		if (i % 2 == 0) {
-			console.log(reqRawHeader[i]);
-			var key = reqRawHeader[i];
-			var value = reqRawHeader[i+1];
-			newHeader[key] = value;
-			console.log(reqRawHeader[i+1]);
-		}
-	}
-	console.log(newHeader);
 
 	var ddepInput = '/'+req.params.ddepInput;
 	if (req.params.ddepInput1 != undefined && req.params.ddepInput1 != '') {
@@ -136,21 +112,21 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 			console.log(JSON.stringify(responseBody.reqBody));
 			console.log('responseBody.headers');
 			console.log(responseBody.headers);
-			var oldheaders = newHeader;
-			delete oldheaders['User-Agent'];
-			delete oldheaders.Accept;
-			delete oldheaders['Postman-Token'];
-			delete oldheaders.Host;
-			delete oldheaders['Accept-Encoding'];
-			delete oldheaders.Connection;
-			delete oldheaders['Content-Type'];
-			delete oldheaders['Content-Length'];
+			var oldheaders = responseBody.headers;
+			delete oldheaders['user-agent'];
+			delete oldheaders.accept;
+			delete oldheaders['postman-token'];
+			delete oldheaders.host;
+			delete oldheaders['accept-encoding'];
+			delete oldheaders.connection;
+			delete oldheaders['content-type'];
+			delete oldheaders['content-length'];
 			console.log(oldheaders);
 			var options = {
 				'method': responseBody.method,
-				'url': outbound_api_url+'?'+queryString,
+				'url': outbound_api_url,
 				'headers': oldheaders,
-				'formData': JSON.parse(JSON.stringify(responseBody.reqBody))
+				'body': JSON.stringify(responseBody.reqBody)
 			};
 			request(options, function (error, response, body) {
 				if(error) {
@@ -167,22 +143,8 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 						Data: []
 					});
 				}
-				if (response.statusCode == 200) {
-					var contentType = response.headers['content-type'];
-					console.log(contentType);
-					var types = contentType.split(';');
-					var type = types[0].split('/');
-					console.log(type[0]);
-					console.log(type[1]);
-					if (type[0] == 'application' && type[1] == 'json' || type[1] == 'json') {
-						console.log(JSON.parse(body));
-						return res.status(200).json(JSON.parse(body));
-					} else {
-						return res.send(body);
-					}
-				} else {
-					return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
-				}
+				console.log(JSON.parse(body));
+				return res.json(JSON.parse(body));
 			});
 		})
 	})
@@ -190,28 +152,6 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 
 router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
 	var reqBody = req.body;
-	var reqQuery = req.query;
-	var reqRawHeader = req.rawHeaders;
-	console.log(reqRawHeader);
-
-	var queryString = '';
-	Object.entries(reqQuery).forEach(([key, value]) => {
-		if (queryString != '') {
-			queryString += '&';
-		}
-		queryString += key+'='+value;
-	});
-	console.log(queryString);
-
-	var newHeader = {};
-	for (var i = 0; i < reqRawHeader.length; i++) {
-		if (i % 2 == 0) {
-			var key = reqRawHeader[i];
-			var value = reqRawHeader[i+1];
-			newHeader[key] = value;
-		}
-	}
-	console.log(newHeader);
 
 	var ddepInput = '/'+req.params.ddepInput;
 	if (req.params.ddepInput1 != undefined && req.params.ddepInput1 != '') {
@@ -297,25 +237,26 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 			var outboundSetting = JSON.parse(body);
 			var outbound_api_url = outboundSetting.api_url;
 
-			console.log('newHeader');
-			console.log(newHeader);
-			var oldheaders = newHeader;
-			delete oldheaders['User-Agent'];
-			delete oldheaders.Accept;
-			delete oldheaders['Postman-Token'];
-			delete oldheaders.Host;
-			delete oldheaders['Accept-Encoding'];
-			delete oldheaders.Connection;
-			delete oldheaders['Content-Type'];
-			delete oldheaders['Content-Length'];
+			console.log(responseBody.method);
+			console.log(JSON.stringify(responseBody.reqBody));
+			console.log('responseBody.headers');
+			console.log(responseBody.headers);
+			var oldheaders = responseBody.headers;
+			delete oldheaders['user-agent'];
+			delete oldheaders.accept;
+			delete oldheaders['postman-token'];
+			delete oldheaders.host;
+			delete oldheaders['accept-encoding'];
+			delete oldheaders.connection;
+			delete oldheaders['content-type'];
+			delete oldheaders['content-length'];
 			console.log(oldheaders);
 			var options = {
 				'method': responseBody.method,
-				'url': outbound_api_url+'?'+queryString,
+				'url': outbound_api_url,
 				'headers': oldheaders,
-				'formData': JSON.parse(JSON.stringify(responseBody.reqBody))
+				'body': JSON.stringify(responseBody.reqBody)
 			};
-
 			request(options, function (error, response, body) {
 				if(error) {
 					return res.json({
@@ -324,25 +265,15 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 						MsgType: "Invalid-Source",
 						MsgLang: "en",
 						ShortMsg: "Fail",
-						LongMsg: error.message || "Some error occurred while getting.",
+						LongMsg: error.message || "Some error occurred while getting..",
 						InternalMsg: "",
 						EnableAlert: "No",
 						DisplayMsgBy: "LongMsg",
 						Data: []
 					});
 				}
-				if (response.statusCode == 200) {
-					var contentType = response.headers['content-type'];
-					var types = contentType.split(';');
-					var type = types[0].split('/');
-					if (type[0] == 'application' && type[1] == 'json' || type[1] == 'json') {
-						return res.status(200).json(JSON.parse(body));
-					} else {
-						return res.send(body);
-					}
-				} else {
-					return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
-				}
+				console.log(JSON.parse(body));
+				return res.json(JSON.parse(body));
 			});
 		})
 	})
@@ -350,30 +281,6 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 
 router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
 	var reqBody = req.body;
-	var reqQuery = req.query;
-	var reqRawHeader = req.rawHeaders;
-	console.log(reqRawHeader);
-
-	var queryString = '';
-	Object.entries(reqQuery).forEach(([key, value]) => {
-		if (queryString != '') {
-			queryString += '&';
-		}
-		queryString += key+'='+value;
-	});
-	console.log(queryString);
-
-	var newHeader = {};
-	for (var i = 0; i < reqRawHeader.length; i++) {
-		if (i % 2 == 0) {
-			console.log(reqRawHeader[i]);
-			var key = reqRawHeader[i];
-			var value = reqRawHeader[i+1];
-			newHeader[key] = value;
-			console.log(reqRawHeader[i+1]);
-		}
-	}
-	console.log(newHeader);
 
 	var ddepInput = '/'+req.params.ddepInput;
 	if (req.params.ddepInput1 != undefined && req.params.ddepInput1 != '') {
@@ -463,21 +370,21 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 			console.log(JSON.stringify(responseBody.reqBody));
 			console.log('responseBody.headers');
 			console.log(responseBody.headers);
-			var oldheaders = newHeader;
-			delete oldheaders['User-Agent'];
-			delete oldheaders.Accept;
-			delete oldheaders['Postman-Token'];
-			delete oldheaders.Host;
-			delete oldheaders['Accept-Encoding'];
-			delete oldheaders.Connection;
-			delete oldheaders['Content-Type'];
-			delete oldheaders['Content-Length'];
+			var oldheaders = responseBody.headers;
+			delete oldheaders['user-agent'];
+			delete oldheaders.accept;
+			delete oldheaders['postman-token'];
+			delete oldheaders.host;
+			delete oldheaders['accept-encoding'];
+			delete oldheaders.connection;
+			delete oldheaders['content-type'];
+			delete oldheaders['content-length'];
 			console.log(oldheaders);
 			var options = {
 				'method': responseBody.method,
-				'url': outbound_api_url+'?'+queryString,
+				'url': outbound_api_url,
 				'headers': oldheaders,
-				'formData': JSON.parse(JSON.stringify(responseBody.reqBody))
+				'body': JSON.stringify(responseBody.reqBody)
 			};
 			request(options, function (error, response, body) {
 				if(error) {
@@ -494,22 +401,8 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 						Data: []
 					});
 				}
-				if (response.statusCode == 200) {
-					var contentType = response.headers['content-type'];
-					console.log(contentType);
-					var types = contentType.split(';');
-					var type = types[0].split('/');
-					console.log(type[0]);
-					console.log(type[1]);
-					if (type[0] == 'application' && type[1] == 'json' || type[1] == 'json') {
-						console.log(JSON.parse(body));
-						return res.status(200).json(JSON.parse(body));
-					} else {
-						return res.send(body);
-					}
-				} else {
-					return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
-				}
+				console.log(JSON.parse(body));
+				return res.json(JSON.parse(body));
 			});
 		})
 	})
@@ -517,30 +410,6 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 
 router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
 	var reqBody = req.body;
-	var reqQuery = req.query;
-	var reqRawHeader = req.rawHeaders;
-	console.log(reqRawHeader);
-
-	var queryString = '';
-	Object.entries(reqQuery).forEach(([key, value]) => {
-		if (queryString != '') {
-			queryString += '&';
-		}
-		queryString += key+'='+value;
-	});
-	console.log(queryString);
-
-	var newHeader = {};
-	for (var i = 0; i < reqRawHeader.length; i++) {
-		if (i % 2 == 0) {
-			console.log(reqRawHeader[i]);
-			var key = reqRawHeader[i];
-			var value = reqRawHeader[i+1];
-			newHeader[key] = value;
-			console.log(reqRawHeader[i+1]);
-		}
-	}
-	console.log(newHeader);
 
 	var ddepInput = '/'+req.params.ddepInput;
 	if (req.params.ddepInput1 != undefined && req.params.ddepInput1 != '') {
@@ -630,21 +499,21 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 			console.log(JSON.stringify(responseBody.reqBody));
 			console.log('responseBody.headers');
 			console.log(responseBody.headers);
-			var oldheaders = newHeader;
-			delete oldheaders['User-Agent'];
-			delete oldheaders.Accept;
-			delete oldheaders['Postman-Token'];
-			delete oldheaders.Host;
-			delete oldheaders['Accept-Encoding'];
-			delete oldheaders.Connection;
-			delete oldheaders['Content-Type'];
-			delete oldheaders['Content-Length'];
+			var oldheaders = responseBody.headers;
+			delete oldheaders['user-agent'];
+			delete oldheaders.accept;
+			delete oldheaders['postman-token'];
+			delete oldheaders.host;
+			delete oldheaders['accept-encoding'];
+			delete oldheaders.connection;
+			delete oldheaders['content-type'];
+			delete oldheaders['content-length'];
 			console.log(oldheaders);
 			var options = {
 				'method': responseBody.method,
-				'url': outbound_api_url+'?'+queryString,
+				'url': outbound_api_url,
 				'headers': oldheaders,
-				'formData': JSON.parse(JSON.stringify(responseBody.reqBody))
+				'body': JSON.stringify(responseBody.reqBody)
 			};
 			request(options, function (error, response, body) {
 				if(error) {
@@ -661,22 +530,8 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 						Data: []
 					});
 				}
-				if (response.statusCode == 200) {
-					var contentType = response.headers['content-type'];
-					console.log(contentType);
-					var types = contentType.split(';');
-					var type = types[0].split('/');
-					console.log(type[0]);
-					console.log(type[1]);
-					if (type[0] == 'application' && type[1] == 'json' || type[1] == 'json') {
-						console.log(JSON.parse(body));
-						return res.status(200).json(JSON.parse(body));
-					} else {
-						return res.send(body);
-					}
-				} else {
-					return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
-				}
+				console.log(JSON.parse(body));
+				return res.json(JSON.parse(body));
 			});
 		})
 	})
@@ -684,30 +539,6 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 
 router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
 	var reqBody = req.body;
-	var reqQuery = req.query;
-	var reqRawHeader = req.rawHeaders;
-	console.log(reqRawHeader);
-
-	var queryString = '';
-	Object.entries(reqQuery).forEach(([key, value]) => {
-		if (queryString != '') {
-			queryString += '&';
-		}
-		queryString += key+'='+value;
-	});
-	console.log(queryString);
-
-	var newHeader = {};
-	for (var i = 0; i < reqRawHeader.length; i++) {
-		if (i % 2 == 0) {
-			console.log(reqRawHeader[i]);
-			var key = reqRawHeader[i];
-			var value = reqRawHeader[i+1];
-			newHeader[key] = value;
-			console.log(reqRawHeader[i+1]);
-		}
-	}
-	console.log(newHeader);
 
 	var ddepInput = '/'+req.params.ddepInput;
 	if (req.params.ddepInput1 != undefined && req.params.ddepInput1 != '') {
@@ -797,21 +628,21 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 			console.log(JSON.stringify(responseBody.reqBody));
 			console.log('responseBody.headers');
 			console.log(responseBody.headers);
-			var oldheaders = newHeader;
-			delete oldheaders['User-Agent'];
-			delete oldheaders.Accept;
-			delete oldheaders['Postman-Token'];
-			delete oldheaders.Host;
-			delete oldheaders['Accept-Encoding'];
-			delete oldheaders.Connection;
-			delete oldheaders['Content-Type'];
-			delete oldheaders['Content-Length'];
+			var oldheaders = responseBody.headers;
+			delete oldheaders['user-agent'];
+			delete oldheaders.accept;
+			delete oldheaders['postman-token'];
+			delete oldheaders.host;
+			delete oldheaders['accept-encoding'];
+			delete oldheaders.connection;
+			delete oldheaders['content-type'];
+			delete oldheaders['content-length'];
 			console.log(oldheaders);
 			var options = {
 				'method': responseBody.method,
-				'url': outbound_api_url+'?'+queryString,
+				'url': outbound_api_url,
 				'headers': oldheaders,
-				'formData': JSON.parse(JSON.stringify(responseBody.reqBody))
+				'body': JSON.stringify(responseBody.reqBody)
 			};
 			request(options, function (error, response, body) {
 				if(error) {
@@ -828,22 +659,8 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 						Data: []
 					});
 				}
-				if (response.statusCode == 200) {
-					var contentType = response.headers['content-type'];
-					console.log(contentType);
-					var types = contentType.split(';');
-					var type = types[0].split('/');
-					console.log(type[0]);
-					console.log(type[1]);
-					if (type[0] == 'application' && type[1] == 'json' || type[1] == 'json') {
-						console.log(JSON.parse(body));
-						return res.status(200).json(JSON.parse(body));
-					} else {
-						return res.send(body);
-					}
-				} else {
-					return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
-				}
+				console.log(JSON.parse(body));
+				return res.json(JSON.parse(body));
 			});
 		})
 	})
