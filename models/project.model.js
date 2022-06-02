@@ -3,13 +3,13 @@ const mongoose = require('mongoose');
 const ProjectSchema = mongoose.Schema({
     ProjectCode: String,
     ProjectName: String,
-    CompanyName: String,
+    //projectDescr:String,
+    //group:String,
+
+    CompanyName: String, //this is old value
     isActive:String
-    //OutboundSetting: ProjectSchema.Types.Mixed,
-    //ScheduleSetting: ProjectSchema.Types.Mixed,
-
-
-}, {
+    
+},{
     timestamps: true
 });
 

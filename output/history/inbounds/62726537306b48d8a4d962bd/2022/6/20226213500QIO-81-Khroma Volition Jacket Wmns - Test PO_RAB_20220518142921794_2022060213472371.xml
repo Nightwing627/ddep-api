@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WebOrder>
+    <EDIHeader>
+        <EDICareandContent>
+            <CareSymbolMappingID>
+                <Variable>
+                    <ID>CareMapping_1</ID>
+                    <Data>WASH - 30 mild wash.jpg</Data>
+                </Variable>
+                <Variable>
+                    <ID>CareMapping_2</ID>
+                    <Data>BLEACH - Do not bleach.jpg</Data>
+                </Variable>
+                <Variable>
+                    <ID>CareMapping_3</ID>
+                    <Data>DRY - Tumble dry, Low (60C).jpg</Data>
+                </Variable>
+                <Variable>
+                    <ID>CareMapping_4</ID>
+                    <Data>IRON - DO NOT iron.jpg</Data>
+                </Variable>
+                <Variable>
+                    <ID>CareMapping_5</ID>
+                    <Data>DRY CLEAN - DO NOT dry clean.jpg</Data>
+                </Variable>
+            </CareSymbolMappingID>
+            <Fibre>
+            </Fibre>
+        </EDICareandContent>
+        <EDIVariables>
+            <Variable>
+                <ID>Country Of Manufacture</ID>
+                <Data>Made in China</Data>
+            </Variable>
+        </EDIVariables>
+    </EDIHeader>
+    <POHeader>
+        <CustRef>
+            <Variable>
+                <ID>Purchase Order No</ID>
+                <Data>QIO-81-Khroma Volition Jacket Wmns - Test PO</Data>
+            </Variable>
+            <Variable>
+                <ID>Style Description</ID>
+                <Data>Khroma Volition Jacket Wmns - Test PO</Data>
+            </Variable>
+            <Variable>
+                <ID>Style Number</ID>
+                <Data>QIO-81</Data>
+            </Variable>
+        </CustRef>
+        <ItemRefs>
+            <Variable>
+                <ID>ItemRef</ID>
+                <Data>RAB-CL01</Data>
+            </Variable>
+        </ItemRefs>
+        <OrderHandling>
+            <Variable>
+                <ID>GarmentLabelFlag</ID>
+                <Data>Y</Data>
+            </Variable>
+            <Variable>
+                <ID>ImportAs</ID>
+                <Data>PO</Data>
+            </Variable>
+            <Variable>
+                <ID>LastUpdateDate</ID>
+                <Data>20220518142921</Data>
+            </Variable>
+            <Variable>
+                <ID>SizeChartModel</ID>
+                <Data>Data</Data>
+            </Variable>
+        </OrderHandling>
+        <SupplierDetail>
+            <Variable>
+                <ID>FactoryNo</ID>
+                <Data>Trimco Group</Data>
+            </Variable>
+            <Variable>
+                <ID>SupplierNo</ID>
+                <Data>Trimco Group</Data>
+            </Variable>
+        </SupplierDetail>
+    </POHeader>
+</WebOrder>
