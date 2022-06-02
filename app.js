@@ -111,15 +111,15 @@ app.use(function(req, res, next) {
       });
       
   }
-cron.schedule('* * * * *',()=>{
-  console.log("run by schedule every minit");
-    calltestfun2();
-});
+// cron.schedule('* * * * *',()=>{
+//   console.log("run by schedule every minit");
+//     calltestfun();
+// });
 
-cron.schedule("0 0 0 * * *", function() {
-  monitor.logFileCleanUp();
-  console.log("running a task every day 00:00 hours");
-});
+// cron.schedule("0 0 0 * * *", function() {
+//   monitor.logFileCleanUp();
+//   console.log("running a task every day 00:00 hours");
+// });
 
   mongoose.connect(dbConfig.url, {
     useNewUrlParser: true,

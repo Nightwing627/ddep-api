@@ -12,12 +12,11 @@ router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 router.use(upload.array());
 router.use(express.static('public'));
-require('body-parser-xml')(bodyParser);
-router.use(bodyParser.xml());
+router.use(bodyParser.text({ type: 'text/*' }));
+router.use(bodyParser.raw({ type: 'application/*' }));
 var fs = require('fs');
 
 router.get('/', function(req, res, next) {
-	//res.render('pages/dashboard-analytics', { title: 'DDEP Login' });
 	res.redirect('/projects/project-list');
 });
 
@@ -25,7 +24,24 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 	var reqBody = req.body;
 	var reqQuery = req.query;
 	var reqRawHeader = req.rawHeaders;
-	console.log(reqRawHeader);
+
+	var newHeader = {};
+	for (var i = 0; i < reqRawHeader.length; i++) {
+		if (i % 2 == 0) {
+			var key = reqRawHeader[i];
+			var value = reqRawHeader[i+1];
+			newHeader[key] = value;
+		}
+	}
+
+	var bodyreq = '';
+	if (newHeader['Content-Type'] != undefined) {
+		var reqContentType = newHeader['Content-Type'];
+		var typereq = reqContentType.split('/');
+		if ((typereq[0] == 'application' && (typereq[1] == 'json' || typereq[1] == 'xml' || typereq[1] == 'javascript')) || (typereq[0] == 'text' && (typereq[1] == 'plain' || typereq[1] == 'html'))) {
+			bodyreq = reqBody;
+		}
+	}
 
 	var queryString = '';
 	Object.entries(reqQuery).forEach(([key, value]) => {
@@ -34,19 +50,6 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 		}
 		queryString += key+'='+value;
 	});
-	console.log(queryString);
-
-	var newHeader = {};
-	for (var i = 0; i < reqRawHeader.length; i++) {
-		if (i % 2 == 0) {
-			console.log(reqRawHeader[i]);
-			var key = reqRawHeader[i];
-			var value = reqRawHeader[i+1];
-			newHeader[key] = value;
-			console.log(reqRawHeader[i+1]);
-		}
-	}
-	console.log(newHeader);
 
 	var ddepInput = '/'+req.params.ddepInput;
 	if (req.params.ddepInput1 != undefined && req.params.ddepInput1 != '') {
@@ -77,11 +80,8 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 		ddepInput += '/'+req.params.ddepInput9;
 	}
 	const { headers, method, url } = req;
-	let body = [];
-	
-	res.statusCode = 200;
+
 	var responseBody = { headers, method, url, reqBody };
-	console.log(responseBody);
 	
 	var inbound_url = config.domain + "/inbound_setting/editddepAPI/";
 
@@ -93,172 +93,7 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 		},
 		body: JSON.stringify({'ddepInput': ddepInput}),
 	}
-	let inbound_setting;
-	request(inbound_options, function (error, response, body) {
-		if(error) {
-			return res.json({
-				code: "1",
-				MsgCode: "50001",
-				MsgType: "Invalid-Source",
-				MsgLang: "en",
-				ShortMsg: "Fail",
-				LongMsg: error.message || "Some error occurred while getting the inbound setting.",
-				InternalMsg: "",
-				EnableAlert: "No",
-				DisplayMsgBy: "LongMsg",
-				Data: []
-			});
-		}
-		var inbound_setting = JSON.parse(response.body);
-		var inbound_format = inbound_setting.Data.inbound_format;
-		var project_id = inbound_setting.Data.project_id;
-		var outbound_url = config.domain + "/outbound_setting/editAPI/" + project_id;
 
-		request(outbound_url, function (error, response, body) {
-			if(error) {
-				return res.json({
-					code: "1",
-					MsgCode: "50001",
-					MsgType: "Invalid-Source",
-					MsgLang: "en",
-					ShortMsg: "Fail",
-					LongMsg: error.message || "Some error occurred while getting the outbound setting.",
-					InternalMsg: "",
-					EnableAlert: "No",
-					DisplayMsgBy: "LongMsg",
-					Data: []
-				});
-			}
-			var outboundSetting = JSON.parse(body);
-			var outbound_api_url = outboundSetting.api_url;
-
-			console.log(responseBody.method);
-			console.log(JSON.stringify(responseBody.reqBody));
-			console.log('responseBody.headers');
-			console.log(responseBody.headers);
-			var oldheaders = newHeader;
-			delete oldheaders['User-Agent'];
-			delete oldheaders.Accept;
-			delete oldheaders['Postman-Token'];
-			delete oldheaders.Host;
-			delete oldheaders['Accept-Encoding'];
-			delete oldheaders.Connection;
-			delete oldheaders['Content-Type'];
-			delete oldheaders['Content-Length'];
-			console.log(oldheaders);
-			var options = {
-				'method': responseBody.method,
-				'url': outbound_api_url+'?'+queryString,
-				'headers': oldheaders,
-				'formData': JSON.parse(JSON.stringify(responseBody.reqBody))
-			};
-			request(options, function (error, response, body) {
-				if(error) {
-					return res.json({
-						code: "1",
-						MsgCode: "50001",
-						MsgType: "Invalid-Source",
-						MsgLang: "en",
-						ShortMsg: "Fail",
-						LongMsg: error.message || "Some error occurred while getting..",
-						InternalMsg: "",
-						EnableAlert: "No",
-						DisplayMsgBy: "LongMsg",
-						Data: []
-					});
-				}
-				if (response.statusCode == 200) {
-					var contentType = response.headers['content-type'];
-					console.log(contentType);
-					var types = contentType.split(';');
-					var type = types[0].split('/');
-					console.log(type[0]);
-					console.log(type[1]);
-					if (type[0] == 'application' && type[1] == 'json' || type[1] == 'json') {
-						console.log(JSON.parse(body));
-						return res.status(200).json(JSON.parse(body));
-					} else {
-						return res.send(body);
-					}
-				} else {
-					return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
-				}
-			});
-		})
-	})
-});
-
-router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
-	var reqBody = req.body;
-	var reqQuery = req.query;
-	var reqRawHeader = req.rawHeaders;
-	console.log(reqRawHeader);
-
-	var queryString = '';
-	Object.entries(reqQuery).forEach(([key, value]) => {
-		if (queryString != '') {
-			queryString += '&';
-		}
-		queryString += key+'='+value;
-	});
-	console.log(queryString);
-
-	var newHeader = {};
-	for (var i = 0; i < reqRawHeader.length; i++) {
-		if (i % 2 == 0) {
-			var key = reqRawHeader[i];
-			var value = reqRawHeader[i+1];
-			newHeader[key] = value;
-		}
-	}
-	console.log(newHeader);
-
-	var ddepInput = '/'+req.params.ddepInput;
-	if (req.params.ddepInput1 != undefined && req.params.ddepInput1 != '') {
-		ddepInput += '/'+req.params.ddepInput1;
-	}
-	if (req.params.ddepInput2 != undefined && req.params.ddepInput2 != '') {
-		ddepInput += '/'+req.params.ddepInput2;
-	}
-	if (req.params.ddepInput3 != undefined && req.params.ddepInput3 != '') {
-		ddepInput += '/'+req.params.ddepInput3;
-	}
-	if (req.params.ddepInput4 != undefined && req.params.ddepInput4 != '') {
-		ddepInput += '/'+req.params.ddepInput4;
-	}
-	if (req.params.ddepInput5 != undefined && req.params.ddepInput5 != '') {
-		ddepInput += '/'+req.params.ddepInput5;
-	}
-	if (req.params.ddepInput6 != undefined && req.params.ddepInput6 != '') {
-		ddepInput += '/'+req.params.ddepInput6;
-	}
-	if (req.params.ddepInput7 != undefined && req.params.ddepInput7 != '') {
-		ddepInput += '/'+req.params.ddepInput7;
-	}
-	if (req.params.ddepInput8 != undefined && req.params.ddepInput8 != '') {
-		ddepInput += '/'+req.params.ddepInput8;
-	}
-	if (req.params.ddepInput9 != undefined && req.params.ddepInput9 != '') {
-		ddepInput += '/'+req.params.ddepInput9;
-	}
-	const { headers, method, url } = req;
-	let body = [];
-	
-	res.statusCode = 200;
-	var responseBody = { headers, method, url, reqBody };
-	console.log(responseBody);
-	
-	var inbound_url = config.domain + "/inbound_setting/editddepAPI/";
-
-	var inbound_options = {
-		'method': 'POST',
-		'url': inbound_url,
-		'headers': {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({'ddepInput': ddepInput}),
-	}
-	let inbound_setting;
 	request(inbound_options, function (error, response, body) {
 		if(error) {
 			return res.json({
@@ -297,24 +132,34 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 			var outboundSetting = JSON.parse(body);
 			var outbound_api_url = outboundSetting.api_url;
 
-			console.log('newHeader');
-			console.log(newHeader);
 			var oldheaders = newHeader;
-			delete oldheaders['User-Agent'];
-			delete oldheaders.Accept;
-			delete oldheaders['Postman-Token'];
+			// delete oldheaders['User-Agent'];
+			// delete oldheaders.Accept;
+			// delete oldheaders['Postman-Token'];
 			delete oldheaders.Host;
 			delete oldheaders['Accept-Encoding'];
 			delete oldheaders.Connection;
-			delete oldheaders['Content-Type'];
 			delete oldheaders['Content-Length'];
-			console.log(oldheaders);
+			var split_outbound_url = outbound_api_url.split('/');
+			if (split_outbound_url.includes('dapi')) {} else {
+				// delete oldheaders['Content-Type'];
+			}
 			var options = {
 				'method': responseBody.method,
 				'url': outbound_api_url+'?'+queryString,
 				'headers': oldheaders,
-				'formData': JSON.parse(JSON.stringify(responseBody.reqBody))
 			};
+			if (bodyreq != '') {
+				if(typereq[1] == 'json') {
+					options['body'] = JSON.stringify(bodyreq);
+				} else if(typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml') {
+					options['body'] = bodyreq;
+				} else {
+					options['body'] = JSON.stringify(bodyreq);
+				}
+			} else {
+				options['formData'] = JSON.parse(JSON.stringify(responseBody.reqBody));
+			}
 
 			request(options, function (error, response, body) {
 				if(error) {
@@ -335,7 +180,7 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 					var contentType = response.headers['content-type'];
 					var types = contentType.split(';');
 					var type = types[0].split('/');
-					if (type[0] == 'application' && type[1] == 'json' || type[1] == 'json') {
+					if ((type[0] == 'application' && type[1] == 'json') || type[1] == 'json') {
 						return res.status(200).json(JSON.parse(body));
 					} else {
 						return res.send(body);
@@ -345,14 +190,34 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 				}
 			});
 		})
-	})
+	});
 });
 
-router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
+router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
+	// console.log(req);
 	var reqBody = req.body;
 	var reqQuery = req.query;
 	var reqRawHeader = req.rawHeaders;
+	console.log("rawHeaders===" + reqRawHeader);
 	console.log(reqRawHeader);
+
+	var newHeader = {};
+	for (var i = 0; i < reqRawHeader.length; i++) {
+		if (i % 2 == 0) {
+			var key = reqRawHeader[i];
+			var value = reqRawHeader[i+1];
+			newHeader[key] = value;
+		}
+	}
+
+	var bodyreq = '';
+	if (newHeader['Content-Type'] != undefined) {
+		var reqContentType = newHeader['Content-Type'];
+		var typereq = reqContentType.split('/');
+		if ((typereq[0] == 'application' && (typereq[1] == 'json' || typereq[1] == 'xml' || typereq[1] == 'javascript')) || (typereq[0] == 'text' && (typereq[1] == 'plain' || typereq[1] == 'html'))) {
+			bodyreq = reqBody;
+		}
+	}
 
 	var queryString = '';
 	Object.entries(reqQuery).forEach(([key, value]) => {
@@ -361,19 +226,6 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 		}
 		queryString += key+'='+value;
 	});
-	console.log(queryString);
-
-	var newHeader = {};
-	for (var i = 0; i < reqRawHeader.length; i++) {
-		if (i % 2 == 0) {
-			console.log(reqRawHeader[i]);
-			var key = reqRawHeader[i];
-			var value = reqRawHeader[i+1];
-			newHeader[key] = value;
-			console.log(reqRawHeader[i+1]);
-		}
-	}
-	console.log(newHeader);
 
 	var ddepInput = '/'+req.params.ddepInput;
 	if (req.params.ddepInput1 != undefined && req.params.ddepInput1 != '') {
@@ -404,12 +256,9 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 		ddepInput += '/'+req.params.ddepInput9;
 	}
 	const { headers, method, url } = req;
-	let body = [];
-	
-	res.statusCode = 200;
+
 	var responseBody = { headers, method, url, reqBody };
-	console.log(responseBody);
-	
+
 	var inbound_url = config.domain + "/inbound_setting/editddepAPI/";
 
 	var inbound_options = {
@@ -420,7 +269,7 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 		},
 		body: JSON.stringify({'ddepInput': ddepInput}),
 	}
-	let inbound_setting;
+
 	request(inbound_options, function (error, response, body) {
 		if(error) {
 			return res.json({
@@ -459,26 +308,38 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 			var outboundSetting = JSON.parse(body);
 			var outbound_api_url = outboundSetting.api_url;
 
-			console.log(responseBody.method);
-			console.log(JSON.stringify(responseBody.reqBody));
-			console.log('responseBody.headers');
-			console.log(responseBody.headers);
 			var oldheaders = newHeader;
-			delete oldheaders['User-Agent'];
-			delete oldheaders.Accept;
-			delete oldheaders['Postman-Token'];
+			// delete oldheaders['User-Agent'];
+			// delete oldheaders.Accept;
+			// delete oldheaders['Postman-Token'];
 			delete oldheaders.Host;
 			delete oldheaders['Accept-Encoding'];
 			delete oldheaders.Connection;
-			delete oldheaders['Content-Type'];
 			delete oldheaders['Content-Length'];
-			console.log(oldheaders);
+			var split_outbound_url = outbound_api_url.split('/');
+			if (split_outbound_url.includes('dapi')) {} else {
+				// delete oldheaders['Content-Type'];
+			}
 			var options = {
 				'method': responseBody.method,
 				'url': outbound_api_url+'?'+queryString,
 				'headers': oldheaders,
-				'formData': JSON.parse(JSON.stringify(responseBody.reqBody))
 			};
+			if (bodyreq != '') {
+				if(typereq[1] == 'json') {
+					options['body'] = JSON.stringify(bodyreq);
+				} else if(typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml') {
+					options['body'] = bodyreq;
+				} else {
+					options['body'] = JSON.stringify(bodyreq);
+				}
+			} else {
+				options['formData'] = JSON.parse(JSON.stringify(reqBody));
+				if(Object.entries(options.formData).length == 0) {
+					options.method = "GET";
+				}
+			}
+			
 			request(options, function (error, response, body) {
 				if(error) {
 					return res.json({
@@ -487,7 +348,7 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 						MsgType: "Invalid-Source",
 						MsgLang: "en",
 						ShortMsg: "Fail",
-						LongMsg: error.message || "Some error occurred while getting..",
+						LongMsg: error.message || "Some error occurred while getting.",
 						InternalMsg: "",
 						EnableAlert: "No",
 						DisplayMsgBy: "LongMsg",
@@ -496,13 +357,191 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 				}
 				if (response.statusCode == 200) {
 					var contentType = response.headers['content-type'];
-					console.log(contentType);
 					var types = contentType.split(';');
 					var type = types[0].split('/');
-					console.log(type[0]);
-					console.log(type[1]);
-					if (type[0] == 'application' && type[1] == 'json' || type[1] == 'json') {
-						console.log(JSON.parse(body));
+					if ((type[0] == 'application' && type[1] == 'json') || type[1] == 'json') {
+						return res.status(200).json(JSON.parse(body));
+					} else {
+						return res.send(body);
+					}
+				} else if(response.statusCode == 301 || response.statusCode == 302 || response.statusCode == 303) {
+					return res.send(response.body);
+				} else {
+					return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
+				}
+			});
+		})
+	});
+});
+
+router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
+	var reqBody = req.body;
+	var reqQuery = req.query;
+	var reqRawHeader = req.rawHeaders;
+
+	var newHeader = {};
+	for (var i = 0; i < reqRawHeader.length; i++) {
+		if (i % 2 == 0) {
+			var key = reqRawHeader[i];
+			var value = reqRawHeader[i+1];
+			newHeader[key] = value;
+		}
+	}
+
+	var bodyreq = '';
+	if (newHeader['Content-Type'] != undefined) {
+		var reqContentType = newHeader['Content-Type'];
+		var typereq = reqContentType.split('/');
+		if ((typereq[0] == 'application' && (typereq[1] == 'json' || typereq[1] == 'xml' || typereq[1] == 'javascript')) || (typereq[0] == 'text' && (typereq[1] == 'plain' || typereq[1] == 'html'))) {
+			bodyreq = reqBody;
+		}
+	}
+
+	var queryString = '';
+	Object.entries(reqQuery).forEach(([key, value]) => {
+		if (queryString != '') {
+			queryString += '&';
+		}
+		queryString += key+'='+value;
+	});
+
+	var ddepInput = '/'+req.params.ddepInput;
+	if (req.params.ddepInput1 != undefined && req.params.ddepInput1 != '') {
+		ddepInput += '/'+req.params.ddepInput1;
+	}
+	if (req.params.ddepInput2 != undefined && req.params.ddepInput2 != '') {
+		ddepInput += '/'+req.params.ddepInput2;
+	}
+	if (req.params.ddepInput3 != undefined && req.params.ddepInput3 != '') {
+		ddepInput += '/'+req.params.ddepInput3;
+	}
+	if (req.params.ddepInput4 != undefined && req.params.ddepInput4 != '') {
+		ddepInput += '/'+req.params.ddepInput4;
+	}
+	if (req.params.ddepInput5 != undefined && req.params.ddepInput5 != '') {
+		ddepInput += '/'+req.params.ddepInput5;
+	}
+	if (req.params.ddepInput6 != undefined && req.params.ddepInput6 != '') {
+		ddepInput += '/'+req.params.ddepInput6;
+	}
+	if (req.params.ddepInput7 != undefined && req.params.ddepInput7 != '') {
+		ddepInput += '/'+req.params.ddepInput7;
+	}
+	if (req.params.ddepInput8 != undefined && req.params.ddepInput8 != '') {
+		ddepInput += '/'+req.params.ddepInput8;
+	}
+	if (req.params.ddepInput9 != undefined && req.params.ddepInput9 != '') {
+		ddepInput += '/'+req.params.ddepInput9;
+	}
+	const { headers, method, url } = req;
+
+	var responseBody = { headers, method, url, reqBody };
+	
+	var inbound_url = config.domain + "/inbound_setting/editddepAPI/";
+
+	var inbound_options = {
+		'method': 'POST',
+		'url': inbound_url,
+		'headers': {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({'ddepInput': ddepInput}),
+	}
+
+	request(inbound_options, function (error, response, body) {
+		if(error) {
+			return res.json({
+				code: "1",
+				MsgCode: "50001",
+				MsgType: "Invalid-Source",
+				MsgLang: "en",
+				ShortMsg: "Fail",
+				LongMsg: error.message || "Some error occurred while getting the inbound setting.",
+				InternalMsg: "",
+				EnableAlert: "No",
+				DisplayMsgBy: "LongMsg",
+				Data: []
+			});
+		}
+		var inbound_setting = JSON.parse(response.body);
+		var inbound_format = inbound_setting.Data.inbound_format;
+		var project_id = inbound_setting.Data.project_id;
+		var outbound_url = config.domain + "/outbound_setting/editAPI/" + project_id;
+
+		request(outbound_url, function (error, response, body) {
+			if(error) {
+				return res.json({
+					code: "1",
+					MsgCode: "50001",
+					MsgType: "Invalid-Source",
+					MsgLang: "en",
+					ShortMsg: "Fail",
+					LongMsg: error.message || "Some error occurred while getting the inbound setting.",
+					InternalMsg: "",
+					EnableAlert: "No",
+					DisplayMsgBy: "LongMsg",
+					Data: []
+				});
+			}
+			var outboundSetting = JSON.parse(body);
+			var outbound_api_url = outboundSetting.api_url;
+
+			var oldheaders = newHeader;
+			// delete oldheaders['User-Agent'];
+			// delete oldheaders.Accept;
+			// delete oldheaders['Postman-Token'];
+			delete oldheaders.Host;
+			delete oldheaders['Accept-Encoding'];
+			delete oldheaders.Connection;
+			delete oldheaders['Content-Length'];
+			var split_outbound_url = outbound_api_url.split('/');
+			if (split_outbound_url.includes('dapi')) {} else {
+				// delete oldheaders['Content-Type'];
+			}
+			var options = {
+				'method': responseBody.method,
+				'url': outbound_api_url+'?'+queryString,
+				'headers': oldheaders,
+			};
+			if (bodyreq != '') {
+				if(typereq[1] == 'json') {
+					options['body'] = JSON.stringify(bodyreq);
+				} else if(typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml') {
+					options['body'] = bodyreq;
+				} else {
+					options['body'] = JSON.stringify(bodyreq);
+				}
+			} else {
+				options['formData'] = JSON.parse(JSON.stringify(reqBody));
+				//console.log("******body req null found");
+				//console.log(options['formData'].length);
+				//options.method = "GET";
+				if(Object.entries(options.formData).length==0)
+				{
+					options.method = "GET";
+				}
+			}
+
+			request(options, function (error, response, body) {
+				if(error) {
+					return res.json({
+						code: "1",
+						MsgCode: "50001",
+						MsgType: "Invalid-Source",
+						MsgLang: "en",
+						ShortMsg: "Fail",
+						LongMsg: error.message || "Some error occurred while getting.",
+						InternalMsg: "",
+						EnableAlert: "No",
+						DisplayMsgBy: "LongMsg",
+						Data: []
+					});
+				}
+				if (response.statusCode == 200) {
+					var contentType = response.headers['content-type'];
+					var types = contentType.split(';');
+					var type = types[0].split('/');
+					if ((type[0] == 'application' && type[1] == 'json') || type[1] == 'json') {
 						return res.status(200).json(JSON.parse(body));
 					} else {
 						return res.send(body);
@@ -512,14 +551,31 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 				}
 			});
 		})
-	})
+	});
 });
 
 router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
 	var reqBody = req.body;
 	var reqQuery = req.query;
 	var reqRawHeader = req.rawHeaders;
-	console.log(reqRawHeader);
+
+	var newHeader = {};
+	for (var i = 0; i < reqRawHeader.length; i++) {
+		if (i % 2 == 0) {
+			var key = reqRawHeader[i];
+			var value = reqRawHeader[i+1];
+			newHeader[key] = value;
+		}
+	}
+
+	var bodyreq = '';
+	if (newHeader['Content-Type'] != undefined) {
+		var reqContentType = newHeader['Content-Type'];
+		var typereq = reqContentType.split('/');
+		if ((typereq[0] == 'application' && (typereq[1] == 'json' || typereq[1] == 'xml' || typereq[1] == 'javascript')) || (typereq[0] == 'text' && (typereq[1] == 'plain' || typereq[1] == 'html'))) {
+			bodyreq = reqBody;
+		}
+	}
 
 	var queryString = '';
 	Object.entries(reqQuery).forEach(([key, value]) => {
@@ -528,19 +584,6 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 		}
 		queryString += key+'='+value;
 	});
-	console.log(queryString);
-
-	var newHeader = {};
-	for (var i = 0; i < reqRawHeader.length; i++) {
-		if (i % 2 == 0) {
-			console.log(reqRawHeader[i]);
-			var key = reqRawHeader[i];
-			var value = reqRawHeader[i+1];
-			newHeader[key] = value;
-			console.log(reqRawHeader[i+1]);
-		}
-	}
-	console.log(newHeader);
 
 	var ddepInput = '/'+req.params.ddepInput;
 	if (req.params.ddepInput1 != undefined && req.params.ddepInput1 != '') {
@@ -571,11 +614,8 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 		ddepInput += '/'+req.params.ddepInput9;
 	}
 	const { headers, method, url } = req;
-	let body = [];
-	
-	res.statusCode = 200;
+
 	var responseBody = { headers, method, url, reqBody };
-	console.log(responseBody);
 	
 	var inbound_url = config.domain + "/inbound_setting/editddepAPI/";
 
@@ -587,7 +627,7 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 		},
 		body: JSON.stringify({'ddepInput': ddepInput}),
 	}
-	let inbound_setting;
+
 	request(inbound_options, function (error, response, body) {
 		if(error) {
 			return res.json({
@@ -616,7 +656,7 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 					MsgType: "Invalid-Source",
 					MsgLang: "en",
 					ShortMsg: "Fail",
-					LongMsg: error.message || "Some error occurred while getting the outbound setting.",
+					LongMsg: error.message || "Some error occurred while getting the inbound setting.",
 					InternalMsg: "",
 					EnableAlert: "No",
 					DisplayMsgBy: "LongMsg",
@@ -626,26 +666,42 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 			var outboundSetting = JSON.parse(body);
 			var outbound_api_url = outboundSetting.api_url;
 
-			console.log(responseBody.method);
-			console.log(JSON.stringify(responseBody.reqBody));
-			console.log('responseBody.headers');
-			console.log(responseBody.headers);
 			var oldheaders = newHeader;
-			delete oldheaders['User-Agent'];
-			delete oldheaders.Accept;
-			delete oldheaders['Postman-Token'];
+			// delete oldheaders['User-Agent'];
+			// delete oldheaders.Accept;
+			// delete oldheaders['Postman-Token'];
 			delete oldheaders.Host;
 			delete oldheaders['Accept-Encoding'];
 			delete oldheaders.Connection;
-			delete oldheaders['Content-Type'];
 			delete oldheaders['Content-Length'];
-			console.log(oldheaders);
+			var split_outbound_url = outbound_api_url.split('/');
+			if (split_outbound_url.includes('dapi')) {} else {
+				// delete oldheaders['Content-Type'];
+			}
 			var options = {
 				'method': responseBody.method,
 				'url': outbound_api_url+'?'+queryString,
 				'headers': oldheaders,
-				'formData': JSON.parse(JSON.stringify(responseBody.reqBody))
 			};
+			if (bodyreq != '') {
+				if(typereq[1] == 'json') {
+					options['body'] = JSON.stringify(bodyreq);
+				} else if(typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml') {
+					options['body'] = bodyreq;
+				} else {
+					options['body'] = JSON.stringify(bodyreq);
+				}
+			} else {
+				options['formData'] = JSON.parse(JSON.stringify(reqBody));
+				//console.log("******body req null found");
+				//console.log(options['formData'].length);
+				//options.method = "GET";
+				if(Object.entries(options.formData).length==0)
+				{
+					options.method = "GET";
+				}
+			}
+
 			request(options, function (error, response, body) {
 				if(error) {
 					return res.json({
@@ -654,7 +710,7 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 						MsgType: "Invalid-Source",
 						MsgLang: "en",
 						ShortMsg: "Fail",
-						LongMsg: error.message || "Some error occurred while getting..",
+						LongMsg: error.message || "Some error occurred while getting.",
 						InternalMsg: "",
 						EnableAlert: "No",
 						DisplayMsgBy: "LongMsg",
@@ -663,13 +719,9 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 				}
 				if (response.statusCode == 200) {
 					var contentType = response.headers['content-type'];
-					console.log(contentType);
 					var types = contentType.split(';');
 					var type = types[0].split('/');
-					console.log(type[0]);
-					console.log(type[1]);
-					if (type[0] == 'application' && type[1] == 'json' || type[1] == 'json') {
-						console.log(JSON.parse(body));
+					if ((type[0] == 'application' && type[1] == 'json') || type[1] == 'json') {
 						return res.status(200).json(JSON.parse(body));
 					} else {
 						return res.send(body);
@@ -679,14 +731,31 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 				}
 			});
 		})
-	})
+	});
 });
 
 router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
 	var reqBody = req.body;
 	var reqQuery = req.query;
 	var reqRawHeader = req.rawHeaders;
-	console.log(reqRawHeader);
+
+	var newHeader = {};
+	for (var i = 0; i < reqRawHeader.length; i++) {
+		if (i % 2 == 0) {
+			var key = reqRawHeader[i];
+			var value = reqRawHeader[i+1];
+			newHeader[key] = value;
+		}
+	}
+
+	var bodyreq = '';
+	if (newHeader['Content-Type'] != undefined) {
+		var reqContentType = newHeader['Content-Type'];
+		var typereq = reqContentType.split('/');
+		if ((typereq[0] == 'application' && (typereq[1] == 'json' || typereq[1] == 'xml' || typereq[1] == 'javascript')) || (typereq[0] == 'text' && (typereq[1] == 'plain' || typereq[1] == 'html'))) {
+			bodyreq = reqBody;
+		}
+	}
 
 	var queryString = '';
 	Object.entries(reqQuery).forEach(([key, value]) => {
@@ -695,19 +764,6 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 		}
 		queryString += key+'='+value;
 	});
-	console.log(queryString);
-
-	var newHeader = {};
-	for (var i = 0; i < reqRawHeader.length; i++) {
-		if (i % 2 == 0) {
-			console.log(reqRawHeader[i]);
-			var key = reqRawHeader[i];
-			var value = reqRawHeader[i+1];
-			newHeader[key] = value;
-			console.log(reqRawHeader[i+1]);
-		}
-	}
-	console.log(newHeader);
 
 	var ddepInput = '/'+req.params.ddepInput;
 	if (req.params.ddepInput1 != undefined && req.params.ddepInput1 != '') {
@@ -738,11 +794,8 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 		ddepInput += '/'+req.params.ddepInput9;
 	}
 	const { headers, method, url } = req;
-	let body = [];
-	
-	res.statusCode = 200;
+
 	var responseBody = { headers, method, url, reqBody };
-	console.log(responseBody);
 	
 	var inbound_url = config.domain + "/inbound_setting/editddepAPI/";
 
@@ -754,7 +807,7 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 		},
 		body: JSON.stringify({'ddepInput': ddepInput}),
 	}
-	let inbound_setting;
+
 	request(inbound_options, function (error, response, body) {
 		if(error) {
 			return res.json({
@@ -783,7 +836,7 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 					MsgType: "Invalid-Source",
 					MsgLang: "en",
 					ShortMsg: "Fail",
-					LongMsg: error.message || "Some error occurred while getting the outbound setting.",
+					LongMsg: error.message || "Some error occurred while getting the inbound setting.",
 					InternalMsg: "",
 					EnableAlert: "No",
 					DisplayMsgBy: "LongMsg",
@@ -793,26 +846,42 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 			var outboundSetting = JSON.parse(body);
 			var outbound_api_url = outboundSetting.api_url;
 
-			console.log(responseBody.method);
-			console.log(JSON.stringify(responseBody.reqBody));
-			console.log('responseBody.headers');
-			console.log(responseBody.headers);
 			var oldheaders = newHeader;
-			delete oldheaders['User-Agent'];
-			delete oldheaders.Accept;
-			delete oldheaders['Postman-Token'];
+			// delete oldheaders['User-Agent'];
+			// delete oldheaders.Accept;
+			// delete oldheaders['Postman-Token'];
 			delete oldheaders.Host;
 			delete oldheaders['Accept-Encoding'];
 			delete oldheaders.Connection;
-			delete oldheaders['Content-Type'];
 			delete oldheaders['Content-Length'];
-			console.log(oldheaders);
+			var split_outbound_url = outbound_api_url.split('/');
+			if (split_outbound_url.includes('dapi')) {} else {
+				// delete oldheaders['Content-Type'];
+			}
 			var options = {
 				'method': responseBody.method,
 				'url': outbound_api_url+'?'+queryString,
 				'headers': oldheaders,
-				'formData': JSON.parse(JSON.stringify(responseBody.reqBody))
 			};
+			if (bodyreq != '') {
+				if(typereq[1] == 'json') {
+					options['body'] = JSON.stringify(bodyreq);
+				} else if(typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml') {
+					options['body'] = bodyreq;
+				} else {
+					options['body'] = JSON.stringify(bodyreq);
+				}
+			} else {
+				options['formData'] = JSON.parse(JSON.stringify(reqBody));
+				//console.log("******body req null found");
+				//console.log(options['formData'].length);
+				//options.method = "GET";
+				if(Object.entries(options.formData).length==0)
+				{
+					options.method = "GET";
+				}
+			}
+
 			request(options, function (error, response, body) {
 				if(error) {
 					return res.json({
@@ -821,7 +890,7 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 						MsgType: "Invalid-Source",
 						MsgLang: "en",
 						ShortMsg: "Fail",
-						LongMsg: error.message || "Some error occurred while getting..",
+						LongMsg: error.message || "Some error occurred while getting.",
 						InternalMsg: "",
 						EnableAlert: "No",
 						DisplayMsgBy: "LongMsg",
@@ -830,13 +899,9 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 				}
 				if (response.statusCode == 200) {
 					var contentType = response.headers['content-type'];
-					console.log(contentType);
 					var types = contentType.split(';');
 					var type = types[0].split('/');
-					console.log(type[0]);
-					console.log(type[1]);
-					if (type[0] == 'application' && type[1] == 'json' || type[1] == 'json') {
-						console.log(JSON.parse(body));
+					if ((type[0] == 'application' && type[1] == 'json') || type[1] == 'json') {
 						return res.status(200).json(JSON.parse(body));
 					} else {
 						return res.send(body);
@@ -846,11 +911,10 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 				}
 			});
 		})
-	})
+	});
 });
 
-function ddep_api(reqBody, ddepInput, res)
-{
+function ddep_api(reqBody, ddepInput, res) {
 	var inbound_url = config.domain+"/inbound_setting/editddepAPI/";
 
 	var inbound_options = {
