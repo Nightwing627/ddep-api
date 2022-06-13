@@ -3,6 +3,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var request = require('request');
+var cors = require('cors');
 //var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
@@ -33,6 +34,7 @@ var app = express();
 var axios = require('axios');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(cors());
 app.use(express.json());
 app.use(bodyParser.text({
   type: '*'

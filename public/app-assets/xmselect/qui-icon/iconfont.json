@@ -1,0 +1,37 @@
+{
+  "id": "2331108",
+  "name": "checkList",
+  "font_family": "iconfont",
+  "css_prefix_text": "qui-icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "9137274",
+      "name": "add",
+      "font_class": "add",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "1496047",
+      "name": "edit_light",
+      "font_class": "edit_light",
+      "unicode": "e7de",
+      "unicode_decimal": 59358
+    },
+    {
+      "icon_id": "399092",
+      "name": "qrcode",
+      "font_class": "qrcode",
+      "unicode": "e6ff",
+      "unicode_decimal": 59135
+    },
+    {
+      "icon_id": "18808328",
+      "name": "copy",
+      "font_class": "copy",
+      "unicode": "e886",
+      "unicode_decimal": 59526
+    }
+  ]
+}

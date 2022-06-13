@@ -1,0 +1,298 @@
+<!-- BEGIN: Vendor CSS-->
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/vendors.min.css">
+<link rel="stylesheet" type="text/css" href="app-assets/fonts/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/tables/datatable/datatables.min.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/tables/datatable/extensions/dataTables.checkboxes.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/forms/wizard/bs-stepper.min.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/tables/datatable/responsive.bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/extensions/jstree.min.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/pickers/pickadate/pickadate.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/extensions/sweetalert2.min.css">
+<!-- END: Vendor CSS-->
+
+<!-- BEGIN: Theme CSS-->
+<link rel="stylesheet" type="text/css" href="app-assets/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/bootstrap-extended.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/colors.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/components.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/themes/dark-layout.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/themes/bordered-layout.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/themes/semi-dark-layout.css">
+
+<!-- BEGIN: Page CSS-->
+<link rel="stylesheet" type="text/css" href="app-assets/css/core/menu/menu-types/vertical-menu.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/pages/app-invoice-list.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/forms/select/select2.min.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/forms/pickers/form-flat-pickr.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/forms/pickers/form-pickadate.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/extensions/ext-component-sweet-alerts.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/forms/form-validation.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/forms/form-wizard.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/extensions/ext-component-tree.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/forms/form-quill-editor.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/extensions/ext-component-toastr.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/pages/app-todo.css">
+
+<script type="text/javascript" src="app-assets/xmselect/qui/jquery-3.2.1.min.js"></script>
+
+
+<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/forms/form-file-uploader.css">
+
+<!-- END: Page CSS-->
+
+<!-- BEGIN: Custom CSS-->
+<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+<!-- END: Custom CSS-->
+
+
+<link rel="stylesheet" href="assets/css/style.css"/> 
+<script src="assets/js/go.js"></script>
+
+<div class="row pl-1">
+  <div class="col-6">
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">Inbound Format</label>
+      <textarea class="form-control" id="InboundFormat" rows="10">
+      {
+          "name":"",
+          "age":"",
+          "sex":"",
+          "idcard":"",
+          "dob":"",
+          "contact": {
+              "name":""
+          }
+      }</textarea>
+      <div class="col-md-12 text-right mt-1">
+        <a href="#" onclick="saveBGRSJSON()" id="InboundJson">Download Json</a>
+        <button
+          type="button"
+          class="btn btn-primary waves-effect waves-float waves-light"
+          id="changeForm"
+          onclick="AddInboundSchema()"
+        >
+          Upload
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">Outbound Format</label>
+      <textarea class="form-control" id="OutboundFormat" rows="10">
+      {
+          "staffinfo":{
+              "staffname":"",
+              "age":"",
+              "gender":""
+          }
+      }</textarea>
+      <div class="col-md-12 text-right mt-1">
+        <a href="#" id="OutboundJson" onclick="saveiRMSJSON()">Download Json</a>
+        <button
+          type="button"
+          class="btn btn-primary waves-effect waves-float waves-light"
+          id="changeForm"
+          onclick="AddOutboundSchema()"
+        >
+          Upload
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- * * * * * * * * * * * * * -->
+  <!-- Start of GoJS sample code -->
+
+  <script src="assets/js/go.js"></script>
+
+  <div
+    id="myDiagramDiv"
+    style="
+      width: 1000px;
+      height: 746px;
+    "
+    class="col-md-9 form-control"
+  >
+    <canvas
+      tabindex="0"
+      width="1178"
+      height="998"
+      style="
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index: 2;
+        user-select: none;
+        touch-action: none;
+        width: 1178px;
+        height: 998px;
+      "
+      >This text is displayed if your browser does not support the Canvas HTML
+      element.</canvas
+    >
+    <div
+      style="
+        position: absolute;
+        overflow: auto;
+        width: 1178px;
+        height: 998px;
+        z-index: 1;
+      "
+    >
+      <div style="position: absolute; width: 1px; height: 1px"></div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Properties</h4>
+      </div>
+      <table class="datatables-basic table">
+        <tbody>
+          <tr>
+            <td style="font-weight: bold; font-size: 15px">General</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="td">Item</td>
+            <td>InitiationBy</td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold; font-size: 15px">Linked Items</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Key</td>
+            <td>Name</td>
+          </tr>
+          <tr>
+            <td class="td">First Name</td>
+            <td>val1</td>
+          </tr>
+          <tr>
+            <td class="td">Last Name</td>
+            <td>val2</td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold; font-size: 15px">Display</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="td">Value</td>
+            <td>
+              <div>
+                <input
+                  style="border: 0"
+                  type="text"
+                  name="alertsEmail"
+                  id="alertsEmail"
+                  class="form-control"
+                  value="{val1},{val2}"
+                />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold; font-size: 15px">Validation</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="td">is Required?</td>
+            <td>
+              <div>
+                <input
+                  style="border: 0"
+                  type="text"
+                  name="alertsEmail"
+                  id="alertsEmail"
+                  class="form-control"
+                  value="FALSE"
+                />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Additional Rules</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold; font-size: 15px">Format</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="td">TRIM</td>
+            <td>
+              <div>
+                <input
+                  style="border: 0"
+                  type="text"
+                  name="alertsEmail"
+                  id="alertsEmail"
+                  class="form-control"
+                  value="FALSE"
+                />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="td">Additional Rules</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="sample">
+    <p></p>
+    <div style="display: none">
+      This sample supports three different routing styles:<br />
+      <input
+        type="radio"
+        name="MyRoutingStyle"
+        onclick="changeStyle()"
+        value="Normal"
+      />
+      "Normal"<br />
+      <input
+        type="radio"
+        name="MyRoutingStyle"
+        onclick="changeStyle()"
+        value="ToGroup"
+        checked="checked"
+      />
+      "ToGroup", where the links stop at the border of the group<br />
+      <input
+        type="radio"
+        name="MyRoutingStyle"
+        onclick="changeStyle()"
+        value="ToNode"
+      />
+      "ToNode", where the links bend at the border of the group but go all the
+      way to the node, as normal<br />
+    </div>
+    <p></p>
+    Godmark : This is GOJS after drag and drop result you need to Save in
+    Database
+    <textarea id="mySavedModel" class="form-control" style="width: 145%; height: 300px"></textarea>
+    <input
+      type="text"
+      id="mySavedModel2"
+      style="width: 100%; height: 300px; display: none"
+    />
+  </div>
+
+  <!-- * * * * * * * * * * * * * -->
+  <!--  End of GoJS sample code  -->
+
+  <div class="col-12" style="display: none" id="Tree">
+    <div class="form-group">
+      <div class="col-md-12">需要显示的tREE DIV</div>
+    </div>
+  </div>
+</div>
+<script src="/app-assets/js/godmark.js"></script>

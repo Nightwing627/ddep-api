@@ -56,7 +56,13 @@ class ModuleConcatenationPlugin {
 	 * @returns {void}
 	 */
 	apply(compiler) {
+		const { _backCompat: backCompat } = compiler;
 		compiler.hooks.compilation.tap("ModuleConcatenationPlugin", compilation => {
+			if (compilation.moduleMemCaches) {
+				throw new Error(
+					"optimization.concatenateModules can't be used with cacheUnaffected as module concatenation is a global effect"
+				);
+			}
 			const moduleGraph = compilation.moduleGraph;
 			const bailoutReasonMap = new Map();
 
@@ -389,8 +395,10 @@ class ModuleConcatenationPlugin {
 							};
 
 							const integrate = () => {
-								ChunkGraph.setChunkGraphForModule(newModule, chunkGraph);
-								ModuleGraph.setModuleGraphForModule(newModule, moduleGraph);
+								if (backCompat) {
+									ChunkGraph.setChunkGraphForModule(newModule, chunkGraph);
+									ModuleGraph.setModuleGraphForModule(newModule, moduleGraph);
+								}
 
 								for (const warning of concatConfiguration.getWarningsSorted()) {
 									moduleGraph
@@ -422,7 +430,21 @@ class ModuleConcatenationPlugin {
 										for (const chunk of chunkGraph.getModuleChunksIterable(
 											rootModule
 										)) {
-											chunkGraph.disconnectChunkAndModule(chunk, m);
+											const sourceTypes = chunkGraph.getChunkModuleSourceTypes(
+												chunk,
+												m
+											);
+											if (sourceTypes.size === 1) {
+												chunkGraph.disconnectChunkAndModule(chunk, m);
+											} else {
+												const newSourceTypes = new Set(sourceTypes);
+												newSourceTypes.delete("javascript");
+												chunkGraph.setChunkModuleSourceTypes(
+													chunk,
+													m,
+													newSourceTypes
+												);
+											}
 										}
 									}
 								}
@@ -584,7 +606,7 @@ class ModuleConcatenationPlugin {
 				incomingConnectionsFromNonModules.filter(connection => {
 					// We are not interested in inactive connections
 					// or connections without dependency
-					return connection.isActive(runtime) || connection.dependency;
+					return connection.isActive(runtime);
 				});
 			if (activeNonModulesConnections.length > 0) {
 				const problem = requestShortener => {
