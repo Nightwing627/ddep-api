@@ -280,13 +280,21 @@ License: You must have a valid license purchased only from themeforest(the above
                                                             <div class="col-md-3" style="margin: auto;">
                                                               <span><%= api_prefix %></span>
                                                             </div>
-                                                            <div class="col-md-9">
+                                                            <div class="col-md-8">
                                                               <div class="form-group">
                                                                 <div class="demo-inline-spacing">
                                                                   <input type="text" name="api_ddep_api" class="form-control" id="api_ddep_api">
                                                                 </div>
                                                               </div>
                                                             </div>
+
+                                                            <!-- Thomas creates setting button. there are events and modal in mapping.ejs -->
+                                                            <div class="col-md-1" style="margin: auto;">
+                                                              <a href="#" class="btn btn-primary settings-button" id="ddepApiSettings">
+                                                                <i data-feather="settings" class="align-middle mr-sm-25 mr-0"></i>
+                                                              </a>
+                                                            </div>
+                                                            
                                                           </div>
                                                         </div>
                                                       </div>
@@ -515,7 +523,9 @@ License: You must have a valid license purchased only from themeforest(the above
                 <h5 class="mb-0">Mapping</h5>
                 <!-- <small>Enter Your Social Links.</small> -->
             </div>
-            <form></form>
+            <form>
+              <%- include('mapping'); %>
+            </form>
             <!-- <form>
                 <div class="row">
                 <div class="form-group col-md-6">
@@ -1550,4 +1560,95 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- END: Page Vendor JS-->
     <!-- <script src="/app-assets/js/scripts/forms/pickers/form-pickers.min.js"></script> -->
     <!-- END: Page JS-->
-</html>
+
+    <!-- Modal -->
+    <div id="ddepApiModal" class="modal">
+      <div style="width:260px" class="d-none modal-left"></div>
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="d-flex justify-content-between p-1 align-items-center">
+          <p style="margin:0; font-size:1.5rem">Rules To Control this API When trigger</p>
+          <span class="close" id="modal-close">&times;</span>
+        </div>
+        
+        <div style="width:80%" class="ml-3">
+        <div class="container">
+          <div class="">
+            <a href="#" class="btn btn-lg btn-block modal-button" id="back"><i data-feather="rotate-ccw" class="font-medium-2"></i></a>
+            <a href="#" class="btn btn-lg btn-block modal-button" id="save"><i data-feather="save" class="font-medium-2"></i></a>
+            <a href="#" class="btn btn-lg btn-block modal-button" id="addrow"><i data-feather="plus" class="font-medium-2"></i></a>
+          </div>
+          <table id="myTable" class="table order-list table-bordered">
+          <thead>
+            <tr>
+              <td>Logical Operation</td>
+              <td>Original Value</td>
+              <td>Comparsion operations</td>
+              <td>Column Value</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-sm-2">
+                  <details class="custom-select m-0 p-0 border-0">
+                      <summary class="radios form-control border-0" name="logical">
+                          <input type="radio" name="item" id="default" title="Select..." checked>
+                          <input type="radio" name="item" id="AND" title="AND">
+                          <input type="radio" name="item" id="OR" title="OR">
+                      </summary>
+                      <ul class="list p-0">
+                          <li>
+                              <label for="AND">AND</label>
+                          </li>
+                          <li>
+                              <label for="OR">OR</label>
+                          </li>
+                      </ul>
+                  </details>
+              </td>
+              <td class="col-sm-3">
+                <input type="text" name="original" class="form-control border-0" />
+              </td>
+              <td class="col-sm-3">
+                <input type="text" name="comparison" class="form-control border-0" />
+              </td>
+              <td class="col-sm-2">
+                <input type="text" name="column" class="form-control border-0" />
+              </td>
+              <td class="col-sm-2"><a href="#" type="button" class="ibtnDel"> Delete </a></td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+      </div>
+      
+    </div>
+    <script>
+      var modal = document.getElementById("ddepApiModal");
+      var btn = document.getElementById("ddepApiSettings");
+      var mclose = document.getElementById("modal-close");
+      var save = document.getElementById("save");
+      // var span = document.getElementsByClassName("close")[0];
+      btn.onclick = function() {
+        // $("#ddepApiModal").show();
+        modal.style.display = "flex";
+      }
+      mclose.onclick = function() {
+        modal.style.display = "none";
+      }
+      save.onclick = function() {
+        modal.style.display = "none";
+      }
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
+    </script>
+
+
+
+    </html>
