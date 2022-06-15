@@ -272,12 +272,12 @@ License: You must have a valid license purchased only from themeforest(the above
                                                         </div>
                                                       </div>
                                                       <div id="api_ddep_api_input" class="demo-inline-spacing" style="display: none;">
-                                                        <div class="col-md-2">
+                                                        <div class="col-md-1">
                                                           DDEP API<font style="color:red">*</font>
                                                         </div>
-                                                        <div class="col-md-9">
-                                                          <div class="row">
-                                                            <div class="col-md-3" style="margin: auto;">
+                                                        <div class="col-md-10">
+                                                          <div class="row align-items-center">
+                                                            <div class="col-md-2" style="margin: auto;">
                                                               <span><%= api_prefix %></span>
                                                             </div>
                                                             <div class="col-md-8">
@@ -289,12 +289,18 @@ License: You must have a valid license purchased only from themeforest(the above
                                                             </div>
 
                                                             <!-- Thomas creates setting button. there are events and modal in mapping.ejs -->
-                                                            <div class="col-md-1" style="margin: auto;">
+                                                            <% if(typeof(alldata) !="undefined"){ %> 
+                                                              <div class="col-md-2 d-flex p-0" style="margin: auto;">
+                                                                <a href="#" class="btn btn-outline-primary settings-button mr-1" style="font-size:0.8rem;">+ ADD</a>
+                                                                <a href="#" class="btn btn-outline-danger settings-button" style="font-size:0.8rem">DELETE</a>
+                                                              </div>
+                                                            <% } else { %>
+                                                            <div class="col-md-2" style="margin: auto;">
                                                               <a href="#" class="btn btn-primary settings-button" id="ddepApiSettings">
                                                                 <i data-feather="settings" class="align-middle mr-sm-25 mr-0"></i>
                                                               </a>
                                                             </div>
-                                                            
+                                                            <% } %>
                                                           </div>
                                                         </div>
                                                       </div>
@@ -524,8 +530,20 @@ License: You must have a valid license purchased only from themeforest(the above
                 <!-- <small>Enter Your Social Links.</small> -->
             </div>
             <form>
-              <%- include('mapping'); %>
+              <% if(typeof(alldata) =="undefined"){ %>
+                <%- include('mapping'); %>
+              <% } else { %>
+                <% if(alldata.ProjectCode == "001") { %>
+                  <%- include('mapping-project1'); %>
+                <% } %>
+                <% if(alldata.ProjectCode == "002") { %>
+                  <%- include('mapping-project2'); %>
+                <% } %>
+              <% } %>
             </form>
+            <div class="mt-1">
+              <a class="btn btn-primary">Save</a>
+            </div>
             <!-- <form>
                 <div class="row">
                 <div class="form-group col-md-6">
