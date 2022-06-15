@@ -7,7 +7,7 @@ ADD . /app/
 WORKDIR /app
 
 # 安装项目依赖包
-RUN npm install
+#RUN npm install
 
 
 # remove development dependencies(不会报错，但是大小变化不大)
