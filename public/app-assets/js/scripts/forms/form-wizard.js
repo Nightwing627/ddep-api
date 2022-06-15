@@ -362,6 +362,8 @@ $(function () {
                       $('#is_password_encrypted option[value="'+response.is_password_encrypted+'"]').prop('selected',true);
                       $('#is_password_encrypted').trigger('change');
                       console.log(response.is_active);
+
+                      //Thomas I changed Active evenet.
                       if(response.is_active=="Active")
                       {
                         $('#is_active_inbound').addClass('btn-success');
@@ -370,9 +372,9 @@ $(function () {
                       }
                       else
                       {
-                        $('#is_active_inbound').removeClass('btn-success');
-                        $('#is_active_inbound').data('value','Inactive');
-                        $('#is_active_inbound').html('Inactive');
+                        $('#is_active_inbound').addClass('btn-success');      //removeClass
+                        $('#is_active_inbound').data('value','Active');       //Inactive
+                        $('#is_active_inbound').html('Active');               //Inactive
                       }
                     }
                     //console.log(response);

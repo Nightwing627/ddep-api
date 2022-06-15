@@ -365,7 +365,11 @@
                   </li>
                   <li class="breadcrumb-item"><a href="#">Projects</a>
                   </li>
+                  <% if(typeof(alldata) !="undefined"){ %>
+                  <li class="breadcrumb-item active">Edit Project
+                  <% }else{ %>
                   <li class="breadcrumb-item active">Add Project
+                  <% } %>
                   </li>
                 </ol>
               </div>

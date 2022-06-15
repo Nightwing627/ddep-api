@@ -31,7 +31,11 @@ License: You must have a valid license purchased only from themeforest(the above
             <button type="button" class="step-trigger">
                 <span class="bs-stepper-box">1</span>
                 <span class="bs-stepper-label">
+                <% if(typeof(alldata) !="undefined"){ %>
+                <span class="bs-stepper-title">Edit Project</span>
+                <% }else{ %>
                 <span class="bs-stepper-title">Create New Project</span>
+                <% } %>
                 <!-- <span class="bs-stepper-subtitle">Setup Account Details</span> -->
                 </span>
             </button>
@@ -105,7 +109,7 @@ License: You must have a valid license purchased only from themeforest(the above
                     <% if(typeof(alldata) !="undefined"){ %>
                       <input type="text" name="ProjectCode" id="ProjectCode" class="form-control" placeholder="Enter Project Code" readonly value="<%= alldata.ProjectCode%>" />
                     <% }else{ %>
-                      <input type="text" name="ProjectCode" id="ProjectCode" class="form-control" placeholder="Enter Project Code" />
+                      <input type="text" name="ProjectCode" id="ProjectCode" class="form-control" placeholder="Enter Project Code" value="BGRS-New-Initiation-to-RMC"/>
                     <% } %>
                   </div>
                 <div class="form-group col-md-4">
@@ -128,6 +132,7 @@ License: You must have a valid license purchased only from themeforest(the above
                     class="form-control"
                     placeholder="enter Project Name here"
                     aria-label="Project Code"
+                    value="BGRS New Initiation to RMC"
                     />
                     <% } %>
                 </div>
@@ -151,6 +156,7 @@ License: You must have a valid license purchased only from themeforest(the above
                     class="form-control"
                     placeholder="Enter Company Name here"
                     aria-label="Company Name"
+                    value="irms"
                     />
                     <% } %>
                 </div>
@@ -176,7 +182,7 @@ License: You must have a valid license purchased only from themeforest(the above
                       <div class="card">
                           <div class="card-header">
                             <h5 class="mb-0">Inbound</h5>
-                            <button type="button" id="is_active_inbound" data-value="Inactive" class="btn btn-secondary waves-effect waves-float waves-light float-right">Inactive</button>
+                            <button type="button" id="is_active_inbound" data-value="Active" class="btn btn-success waves-effect waves-float waves-light float-right">Active</button>
                           </div>
                           <div class="card-body">
                             <form id="frm-save-inbound">
@@ -195,8 +201,8 @@ License: You must have a valid license purchased only from themeforest(the above
                                         <div class="col-md-6 mb-1">
                                           <label class="required">Format</label>
                                           <select class="select2 form-control form-control-lg" id="inboundFormat" name="inbound_format">
-                                            <option value="xml">XML</option>
                                             <option value="json">JSON</option>
+                                            <option value="xml">XML</option>
                                           </select>
                                         </div>
                                       </div>
@@ -250,16 +256,16 @@ License: You must have a valid license purchased only from themeforest(the above
                                                       <div id="api_options" class="form-group col-md-12">
                                                         <div class="row">
                                                           <div class="custom-control custom-radio">
-                                                            <input type="radio" name="api_type" id="Api_type_user" class="custom-control-input" value="User_API" checked />
+                                                            <input type="radio" name="api_type" id="Api_type_user" class="custom-control-input" value="User_API" />
                                                             <label class="custom-control-label" for="Api_type_user">User API</label>
                                                           </div>&nbsp;&nbsp;
                                                           <div class="custom-control custom-radio">
-                                                            <input type="radio" name="api_type" id="Api_type_ddep" class="custom-control-input" value="DDEP_API" />
+                                                            <input type="radio" name="api_type" id="Api_type_ddep" class="custom-control-input" value="DDEP_API" checked/>
                                                             <label class="custom-control-label" for="Api_type_ddep">DDEP API</label>
                                                           </div>
                                                         </div>
                                                       </div>
-                                                      <div id="api_user_api_input" class="demo-inline-spacing">
+                                                      <div id="api_user_api_input" class="demo-inline-spacing" style="display: none;">
                                                         <div class="col-md-2">
                                                           User API<font style="color:red">*</font>
                                                         </div>
@@ -271,7 +277,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                           </div>
                                                         </div>
                                                       </div>
-                                                      <div id="api_ddep_api_input" class="demo-inline-spacing" style="display: none;">
+                                                      <div id="api_ddep_api_input" class="demo-inline-spacing">
                                                         <div class="col-md-1">
                                                           DDEP API<font style="color:red">*</font>
                                                         </div>
@@ -283,20 +289,12 @@ License: You must have a valid license purchased only from themeforest(the above
                                                             <div class="col-md-8">
                                                               <div class="form-group">
                                                                 <div class="demo-inline-spacing">
-                                                                  <input type="text" name="api_ddep_api" class="form-control" id="api_ddep_api">
+                                                                  <input type="text" name="api_ddep_api" class="form-control" id="api_ddep_api" value="/bgrs/new/init">
                                                                 </div>
                                                               </div>
                                                             </div>
 
-                                                            <!-- Thomas creates setting button. there are events and modal in mapping.ejs -->
-                                                              
-                                                            <% if(typeof(alldata) =="undefined"){ %>
-                                                            <div class="col-md-2" style="margin: auto;">
-                                                              <a href="#" class="btn btn-primary settings-button" id="ddepApiSettings">
-                                                                <i data-feather="settings" class="align-middle mr-sm-25 mr-0"></i>
-                                                              </a>
-                                                            </div>
-                                                            <% } %>
+                                                            
                                                           </div>
                                                         </div>
                                                       </div>
@@ -440,7 +438,7 @@ License: You must have a valid license purchased only from themeforest(the above
                   <div class="card">
                       <div class="card-header">
                         <h5 class="mb-0">OutBound</h5>
-                        <button type="button" id="is_active_outbound" data-value="Inactive" class="btn btn-secondary waves-effect waves-float waves-light float-right">Inactive</button>
+                        <button type="button" id="is_active_outbound" data-value="Active" class="btn btn-success waves-effect waves-float waves-light float-right">Active</button>
                       </div>
                       <div class="card-body">
                         <form id="frm-save-outbound">
@@ -489,8 +487,17 @@ License: You must have a valid license purchased only from themeforest(the above
                                           <label class="form-label required" for="first-name">API URL</label>
                                       </div>
                                       <div class="form-group col-md-8">
-                                          <input type="text" name="api_url" id="api_url" class="form-control" placeholder="" />
+                                          <input type="text" name="api_url" id="api_url" class="form-control" placeholder="" value="https://api.a4appz.com/apim/iRMS/UAT/BGRS/IntegrateData"/>
                                       </div>
+                                      <!-- Thomas creates setting button. there are events and modal in mapping.ejs -->
+                                                              
+                                      <% if(typeof(alldata) =="undefined"){ %>
+                                        <div class="col-md-2" style="margin: auto; margin-top: 0; margin-left: 0;">
+                                          <a href="#" class="btn btn-primary settings-button" id="ddepApiSettings">
+                                            <i data-feather="settings" class="align-middle mr-sm-25 mr-0"></i>
+                                          </a>
+                                        </div>
+                                        <% } %>
                                       <% if(typeof(alldata) !="undefined"){ %> 
                                         <div class="col-md-2 d-flex p-0" style="margin: auto; margin-top: 0;">
                                           <a href="#" class="btn btn-outline-primary settings-button mr-1" style="font-size:0.8rem;">+ ADD</a>
@@ -533,12 +540,12 @@ License: You must have a valid license purchased only from themeforest(the above
             </div>
             <form>
               <% if(typeof(alldata) =="undefined"){ %>
-                <%- include('mapping'); %>
+                <%- include('mapping-nothing'); %>
               <% } else { %>
-                <% if(alldata.ProjectCode == "001") { %>
+                <% if(alldata.ProjectCode == "RMC-Initiation-to-SilkRelo") { %>
                   <%- include('mapping-project1'); %>
                 <% } %>
-                <% if(alldata.ProjectCode == "002") { %>
+                <% if(alldata.ProjectCode == "iRMS-update-Supplier-Info-to-BGRS") { %>
                   <%- include('mapping-project2'); %>
                 <% } %>
               <% } %>
@@ -1614,7 +1621,7 @@ License: You must have a valid license purchased only from themeforest(the above
               <td class="col-sm-2">
                   <details class="custom-select m-0 p-0 border-0">
                       <summary class="radios form-control border-0" name="logical">
-                          <input type="radio" name="item" id="default" title="Select..." checked>
+                          <input type="radio" name="item" id="default" title="AND" checked>
                           <input type="radio" name="item" id="AND" title="AND">
                           <input type="radio" name="item" id="OR" title="OR">
                       </summary>
@@ -1629,13 +1636,13 @@ License: You must have a valid license purchased only from themeforest(the above
                   </details>
               </td>
               <td class="col-sm-3">
-                <input type="text" name="original" class="form-control border-0" />
+                <input type="text" name="original" class="form-control border-0" value="@In{SupplierID}" />
               </td>
               <td class="col-sm-3">
-                <input type="text" name="comparison" class="form-control border-0" />
+                <input type="text" name="comparison" class="form-control border-0" value="=" />
               </td>
               <td class="col-sm-2">
-                <input type="text" name="column" class="form-control border-0" />
+                <input type="text" name="column" class="form-control border-0" value="SilkRelo"/>
               </td>
               <td class="col-sm-2"><a href="#" type="button" class="ibtnDel"> Delete </a></td>
             </tr>
