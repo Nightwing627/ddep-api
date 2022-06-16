@@ -315,9 +315,10 @@
             </li>
           </ul> -->
         </li>
-        <li class=" navigation-header" style="color: black;"><span data-i18n="Apps &amp; Pages">Apps &amp; Pages</span><i data-feather="more-horizontal"></i>
+        <li class=" navigation-header" style="color: grey;"><span data-i18n="Apps &amp; Pages">Apps &amp; Pages</span><i data-feather="more-horizontal"></i>
         </li>
         <!-- <li class="nav-item sidebar-group-active open"> -->
+        <% if(typeof(alldata) =="undefined"){ %>
         <li class="nav-item">
           <a class="d-flex align-items-center" href="#"><i data-feather="grid"></i><span class="menu-title text-truncate" data-i18n="Email">Project</span></a>
           <ul class="menu-content">
@@ -329,6 +330,19 @@
             </li>
           </ul>
         </li>
+        <% } else { %>
+          <li class="nav-item sidebar-group-active open">
+            <a class="d-flex align-items-center" href="#"><i data-feather="grid"></i><span class="menu-title text-truncate" data-i18n="Email">Project</span></a>
+            <ul class="menu-content">
+              <li>
+                <a class="d-flex align-items-center" href="/projects/add"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">Add</span></a>
+              </li>
+              <li class="">
+                <a class="d-flex align-items-center active" href="/projects/project-list"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="eCommerce">List</span></a>
+              </li>
+            </ul>
+          </li>
+        <% } %>
         <li class="nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="grid"></i><span class="menu-title text-truncate" data-i18n="Email">Template</span></a>
           <ul class="menu-content">
             <li class=""><a class="d-flex align-items-center" href="/templates/add"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">Add</span></a>
@@ -383,7 +397,7 @@
 <style>
   .main-menu.menu-dark .navigation > li.open:not(.menu-item-closing) > a, .main-menu.menu-dark .navigation > li.sidebar-group-active > a{
     background-color: white !important;
-    
+    color: #777;
   }
   .semi-dark-layout .main-menu-content .navigation-main .nav-item .menu-content, .semi-dark-layout .main-menu-content .navigation-main .nav-item .menu-content li:not(.active) a, .semi-dark-layout .main-menu-content .navigation-main .sidebar-group-active .menu-content{
     background-color: white !important;
@@ -403,5 +417,8 @@
   .semi-dark-layout .main-menu:not(.expanded) .navigation .sidebar-group-active a {
     background-color: white !important;
     color: #777;
+  }
+  .main-menu .nav-item a {
+    color: #777 !important;
   }
 </style>
