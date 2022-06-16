@@ -1515,7 +1515,7 @@ function init() {
         //    imageStretch: go.GraphObject.Uniform,
         //    source: "images/defaultIcon.png" },
         //  new go.Binding("source", "src")),
-        $(go.Picture, { source: "string.png", width: 50, height: 50 }, new go.Binding("source","objtype", function(v) { return "../../app-assets/images/mapping/"+v+".png"; }   )    ),
+        $(go.Picture, { source: "string.png", width: 20, height: 20 }, new go.Binding("source","objtype", function(v) { return "../../app-assets/images/mapping/"+v+".png"; }   )    ),
         $(go.TextBlock,
           //new go.Binding("text", "key", s => "" + s))
           new go.Binding("text",))
@@ -1814,55 +1814,165 @@ function UpdateJson() {
     document.getElementById("mySavedModel2").value = CurrentModel.toJson();
 }
 //Godmark : a function trigger GOJS result to some textbox <- it example used on Inbound Upload Button
-function AddInboundSchema() {
- myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
- $("#InboundJson").show();
+function AddInboundSchema(emptydata=true) {
+  
+
+	if (emptydata) {
+		
+		nodeDataArray = [
+        { isGroup: true, key: -1, text: LeftSideName, xy: "0 0", width: 400 }
+
+      ];
+	}else
+	nodeDataArray.push({ isGroup: true, key: -1, text: LeftSideName, xy: "0 0", width: 400 });
+	linkDataArray = [];
+	InboundJson = JSON.parse(document.getElementById("InboundFormat").value);
+	
+	
+	var InboundCount = 0;
+	  var InboundCurrentCount = 0;
+	Object.entries(InboundJson).forEach((entry) => {
+		
+		// the key of the Inbound Json
+		const [key,value] = entry;
+		
+		// Godmark : key is the number on this example , the key mean that is unique number or id or name , so we should be discuss what the parameter on the key , i suggest @In{(Column Unique Name)} or @Out{(Column Unique Name)} , the text = column name , group:-1 = Left Side Box
+		var inbounddata = { key: InboundCount,text : key ,objtype:(Array.isArray(value) ? 'array' : typeof(value)), group: -1 };
+		nodeDataArray.push(inbounddata);
+		
+		//Godmark : 第二層 , 暫時不是很彈性,先這樣
+		InboundCurrentCount = InboundCount;
+		InboundCount++;
+		if (!Array.isArray(value) && value != null && typeof(value) == "object") {
+			Object.entries(value).forEach((itementry) => {
+				
+				const [subkey,subvalue] = itementry;
+				var inbounddata = { key: InboundCount,text :  subkey ,objtype:(Array.isArray(subvalue) ? 'array' : typeof(subvalue)), group: -1 };
+				// Godmark : linkDataArray in this from , to is for grouping , it mean subgroup or sub sub group , and linkDataArray have another use for relationship mapping , you can review the line "3792" , all relationship will be have one more field call category:"mapping" there
+				linkDataArray.push({ from: InboundCurrentCount, to: InboundCount });
+				
+				nodeDataArray.push(inbounddata);
+				console.log(subkey + "::::" + InboundCurrentCount+"::::"+InboundCount)
+				InboundCount++;
+				
+			});
+		}
+		if (Array.isArray(value) && value != null && typeof(value) == "object") {
+			Object.entries(value).forEach((arritementry) => {
+				
+				const [arrsubkey,arrsubvalue] = arritementry;
+				Object.entries(arrsubvalue).forEach((itementry) => {
+					const [subkey,subvalue] = itementry;
+					var inbounddata = { key: InboundCount,text : subkey, objtype:(Array.isArray(subvalue) ? 'array' : typeof(subvalue)), group: -1 };
+					// Godmark : linkDataArray in this from , to is for grouping , it mean subgroup or sub sub group , and linkDataArray have another use for relationship mapping , you can review the line "3792" , all relationship will be have one more field call category:"mapping" there
+					linkDataArray.push({ from: InboundCurrentCount, to: InboundCount });
+					
+					nodeDataArray.push(inbounddata);
+					console.log(subkey + "::::" + InboundCurrentCount+"::::"+InboundCount)
+					InboundCount++;
+				});
+				
+			});
+		}
+		
+		
+	  });
+
+	 
+	 $("#InboundJson").show();
+	
+	if (emptydata && document.getElementById("OutboundFormat").value != "") AddOutboundSchema(false);
+	
+	myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+	
+
+	}
+
+	//Godmark : a function trigger GOJS result to some textbox <- it example used on Outbound Upload Button
+	function AddOutboundSchema(emptydata=true) {
+	
+	if (emptydata) {
+		nodeDataArray = [
+        { isGroup: true, key: -2, text: RightSideName, xy: "1000 0", width: 400 }
+
+      ];
+	}
+	else nodeDataArray.push({ isGroup: true, key: -2, text: RightSideName, xy: "1000 0", width: 400 });
+	
+	linkDataArray = [];
+	OutboundJson = JSON.parse(document.getElementById("OutboundFormat").value);
+	
+		var OutboundCount = 1000;
+		var OutboundCurrentCount = 1000;
+		
+		
+	  // Godmark : this is a function looping Outbound Json , and this is custom code , and this code just only can support 2 level node json , so it not very dynamic,  if you have any question , can ask me , all Json column will push into nodeDataArray
+		Object.entries(OutboundJson).forEach((entry) => {
+		// the key of the Outbound Json
+			const [key,value] = entry;
+			var Outbounddata = { key: OutboundCount,text : key , objtype:(Array.isArray(value) ? 'array' : typeof(value)), group: -2 };
+			nodeDataArray.push(Outbounddata);
+			
+			OutboundCurrentCount = OutboundCount;
+			OutboundCount++;
+			if (!Array.isArray(value) && value != null && typeof(value) == "object") {
+				Object.entries(value).forEach((itementry) => {
+					const [subkey,subvalue] = itementry;
+					var Outbounddata = { key: OutboundCount,text : subkey , objtype:(Array.isArray(subvalue) ? 'array' : typeof(subvalue)), group: -2 };
+					// Godmark : same as inbound 
+					linkDataArray.push({ from: OutboundCurrentCount, to: OutboundCount });
+					
+					nodeDataArray.push(Outbounddata);
+					console.log(":::::::Outbounddata:::::::::::");
+					console.log("--------------------------");
+					console.log(subkey + "::::" + OutboundCurrentCount+"::::"+OutboundCount)
+					OutboundCount++;	
+					if (Array.isArray(subvalue)) {
+					OutboundCurrentCount = OutboundCount -1;
+						Object.entries(subvalue).forEach((_arritementry) => {
+							const [_arrsubkey,_arrsubvalue] = _arritementry;
+							Object.entries(_arrsubvalue).forEach((arritementry) => {
+								const [arrsubkey,arrsubvalue] = arritementry;
+								var Outbounddata = { key: OutboundCount,text : arrsubkey , objtype:(Array.isArray(arrsubvalue) ? 'array' : typeof(arrsubvalue)), group: -2 };
+								
+								linkDataArray.push({ from: OutboundCurrentCount, to: OutboundCount });
+								
+								nodeDataArray.push(Outbounddata);
+								console.log(":::::::Outbounddata:::::::::::");
+								console.log("--------------------------");
+								console.log(subkey + "::::" + OutboundCurrentCount+"::::"+OutboundCount)
+								OutboundCount++;	
+							});
+						});
+					}
+				});
+			}
+			if (Array.isArray(value) && value != null && typeof(value) == "object") {
+				Object.entries(value).forEach((arritementry) => {
+					
+					const [arrsubkey,arrsubvalue] = arritementry;
+					Object.entries(arrsubvalue).forEach((itementry) => {
+						const [subkey,subvalue] = itementry;
+						var inbounddata = { key: OutboundCount,text : subkey, objtype:(Array.isArray(subvalue) ? 'array' : typeof(subvalue)), group: -2 };
+						// Godmark : linkDataArray in this from , to is for grouping , it mean subgroup or sub sub group , and linkDataArray have another use for relationship mapping , you can review the line "3792" , all relationship will be have one more field call category:"mapping" there
+						linkDataArray.push({ from: OutboundCurrentCount, to: OutboundCount });
+						
+						nodeDataArray.push(inbounddata);
+						console.log(subkey + "::::" + OutboundCurrentCount+"::::"+OutboundCount)
+						OutboundCount++;
+					});
+					
+				});
+			}
+		});	
+
+		$("#OutboundJson").show();
+	
 
 
-
-
-
-}
-
-//Godmark : a function trigger GOJS result to some textbox <- it example used on Outbound Upload Button
-function AddOutboundSchema() {
-    $("#OutboundJson").show();
-
-
-    var OutboundCount = 0;
-    var OutboundCurrentCount = 0;
-    Object.entries(OutboundJson).forEach((entry) => {
-
-    // the key of the Outbound Json
-    const [key,value] = entry;
-
-    var Outbounddata = { key: OutboundCount,text : key, group: -2 };
-    nodeDataArray.push(Outbounddata);
-
-
-    //Godmark : 第二層 , 暫時不是很彈性,先這樣
-    OutboundCurrentCount = OutboundCount;
-    OutboundCount++;
-    if (value != null && typeof(value) == "object") {
-    Object.entries(value).forEach((itementry) => {
-        
-        const [subkey,subvalue] = itementry;
-        var Outbounddata = { key: OutboundCount,text : subkey, group: -2 };
-        linkDataArray.push({ from: OutboundCurrentCount, to: OutboundCount });
-        
-        nodeDataArray.push(Outbounddata);
-        console.log(subkey + "::::" + OutboundCurrentCount+"::::"+OutboundCount)
-        OutboundCount++;
-        
-    });
-    }
-
-
-
-    });
-
-    myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
-
+		myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+		if (emptydata && document.getElementById("InboundFormat").value != "") AddInboundSchema(false);
+	
 }
 
 

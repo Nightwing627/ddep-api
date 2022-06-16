@@ -273,7 +273,7 @@
 
 
   <!-- BEGIN: Main Menu-->
-  <div class="main-menu menu-fixed menu-dark menu-accordion menu-shadow" data-scroll-to-active="true">
+  <div class="main-menu menu-fixed menu-dark menu-accordion menu-shadow" data-scroll-to-active="true" style="background-color:white;">
     <div class="navbar-header">
       <ul class="nav navbar-nav flex-row">
         <li class="nav-item mr-auto"><a class="navbar-brand" href="html/ltr/vertical-menu-template-semi-dark/index.html"><span class="brand-logo">
@@ -306,7 +306,7 @@
     </div>
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
-      <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+      <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" style="background-color:white;">
         <li class=" nav-item"><a class="d-flex align-items-center" href="/"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dashboards</span><span class="badge badge-light-warning badge-pill ml-auto mr-1">2</span></a>
           <!-- <ul class="menu-content">
             <li class="active"><a class="d-flex align-items-center" href="dashboard-analytics.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">Analytics</span></a>
@@ -315,7 +315,7 @@
             </li>
           </ul> -->
         </li>
-        <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">Apps &amp; Pages</span><i data-feather="more-horizontal"></i>
+        <li class=" navigation-header" style="color: black;"><span data-i18n="Apps &amp; Pages">Apps &amp; Pages</span><i data-feather="more-horizontal"></i>
         </li>
         <!-- <li class="nav-item sidebar-group-active open"> -->
         <li class="nav-item">
@@ -379,3 +379,29 @@
         
       </div>
       <div class="content-body"><!-- Dashboard Analytics Start -->
+
+<style>
+  .main-menu.menu-dark .navigation > li.open:not(.menu-item-closing) > a, .main-menu.menu-dark .navigation > li.sidebar-group-active > a{
+    background-color: white !important;
+    
+  }
+  .semi-dark-layout .main-menu-content .navigation-main .nav-item .menu-content, .semi-dark-layout .main-menu-content .navigation-main .nav-item .menu-content li:not(.active) a, .semi-dark-layout .main-menu-content .navigation-main .sidebar-group-active .menu-content{
+    background-color: white !important;
+    color: #777;
+  }
+  .has-sub .menu-item-animating .menu-item-closing .nav-item .open .sidebar-group-active{
+    background-color: white !important;
+    color: #777;
+  }
+  .semi-dark-layout .main-menu-content .navigation-main .nav-item.open a {
+    background-color: white !important;
+    color: #777;
+  }
+  .semi-dark-layout .main-menu-content .navigation-main .nav-item a, .semi-dark-layout .main-menu-content .navigation-main .nav-item a:after, .semi-dark-layout .main-menu-content .navigation-main .nav-item i {
+    color: #777;
+  }
+  .semi-dark-layout .main-menu:not(.expanded) .navigation .sidebar-group-active a {
+    background-color: white !important;
+    color: #777;
+  }
+</style>
