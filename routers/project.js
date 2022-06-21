@@ -16,6 +16,13 @@ const projects = require('../controllers/project.controller.js');
 const inbound_setting = require('../controllers/inbound_setting.controller.js');
 const outbound_setting = require('../controllers/outbound_setting.controller.js');
 const schedule_setting = require('../controllers/schedule_setting.controller.js');
+
+const Item = require('../models/item.model.js')
+const Project = require('../models/project.model.js');
+const InboundSetting = require('../models/inbound_setting.model.js');
+const OutboundSetting = require('../models/outbound_setting.model.js');
+const ScheduleSetting = require('../models/schedule_setting.model.js');
+
 const ase = require('../my_modules/aes');
 const { json } = require('body-parser');
 router.post('/save', projects.create);
@@ -133,9 +140,65 @@ router.get('/item/detail/:id',function(req,res){
     });
 })
 router.get('/item/fulllist',projects.fullProject);
-router.get('/fulllist',function(req,res){
+router.get('/fulllist', async function(req,res){
+    let items = await fulllistItem();
+    // let projects = await fulllistProject();
+
+    // let result = projects.map((project, index) => {
+    //     let itemArray = items.filter((item, index) => {
+    //         return project._id == item.ProjectId
+    //     }).map((item, index) => {
+    //         let data = {
+    //             "item_ID": item._id,
+    //             "itemCode": item.ItemCode,
+    //             "itemName": item.ItemName,
+    //             "itemDescr": item.CompanyName,
+    //             "isActive": item.isActive,
+    //             "version": item.__v,
+    //             "inboundType": item.inbound_setting.api_type,
+    //             "inboundFormat": item.inbound_setting.inbound_format,
+    //             "outboundFormat": item.outbound_setting.outbound_format,
+    //             "scheduleDescr": item.schedule_setting.occurs_inbound
+    //         }
+    //         return data;
+    //     })
+
+    //     return {
+    //         "pj_ID": project._id,
+    //         "projectCode": project.ProjectCode,
+    //         "projectName": project.ProjectName,
+    //         "projectDescr": project.ProjectDescr,
+    //         "group": "",
+    //         "isActive": project.isActive,
+    //         "createdAt": project.createdAt,
+    //         "updatedAt": project.updatedAt,
+    //         "items": itemArray
+    //     }
+    // })
+
+    // console.log(result)
+    // res.status(200).json({
+    //     "data": result
+    // })
+
+    // let productItem = items.map((item, index) => {
+    //     let data = {
+    //         "item_ID": item._id,
+    //         "itemCode": item.ItemCode,
+    //         "itemName": item.ItemName,
+    //         "itemDescr": item.CompanyName,
+    //         "isActive": item.isActive,
+    //         "version": item.__v,
+    //         "inboundType": item.inbound_setting.api_type,
+    //         "inboundFormat": item.inbound_setting.inbound_format,
+    //         "outboundFormat": item.outbound_setting.outbound_format,
+    //         "scheduleDescr": item.schedule_setting.occurs_inbound
+    //     }
+    //     return data;
+    // })
     res.status(200).json({
-        "data": [{
+        "data": [
+            {
             "pj_ID": "62592d4a5c4b8a9d970b56aa",
             "projectCode": "iRMS-External-Exchange",
             "projectName": "i-RMS External Exchange Data",
@@ -144,20 +207,103 @@ router.get('/fulllist',function(req,res){
             "isActive": "1",
             "createdAt": "2022-04-15T08:31:06.196Z",
             "updatedAt": "2022-05-19T06:42:06.239Z",
-            "items": [{
-            "item_ID": "62592d715c4b8a9d970b56ac",
-            "itemCode": "BGRS-Initiations-Synchronize",
-            "itemName": "BGRS Initiations Synchronize",
-            "itemDescr": "BGRS will share their business to multiple parties",
+            "items": [
+                {
+                "item_ID": "62592d715c4b8a9d970b56a1",
+                "itemCode": "BGRS-Initiations-Synchronize",
+                "itemName": "BGRS Initiations Synchronize",
+                "itemDescr": "BGRS will share their business to multiple parties",
+                "isActive": "1",
+                "version": "1.7",
+                "inboundType": "DDEP API",
+                "inboundFormat": "JSON",
+                "outboundFormat": "JSON",
+                "scheduleDescr": "Daily 18:00"
+                },
+                {
+                "item_ID": "62592d715c4b8a9d970b5634",
+                "itemCode": "BGRS-Initiations",
+                "itemName": "BGRS Initiations",
+                "itemDescr": "BGRS will share their business to multiple parties",
+                "isActive": "1",
+                "version": "1.7",
+                "inboundType": "DDEP API",
+                "inboundFormat": "JSON",
+                "outboundFormat": "JSON",
+                "scheduleDescr": "Daily 18:00"
+                }]
+            },
+            {
+            "pj_ID": "62592d4a5c4b8a9d970b56ab",
+            "projectCode": "iRMS-Exchange",
+            "projectName": "i-RMS External Exchange Data",
+            "projectDescr": "all External Parties requested integrate data will be added in here",
+            "group":"",
             "isActive": "1",
-            "version": "1.7",
-            "inboundType": "DDEP API",
-            "inboundFormat": "JSON",
-            "outboundFormat": "JSON",
-            "scheduleDescr": "Daily 18:00"
-            
-            }]
-            }]
+            "createdAt": "2022-04-15T08:31:06.196Z",
+            "updatedAt": "2022-05-19T06:42:06.239Z",
+            "items": [
+                {
+                "item_ID": "62592d715c4b8a9d970b56a1",
+                "itemCode": "BGRS-Initiations-Synchronize",
+                "itemName": "BGRS Initiations Synchronize",
+                "itemDescr": "BGRS will share their business to multiple parties",
+                "isActive": "1",
+                "version": "1.7",
+                "inboundType": "DDEP API",
+                "inboundFormat": "JSON",
+                "outboundFormat": "JSON",
+                "scheduleDescr": "Daily 18:00"
+                },
+                {
+                "item_ID": "62592d715c4b8a9d970b5634",
+                "itemCode": "BGRS-Initiations",
+                "itemName": "BGRS Initiations",
+                "itemDescr": "BGRS will share their business to multiple parties",
+                "isActive": "1",
+                "version": "1.7",
+                "inboundType": "DDEP API",
+                "inboundFormat": "JSON",
+                "outboundFormat": "JSON",
+                "scheduleDescr": "Daily 18:00"
+                }]
+            },
+            {
+            "pj_ID": "62592d4a5c4b8a9d970b56ac",
+            "projectCode": "iRMS-External",
+            "projectName": "i-RMS External Exchange Data",
+            "projectDescr": "all External Parties requested integrate data will be added in here",
+            "group":"",
+            "isActive": "1",
+            "createdAt": "2022-04-15T08:31:06.196Z",
+            "updatedAt": "2022-05-19T06:42:06.239Z",
+            "items": [
+                {
+                "item_ID": "62592d715c4b8a9d970b56a1",
+                "itemCode": "BGRS-Initiations-Synchronize",
+                "itemName": "BGRS Initiations Synchronize",
+                "itemDescr": "BGRS will share their business to multiple parties",
+                "isActive": "1",
+                "version": "1.7",
+                "inboundType": "DDEP API",
+                "inboundFormat": "JSON",
+                "outboundFormat": "JSON",
+                "scheduleDescr": "Daily 18:00"
+                },
+                {
+                "item_ID": "62592d715c4b8a9d970b5634",
+                "itemCode": "BGRS-Initiations",
+                "itemName": "BGRS Initiations",
+                "itemDescr": "BGRS will share their business to multiple parties",
+                "isActive": "1",
+                "version": "1.7",
+                "inboundType": "DDEP API",
+                "inboundFormat": "JSON",
+                "outboundFormat": "JSON",
+                "scheduleDescr": "Daily 18:00"
+                }]
+            },
+        ]
     })
 })
 router.post('/add',function(req,res){
@@ -234,6 +380,88 @@ router.get('/list',function(req,res){
     })
 })
 
+const fulllistProject = async () => {
+    let data;
+    await Item.find()
+    .then(projects => {
+        data = projects
+    }).catch(err => {
+        data = "error";
+    });
+    return data;
+}
 
+const fulllistItem = async () => {
+    let items;
+    await Project.aggregate([
+        {
+        $lookup: {
+            from: "inboundsettings", // collection to join
+            localField: "_id",//field from the input documents
+            foreignField: "item_id",//field from the documents of the "from" collection
+            as: "inbound_setting"// output array field
+        },
+        
+    },
+    
+    {
+        $lookup: {
+            from: "outboundsettings", // from collection name
+            localField: "_id",
+            foreignField: "item_id",
+            as: "outbound_setting"
+        }
+    },
+    {
+        $lookup: {
+            from: "schedulesettings", // from collection name
+            localField: "_id",
+            foreignField: "item_id",
+            as: "schedule_setting"
+        }
+    },
+    { "$lookup": {
+        "from": "inboundhistories",
+        "localField": "_id",
+        "foreignField": "item_id",
+        "as": "inbound_history"
+      }},
+      { "$addFields": {
+        "inbound_history": { "$slice": ["$inbound_history", -1] }
+      }},
+    { "$lookup": {
+        "from": "outboundhistories",
+        "localField": "_id",
+        "foreignField": "item_id",
+        "as": "outbound_history"
+      }},
+      { "$addFields": {
+        "outbound_history": { "$slice": ["$outbound_history", -1] }
+      }},
+    {
+        $unwind:{
+            path: "$inbound_setting",
+            preserveNullAndEmptyArrays: true
+          },
+    },
+    {
+        $unwind:{
+            path: "$outbound_setting",
+            preserveNullAndEmptyArrays: true
+          },
+    },
+    {
+        $unwind:{
+            path: "$schedule_setting",
+            preserveNullAndEmptyArrays: true
+          },
+    }
+    ],function (error, data) {
+        items = data;
+        //handle error case also
+      }
+    );
+    return items;
+  };
 
 module.exports = router;

@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const ScheduleSettingSchema = mongoose.Schema({
     
    
-        project_id:{
-            type:mongoose.Schema.Types.ObjectId,ref:'Project'
+        item_id:{
+            type:mongoose.Schema.Types.ObjectId,ref:'Item'
         },
         Schedule_configure_inbound:String ,
         schedule_type_inbound: String,

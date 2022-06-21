@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 
-const ProjectSchema = mongoose.Schema({
-    ProjectCode: String,
-    ProjectName: String,
-    //projectDescr:String,
+const ItemSchema = mongoose.Schema({
+    ItemCode: String,
+    ItemName: String,
+    ProjectId: String,
+    //ItemDescr:String,
     //group:String,
 
     CompanyName: String, //this is old value
@@ -13,4 +14,4 @@ const ProjectSchema = mongoose.Schema({
     timestamps: true
 });
 
-module.exports = mongoose.model('Project', ProjectSchema);
+module.exports = mongoose.model('Item', ItemSchema);

@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const InboundSettingSchema = mongoose.Schema({
-    project_id:{
-        type:mongoose.Schema.Types.ObjectId,ref:'Project'
+    item_id:{
+        type:mongoose.Schema.Types.ObjectId,ref:'Item'
     },
     itemCode:String,
     itemName:String,

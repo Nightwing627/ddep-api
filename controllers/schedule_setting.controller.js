@@ -98,7 +98,7 @@ exports.create = (req, res) => {
         });
     } */
     const scheduleSetting = new ScheduleSetting({
-        project_id: data.project_id, 
+        item_id: data.project_id, 
         Schedule_configure_inbound: data.Schedule_configure_inbound || "", 
         schedule_type_inbound: data.schedule_type_inbound || "",
         one_time_occurrence_inbound_date:data.one_time_occurrence_inbound_date || "",
