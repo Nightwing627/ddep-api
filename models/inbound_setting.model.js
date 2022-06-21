@@ -3,9 +3,15 @@ const mongoose = require('mongoose');
 const InboundSettingSchema = mongoose.Schema({
     project_id:{
         type:mongoose.Schema.Types.ObjectId,ref:'Project'
-    },    
-    inbound_format: String,
-    sync_type: String,
+    },
+    itemCode:String,
+    itemName:String,
+    itemDescr:String,    
+    inbound_format: String, // this is Old Value
+    //inboundFormat:String,
+    verison:String,
+    sync_type: String, //this is old value
+    //inboundType:String , //he type of Inbound (DDEP API | User API | SFTP/FTP)
     ftp_server_link:String,
     host: String,
     ftp_port:String,
@@ -24,6 +30,10 @@ const InboundSettingSchema = mongoose.Schema({
         type: String,
         default:'Inactive'
     }
+    // isActive:{
+    //     type: String,
+    //     default:'Inactive'
+    //}
 
 },{
     timestamps: true

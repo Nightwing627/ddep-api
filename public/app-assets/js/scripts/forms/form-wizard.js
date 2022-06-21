@@ -362,6 +362,8 @@ $(function () {
                       $('#is_password_encrypted option[value="'+response.is_password_encrypted+'"]').prop('selected',true);
                       $('#is_password_encrypted').trigger('change');
                       console.log(response.is_active);
+
+                      //Thomas I changed Active evenet.
                       if(response.is_active=="Active")
                       {
                         $('#is_active_inbound').addClass('btn-success');
@@ -370,9 +372,9 @@ $(function () {
                       }
                       else
                       {
-                        $('#is_active_inbound').removeClass('btn-success');
-                        $('#is_active_inbound').data('value','Inactive');
-                        $('#is_active_inbound').html('Inactive');
+                        $('#is_active_inbound').addClass('btn-success');      //removeClass
+                        $('#is_active_inbound').data('value','Active');       //Inactive
+                        $('#is_active_inbound').html('Active');               //Inactive
                       }
                     }
                     //console.log(response);
@@ -644,15 +646,20 @@ $(function () {
                 // var api_ddep_api_get_or_post = $('input[name="api_ddep_api_get_or_post"]:checked').val();
                 var api_ddep_api_receive_parameter_name = $('#api_ddep_api_receive_parameter_name').val();
                 var api_type = $('input[name="api_type"]:checked').val();
-                if(api_type == 'DDEP_API')
+                if(sync_type=="API" && api_type == 'DDEP_API')
                 {
                   $('#inbound_shedule_setting_tab').hide();
                   $('#outbound_shedule_setting_tab').hide();
                 }
-                if(api_type == 'User_API')
+                if(sync_type=="API" && api_type == 'User_API')
                 {
                   $('#inbound_shedule_setting_tab').show();
                   $('#outbound_shedule_setting_tab').hide();
+                }
+                if(sync_type=="FTP")
+                {
+                  $('#inbound_shedule_setting_tab').show();
+                  $('#outbound_shedule_setting_tab').show();
                 }
                 if(inbound_setting_id=="")
                 {
@@ -742,7 +749,7 @@ $(function () {
                     success:function(response){
                       //console.log(response);
                       //alert("Setting saved successfully");
-                      $("#outbound_setting_id").val(response.id);
+                      $("#outbound_setting_id").val(outbound_setting_id);
                       numberedStepper.next();
                     },
                     error:function(textStatus,errorThrown)
@@ -1950,4 +1957,5 @@ $('body').on('change', 'input:radio[name=api_type]', function() {
     $('#api_ddep_api_input').show();
     $('#api_user_api_input').hide();
   }
+  
 });

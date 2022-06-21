@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
+    <meta name="keywords" content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
+    <meta name="author" content="PIXINVENT">
+    <title>Form Wizard - Vuexy - Bootstrap HTML admin template</title>
+    <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/ico/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
+
+    <!-- BEGIN: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/wizard/bs-stepper.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/select/select2.min.css">
+	<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/pickadate/pickadate.css">
+	 <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
+    <!-- END: Vendor CSS-->
+
+    <!-- BEGIN: Theme CSS-->
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap-extended.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/colors.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/components.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/dark-layout.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/bordered-layout.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/semi-dark-layout.css">
+
+    <!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/vertical-menu.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/form-validation.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/form-wizard.css">
+	<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/pickers/form-flat-pickr.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/pickers/form-pickadate.css">
+    <!-- END: Page CSS-->
+
+    <!-- BEGIN: Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
+    <!-- END: Custom CSS-->
+
+</head>
+<!-- END: Head-->
+
+<!-- BEGIN: Body-->
+
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="">
+
+    <!-- BEGIN: Header-->
+    <nav class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow">
+        <div class="navbar-container d-flex content">
+            <div class="bookmark-wrapper d-flex align-items-center">
+                <ul class="nav navbar-nav d-xl-none">
+                    <li class="nav-item"><a class="nav-link menu-toggle" href="javascript:void(0);"><i class="ficon" data-feather="menu"></i></a></li>
+                </ul>
+                <ul class="nav navbar-nav bookmark-icons">
+                    <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-email.html" data-toggle="tooltip" data-placement="top" title="Email"><i class="ficon" data-feather="mail"></i></a></li>
+                    <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-chat.html" data-toggle="tooltip" data-placement="top" title="Chat"><i class="ficon" data-feather="message-square"></i></a></li>
+                    <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-calendar.html" data-toggle="tooltip" data-placement="top" title="Calendar"><i class="ficon" data-feather="calendar"></i></a></li>
+                    <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-todo.html" data-toggle="tooltip" data-placement="top" title="Todo"><i class="ficon" data-feather="check-square"></i></a></li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li class="nav-item d-none d-lg-block"><a class="nav-link bookmark-star"><i class="ficon text-warning" data-feather="star"></i></a>
+                        <div class="bookmark-input search-input">
+                            <div class="bookmark-input-icon"><i data-feather="search"></i></div>
+                            <input class="form-control input" type="text" placeholder="Bookmark" tabindex="0" data-search="search">
+                            <ul class="search-list search-list-bookmark"></ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <ul class="nav navbar-nav align-items-center ml-auto">
+                <li class="nav-item dropdown dropdown-language"><a class="nav-link dropdown-toggle" id="dropdown-flag" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="flag-icon flag-icon-us"></i><span class="selected-language">English</span></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-flag"><a class="dropdown-item" href="javascript:void(0);" data-language="en"><i class="flag-icon flag-icon-us"></i> English</a><a class="dropdown-item" href="javascript:void(0);" data-language="fr"><i class="flag-icon flag-icon-fr"></i> French</a><a class="dropdown-item" href="javascript:void(0);" data-language="de"><i class="flag-icon flag-icon-de"></i> German</a><a class="dropdown-item" href="javascript:void(0);" data-language="pt"><i class="flag-icon flag-icon-pt"></i> Portuguese</a></div>
+                </li>
+                <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-style"><i class="ficon" data-feather="moon"></i></a></li>
+                <li class="nav-item nav-search"><a class="nav-link nav-link-search"><i class="ficon" data-feather="search"></i></a>
+                    <div class="search-input">
+                        <div class="search-input-icon"><i data-feather="search"></i></div>
+                        <input class="form-control input" type="text" placeholder="Explore Vuexy..." tabindex="-1" data-search="search">
+                        <div class="search-input-close"><i data-feather="x"></i></div>
+                        <ul class="search-list search-list-main"></ul>
+                    </div>
+                </li>
+                <li class="nav-item dropdown dropdown-cart mr-25"><a class="nav-link" href="javascript:void(0);" data-toggle="dropdown"><i class="ficon" data-feather="shopping-cart"></i><span class="badge badge-pill badge-primary badge-up cart-item-count">6</span></a>
+                    <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
+                        <li class="dropdown-menu-header">
+                            <div class="dropdown-header d-flex">
+                                <h4 class="notification-title mb-0 mr-auto">My Cart</h4>
+                                <div class="badge badge-pill badge-light-primary">4 Items</div>
+                            </div>
+                        </li>
+                        <li class="scrollable-container media-list">
+                            <div class="media align-items-center"><img class="d-block rounded mr-1" src="../../../app-assets/images/pages/eCommerce/1.png" alt="donuts" width="62">
+                                <div class="media-body"><i class="ficon cart-item-remove" data-feather="x"></i>
+                                    <div class="media-heading">
+                                        <h6 class="cart-item-title"><a class="text-body" href="app-ecommerce-details.html"> Apple watch 5</a></h6><small class="cart-item-by">By Apple</small>
+                                    </div>
+                                    <div class="cart-item-qty">
+                                        <div class="input-group">
+                                            <input class="touchspin-cart" type="number" value="1">
+                                        </div>
+                                    </div>
+                                    <h5 class="cart-item-price">$374.90</h5>
+                                </div>
+                            </div>
+                            <div class="media align-items-center"><img class="d-block rounded mr-1" src="../../../app-assets/images/pages/eCommerce/7.png" alt="donuts" width="62">
+                                <div class="media-body"><i class="ficon cart-item-remove" data-feather="x"></i>
+                                    <div class="media-heading">
+                                        <h6 class="cart-item-title"><a class="text-body" href="app-ecommerce-details.html"> Google Home Mini</a></h6><small class="cart-item-by">By Google</small>
+                                    </div>
+                                    <div class="cart-item-qty">
+                                        <div class="input-group">
+                                            <input class="touchspin-cart" type="number" value="3">
+                                        </div>
+                                    </div>
+                                    <h5 class="cart-item-price">$129.40</h5>
+                                </div>
+                            </div>
+                            <div class="media align-items-center"><img class="d-block rounded mr-1" src="../../../app-assets/images/pages/eCommerce/2.png" alt="donuts" width="62">
+                                <div class="media-body"><i class="ficon cart-item-remove" data-feather="x"></i>
+                                    <div class="media-heading">
+                                        <h6 class="cart-item-title"><a class="text-body" href="app-ecommerce-details.html"> iPhone 11 Pro</a></h6><small class="cart-item-by">By Apple</small>
+                                    </div>
+                                    <div class="cart-item-qty">
+                                        <div class="input-group">
+                                            <input class="touchspin-cart" type="number" value="2">
+                                        </div>
+                                    </div>
+                                    <h5 class="cart-item-price">$699.00</h5>
+                                </div>
+                            </div>
+                            <div class="media align-items-center"><img class="d-block rounded mr-1" src="../../../app-assets/images/pages/eCommerce/3.png" alt="donuts" width="62">
+                                <div class="media-body"><i class="ficon cart-item-remove" data-feather="x"></i>
+                                    <div class="media-heading">
+                                        <h6 class="cart-item-title"><a class="text-body" href="app-ecommerce-details.html"> iMac Pro</a></h6><small class="cart-item-by">By Apple</small>
+                                    </div>
+                                    <div class="cart-item-qty">
+                                        <div class="input-group">
+                                            <input class="touchspin-cart" type="number" value="1">
+                                        </div>
+                                    </div>
+                                    <h5 class="cart-item-price">$4,999.00</h5>
+                                </div>
+                            </div>
+                            <div class="media align-items-center"><img class="d-block rounded mr-1" src="../../../app-assets/images/pages/eCommerce/5.png" alt="donuts" width="62">
+                                <div class="media-body"><i class="ficon cart-item-remove" data-feather="x"></i>
+                                    <div class="media-heading">
+                                        <h6 class="cart-item-title"><a class="text-body" href="app-ecommerce-details.html"> MacBook Pro</a></h6><small class="cart-item-by">By Apple</small>
+                                    </div>
+                                    <div class="cart-item-qty">
+                                        <div class="input-group">
+                                            <input class="touchspin-cart" type="number" value="1">
+                                        </div>
+                                    </div>
+                                    <h5 class="cart-item-price">$2,999.00</h5>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="dropdown-menu-footer">
+                            <div class="d-flex justify-content-between mb-1">
+                                <h6 class="font-weight-bolder mb-0">Total:</h6>
+                                <h6 class="text-primary font-weight-bolder mb-0">$10,999.00</h6>
+                            </div><a class="btn btn-primary btn-block" href="app-ecommerce-checkout.html">Checkout</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown dropdown-notification mr-25"><a class="nav-link" href="javascript:void(0);" data-toggle="dropdown"><i class="ficon" data-feather="bell"></i><span class="badge badge-pill badge-danger badge-up">5</span></a>
+                    <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
+                        <li class="dropdown-menu-header">
+                            <div class="dropdown-header d-flex">
+                                <h4 class="notification-title mb-0 mr-auto">Notifications</h4>
+                                <div class="badge badge-pill badge-light-primary">6 New</div>
+                            </div>
+                        </li>
+                        <li class="scrollable-container media-list"><a class="d-flex" href="javascript:void(0)">
+                                <div class="media d-flex align-items-start">
+                                    <div class="media-left">
+                                        <div class="avatar"><img src="../../../app-assets/images/portrait/small/avatar-s-15.jpg" alt="avatar" width="32" height="32"></div>
+                                    </div>
+                                    <div class="media-body">
+                                        <p class="media-heading"><span class="font-weight-bolder">Congratulation Sam 🎉</span>winner!</p><small class="notification-text"> Won the monthly best seller badge.</small>
+                                    </div>
+                                </div>
+                            </a><a class="d-flex" href="javascript:void(0)">
+                                <div class="media d-flex align-items-start">
+                                    <div class="media-left">
+                                        <div class="avatar"><img src="../../../app-assets/images/portrait/small/avatar-s-3.jpg" alt="avatar" width="32" height="32"></div>
+                                    </div>
+                                    <div class="media-body">
+                                        <p class="media-heading"><span class="font-weight-bolder">New message</span>&nbsp;received</p><small class="notification-text"> You have 10 unread messages</small>
+                                    </div>
+                                </div>
+                            </a><a class="d-flex" href="javascript:void(0)">
+                                <div class="media d-flex align-items-start">
+                                    <div class="media-left">
+                                        <div class="avatar bg-light-danger">
+                                            <div class="avatar-content">MD</div>
+                                        </div>
+                                    </div>
+                                    <div class="media-body">
+                                        <p class="media-heading"><span class="font-weight-bolder">Revised Order 👋</span>&nbsp;checkout</p><small class="notification-text"> MD Inc. order updated</small>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="media d-flex align-items-center">
+                                <h6 class="font-weight-bolder mr-auto mb-0">System Notifications</h6>
+                                <div class="custom-control custom-control-primary custom-switch">
+                                    <input class="custom-control-input" id="systemNotification" type="checkbox" checked="">
+                                    <label class="custom-control-label" for="systemNotification"></label>
+                                </div>
+                            </div><a class="d-flex" href="javascript:void(0)">
+                                <div class="media d-flex align-items-start">
+                                    <div class="media-left">
+                                        <div class="avatar bg-light-danger">
+                                            <div class="avatar-content"><i class="avatar-icon" data-feather="x"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="media-body">
+                                        <p class="media-heading"><span class="font-weight-bolder">Server down</span>&nbsp;registered</p><small class="notification-text"> USA Server is down due to hight CPU usage</small>
+                                    </div>
+                                </div>
+                            </a><a class="d-flex" href="javascript:void(0)">
+                                <div class="media d-flex align-items-start">
+                                    <div class="media-left">
+                                        <div class="avatar bg-light-success">
+                                            <div class="avatar-content"><i class="avatar-icon" data-feather="check"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="media-body">
+                                        <p class="media-heading"><span class="font-weight-bolder">Sales report</span>&nbsp;generated</p><small class="notification-text"> Last month sales report generated</small>
+                                    </div>
+                                </div>
+                            </a><a class="d-flex" href="javascript:void(0)">
+                                <div class="media d-flex align-items-start">
+                                    <div class="media-left">
+                                        <div class="avatar bg-light-warning">
+                                            <div class="avatar-content"><i class="avatar-icon" data-feather="alert-triangle"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="media-body">
+                                        <p class="media-heading"><span class="font-weight-bolder">High memory</span>&nbsp;usage</p><small class="notification-text"> BLR Server using high memory</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="dropdown-menu-footer"><a class="btn btn-primary btn-block" href="javascript:void(0)">Read all notifications</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="user-nav d-sm-flex d-none"><span class="user-name font-weight-bolder">John Doe</span><span class="user-status">Admin</span></div><span class="avatar"><img class="round" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="40" width="40"><span class="avatar-status-online"></span></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-user"><a class="dropdown-item" href="page-profile.html"><i class="mr-50" data-feather="user"></i> Profile</a><a class="dropdown-item" href="app-email.html"><i class="mr-50" data-feather="mail"></i> Inbox</a><a class="dropdown-item" href="app-todo.html"><i class="mr-50" data-feather="check-square"></i> Task</a><a class="dropdown-item" href="app-chat.html"><i class="mr-50" data-feather="message-square"></i> Chats</a>
+                        <div class="dropdown-divider"></div><a class="dropdown-item" href="page-account-settings.html"><i class="mr-50" data-feather="settings"></i> Settings</a><a class="dropdown-item" href="page-pricing.html"><i class="mr-50" data-feather="credit-card"></i> Pricing</a><a class="dropdown-item" href="page-faq.html"><i class="mr-50" data-feather="help-circle"></i> FAQ</a><a class="dropdown-item" href="page-auth-login-v2.html"><i class="mr-50" data-feather="power"></i> Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <ul class="main-search-list-defaultlist d-none">
+        <li class="d-flex align-items-center"><a href="javascript:void(0);">
+                <h6 class="section-label mt-75 mb-0">Files</h6>
+            </a></li>
+        <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100" href="app-file-manager.html">
+                <div class="d-flex">
+                    <div class="mr-75"><img src="../../../app-assets/images/icons/xls.png" alt="png" height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">Two new item submitted</p><small class="text-muted">Marketing Manager</small>
+                    </div>
+                </div><small class="search-data-size mr-50 text-muted">&apos;17kb</small>
+            </a></li>
+        <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100" href="app-file-manager.html">
+                <div class="d-flex">
+                    <div class="mr-75"><img src="../../../app-assets/images/icons/jpg.png" alt="png" height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">52 JPG file Generated</p><small class="text-muted">FontEnd Developer</small>
+                    </div>
+                </div><small class="search-data-size mr-50 text-muted">&apos;11kb</small>
+            </a></li>
+        <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100" href="app-file-manager.html">
+                <div class="d-flex">
+                    <div class="mr-75"><img src="../../../app-assets/images/icons/pdf.png" alt="png" height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">25 PDF File Uploaded</p><small class="text-muted">Digital Marketing Manager</small>
+                    </div>
+                </div><small class="search-data-size mr-50 text-muted">&apos;150kb</small>
+            </a></li>
+        <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100" href="app-file-manager.html">
+                <div class="d-flex">
+                    <div class="mr-75"><img src="../../../app-assets/images/icons/doc.png" alt="png" height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">Anna_Strong.doc</p><small class="text-muted">Web Designer</small>
+                    </div>
+                </div><small class="search-data-size mr-50 text-muted">&apos;256kb</small>
+            </a></li>
+        <li class="d-flex align-items-center"><a href="javascript:void(0);">
+                <h6 class="section-label mt-75 mb-0">Members</h6>
+            </a></li>
+        <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100" href="app-user-view.html">
+                <div class="d-flex align-items-center">
+                    <div class="avatar mr-75"><img src="../../../app-assets/images/portrait/small/avatar-s-8.jpg" alt="png" height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">John Doe</p><small class="text-muted">UI designer</small>
+                    </div>
+                </div>
+            </a></li>
+        <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100" href="app-user-view.html">
+                <div class="d-flex align-items-center">
+                    <div class="avatar mr-75"><img src="../../../app-assets/images/portrait/small/avatar-s-1.jpg" alt="png" height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">Michal Clark</p><small class="text-muted">FontEnd Developer</small>
+                    </div>
+                </div>
+            </a></li>
+        <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100" href="app-user-view.html">
+                <div class="d-flex align-items-center">
+                    <div class="avatar mr-75"><img src="../../../app-assets/images/portrait/small/avatar-s-14.jpg" alt="png" height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">Milena Gibson</p><small class="text-muted">Digital Marketing Manager</small>
+                    </div>
+                </div>
+            </a></li>
+        <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100" href="app-user-view.html">
+                <div class="d-flex align-items-center">
+                    <div class="avatar mr-75"><img src="../../../app-assets/images/portrait/small/avatar-s-6.jpg" alt="png" height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">Anna Strong</p><small class="text-muted">Web Designer</small>
+                    </div>
+                </div>
+            </a></li>
+    </ul>
+    <ul class="main-search-list-defaultlist-other-list d-none">
+        <li class="auto-suggestion justify-content-between"><a class="d-flex align-items-center justify-content-between w-100 py-50">
+                <div class="d-flex justify-content-start"><span class="mr-75" data-feather="alert-circle"></span><span>No results found.</span></div>
+            </a></li>
+    </ul>
+    <!-- END: Header-->
+
+
+    <!-- BEGIN: Main Menu-->
+    <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
+         <div class="navbar-header">
+            <ul class="nav navbar-nav flex-row">
+                <li class="nav-item mr-auto"><a class="navbar-brand" href="index.html"><span class="brand-logo">
+                           </span>
+                        <h2 class="brand-text">Case Management </h2>
+					
+                    </a></li>
+                <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li>
+            </ul>
+        </div>
+        <div class="shadow-bottom"></div>
+       <div class="main-menu-content">
+            <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+			
+			<li class=" nav-item"><a class="d-flex align-items-center" href="index.html"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dashboards</span></a>
+                    
+                </li>
+			
+                  <li class=" navigation-header"><span data-i18n="Forms &amp; Tables">APPS &amp; PAGES</span><i data-feather="more-horizontal"></i>
+                </li>
+				<li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Case</span></a>
+                    <ul class="menu-content">
+                        <li ><a class="d-flex align-items-center" href="fileRecordList.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="filePreview.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Preview">Preview</span></a>
+                        </li>
+						<li class="active"><a class="d-flex align-items-center" href="fileAddRecord.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Add</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="fileEditRecord.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Edit">Edit</span></a>
+                        </li>
+                        
+						
+						<li ><a class="d-flex align-items-center" href="confict-search.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Confict Search</span></a>
+                        </li>
+						<li><a class="d-flex align-items-center" href="submit-approval.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Submit Approval</span></a>
+                        </li>
+                    </ul>
+                </li>
+				
+				  <li class=" nav-item"><a class="d-flex align-items-center" href="documentCenter.html"><i data-feather="save"></i><span class="menu-title text-truncate" data-i18n="Form Wizard">Document Center</span></a>
+                </li>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="email.html"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="Form Validation">Mail</span></a>
+                </li>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Invoice</span></a>
+                    <ul class="menu-content">
+                        <li ><a class="d-flex align-items-center" href="app-invoice-list.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
+                        </li>
+                        <li ><a class="d-flex align-items-center" href="app-invoice-preview.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Preview">Preview</span></a>
+                        </li>
+						<li ><a class="d-flex align-items-center" href="app-invoice-add.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Add</span></a>
+                        </li>
+                        <li ><a class="d-flex align-items-center" href="app-invoice-edit.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Edit">Edit</span></a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="app-todo.html"><i data-feather='file-plus'></i><span class="menu-title text-truncate" data-i18n="Table">Notes / Todo</span></a>
+                </li>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="finance.html"><i data-feather="grid"></i><span class="menu-title text-truncate" data-i18n="ag-grid">Finance</span></a>
+                </li>
+              
+            </ul>
+        </div>
+    </div>
+    <!-- END: Main Menu-->
+
+    <!-- BEGIN: Content-->
+    <div class="app-content content ">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper">
+             <div class="content-header row">
+                <div class="content-header-left col-md-9 col-12 mb-2">
+                    <div class="row breadcrumbs-top">
+                        <div class="col-12">
+                           
+                            <div class="breadcrumb-wrapper">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">Home
+                                    </li>
+                                    <li class="breadcrumb-item">Case
+                                    </li>
+									<li class="breadcrumb-item">Add
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-header-right text-md-right col-md-3 col-12 d-md-block d-none">
+                    <div class="form-group breadcrumb-right">
+         
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <!-- Horizontal Wizard -->
+
+                <!-- /Vertical Wizard -->
+
+                <!-- Modern Horizontal Wizard -->
+                <section class="modern-horizontal-wizard">
+                    <div class="bs-stepper wizard-modern modern-wizard-example">
+                        <div class="bs-stepper-header">
+                            <div class="step" data-target="#account-details-modern1">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">
+                                        <i data-feather="file-text" class="font-medium-3"></i>
+                                    </span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Select service</span>
+                                        <span class="bs-stepper-subtitle">Select service</span>
+                                    </span>
+                                </button>
+                            </div>
+							 <div class="line">
+                                <i data-feather="chevron-right" class="font-medium-2"></i>
+                            </div>
+                            <div class="step" data-target="#account-details-modern">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">
+                                        <i data-feather="user" class="font-medium-3"></i>
+                                    </span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Case Basic Information</span>
+                                        <span class="bs-stepper-subtitle">Add Case Basic Information</span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="line">
+                                <i data-feather="chevron-right" class="font-medium-2"></i>
+                            </div>
+                            <div class="step" data-target="#personal-info-modern">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">
+                                        <i data-feather="user" class="font-medium-3"></i>
+                                    </span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Conveyancing information</span>
+                                        <span class="bs-stepper-subtitle">Add Conveyancing information</span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="line">
+                                <i data-feather="chevron-right" class="font-medium-2"></i>
+                            </div>
+                            <div class="step" data-target="#address-step-modern">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">
+                                        <i data-feather="map-pin" class="font-medium-3"></i>
+                                    </span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Client Contact</span>
+                                        <span class="bs-stepper-subtitle">Add Client Contact</span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="line">
+                                <i data-feather="chevron-right" class="font-medium-2"></i>
+                            </div>
+                            <div class="step" data-target="#social-links-modern">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">
+                                        <i data-feather="link" class="font-medium-3"></i>
+                                    </span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Other Party</span>
+                                        <span class="bs-stepper-subtitle">Add Other Party</span>
+                                    </span>
+                                </button>
+                            </div>
+							<div class="line">
+                                <i data-feather="chevron-right" class="font-medium-2"></i>
+                            </div>
+							<div class="step" data-target="#social-links-modern1">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">
+                                        <i data-feather="link" class="font-medium-3"></i>
+                                    </span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Conflict Result</span>
+                                        <span class="bs-stepper-subtitle">Add Conflict Result</span>
+                                    </span>
+                                </button>
+                            </div>
+							<div class="line">
+                                <i data-feather="chevron-right" class="font-medium-2"></i>
+                            </div>
+							<div class="step" data-target="#social-links-modern2">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">
+                                        <i data-feather="link" class="font-medium-3"></i>
+                                    </span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Submit (Request for) Approval</span>
+                                        <span class="bs-stepper-subtitle">Add Submit (Request for) Approval</span>
+                                    </span>
+                                </button>
+                            </div>
+							
+                        </div>
+                        <div class="bs-stepper-content">
+						<div id="account-details-modern1" class="content">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Select service</h5>
+                                    <small class="text-muted">Select service</small>
+                                </div>
+                              
+								<div class="row">
+                        <div class="col-12">
+                            
+  
+                                   <div class="demo-inline-spacing">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+                                            <label class="custom-control-label" for="customRadio1">General</label>
+                                        </div>
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" checked>
+                                            <label class="custom-control-label" for="customRadio2">Conveyancing</label>
+                                        </div>
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input" >
+                                            <label class="custom-control-label" for="customRadio3">Trademark</label>
+                                        </div>
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio4" name="customRadio" class="custom-control-input" >
+                                            <label class="custom-control-label" for="customRadio4">Patent</label>
+                                        </div>
+										<div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio5" name="customRadio" class="custom-control-input" >
+                                            <label class="custom-control-label" for="customRadio5">Design</label>
+                                        </div>
+										<div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio6" name="customRadio" class="custom-control-input" >
+                                            <label class="custom-control-label" for="customRadio6">Litgation</label>
+                                        </div>
+                                   
+                            </div>
+                        </div>
+                    </div>
+					<hr/>
+							
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                           
+                            <div id="account-details-modern" class="content">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Case Basic Information</h5>
+                                    <small class="text-muted">Enter Case Basic Information</small>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-username">Open Form No.:</label>
+                                        <input type="text" id="modern-username" class="form-control"  />
+                                    </div>
+									  <div class="col-md-6 form-group">
+										<label for="fp-default">Keyword for Conflict Search:</label>
+										<input type="text" id="modern-username" class="form-control"  />
+                                </div>
+                                </div>
+                                
+								  <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-username">Client Code(Existing Client):</label>
+                                        <input type="text" id="modern-username" class="form-control"  />
+                                    </div>
+									  <div class="col-md-6 form-group">
+										<label for="fp-default">Introducer:</label>
+										<input type="text" id="modern-username" class="form-control"  />
+                                </div>
+                                </div>
+								
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-username">New Client(English):</label>
+                                        <input type="text" id="modern-username" class="form-control"  />
+                                    </div>
+									  <div class="col-md-6 form-group">
+										<label for="fp-default">Solicitor:</label>
+										<input type="text" id="modern-username" class="form-control"  />
+                                </div>
+                                </div>
+							
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-username">New Client(Chinese):</label>
+                                        <input type="text" id="modern-username" class="form-control"  />
+                                    </div>
+									  <div class="col-md-6 form-group">
+										<label for="fp-default">Partner:</label>
+										<input type="text" id="modern-username" class="form-control"  />
+                                </div>
+                                </div>
+								
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-username">Prefix for New Client Code:</label>
+                                        <input type="text" id="modern-username" class="form-control"  />
+                                    </div>
+									  <div class="col-md-6 form-group">
+										<label for="fp-default">Handler:</label>
+										<input type="text" id="modern-username" class="form-control"  />
+                                </div>
+                                </div>
+							
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-username">Re:</label>
+                                        <input type="text" id="modern-username" class="form-control"  />
+                                    </div>
+									  <div class="col-md-6 form-group">
+										<label for="fp-default">External Intro:</label>
+										<input type="text" id="modern-username" class="form-control"  />
+                                </div>
+                                </div>
+								
+									<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-username">Department:</label>
+                                        <input type="text" id="modern-username" class="form-control"  />
+                                    </div>
+									  <div class="col-md-6 form-group">
+										<label for="fp-default">Project:</label>
+										<input type="text" id="modern-username" class="form-control"  />
+                                </div>
+                                </div>
+								
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-username">Work Type:</label>
+                                        <input type="text" id="modern-username" class="form-control"  />
+                                    </div>
+									  <div class="col-md-6 form-group">
+										<label for="fp-default">Open Date:</label>
+										<input type="text" id="modern-username" class="form-control"  />
+                                </div>
+                                </div>
+								
+								
+									
+									<div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlTextarea1">Remark:</label>
+                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" ></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+									
+									<div class="row">
+                        <div class="col-12">
+                            
+  
+                                   
+									<div class="demo-inline-spacing">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio11" name="customRadio11" class="custom-control-input" >
+                                            <label class="custom-control-label" for="customRadio11">BJ Office</label>
+                                        </div>
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio12" name="customRadio11" class="custom-control-input">
+                                            <label class="custom-control-label" for="customRadio12">Engagement Letter</label>
+                                        </div>  
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio14" name="customRadio11" class="custom-control-input" >
+                                            <label class="custom-control-label" for="customRadio14">KYC checked</label>
+                                        </div>
+										<div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio13" name="customDisabledRadio" class="custom-control-input" disabled="">
+                                            <label class="custom-control-label" for="customRadio13">Not Applicable</label>
+                                        </div>
+										 <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio15" name="customDisabledRadio" class="custom-control-input" disabled="">
+                                            <label class="custom-control-label" for="customRadio15">Not Applicable</label>
+                                        </div>
+                                    </div>
+                               
+                        </div>
+                    </div>
+					
+					<hr/>
+									
+							
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev waves-effect waves-float waves-light" >
+                                        <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                           
+						   <div id="personal-info-modern" class="content">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Conveyancing information</h5>
+                                    <small>Enter Conveyancing information</small>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-first-name">Flat / No.*:</label>
+                                        <input type="text" id="modern-first-name" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-last-name">Roof</label>
+                                        <select class="form-control" id="basicSelect">
+                                            <option>No</option>
+                                            <option>Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-first-name">Car Park:</label>
+                                        <input type="text" id="modern-first-name" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-last-name">Floor</label>
+                                        <input type="text" id="modern-last-name" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-first-name">Block:</label>
+                                        <input type="text" id="modern-first-name" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-last-name">Building*:</label>
+                                         <select class="select2 form-control form-control-lg">
+                                                <option value="AK">Marine House</option>
+                                                <option value="HI">MAYFAIR BY THE SEA 8</option>
+                                                <option value="CA">Sunshine Building</option>
+                                                <option value="NV">Taikoo Shing - Chi Sing Mansion</option>
+                                                <option value="OR">Taikoo Shing - Hoi Sing Mansion</option>
+
+                                            </select>
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-first-name">Street:</label>
+                                        <input type="text" id="modern-first-name" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-last-name">District:</label>
+                                        <input type="text" id="modern-last-name" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-first-name">Region:</label>
+                                        <select class="select2 form-control form-control-lg">
+                                                <option value="AK">CS_REGION</option>
+                                                <option value="HI">HK</option>
+                                                <option value="CA">KLN</option>
+                                                <option value="NV">NT</option>
+                                            </select>
+                                    </div>
+                                   
+                                </div>
+								
+
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="address-step-modern" class="content">
+							
+							
+							
+                                <div class="content-header">
+                                    <h5 class="mb-0">Client Contact</h5>
+                                    <small>Add Client Contact</small>
+                                </div>
+                                
+							
+								 <div class="row">
+                        <div class="col-12">
+                            
+                                    <form class="form">
+                                        <div class="row">
+ 
+											<div class="form-group col-md-6">
+												<label class="form-label" for="modern-first-name">Contact Person:</label>
+												<input type="text" id="modern-first-name" class="form-control"  />
+											</div>
+											<div class="form-group col-md-6">
+												<label class="form-label" for="modern-last-name">Comm.Rate:</label>
+												<input type="text" id="modern-last-name" class="form-control"  />
+											</div>
+											<div class="form-group col-md-6">
+												<label class="form-label" for="modern-first-name">Telephone:</label>
+												<input type="text" id="modern-first-name" class="form-control"  />
+											</div>
+											<div class="form-group col-md-6">
+												<label class="form-label" for="modern-last-name">Fax:</label>
+												<input type="text" id="modern-last-name" class="form-control"  />
+											</div>
+											<div class="form-group col-md-6">
+												<label class="form-label" for="modern-first-name">Email:</label>
+												<input type="text" id="modern-first-name" class="form-control"  />
+											</div>
+											<div class="form-group col-md-6">
+												<label class="form-label" for="modern-last-name">ID / Passport No.:</label>
+												<input type="text" id="modern-last-name" class="form-control"  />
+											</div>
+											<div class="form-group col-md-12">
+												<label class="form-label" for="modern-first-name">Address:</label>
+												<input type="text" id="modern-first-name" class="form-control"  />
+											</div>
+											<div class="form-group col-md-12">
+												<label class="form-label" for="modern-last-name">Legal aid ref.:</label>
+												<input type="text" id="modern-last-name" class="form-control"  />
+											</div>
+											
+										
+                                        
+                                 
+					
+					
+                                           
+                                          
+                                        </div>
+                                    </form>
+                             
+                        </div>
+                    </div>
+              
+                   
+              
+              
+                               
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="social-links-modern" class="content">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Other Party</h5>
+                                    <small>Add Other Party</small>
+                                </div>
+                               
+                             <section class="form-control-repeater">
+                    <div class="row">
+                        <!-- Invoice repeater -->
+                        <div class="col-12">
+                            
+                                    <form action="#" class="invoice-repeater">
+                                        <div data-repeater-list="invoice">
+                                            <div data-repeater-item>
+                                                <div class="row d-flex align-items-end">
+                                                    <div class="col-md-4 col-12">
+                                                        <div class="form-group">
+                                                            <label for="itemname">Role</label>
+                                                            <input type="text" class="form-control" id="itemname" aria-describedby="itemname"  />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-2 col-12">
+                                                        <div class="form-group">
+                                                            <label for="itemcost">Party Name</label>
+                                                            <input type="number" class="form-control" id="itemcost" aria-describedby="itemcost"  />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-2 col-12">
+                                                        <div class="form-group">
+                                                            <label for="itemquantity">Keyword-Conflict Search</label>
+                                                            <input type="number" class="form-control" id="itemquantity" aria-describedby="itemquantity"  />
+                                                        </div>
+                                                    </div>
+													<div class="col-md-2 col-12">
+                                                        <div class="form-group">
+                                                            <label for="itemquantity">Contact Person</label>
+                                                            <input type="number" class="form-control" id="itemquantity" aria-describedby="itemquantity"  />
+                                                        </div>
+                                                    </div>
+													
+													<div class="col-md-2 col-12">
+                                                        <div class="form-group">
+                                                            <label for="itemquantity">Tel</label>
+                                                            <input type="number" class="form-control" id="itemquantity" aria-describedby="itemquantity"  />
+                                                        </div>
+                                                    </div>
+													<div class="col-md-2 col-12">
+                                                        <div class="form-group">
+                                                            <label for="itemquantity">Fax</label>
+                                                            <input type="number" class="form-control" id="itemquantity" aria-describedby="itemquantity"  />
+                                                        </div>
+                                                    </div>
+													<div class="col-md-2 col-12">
+                                                        <div class="form-group">
+                                                            <label for="itemquantity">Email</label>
+                                                            <input type="number" class="form-control" id="itemquantity" aria-describedby="itemquantity"  />
+                                                        </div>
+                                                    </div>
+													<div class="col-md-6 col-12">
+                                                        <div class="form-group">
+                                                            <label for="itemquantity">Address</label>
+                                                            <input type="number" class="form-control" id="itemquantity" aria-describedby="itemquantity"  />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-2 col-12 mb-50">
+                                                        <div class="form-group">
+                                                            <button class="btn btn-outline-danger text-nowrap px-1" data-repeater-delete type="button">
+                                                                <i data-feather="x" class="mr-25"></i>
+                                                                <span>Delete</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+											<div class="d-flex justify-content-between">
+												<button class="btn btn-icon btn-primary" type="button" data-repeater-create>
+                                                    <i data-feather="plus" class="mr-25"></i>
+                                                    <span>Add New</span>
+                                                </button>
+											</div>
+                                                <hr />
+											<div class="d-flex justify-content-between">
+												<button class="btn btn-primary btn-prev">
+													<i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+													<span class="align-middle d-sm-inline-block d-none">Previous</span>
+												</button>
+												<button class="btn btn-primary btn-next">
+													<span class="align-middle d-sm-inline-block d-none">Next</span>
+													<i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+												</button>
+											</div>
+                                            </div>
+                                        </div>
+                                    </form>
+                             
+                        </div>
+                        <!-- /Invoice repeater -->
+                    </div>
+                </section>
+
+								
+							
+                              
+                            </div>
+							
+							<div id="social-links-modern1" class="content">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Conflict Result</h5>
+                                    <small>Enter Conflict Result</small>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-twitter">Report on Conflict Search List:</label>
+                                        <input type="text" id="modern-twitter" class="form-control" value="SearchCase-T2000001/20200815000001.pdf" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-facebook">Last Search By:</label>
+                                        <input type="text" id="modern-facebook" class="form-control" value="Patti" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Last Search Date:</label>
+                                        <input type="text" id="modern-google" class="form-control" value="15/Aug/2020 14:23:00" />
+                                    </div>
+									
+									
+									  
+								 
+                                  
+                                   
+                               
+									
+									
+								
+                                   
+                                </div>
+								
+								<div class="d-flex justify-content-between">
+                                     <button class="btn btn-primary">
+                                        <span class="align-middle d-sm-inline-block d-none">Print Name List</span>
+                                       
+                                    </button>
+                                </div>
+								<hr/>
+								
+								<div class="table-responsive">
+                                <table class="table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-nowrap">Name</th>
+                                            <th class="text-nowrap">No. of Case(ACC)</th>
+											<th class="text-nowrap"></th>
+                                            <th class="text-nowrap"></th>
+                                            <th class="text-nowrap">No.of Record (TM)</th>
+                                            <th class="text-nowrap"></th>
+											<th class="text-nowrap"></th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+										<td class="text-nowrap"><span class="badge badge-pill badge-light-success mr-1">ROYAL AND SUN COMPANY LIMITED</span></td>
+                                            <td class="text-nowrap"></td>
+											<td class="text-nowrap" ><button type="button" class="btn btn-info waves-effect waves-float waves-light">...</button></td>
+											<td class="text-nowrap"><button type="button" class="btn btn-info waves-effect waves-float waves-light">Print</button></td>
+											<td class="text-nowrap"></td>
+											<td class="text-nowrap" ><button type="button" class="btn btn-info waves-effect waves-float waves-light">...</button></td>
+											<td class="text-nowrap"><button type="button" class="btn btn-info waves-effect waves-float waves-light">Print</button></td>
+						
+											
+                                        </tr>
+										<tr>
+										<td class="text-nowrap"><span class="badge badge-pill badge-light-primary mr-1">AIRWAIR INTERNATIONAL LTD.</span></td>
+                                            <td class="text-nowrap">1</td>
+											<td class="text-nowrap" ><button type="button" class="btn btn-info waves-effect waves-float waves-light">...</button></td>
+											<td class="text-nowrap"><button type="button" class="btn btn-info waves-effect waves-float waves-light">Print</button></td>
+											<td class="text-nowrap"></td>
+											<td class="text-nowrap" ><button type="button" class="btn btn-info waves-effect waves-float waves-light">...</button></td>
+											<td class="text-nowrap"><button type="button" class="btn btn-info waves-effect waves-float waves-light">Print</button></td>
+						
+											
+                                        </tr>
+										
+										<tr>
+										<td class="text-nowrap"><span class="badge badge-pill badge-light-primary mr-1">ESUN HOLDINGS LIMITED</span></td>
+                                            <td class="text-nowrap">1</td>
+											<td class="text-nowrap" ><button type="button" class="btn btn-info waves-effect waves-float waves-light">...</button></td>
+											<td class="text-nowrap"><button type="button" class="btn btn-info waves-effect waves-float waves-light">Print</button></td>
+											<td class="text-nowrap"></td>
+											<td class="text-nowrap" ><button type="button" class="btn btn-info waves-effect waves-float waves-light">...</button></td>
+											<td class="text-nowrap"><button type="button" class="btn btn-info waves-effect waves-float waves-light">Print</button></td>
+						
+											
+                                        </tr>
+										
+										     
+                                    </tbody>
+                                </table>
+                            </div>
+							
+							
+							
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+							
+							<div id="social-links-modern2" class="content">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Submit (Request for) Approval</h5>
+                                    <small>Enter Submit (Request for) Approval</small>
+                                </div>
+								
+								<div class="card">
+									<div class="card-header">
+										<h4 class="card-title">Approver: </h4>
+                            </div>
+                                    <div class="form-group col-md-6">
+                     
+                                        <input type="text" id="modern-twitter" class="form-control" value="CW" />
+										<input type="text" id="modern-twitter" class="form-control" value="CLERESAWONG" />
+                                    </div>
+
+                             
+                                </div>
+								
+                            
+								  <div class=" justify-content-between">
+                                    <button class="btn btn-primary ">
+                                        <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Submit</span>
+                                    </button>
+                                    <button class="btn btn-primary">
+                                        <span class="align-middle d-sm-inline-block d-none">Cancal Request</span>
+                                        <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+                                    </button>
+                                </div>
+								<hr/>
+                                <div class="card">
+									<div class="card-header">
+                                <h4 class="card-title">Reference for Reject by submit(latest): -</h4>
+                            </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Rejected by:</label>
+                                        <input type="text" readonly="readonly" id="modern-google" class="form-control" value="CLERESA WONG" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Reject Date:</label>
+                                        <input type="text" readonly="readonly" id="modern-linkedin" class="form-control" value="20/Aug/2020 15:23:00" />
+                                    </div>
+								
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Reason:</label>
+                                        <input type="text" readonly="readonly" id="modern-google" class="form-control" value="Run Conflict Search and submit again"  />
+                                    </div>
+
+                             
+                                </div>
+								
+							
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    
+                                </div>
+                            </div>
+							
+							<div id="social-links-modern3" class="content">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Details Of The Property</h5>
+                                    <small>Enter Details Of The Property</small>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-twitter">Falt:</label>
+                                        <input type="text" id="modern-twitter" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-facebook">Floor:</label>
+                                        <input type="text" id="modern-facebook" class="form-control"  />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Floor Eng:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Tower:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Undivided Share:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Including:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Saleable Area:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Saleable Area Ft:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div><div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Balcony:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Balcony Ft:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div><div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Utility Platform:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Utility Platform Ft:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div><div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Verandah:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Verandah Ft:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Air-conditioning Plant Room:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Air-conditioning Plant Room Ft:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Air-conditioning Platform:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Air-conditioning Platform Ft:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Bay Window:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Bay Window Ft:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Cockloft:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Cockloft Ft:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Flat Roof:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Flat Roof Ft:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Garden:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Garden Ft:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Parking Space:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Parking Space Ft:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Roof:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Roof Ft:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Stairhood:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Stairhood Ft:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Terrace:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Terrace Ft:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Yard:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Yard Ft:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Car Park:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Motor Cyde:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">CP Floor:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">CP Floor Eng:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Car Park Area:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Car Park Ft:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Motor Cyde Area:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Car Park Ft:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                     <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+							
+							
+							
+							<div id="social-links-modern4" class="content">
+                                <div class="content-header">
+                                    <h5 class="mb-0">1st Mortgage</h5>
+                                    <small>Enter 1st Mortgage</small>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-twitter">Lender:</label>
+                                        <input type="text" id="modern-twitter" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-facebook">Lender Ref:</label>
+                                        <input type="text" id="modern-facebook" class="form-control"  />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Lender Fax:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Mortgage Loan:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Borrower 1:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Borrower 1 C:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">B 1 HKID:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Borrower 2:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Borrower 2 C:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">B 2 HKID:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Borrower 3:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Borrower 3 C:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">B 3 HKID:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Guarantor 1:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Guarantor 1 C:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">G 1 HKID:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Guarantor 2:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Guarantor 2 C:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">G 2 HKID:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Guarantor 3:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">Guarantor 3 C:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">G 3 HKID:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">EM Memorial No.:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                     <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+							
+							<div id="social-links-modern5" class="content">
+                                <div class="content-header">
+                                    <h5 class="mb-0">2st Mortgage</h5>
+                                    <small>Enter 2st Mortgage</small>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-twitter">M 2nd Lender:</label>
+                                        <input type="text" id="modern-twitter" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-facebook">M 2nd Lender Ref:</label>
+                                        <input type="text" id="modern-facebook" class="form-control"  />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">M 2nd Mortgage Loan:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">M 2nd Guarantor 1:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">M 2nd Guarantor 1 C:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">M 2nd G 1 HKID:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">M 2nd Guarantor 2:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">M 2nd Guarantor 2 C:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+								<div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-google">M 2nd G 2 HKID:</label>
+                                        <input type="text" id="modern-google" class="form-control"  />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="modern-linkedin">M 2EM Memorial No.:</label>
+                                        <input type="text" id="modern-linkedin" class="form-control"  />
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-success btn-submit">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- /Modern Horizontal Wizard -->
+
+
+                <!-- /Modern Vertical Wizard -->
+
+            </div>
+        </div>
+    </div>
+    <!-- END: Content-->
+
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+
+    <!-- BEGIN: Footer-->
+    <footer class="footer footer-static footer-light">
+        <p class="clearfix mb-0"><span class="float-md-left d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2020<a class="ml-25" href="https://1.envato.market/pixinvent_portfolio" target="_blank">Pixinvent</a><span class="d-none d-sm-inline-block">, All rights Reserved</span></span><span class="float-md-right d-none d-md-block">Hand-crafted & Made with<i data-feather="heart"></i></span></p>
+    </footer>
+    <button class="btn btn-primary btn-icon scroll-top" type="button"><i data-feather="arrow-up"></i></button>
+    <!-- END: Footer-->
+
+
+    <!-- BEGIN: Vendor JS-->
+    <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
+    <!-- BEGIN Vendor JS-->
+
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+    <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+    <script src="../../../app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+	
+	<script src="../../../app-assets/vendors/js/pickers/pickadate/picker.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.time.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/pickadate/legacy.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+    <!-- END: Page Vendor JS-->
+
+    <!-- BEGIN: Theme JS-->
+    <script src="../../../app-assets/js/core/app-menu.js"></script>
+    <script src="../../../app-assets/js/core/app.js"></script>
+    <!-- END: Theme JS-->
+
+    <!-- BEGIN: Page JS-->
+    <script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
+	<script src="../../../app-assets/js/scripts/forms/pickers/form-pickers.js"></script>
+	 <script src="../../../app-assets/js/scripts/forms/form-repeater.js"></script>
+	  <script src="../../../app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
+    <!-- END: Page JS-->
+
+    <script>
+        $(window).on('load', function() {
+            if (feather) {
+                feather.replace({
+                    width: 14,
+                    height: 14
+                });
+            }
+        })
+    </script>
+</body>
+<!-- END: Body-->
+
+</html>

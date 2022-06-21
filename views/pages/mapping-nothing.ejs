@@ -1,0 +1,1436 @@
+<!-- BEGIN: Vendor CSS-->
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/vendors.min.css">
+<link rel="stylesheet" type="text/css" href="app-assets/fonts/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/tables/datatable/datatables.min.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/tables/datatable/extensions/dataTables.checkboxes.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/forms/wizard/bs-stepper.min.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/tables/datatable/responsive.bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/extensions/jstree.min.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/pickers/pickadate/pickadate.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/extensions/sweetalert2.min.css">
+<!-- END: Vendor CSS-->
+
+<!-- BEGIN: Theme CSS-->
+<link rel="stylesheet" type="text/css" href="app-assets/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/bootstrap-extended.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/colors.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/components.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/themes/dark-layout.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/themes/bordered-layout.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/themes/semi-dark-layout.css">
+
+<!-- BEGIN: Page CSS-->
+<link rel="stylesheet" type="text/css" href="app-assets/css/core/menu/menu-types/vertical-menu.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/pages/app-invoice-list.css">
+<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/forms/select/select2.min.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/forms/pickers/form-flat-pickr.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/forms/pickers/form-pickadate.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/extensions/ext-component-sweet-alerts.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/forms/form-validation.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/forms/form-wizard.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/extensions/ext-component-tree.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/forms/form-quill-editor.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/extensions/ext-component-toastr.css">
+<link rel="stylesheet" type="text/css" href="app-assets/css/pages/app-todo.css">
+
+<script type="text/javascript" src="app-assets/xmselect/qui/jquery-3.2.1.min.js"></script>
+
+
+<link rel="stylesheet" type="text/css" href="app-assets/css/plugins/forms/form-file-uploader.css">
+
+<!-- END: Page CSS-->
+
+<!-- BEGIN: Custom CSS-->
+<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+<!-- END: Custom CSS-->
+
+
+<link rel="stylesheet" href="assets/css/style.css"/> 
+<script src="assets/js/go.js"></script>
+
+<div class="row">
+    <div class="col-6">
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Inbound Format</label>
+            <textarea class="form-control" id="InboundFormat" rows="10"></textarea>
+            <div class="col-md-12 text-right">
+
+            
+<br/>
+                <a href="#"  onclick="saveBGRSJSON()" id="InboundJson">Download Json</a>
+                <button type="button" class="btn btn-outline-primary  waves-effect" id="changeForm" onclick="AddInboundSchema()">
+                    Upload
+                </button>
+        
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-6">
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Outbound Format</label>
+            <textarea class="form-control" id="OutboundFormat" rows="10" ></textarea>
+            <div class="col-md-12 text-right">
+
+            
+<br/>
+                <a href="#"  id="OutboundJson" onclick="saveiRMSJSON()">Download Json</a>
+                <button type="button" class="btn btn-outline-primary  waves-effect" id="changeForm" onclick="AddOutboundSchema()">
+                    Upload
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+<!-- * * * * * * * * * * * * * -->
+<!-- Start of GoJS sample code -->
+
+<script src="assets/js/go.js"></script>
+
+
+<div id="myDiagramDiv" style="margin-left:16px;border-radius: 8px;border: 1px solid #CCC; width: 1000px; height: 1000px" class="col-md-11"></div>
+<div class="col-md-3" style="display:none">
+<div class="card">
+<div class="card-header">
+<h4 class="card-title">Properties</h4>
+</div>
+<table class="datatables-basic table">
+
+
+<tbody>
+<tr >
+<td style="font-weight:bold;font-size:15px;">General</td>
+<td></td>
+</tr>
+<tr >
+<td class="td">Item</td>
+<td>InitiationBy</td>
+</tr>
+<tr >
+<td  style="font-weight:bold;font-size:15px;">Linked Items</td>
+<td></td>
+</tr>
+<tr >
+<td >Key</td>
+<td>Name</td>
+</tr>
+<tr >
+<td class="td">First Name</td>
+<td>val1</td>
+</tr>
+<tr >
+<td class="td">Last Name</td>
+<td>val2</td>
+</tr>
+<tr >
+<td style="font-weight:bold;font-size:15px;">Display</td>
+<td></td>
+</tr>
+<tr >
+<td class="td">Value</td>
+<td><div >
+<input style="border: 0;" type="text" name="alertsEmail" id="alertsEmail" class="form-control"   value="{val1},{val2}">
+</div></td>
+</tr>
+<tr >
+<td style="font-weight:bold;font-size:15px;">Validation</td>
+<td></td>
+</tr>
+<tr >
+<td class="td">is Required?</td>
+<td><div >
+<input style="border: 0;" type="text" name="alertsEmail" id="alertsEmail" class="form-control"   value="FALSE">
+</div></td>
+</tr>
+<tr >
+<td>Additional Rules</td>
+<td></td>
+</tr>
+<tr >
+<td style="font-weight:bold;font-size:15px;">Format</td>
+<td></td>
+</tr>
+<tr >
+<td class="td">TRIM</td>
+<td><div >
+<input style="border: 0;" type="text" name="alertsEmail" id="alertsEmail" class="form-control" value="FALSE"  >
+</div></td>
+</tr>
+<tr >
+<td class="td">Additional Rules</td>
+<td ></td>
+</tr>		
+
+</tbody>
+</table>
+</div>
+
+</div>
+
+<div id="sample">
+
+
+<p>
+
+<div  style="display: none;">
+This sample supports three different routing styles:<br>
+<input type="radio" name="MyRoutingStyle" onclick="changeStyle()" value="Normal" />
+"Normal"<br>
+<input type="radio" name="MyRoutingStyle" onclick="changeStyle()" value="ToGroup" checked="checked"/>
+"ToGroup", where the links stop at the border of the group<br>
+<input type="radio" name="MyRoutingStyle" onclick="changeStyle()" value="ToNode" />
+"ToNode", where the links bend at the border of the group but go all the way to the node, as normal<br>
+</div>
+</p>
+<span style="display:none">Godmark : This is GOJS after drag and drop result you need to Save in Database</span>
+<textarea id="mySavedModel" style="width:100%;height:300px;display:none"></textarea>
+<input type="text" id="mySavedModel2" style="width:100%;height:300px;display:none"/>
+
+</div>
+</div>
+
+<script>
+	
+
+	//Godmark : i will add "Godmark" in which related GOJS coding to let you know what is doing
+	
+	//Godmark : this is the Left & Right Box Title on GOJS 
+	var LeftSideName = "Inbound Source Schema";
+	var RightSideName = "Outbound Source Schema"
+
+	// Godmark: this function is no use as this moment
+	const JsonToArray = obj => {
+	   const keys = Object.keys(obj);
+	   const res = [];
+	   for(let i = 0; i < keys.length; i++){
+		  res.push(obj[keys[i]]);
+	   };
+	   return res;
+	};
+	
+	// Godmark : hardcode defined the "InboundJson Format"
+	var InboundJson = {
+    "bgrsFileNumber":null,
+    "formUID":null,
+    "updateTimestamp":"0001-01-01T00:00:00+00:00",
+    "supplierInfo": {
+    	"CoordinatorName":null,
+    	"CoordinatorPhone":null,
+    	"CoordinatorEmail":null,
+    	"FileID":null
+    }
+}
+	/* this is another example
+	var InboundJson = 
+	{
+	  "BGRSFileNumber":"8392165",
+	  "ClientParentCompany":"10362",
+	  "BGRSConsultantFirstName":"Jane",
+	  "BGRSConsultantPhone":"987-654-3210",
+	  "BGRSConsultantEmail":"Jane.Doe@bgrs.com",
+	  "PendingStartDate":"2020-07-22T00:00:00",
+	  "PendingEndDate":"2020-07-22T00:00:00",
+	  "Assignee":{
+		  "FirstName":"Peter",
+		  "LastName":"Bell",
+		  "MobilePhone":"",
+		  "OfficePhone":"2134569877",
+		  "HomeDestinationPhone":null,
+		  "OfficeDestinationPhone":null,
+		  "Email":"psmith@gmail.com",
+		  "MaritalStatus":"Married",
+		  "Citizenship":"American",
+		  "JobTitle":"VP",
+		  "IsSOX":true,
+	  }
+	}*/
+	
+
+	// Godmark : hardcode defined the OutboundJson Format
+	var OutboundJson =  {
+    "bgrsFileNumber":null,
+    "formUID":null,
+    "updateTimestamp":"0001-01-01T00:00:00+00:00",
+    "supplierCoordinatorName":null,
+    "supplierCoordinatorPhone":null,
+    "supplierCoordinatorEmail":null,
+    "supplierFileID":null
+}
+	
+	/* this is another example
+	var OutboundJson =  {
+	    "InitiationBy":{
+	        "OrderCode":"",
+	        "InitiationBy":"",
+	        "Email":"",
+	        "PhoneCountryIdd":"",
+	        "PhoneCityIdd":"",
+	        "Phone":"",
+	        "MobileCountryIdd":"",
+	        "MobileCityIdd":"",
+	        "Mobile":"",
+	        "FaxCountryIdd":"",
+	        "FaxCityIdd":"",
+	        "Fax":"",
+	        "CompanyReference":"",
+	        "SuppressWFEmailToHRFg":""
+	    },
+	    "InitiationTransferee":{
+	        "FirstName":"",
+	        "LastName":"",
+	        "Email":"",
+			"OriginMobilePhone":"",
+			"OriginPhone":"",
+			"DestinationPhone":"",
+			"MaritalStatus":"",
+	        "AssignmentDateFrom":"",
+	        "AssignmentDateTo":"",  
+	        "Nationality":"",
+	        "DestinationNewPosition":"",
+	    },
+
+	}
+	*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+  // Godmark : this is GOJS default sample code
+  // Use a TreeNode so that when a node is not visible because a parent is collapsed,
+  // connected links seem to be connected with the lowest visible parent node.
+  // This also forces other links connecting with nodes in the group to be rerouted,
+  // because collapsing/expanding nodes will cause many nodes to move and to appear or disappear.
+  class TreeNode extends go.Node {
+    constructor() {
+      super();
+      this.treeExpandedChanged = node => {
+        if (node.containingGroup !== null) {
+          node.containingGroup.findExternalLinksConnected().each(l => l.invalidateRoute());
+        }
+      };
+    }
+
+    findVisibleNode() {
+      // redirect links to lowest visible "ancestor" in the tree
+      var n = this;
+      while (n !== null && !n.isVisible()) {
+        n = n.findTreeParentNode();
+      }
+      return n;
+    }
+  }
+  // end TreeNode
+
+  //Godmark : this is GOJS to control the layout type , you can review the example in https://gojs.net/latest/samples/treeMapper.html , there have ToGroup , Normal , ToNode 3 options there
+  // Control how Mapping links are routed:
+  // - "Normal": normal routing with fixed fromEndSegmentLength & toEndSegmentLength
+  // - "ToGroup": so that the link routes stop at the edge of the group,
+  //     rather than going all the way to the connected nodes
+  // - "ToNode": so that they go all the way to the connected nodes
+  //     but only bend at the edge of the group
+  var ROUTINGSTYLE = "ToGroup";
+
+  // Godmark : MappingLink Class
+  // If you want the regular routing where the Link.[from/to]EndSegmentLength controls
+  // the length of the horizontal segment adjacent to the port, don't use this class.
+  // Replace MappingLink with a go.Link in the "Mapping" link template.
+  class MappingLink extends go.Link {
+    getLinkPoint(node, port, spot, from, ortho, othernode, otherport) {
+      if (ROUTINGSTYLE !== "ToGroup") {
+        return super.getLinkPoint(node, port, spot, from, ortho, othernode, otherport);
+      } else {
+        var r = port.getDocumentBounds();
+        var group = node.containingGroup;
+        var b = (group !== null) ? group.actualBounds : node.actualBounds;
+        var op = othernode.getDocumentPoint(go.Spot.Center);
+        var x = (op.x > r.centerX) ? b.right : b.left;
+        return new go.Point(x, r.centerY);
+      }
+    }
+
+    computePoints() {
+      var result = super.computePoints();
+      if (result && ROUTINGSTYLE === "ToNode") {
+        var fn = this.fromNode;
+        var tn = this.toNode;
+        if (fn && tn) {
+          var fg = fn.containingGroup;
+          var fb = fg ? fg.actualBounds : fn.actualBounds;
+          var fpt = this.getPoint(0);
+          var tg = tn.containingGroup;
+          var tb = tg ? tg.actualBounds : tn.actualBounds;
+          var tpt = this.getPoint(this.pointsCount-1);
+          this.setPoint(1, new go.Point((fpt.x < tpt.x) ? fb.right : fb.left, fpt.y));
+          this.setPoint(this.pointsCount-2, new go.Point((fpt.x < tpt.x) ? tb.left : tb.right, tpt.y));
+        }
+      }
+      return result;
+    }
+  }
+  // end MappingLink
+	//Godmark : nodeDataArray is data for control Left and Right Box UI Display
+	var nodeDataArray = [
+        { isGroup: true, key: -1, text: LeftSideName, xy: "0 0", width: 400 }
+
+      ];
+	//Godmark : linkDataArray is data for control the relationship , we can make it empty as this moment
+	 var linkDataArray = [
+	 {"category":"Mapping","from":0,"to":1000},
+{"category":"Mapping","from":1,"to":1001},
+{"category":"Mapping","from":2,"to":1002},
+{"category":"Mapping","from":4,"to":1003},
+{"category":"Mapping","from":5,"to":1004},
+{"category":"Mapping","from":6,"to":1005},
+{"category":"Mapping","from":7,"to":1006}
+];
+	/* the another example i defined before
+	  var linkDataArray = [
+      
+	  {
+            "category":"Mapping",
+            "from":0,
+            "to":1013
+        },
+        {
+            "category":"Mapping",
+            "from":2,
+            "to":1002
+        },
+        {
+            "category":"Mapping",
+            "from":3,
+            "to":1006
+        },
+        {
+            "category":"Mapping",
+            "from":4,
+            "to":1003
+        },
+        {
+            "category":"Mapping",
+            "from":5,
+            "to":1023
+        },
+        {
+            "category":"Mapping",
+            "from":6,
+            "to":1024
+        },
+        {
+            "category":"Mapping",
+            "from":8,
+            "to":1016
+        },
+        {
+            "category":"Mapping",
+            "from":9,
+            "to":1017
+        },
+        {
+            "category":"Mapping",
+            "from":10,
+            "to":1019
+        },
+        {
+            "category":"Mapping",
+            "from":11,
+            "to":1020
+        },
+        {
+            "category":"Mapping",
+            "from":13,
+            "to":1021
+        },
+        {
+            "category":"Mapping",
+            "from":14,
+            "to":1018
+        },
+        {
+            "category":"Mapping",
+            "from":15,
+            "to":1022
+        },
+        {
+            "category":"Mapping",
+            "from":16,
+            "to":1025
+        },
+        {
+            "category":"Mapping",
+            "from":17,
+            "to":1026
+        }
+   
+      ];
+	  */
+	var CurrentModel = null;
+    function init() {
+
+      // Since 2.2 you can also author concise templates with method chaining instead of GraphObject.make
+      // For details, see https://gojs.net/latest/intro/buildingObjects.html
+      const $ = go.GraphObject.make;  // for conciseness in defining templates
+
+	  //Godmark : after drag & drop event make some relationship , can trigger the GOJS mapping reuslt into some textbox
+      myDiagram =
+        $(go.Diagram, "myDiagramDiv",
+          {
+            "commandHandler.copiesTree": true,
+            "commandHandler.deletesTree": true,
+            // newly drawn links always map a node in one tree to a node in another tree
+            "linkingTool.archetypeLinkData": { category: "Mapping" },
+            "linkingTool.linkValidation": checkLink,
+            "relinkingTool.linkValidation": checkLink,
+            "undoManager.isEnabled": true,
+            "ModelChanged": e => {
+              if (e.isTransactionFinished) {  // show the model data in the page's TextArea
+                document.getElementById("mySavedModel").textContent = e.model.toJson();
+				document.getElementById("mySavedModel2").value = e.model.toJson();
+				CurrentModel = e.model;
+              }
+            }
+          });
+
+	  // Godmark : some link control
+      // All links must go from a node inside the "Left Side" Group to a node inside the "Right Side" Group.
+      function checkLink(fn, fp, tn, tp, link) {
+        // make sure the nodes are inside different Groups
+        if (fn.containingGroup === null || fn.containingGroup.data.key !== -1) return false;
+        if (tn.containingGroup === null || tn.containingGroup.data.key !== -2) return false;
+        //// optional limit to a single mapping link per node
+        //if (fn.linksConnected.any(l => l.category === "Mapping")) return false;
+        //if (tn.linksConnected.any(l => l.category === "Mapping")) return false;
+		
+        return true;
+      }
+
+	 //Godmark : some GOJS event setting , if you want the display name on the UI Box show "text" or another variable from nodeDataArray , can be setup here , e.g. $(go.TextBlock, new go.Binding("text",))
+      // Each node in a tree is defined using the default nodeTemplate.
+      myDiagram.nodeTemplate =
+        $(TreeNode,
+          { movable: false, copyable: false, deletable: false },  // user cannot move an individual node
+          // no Adornment: instead change panel background color by binding to Node.isSelected
+          {
+            selectionAdorned: false,
+            background: "white",
+            mouseEnter: (e, node) => node.background = "aquamarine",
+            mouseLeave: (e, node) => node.background = node.isSelected ? "skyblue" : "white"
+          },
+          new go.Binding("background", "isSelected", s => s ? "skyblue" : "white").ofObject(),
+          // whether the user can start drawing a link from or to this node depends on which group it's in
+          new go.Binding("fromLinkable", "group", k => k === -1),
+          new go.Binding("toLinkable", "group", k => k === -2),
+          $("TreeExpanderButton",  // support expanding/collapsing subtrees
+            {
+              width: 14, height: 14,
+              "ButtonIcon.stroke": "white",
+              "ButtonIcon.strokeWidth": 2,
+              "ButtonBorder.fill": "goldenrod",
+              "ButtonBorder.stroke": null,
+              "ButtonBorder.figure": "Rectangle",
+              "_buttonFillOver": "darkgoldenrod",
+              "_buttonStrokeOver": null,
+              "_buttonFillPressed": null
+            }),
+          $(go.Panel, "Horizontal",
+            { position: new go.Point(16, 0) },
+            //// optional icon for each tree node
+            //$(go.Picture,
+            //  { width: 14, height: 14,
+            //    margin: new go.Margin(0, 4, 0, 0),
+            //    imageStretch: go.GraphObject.Uniform,
+            //    source: "images/defaultIcon.png" },
+            //  new go.Binding("source", "src")),
+			
+			//Column Type Icons
+			$(go.Picture, { source: "string.png", width: 20, height: 20 }, new go.Binding("source","objtype", v => "app-assets/images/mapping/"+v+".png"   )    ),
+            //Column name
+			$(go.TextBlock,new go.Binding("text","text")),
+			//Column type
+			$(go.TextBlock, new go.Binding("text","objtype", v => "  (" + v +")" )),
+          )  // end Horizontal Panel
+        );  // end Node
+
+      // These are the links connecting tree nodes within each group.
+
+	  //Godmark : some Layout Configure
+      myDiagram.linkTemplate = $(go.Link);  // without lines
+
+      myDiagram.linkTemplate =  // with lines
+        $(go.Link,
+          {
+            selectable: false,
+            routing: go.Link.Orthogonal,
+            fromEndSegmentLength: 4,
+            toEndSegmentLength: 4,
+            fromSpot: new go.Spot(0.001, 1, 7, 0),
+            toSpot: go.Spot.Left
+          },
+          $(go.Shape,
+            { stroke: "lightgray" }));
+
+      // These are the blue links connecting a tree node on the left side with one on the right side.
+      myDiagram.linkTemplateMap.add("Mapping",
+        $(MappingLink,
+          { isTreeLink: false, isLayoutPositioned: false, layerName: "Foreground" },
+          { fromSpot: go.Spot.Right, toSpot: go.Spot.Left },
+          { relinkableFrom: true, relinkableTo: true },
+          $(go.Shape, { stroke: "blue", strokeWidth: 2 })
+        ));
+
+      myDiagram.groupTemplate =
+        $(go.Group, "Auto",
+          { deletable: false, layout: makeGroupLayout() },
+          new go.Binding("position", "xy", go.Point.parse).makeTwoWay(go.Point.stringify),
+          new go.Binding("layout", "width", makeGroupLayout),
+          $(go.Shape, { fill: "white", stroke: "lightgray" }),
+          $(go.Panel, "Vertical",
+            { defaultAlignment: go.Spot.Left },
+			
+            $(go.TextBlock,
+              { font: "bold 14pt sans-serif", margin: new go.Margin(5, 5, 0, 5) },
+              new go.Binding("text")),
+            $(go.Placeholder, { padding: 5 })
+          )
+        );
+
+      function makeGroupLayout() {
+        return $(go.TreeLayout,  // taken from samples/treeView.html
+          {
+            alignment: go.TreeLayout.AlignmentStart,
+            angle: 0,
+            compaction: go.TreeLayout.CompactionNone,
+            layerSpacing: 16,
+            layerSpacingParentOverlap: 1,
+            nodeIndentPastParent: 1.0,
+            nodeSpacing: 0,
+            setsPortSpot: false,
+            setsChildPortSpot: false,
+            // after the tree layout, change the width of each node so that all
+            // of the nodes have widths such that the collection has a given width
+            commitNodes: function() {  // overriding TreeLayout.commitNodes
+              go.TreeLayout.prototype.commitNodes.call(this);
+              if (ROUTINGSTYLE === "ToGroup") {
+                updateNodeWidths(this.group, this.group.data.width || 100);
+              }
+            }
+          });
+      }
+
+
+     
+     
+	  
+
+
+	 
+      
+
+      // initialize tree on left side
+	  
+      /*
+      for (var i = 0; i < 11;) {
+		//(level, count, max, nodeDataArray, linkDataArray, parentdata, groupkey, rootkey)
+        i = makeTree(3, i, 17, nodeDataArray, linkDataArray, root, -1, root.key);
+      }
+	  */
+	  // Godmark:Initialize Inbound Source Schema
+	  var InboundCount = 0;
+	  var InboundCurrentCount = 0;
+	  
+	  function LoopJsonArray() {
+	  }
+	
+	  // Godmark : this is a function looping Inbound Json , and this is custom code , and this code just only can support 2 level node json , so it not very dynamic,  if you have any question , can ask me , all Json column will push into nodeDataArray
+	  Object.entries(InboundJson).forEach((entry) => {
+		
+		// the key of the Inbound Json
+		const [key,value] = entry;
+		
+		// Godmark : key is the number on this example , the key mean that is unique number or id or name , so we should be discuss what the parameter on the key , i suggest @In{(Column Unique Name)} or @Out{(Column Unique Name)} , the text = column name , group:-1 = Left Side Box
+		var inbounddata = { key: InboundCount,text : key ,objtype:(Array.isArray(value) ? 'array' : typeof(value)), group: -1 };
+		nodeDataArray.push(inbounddata);
+		
+		//Godmark : 第二層 , 暫時不是很彈性,先這樣
+		InboundCurrentCount = InboundCount;
+		InboundCount++;
+		if (!Array.isArray(value) && value != null && typeof(value) == "object") {
+			Object.entries(value).forEach((itementry) => {
+				
+				const [subkey,subvalue] = itementry;
+				var inbounddata = { key: InboundCount,text :  subkey ,objtype:(Array.isArray(subvalue) ? 'array' : typeof(subvalue)), group: -1 };
+				// Godmark : linkDataArray in this from , to is for grouping , it mean subgroup or sub sub group , and linkDataArray have another use for relationship mapping , you can review the line "3792" , all relationship will be have one more field call category:"mapping" there
+				linkDataArray.push({ from: InboundCurrentCount, to: InboundCount });
+				
+				nodeDataArray.push(inbounddata);
+				console.log(subkey + "::::" + InboundCurrentCount+"::::"+InboundCount)
+				InboundCount++;
+				
+			});
+		}
+		if (Array.isArray(value) && value != null && typeof(value) == "object") {
+			Object.entries(value).forEach((arritementry) => {
+				
+				const [arrsubkey,arrsubvalue] = arritementry;
+				Object.entries(arrsubvalue).forEach((itementry) => {
+					const [subkey,subvalue] = itementry;
+					var inbounddata = { key: InboundCount,text : subkey, objtype:(Array.isArray(subvalue) ? 'array' : typeof(subvalue)), group: -1 };
+					// Godmark : linkDataArray in this from , to is for grouping , it mean subgroup or sub sub group , and linkDataArray have another use for relationship mapping , you can review the line "3792" , all relationship will be have one more field call category:"mapping" there
+					linkDataArray.push({ from: InboundCurrentCount, to: InboundCount });
+					
+					nodeDataArray.push(inbounddata);
+					console.log(subkey + "::::" + InboundCurrentCount+"::::"+InboundCount)
+					InboundCount++;
+				});
+				
+			});
+		}
+		
+		
+	  });
+
+	  myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+
+
+		// Godmark : initiated the Outbound Right Box UI
+		nodeDataArray.push({ isGroup: true, key: -2, text: RightSideName, xy: "1000 0", width: 400 });
+		myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+		var OutboundCount = 1000;
+		var OutboundCurrentCount = 1000;
+		
+		
+	  // Godmark : this is a function looping Outbound Json , and this is custom code , and this code just only can support 2 level node json , so it not very dynamic,  if you have any question , can ask me , all Json column will push into nodeDataArray
+		Object.entries(OutboundJson).forEach((entry) => {
+		// the key of the Outbound Json
+			const [key,value] = entry;
+			var Outbounddata = { key: OutboundCount,text : key , objtype:(Array.isArray(value) ? 'array' : typeof(value)), group: -2 };
+			nodeDataArray.push(Outbounddata);
+			
+			OutboundCurrentCount = OutboundCount;
+			OutboundCount++;
+			if (!Array.isArray(value) && value != null && typeof(value) == "object") {
+				Object.entries(value).forEach((itementry) => {
+					const [subkey,subvalue] = itementry;
+					var Outbounddata = { key: OutboundCount,text : subkey , objtype:(Array.isArray(subvalue) ? 'array' : typeof(subvalue)), group: -2 };
+					// Godmark : same as inbound 
+					linkDataArray.push({ from: OutboundCurrentCount, to: OutboundCount });
+					
+					nodeDataArray.push(Outbounddata);
+					console.log(":::::::Outbounddata:::::::::::");
+					console.log("--------------------------");
+					console.log(subkey + "::::" + OutboundCurrentCount+"::::"+OutboundCount)
+					OutboundCount++;	
+					if (Array.isArray(subvalue)) {
+					OutboundCurrentCount = OutboundCount -1;
+						Object.entries(subvalue).forEach((_arritementry) => {
+							const [_arrsubkey,_arrsubvalue] = _arritementry;
+							Object.entries(_arrsubvalue).forEach((arritementry) => {
+								const [arrsubkey,arrsubvalue] = arritementry;
+								var Outbounddata = { key: OutboundCount,text : arrsubkey , objtype:(Array.isArray(arrsubvalue) ? 'array' : typeof(arrsubvalue)), group: -2 };
+								
+								linkDataArray.push({ from: OutboundCurrentCount, to: OutboundCount });
+								
+								nodeDataArray.push(Outbounddata);
+								console.log(":::::::Outbounddata:::::::::::");
+								console.log("--------------------------");
+								console.log(subkey + "::::" + OutboundCurrentCount+"::::"+OutboundCount)
+								OutboundCount++;	
+							});
+						});
+					}
+				});
+			}
+			if (Array.isArray(value) && value != null && typeof(value) == "object") {
+				Object.entries(value).forEach((arritementry) => {
+					
+					const [arrsubkey,arrsubvalue] = arritementry;
+					Object.entries(arrsubvalue).forEach((itementry) => {
+						const [subkey,subvalue] = itementry;
+						var inbounddata = { key: OutboundCount,text : subkey, objtype:(Array.isArray(subvalue) ? 'array' : typeof(subvalue)), group: -2 };
+						// Godmark : linkDataArray in this from , to is for grouping , it mean subgroup or sub sub group , and linkDataArray have another use for relationship mapping , you can review the line "3792" , all relationship will be have one more field call category:"mapping" there
+						linkDataArray.push({ from: OutboundCurrentCount, to: OutboundCount });
+						
+						nodeDataArray.push(inbounddata);
+						console.log(subkey + "::::" + OutboundCurrentCount+"::::"+OutboundCount)
+						OutboundCount++;
+					});
+					
+				});
+			}
+		});
+		
+		//Godmark:clear initiated the data
+		nodeDataArray = [];
+		linkDataArray = [];
+		myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+	  
+	  
+	  
+	  // Godmark:No use 
+      // initialize tree on right side
+      /*root = { key: 1000, group: -2 };
+      nodeDataArray.push(root);
+      for (var i = 0; i < 15;) {
+        i = makeTree(3, i, 15, nodeDataArray, linkDataArray, root, -2, root.key);
+      }
+	  */
+	  //Godmark : 生成
+     
+    }
+	//Godmark : makeTree is no use now, is copy from GOJS example
+    // help create a random tree structure
+    function makeTree(level, count, max, nodeDataArray, linkDataArray, parentdata, groupkey, rootkey) {
+      var numchildren = Math.floor(Math.random() * 10);
+      for (var i = 0; i < numchildren; i++) {
+        if (count >= max) return count;
+        count++;
+        var childdata = { key: rootkey + count, text: rootkey + count,  group: groupkey };
+		
+		
+		
+        nodeDataArray.push(childdata);
+        linkDataArray.push({ from: parentdata.key, to: childdata.key });
+        if (level > 0 && Math.random() > 0.5) {
+          count = makeTree(level - 1, count, max, nodeDataArray, linkDataArray, childdata, groupkey, rootkey);
+        }
+      }
+      return count;
+    }
+	
+	//Godmark : some GOJS Event
+    window.addEventListener('DOMContentLoaded', init);
+
+
+    function updateNodeWidths(group, width) {
+      if (isNaN(width)) {
+        group.memberParts.each(n => {
+          if (n instanceof go.Node) n.width = NaN;  // back to natural width
+        });
+      } else {
+        var minx = Infinity;  // figure out minimum group width
+        group.memberParts.each(n => {
+          if (n instanceof go.Node) {
+            minx = Math.min(minx, n.actualBounds.x);
+          }
+        });
+        if (minx === Infinity) return;
+        var right = minx + width;
+        group.memberParts.each(n => {
+          if (n instanceof go.Node) n.width = Math.max(0, right - n.actualBounds.x);
+        });
+      }
+    }
+
+    // this function is only needed when changing the value of ROUTINGSTYLE dynamically
+    function changeStyle() {
+      // find user-chosen style name
+      var stylename = "ToGroup";
+      var radio = document.getElementsByName("MyRoutingStyle");
+      for (var i = 0; i < radio.length; i++) {
+        if (radio[i].checked) {
+          stylename = radio[i].value; break;
+        }
+      }
+      if (stylename !== ROUTINGSTYLE) {
+        myDiagram.commit(diag => {
+          ROUTINGSTYLE = stylename;
+          diag.findTopLevelGroups().each(g => updateNodeWidths(g, NaN));
+          diag.layoutDiagram(true);  // force layouts to happen again
+          diag.links.each(l => l.invalidateRoute());
+        });
+      }
+    }
+	
+	//Godmark : a function trigger GOJS result to some textbox
+	function UpdateJson() {
+		document.getElementById("mySavedModel2").value = CurrentModel.toJson();
+	}
+	//Godmark : a function trigger GOJS result to some textbox <- it example used on Inbound Upload Button
+  function AddInboundSchema(emptydata=true) {
+  
+
+	if (emptydata) {
+		
+		nodeDataArray = [
+        { isGroup: true, key: -1, text: LeftSideName, xy: "0 0", width: 400 }
+
+      ];
+	}else
+	nodeDataArray.push({ isGroup: true, key: -1, text: LeftSideName, xy: "0 0", width: 400 });
+	linkDataArray = [];
+	InboundJson = JSON.parse(document.getElementById("InboundFormat").value);
+	
+	
+	var InboundCount = 0;
+	  var InboundCurrentCount = 0;
+	Object.entries(InboundJson).forEach((entry) => {
+		
+		// the key of the Inbound Json
+		const [key,value] = entry;
+		
+		// Godmark : key is the number on this example , the key mean that is unique number or id or name , so we should be discuss what the parameter on the key , i suggest @In{(Column Unique Name)} or @Out{(Column Unique Name)} , the text = column name , group:-1 = Left Side Box
+		var inbounddata = { key: InboundCount,text : key ,objtype:(Array.isArray(value) ? 'array' : typeof(value)), group: -1 };
+		nodeDataArray.push(inbounddata);
+		
+		//Godmark : 第二層 , 暫時不是很彈性,先這樣
+		InboundCurrentCount = InboundCount;
+		InboundCount++;
+		if (!Array.isArray(value) && value != null && typeof(value) == "object") {
+			Object.entries(value).forEach((itementry) => {
+				
+				const [subkey,subvalue] = itementry;
+				var inbounddata = { key: InboundCount,text :  subkey ,objtype:(Array.isArray(subvalue) ? 'array' : typeof(subvalue)), group: -1 };
+				// Godmark : linkDataArray in this from , to is for grouping , it mean subgroup or sub sub group , and linkDataArray have another use for relationship mapping , you can review the line "3792" , all relationship will be have one more field call category:"mapping" there
+				linkDataArray.push({ from: InboundCurrentCount, to: InboundCount });
+				
+				nodeDataArray.push(inbounddata);
+				console.log(subkey + "::::" + InboundCurrentCount+"::::"+InboundCount)
+				InboundCount++;
+				
+			});
+		}
+		if (Array.isArray(value) && value != null && typeof(value) == "object") {
+			Object.entries(value).forEach((arritementry) => {
+				
+				const [arrsubkey,arrsubvalue] = arritementry;
+				Object.entries(arrsubvalue).forEach((itementry) => {
+					const [subkey,subvalue] = itementry;
+					var inbounddata = { key: InboundCount,text : subkey, objtype:(Array.isArray(subvalue) ? 'array' : typeof(subvalue)), group: -1 };
+					// Godmark : linkDataArray in this from , to is for grouping , it mean subgroup or sub sub group , and linkDataArray have another use for relationship mapping , you can review the line "3792" , all relationship will be have one more field call category:"mapping" there
+					linkDataArray.push({ from: InboundCurrentCount, to: InboundCount });
+					
+					nodeDataArray.push(inbounddata);
+					console.log(subkey + "::::" + InboundCurrentCount+"::::"+InboundCount)
+					InboundCount++;
+				});
+				
+			});
+		}
+		
+		
+	  });
+
+	 
+	 $("#InboundJson").show();
+	
+	if (emptydata && document.getElementById("OutboundFormat").value != "") AddOutboundSchema(false);
+	
+	myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+	
+
+	}
+
+	//Godmark : a function trigger GOJS result to some textbox <- it example used on Outbound Upload Button
+	function AddOutboundSchema(emptydata=true) {
+	
+	if (emptydata) {
+		nodeDataArray = [
+        { isGroup: true, key: -2, text: RightSideName, xy: "1000 0", width: 400 }
+
+      ];
+	}
+	else nodeDataArray.push({ isGroup: true, key: -2, text: RightSideName, xy: "1000 0", width: 400 });
+	
+	linkDataArray = [];
+	OutboundJson = JSON.parse(document.getElementById("OutboundFormat").value);
+	
+		var OutboundCount = 1000;
+		var OutboundCurrentCount = 1000;
+		
+		
+	  // Godmark : this is a function looping Outbound Json , and this is custom code , and this code just only can support 2 level node json , so it not very dynamic,  if you have any question , can ask me , all Json column will push into nodeDataArray
+		Object.entries(OutboundJson).forEach((entry) => {
+		// the key of the Outbound Json
+			const [key,value] = entry;
+			var Outbounddata = { key: OutboundCount,text : key , objtype:(Array.isArray(value) ? 'array' : typeof(value)), group: -2 };
+			nodeDataArray.push(Outbounddata);
+			
+			OutboundCurrentCount = OutboundCount;
+			OutboundCount++;
+			if (!Array.isArray(value) && value != null && typeof(value) == "object") {
+				Object.entries(value).forEach((itementry) => {
+					const [subkey,subvalue] = itementry;
+					var Outbounddata = { key: OutboundCount,text : subkey , objtype:(Array.isArray(subvalue) ? 'array' : typeof(subvalue)), group: -2 };
+					// Godmark : same as inbound 
+					linkDataArray.push({ from: OutboundCurrentCount, to: OutboundCount });
+					
+					nodeDataArray.push(Outbounddata);
+					console.log(":::::::Outbounddata:::::::::::");
+					console.log("--------------------------");
+					console.log(subkey + "::::" + OutboundCurrentCount+"::::"+OutboundCount)
+					OutboundCount++;	
+					if (Array.isArray(subvalue)) {
+					OutboundCurrentCount = OutboundCount -1;
+						Object.entries(subvalue).forEach((_arritementry) => {
+							const [_arrsubkey,_arrsubvalue] = _arritementry;
+							Object.entries(_arrsubvalue).forEach((arritementry) => {
+								const [arrsubkey,arrsubvalue] = arritementry;
+								var Outbounddata = { key: OutboundCount,text : arrsubkey , objtype:(Array.isArray(arrsubvalue) ? 'array' : typeof(arrsubvalue)), group: -2 };
+								
+								linkDataArray.push({ from: OutboundCurrentCount, to: OutboundCount });
+								
+								nodeDataArray.push(Outbounddata);
+								console.log(":::::::Outbounddata:::::::::::");
+								console.log("--------------------------");
+								console.log(subkey + "::::" + OutboundCurrentCount+"::::"+OutboundCount)
+								OutboundCount++;	
+							});
+						});
+					}
+				});
+			}
+			if (Array.isArray(value) && value != null && typeof(value) == "object") {
+				Object.entries(value).forEach((arritementry) => {
+					
+					const [arrsubkey,arrsubvalue] = arritementry;
+					Object.entries(arrsubvalue).forEach((itementry) => {
+						const [subkey,subvalue] = itementry;
+						var inbounddata = { key: OutboundCount,text : subkey, objtype:(Array.isArray(subvalue) ? 'array' : typeof(subvalue)), group: -2 };
+						// Godmark : linkDataArray in this from , to is for grouping , it mean subgroup or sub sub group , and linkDataArray have another use for relationship mapping , you can review the line "3792" , all relationship will be have one more field call category:"mapping" there
+						linkDataArray.push({ from: OutboundCurrentCount, to: OutboundCount });
+						
+						nodeDataArray.push(inbounddata);
+						console.log(subkey + "::::" + OutboundCurrentCount+"::::"+OutboundCount)
+						OutboundCount++;
+					});
+					
+				});
+			}
+		});	
+
+		$("#OutboundJson").show();
+	
+
+
+		myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+		if (emptydata && document.getElementById("InboundFormat").value != "") AddInboundSchema(false);
+		
+	}
+
+  
+   //Godmark : Download the inbound  json format
+	function saveBGRSJSON() {
+		var data = InboundJson;
+		var filename = uuid()+gettime()+".json";
+		if (typeof data === 'object') {
+		  data = JSON.stringify(data, undefined, 4)
+		}
+		var blob = new Blob([data], { type: 'text/json' });
+		var e = document.createEvent('MouseEvents');
+		var a = document.createElement('a');
+		a.download = filename;
+		a.href = window.URL.createObjectURL(blob);
+		a.dataset.downloadurl = ['text/json', a.download, a.href].join(':');
+		e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+		a.dispatchEvent(e);
+	  }
+	//Godmark : Download the inbound  json format
+	  function saveiRMSJSON() {
+		var data = OutboundJson;
+		var filename = uuid()+gettime()+".json";;
+		if (typeof data === 'object') {
+		  data = JSON.stringify(data, undefined, 4)
+		}
+		var blob = new Blob([data], { type: 'text/json' });
+		var e = document.createEvent('MouseEvents');
+		var a = document.createElement('a');
+		a.download = filename;
+		a.href = window.URL.createObjectURL(blob);
+		a.dataset.downloadurl = ['text/json', a.download, a.href].join(':');
+		e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+		a.dispatchEvent(e);
+	  }
+	   
+	  function uuid() {
+			var s = [];
+			var hexDigits = "0123456789abcdef";
+			for (var i = 0; i < 36; i++) {
+				s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+			}
+			s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
+			s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
+			s[8] = s[13] = s[18] = s[23] = "-";
+		
+			var uuid = s.join("");
+			return uuid;
+		}
+
+
+  
+    function gettime() {
+        var today=new Date();
+        var y=today.getFullYear();
+        var m=today.getMonth();
+        var d=today.getDate();
+        var h=today.getHours();
+        var i=today.getMinutes();
+        var s=today.getSeconds();// 在小于10的数字钱前加一个‘0’
+        m=m+1;
+        d=checkTime(d);
+        m=checkTime(m);
+        i=checkTime(i);
+        s=checkTime(s);
+        $('#time').html(y+"年"+m+"月"+d+"日"+" "+h+":"+i+":"+s);
+		return (y+"-"+m+"-"+d+"-"+" "+h+":"+i+":"+s);
+    }
+    function checkTime(i){
+        if (i<10){
+            i="0" + i;
+        }
+        return i;
+    }
+
+	const app = new Vue({
+    	el: '#app',    
+    	data() {
+				return {
+					apis: [
+						{
+							value: ''
+						}
+					]
+				}
+			},
+			methods: {
+				addNewItem () {
+					this.apis.push({
+						value: ''
+					})
+				},
+				removeItem (index) {
+					this.apis.splice(index, 1)
+				}
+			}
+		})
+	
+	
+
+		
+	</script>
+
+
+
+<style>
+    .settings-button {
+  
+    }
+      .modal {
+      display: none; /* Hidden by default */
+      align-items: center;
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+      }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+  
+  /* The Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+      .modal-header {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+  
+  /* Modal Body */
+  .modal-body {padding: 2px 16px;}
+  
+  /* Modal Footer */
+  .modal-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    animation-name: animatetop;
+    animation-duration: 0.4s
+  }
+  
+  /* Add Animation */
+  @keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+  }
+  @media (min-width: 1180px) {
+    .modal-left {
+        display: block !important;
+    }
+  }
+  
+  
+  </style>
+  
+  <script>
+    $(document).ready(function () {
+      var counter = 0;
+  
+      $("#addrow").on("click", function () {
+        var newRow = $("<tr>");
+        var cols = "";
+  
+        cols +=
+          '<td class="col-sm-2"/><details class="custom-select m-0 p-0 border-0"><summary class="radios form-control border-0" name="logical' +
+          counter +'">'
+          +'<input type="radio" name="item'+counter+'" id="default'+counter+'" title="Select..." checked><input type="radio" name="item'+counter+'" id="AND'+counter+'" title="AND"><input type="radio" name="item'+counter+'" id="OR'+counter+'" title="OR">'
+          +'</summary>'
+          +'<ul class="list p-0"><li><label for="AND'+counter+'">AND</label></li><li><label for="OR'+counter+'">OR</label></li></ul>'
+          +'</details></td>';
+        cols +=
+          '<td  class="col-sm-3"><input type="text" class="form-control border-0" name="original' +
+          counter +
+          '"/></td>';
+        cols +=
+          '<td class="col-sm-3"><input type="text" class="form-control border-0" name="comparison' +
+          counter +
+          '"/></td>';
+        cols +=
+          '<td class="col-sm-2"><input type="text" class="form-control border-0" name="column' +
+          counter +
+          '"/></td>';
+        cols +=
+          '<td class="col-sm-2"><a href="#" type="button" class="ibtnDel"> Delete </a></td>';
+        newRow.append(cols);
+        $("table.order-list").append(newRow);
+        counter++;
+      });
+  
+      $("table.order-list").on("click", ".ibtnDel", function (event) {
+        $(this).closest("tr").remove();
+        counter -= 1;
+      });
+    });
+  
+    function calculateRow(row) {
+      var price = +row.find('input[name^="price"]').val();
+    }
+  
+    function calculateGrandTotal() {
+      var grandTotal = 0;
+      $("table.order-list")
+        .find('input[name^="price"]')
+        .each(function () {
+          grandTotal += +$(this).val();
+        });
+      $("#grandtotal").text(grandTotal.toFixed(2));
+    }
+  </script>
+  
+  <style>
+      
+  
+  #myTable details {
+      position: relative;
+      width: 100%;
+      margin-right: 1rem;
+  }
+  
+  #myTable details[open] {
+      z-index: 1;
+  }
+  
+  #myTable summary {
+      padding: .5rem;
+      cursor: pointer;
+      list-style: none;
+  }
+  
+  #myTable summary::-webkit-details-marker {
+      display: none;
+  }
+  
+  #myTable details[open] summary:before {
+      content: '';
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      background: transparent;
+      position: fixed;
+      top: 0;
+      left: 0;
+  }
+  
+  #myTable summary:after {
+      content: '';
+      display: inline-block;
+      float: right;
+      width: .5rem;
+      height: .5rem;
+      border-bottom: 1px solid currentColor;
+      border-left: 1px solid currentColor;
+      border-bottom-left-radius: 2px;
+      transform: rotate(45deg) translate(50%, 0%);
+      transform-origin: center center;
+      transition: transform ease-in-out 100ms;
+    margin-top: 5px;
+  }
+  
+  #myTable summary:focus {
+      outline: none;
+  }
+  
+  #myTable details[open] summary:after {
+      transform: rotate(-45deg) translate(0%, 0%);
+  }
+  
+  #myTable ul {
+      width: 100%;
+      position: absolute;
+      top: calc(100%);
+      left: 0;
+      margin: 0;
+      box-sizing: border-box;
+      max-height: 200px;
+      overflow-y: auto;
+  }
+  
+  #myTable li {
+      padding: .5rem 0;
+      padding-left: 1rem; 
+    background-color: white;
+      border: 1px solid #ccc;
+    list-style-type: none;
+  }
+  
+  #myTable li:first-child {
+      border-bottom: 0;
+  }
+  
+  /* FAKE SELECT */
+  
+  #myTable summary.radios {
+      counter-reset: radios;
+  }
+  
+  #myTable input[type=radio] {
+      counter-increment: radios;
+      appearance: none;
+      display: none;
+  }
+  
+  #myTable input[type=radio]:checked {
+      display: inline;
+  }
+  
+  #myTable input[type=radio]:after {
+      content: attr(title);
+      display: inline;
+      font-size: 1rem;
+  }
+  
+  #myTable ul.list {
+      counter-reset: labels;
+  }
+  
+  #myTable label {
+      width: 100%;
+      display: block;
+      cursor: pointer;
+  }
+  
+  #myTable thead td {
+    margin: 0;
+    padding: 1rem 0.5rem;
+  }
+  
+  #myTable tbody td {
+    margin: 0;
+    padding: 0;
+  }
+  #myTable tbody summary:focus, input[type="text"]:focus{
+    border: 1px solid #8DC454 !important;
+    border-radius: 0 !important;
+  }
+  #myTable * {
+    font-size: 0.9rem;
+  }
+  .modal-button {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ccc !important;
+    padding: 0.4rem 0.8rem !important;
+    margin: 0 !important;
+    float: right;
+    margin-left: 5px !important;
+    margin-bottom: 10px !important;
+  }
+  .modal-content {
+    width: 60%;
+    border: 3px solid #8dc454 !important;
+  }
+  #myTable {
+    width: 100%;
+  }
+  #myTable td .ibtnDel {
+    width: 100%;
+    text-align: center;
+    font-size: 1.1rem;
+    text-decoration: underline;
+  }
+  </style>
+  
+  
