@@ -101,7 +101,7 @@ exports.create = (req, res) => {
     }
 
     const inboundSetting = new InboundSetting({
-        project_id:data.project_id,
+        item_id:data.project_id,
         inbound_format: data.inbound_format, 
         sync_type: data.sync_type || "",
         ftp_server_link: data.ftp_server_link || "",
@@ -330,7 +330,7 @@ exports.update = (req, res) => {
     }
 
     var data1 = {};
-    data1.project_id = data.project_id, 
+    data1.item_id = data.project_id, 
     data1.inbound_format = data.inbound_format, 
     data1.sync_type = data.sync_type,
     data1.ftp_server_link = data.ftp_server_link,

@@ -57,7 +57,7 @@ exports.create = (req, res) => {
     }
     
     const outboundSetting = new OutboundSetting({
-        project_id:data.project_id,
+        item_id:data.project_id,
         outbound_format: data.outbound_format, 
         sync_type_out: data.sync_type_out || "API",
         api_url: data.api_url ,

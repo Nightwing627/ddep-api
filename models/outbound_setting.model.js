@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const OutboundSettingSchema = mongoose.Schema({
    
     
-        project_id:{
-            type:mongoose.Schema.Types.ObjectId,ref:'Project'
+        item_id:{
+            type:mongoose.Schema.Types.ObjectId,ref:'Item'
         } ,
         outbound_format:String, //This is Old value
         //outboundFormat:String,

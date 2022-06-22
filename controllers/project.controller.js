@@ -118,8 +118,8 @@ exports.create = (req, res) => {
     }
     
     const project = new Project({
-        ProjectCode: data.ProjectCode, 
-        ProjectName: data.ProjectName,
+        ItemCode: data.ProjectCode, 
+        ItemName: data.ProjectName,
         CompanyName: data.CompanyName,
         isActive:"0"
        
@@ -154,7 +154,7 @@ exports.checkecodexsit = (req, res) => {
     //var limit =eval(req.query.limit);
    //console.log(limit*page);
    var project_id = req.body.project_id;
-    Project.find({ProjectCode:req.body.ProjectCode})
+    Project.find({ItemCode:req.body.ProjectCode})
     .then(projects => {
 
         if(projects.length > 0 && projects[0]._id!=project_id)
