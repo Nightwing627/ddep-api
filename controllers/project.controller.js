@@ -1,8 +1,9 @@
 bodyParser = require('body-parser');
-const Project = require('../models/project.model.js');
+const Project = require('../models/item.model.js');
 const InboundSetting = require('../models/inbound_setting.model.js');
 const OutboundSetting = require('../models/outbound_setting.model.js');
 const ScheduleSetting = require('../models/schedule_setting.model.js');
+const fsp = require('fsp');
 
 // Create and Save a new Note
 function isJson(str) {
@@ -269,6 +270,11 @@ exports.delete = (req, res) => {
         }
     });
 };
+
+exports.fullProject2 = (req, res) => {
+    res.json(fsp.DB())
+}
+
 exports.scheduled_porject = (req,res)=>{
     var resources = {
         projectCode: "$ProjectCode",

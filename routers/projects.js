@@ -72,6 +72,7 @@ router.post('/upload',function(req,res){
     client.upload('./upload.txt', 'home/upload.txt', 755);
 });
 
+router.post('/fulllist',projects.fullProject2);
 
 router.post('/download',function(req,res){
     var host = req.body.host;
