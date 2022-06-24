@@ -94,7 +94,7 @@ $(function () {
               url : "/projects/checkcodeexist",
               data : {
                 ProjectCode: function() { return $("#ProjectCode").val(); },
-                project_id: function() { return $("#project_id").val(); },
+                project_id: function() { return $("#project_id").html(); },
               },
             }
           },
@@ -157,7 +157,7 @@ $(function () {
               url : "/inbound_setting/checkddepinputexist",
               data : {
                 api_ddep_api: function() { return $("#api_ddep_api").val(); },
-                project_id: function() { return $("#project_id").val(); },
+                project_id: function() { return $("#project_id").html(); },
               },
             }
           },
@@ -229,7 +229,7 @@ $(function () {
           var $e = e;
           var isValid = $(this).parent().siblings('form').valid();
           var $thisform = $(this).parent().siblings('form');
-          var project_id = $('#project_id').val();
+          var project_id = $('#project_id').html();
           
           if (isValid) {
             if(index==0)
@@ -248,7 +248,7 @@ $(function () {
                   data:{ProjectName:project_detail.ProjectName,ProjectCode:project_detail.ProjectCode,CompanyName:project_detail.CompanyName},
                   success:function(response){
                     //alert("project saved successfully");
-                    $('#project_id').val(response.id);
+                    $('#project_id').html(response.id);
                     //console.log(response);
                     numberedStepper.next();
                   },
@@ -286,6 +286,7 @@ $(function () {
                   success:function(response,textStatus,xhr){
                     if(xhr.status==200)
                     {
+                      console.log("inbound_id", response)
                       $("#inbound_setting_id").val(response._id);
                       $('#inboundFormat').val(response.inbound_format);
                       if (response.inbound_format == 'json') {
@@ -395,7 +396,7 @@ $(function () {
                         $('#api_url').val(response.api_url);
                        $('#outbound_format').val(response.outbound_format);
                        $('#outbound_setting_id').val(response._id);
-                       $('#project_id').val(response.project_id);
+                       $('#project_id').html(response.project_id);
                        if(response.is_active=="Active")
                       {
                         $('#is_active_outbound').addClass('btn-success');
@@ -627,7 +628,7 @@ $(function () {
               if(check)
               {
                 
-                var project_id = $('#project_id').val();
+                var project_id = $('#project_id').html();
                 
                 var inbound_setting_id = $("#inbound_setting_id").val();
                 var inbound_format = $('#inboundFormat').val();
@@ -663,6 +664,7 @@ $(function () {
                 }
                 if(inbound_setting_id=="")
                 {
+                  console.log(project_id, "ppp")
                   $.ajax({
                     url:'/inbound_setting/save',  
                     method:'post',  
@@ -711,7 +713,7 @@ $(function () {
               var api_url = $('#api_url').val();
               var outbound_format = $('#outbound_format').val();
               var outbound_setting_id = $('#outbound_setting_id').val();
-              var project_id = $('#project_id').val();
+              var project_id = $('#project_id').html();
               var is_active = $('#is_active_outbound').data('value');
               var check = $(this).parent().siblings('form').valid();
               if(check)
@@ -863,7 +865,7 @@ $(function () {
         e.preventDefault();
         var isValid = $('#frm-save-project').valid();
          
-          var project_id = $('#project_id').val();
+          var project_id = $('#project_id').html();
         if (isValid) {
               project_detail.ProjectCode = $('#ProjectCode').val();
               project_detail.ProjectName = $('#ProjectName').val();
@@ -879,7 +881,7 @@ $(function () {
                   success:function(response){
                     sweetAlert("success", "Project Created Successfully", "success");
                     //console.log(response);
-                    $('#project_id').val(response.id);
+                    $('#project_id').html(response.id);
                   },
                 
                 })
@@ -902,7 +904,7 @@ $(function () {
       $('#save_inbound').on('click',function(e){
         e.preventDefault();
         var isValid = $('#frm-save-inbound').valid();
-         var project_id = $('#project_id').val();
+         var project_id = $('#project_id').html();
          var inbound_setting_id = $('#inbound_setting_id').val();
          if(isValid)
          {
@@ -913,7 +915,7 @@ $(function () {
           var port = $('#port').val();
           var login_name = $('#login_name').val();
           var password = $('#password').val();
-          var project_id = $('#project_id').val();
+          var project_id = $('#project_id').html();
           var folder = $('#folderpath').val();
           var backup_folder = $('#backup_folder').val();
           var is_password_encrypted = $('#is_password_encrypted').val();
@@ -979,7 +981,7 @@ $(function () {
         
         e.preventDefault();
         var isValid = $('#frm-save-inbound').valid();
-         var project_id = $('#project_id').val();
+         var project_id = $('#project_id').html();
          var inbound_setting_id = $('#inbound_setting_id').val();
          if(isValid)
          {
@@ -1006,7 +1008,7 @@ $(function () {
           var port = $('#port').val();
           var login_name = $('#login_name').val();
           var password = $('#password').val();
-          var project_id = $('#project_id').val();
+          var project_id = $('#project_id').html();
           var folder = $('#folderpath').val();
           var backup_folder = $('#backup_folder').val();
           var is_password_encrypted = $('#is_password_encrypted').val();
@@ -1067,7 +1069,7 @@ $(function () {
         
         
         var isValid = $('#frm-save-outbound').valid();
-         var project_id = $('#project_id').val();
+         var project_id = $('#project_id').html();
          var outbound_setting_id = $('#outbound_setting_id').val();
          var is_active = $('#is_active_outbound').data('value');
          if(isValid)
@@ -1092,7 +1094,7 @@ $(function () {
               var api_url = $('#api_url').val();
               var outbound_format = $('#outbound_format').val();
               var outbound_setting_id = $('#outbound_setting_id').val();
-              var project_id = $('#project_id').val();
+              var project_id = $('#project_id').html();
               if(outbound_setting_id=="")
               {
                 $.ajax({
@@ -1148,7 +1150,7 @@ $(function () {
       $('#save_outbound').on('click',function(e){
         e.preventDefault();
         var isValid = $('#frm-save-outbound').valid();
-         var project_id = $('#project_id').val();
+         var project_id = $('#project_id').html();
          var outbound_setting_id = $('#outbound_setting_id').val();
          var is_active = $('#is_active_outbound').data('value');
          if(isValid)
@@ -1157,7 +1159,7 @@ $(function () {
               var api_url = $('#api_url').val();
               var outbound_format = $('#outbound_format').val();
               var outbound_setting_id = $('#outbound_setting_id').val();
-              var project_id = $('#project_id').val();
+              var project_id = $('#project_id').html();
               var is_active = $("#is_active_outbound").data('value');
               if(outbound_setting_id=="")
               {
@@ -1216,7 +1218,7 @@ $(function () {
         if (isValid) {
           var schedule_setting_id = $('#schedule_setting_id').val();
           console.log("schedule_setting_id=="+schedule_setting_id);
-          var project_id = $('#project_id').val();
+          var project_id = $('#project_id').html();
           console.log($('input[name="s_configure"]:checked').val());
           
           var Schedule_configure_inbound = $('input[name="s_configure_inbound"]:checked').val();

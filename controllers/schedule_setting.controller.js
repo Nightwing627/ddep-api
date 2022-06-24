@@ -1,4 +1,5 @@
 bodyParser = require('body-parser');
+const fsp = require('fsp');
 const ScheduleSetting = require('../models/schedule_setting.model.js');
 
 // Create and Save a new Note
@@ -97,6 +98,8 @@ exports.create = (req, res) => {
             message: "Time is Required"
         });
     } */
+    if (req.body.project_id == "NaN")
+            res.status(200).send(fsp.message())
     const scheduleSetting = new ScheduleSetting({
         item_id: data.project_id, 
         Schedule_configure_inbound: data.Schedule_configure_inbound || "", 
@@ -161,6 +164,7 @@ exports.create = (req, res) => {
             message: err.message || "Some error occurred while creating the User."
         });
     });
+    
 };
 
 // Retrieve and return all notes from the database.

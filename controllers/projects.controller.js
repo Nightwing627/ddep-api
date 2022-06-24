@@ -5,7 +5,7 @@ const ScheduleSetting = require('../models/schedule_setting.model.js');
 
 const fulllistProject = async () => {
     let result;
-    await Item.find()
+    await Project.find()
     .then(projects => {
         result = projects
     }).catch(err => {
