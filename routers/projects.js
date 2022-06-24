@@ -157,7 +157,7 @@ router.get("/editAPI/:id", projects.findOne);
 router.get("/edit/:id", function (req, res) {
   // request(config.domain+'/projects/editAPI/'+req.params.id, function (error, response, body) {
   request(
-    "http://localhost:8014/projects/editAPI/" + req.params.id,
+    config.domain+'/projects/editAPI/'+req.params.id,
     function (error, response, body) {
       var ddep_api_prefix =
         config.domain + "/" + config.ddepPrefix + "/" + config.companyCode;
