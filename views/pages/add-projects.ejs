@@ -100,9 +100,11 @@ License: You must have a valid license purchased only from themeforest(the above
             <form id="frm-save-project">
                 <div class="row">
                   <% if(typeof(alldata) !="undefined"){ %>
-                    <input type="hidden" name="project_id" id="project_id" value="<%= alldata._id %>">
-                  <% }else{ %>
-                  <input type="hidden" name="project_id" id="project_id" value="">
+                    <!-- <input type="text" name="project_id" id="project_id" value="<%= alldata._id %>"> -->
+                    <p type="text" style="display: none" name="project_id" id="project_id"><%= alldata._id %></p>
+                    <% }else{ %>
+                    <p type="text" style="display: none" name="project_id" id="project_id"></p>
+                  <!-- <input type="hidden" name="project_id" id="project_id" value=""> -->
                   <% } %>
                 <div class="form-group col-md-4">
                     <label class="form-label required" for="projectcode">Project Code</label>
