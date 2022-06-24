@@ -27,12 +27,6 @@ module.exports = function castBulkWrite(originalModel, op, options) {
         doc.$session(options.session);
       }
       op['insertOne']['document'] = doc;
-
-      if (options.skipValidation || op['insertOne'].skipValidation) {
-        callback(null);
-        return;
-      }
-
       op['insertOne']['document'].$validate({ __noPromise: true }, function(error) {
         if (error) {
           return callback(error, null);
@@ -159,12 +153,6 @@ module.exports = function castBulkWrite(originalModel, op, options) {
         doc.$session(options.session);
       }
       op['replaceOne']['replacement'] = doc;
-
-      if (options.skipValidation || op['replaceOne'].skipValidation) {
-        op['replaceOne']['replacement'] = op['replaceOne']['replacement'].toBSON();
-        callback(null);
-        return;
-      }
 
       op['replaceOne']['replacement'].$validate({ __noPromise: true }, function(error) {
         if (error) {
