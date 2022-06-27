@@ -516,9 +516,10 @@ License: You must have a valid license purchased only from themeforest(the above
         </div>
         <div class="row">
           <div class="col-6">
+            <input type="hidden" name="mapping_setting_id" id="mapping_setting_id" value="">
             <div class="form-group">
               <label for="exampleFormControlTextarea1">Inbound Format</label>
-              <textarea class="form-control" id="InboundFormat" rows="10"></textarea>
+              <textarea class="form-control" name="InboundFormatData" id="InboundFormatData" rows="10"></textarea>
               <br/>
               <div class="col-md-12 text-right">    
                 <a href="#"  onclick="saveBGRSJSON()" id="InboundJson">Download Json</a>
@@ -531,7 +532,7 @@ License: You must have a valid license purchased only from themeforest(the above
           <div class="col-6">
             <div class="form-group">
               <label for="exampleFormControlTextarea1">Outbound Format</label>
-              <textarea class="form-control" id="OutboundFormat" rows="10" ></textarea>
+              <textarea class="form-control" name="OutboundFormatData" id="OutboundFormatData" rows="10" ></textarea>
               <br/>
               <div class="col-md-12 text-right">
                 <a href="#"  id="OutboundJson" onclick="saveiRMSJSON()">Download Json</a>
@@ -1870,7 +1871,6 @@ License: You must have a valid license purchased only from themeforest(the above
             </td>
             <td class="col-sm-2"><a href="#" type="button" class="ibtnDel"> Delete </a></td>
           </tr>
-        <% } %>
         <% } %>
       </tbody>
     </table>

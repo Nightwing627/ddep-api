@@ -556,7 +556,7 @@ function GOJSD_Convertor(schemaText,group="inbound") {
 
 // Function for Inbound Upload Button
 function InboundDataBind() {
-	var jsonData = $("#InboundFormat").val();
+	var jsonData = $("#InboundFormatData").val();
 	var dataObj = JSON.parse(jsonData);
 	$.ajax({
 		url: '/mapping/convert/injson2GOJSD',  
@@ -608,7 +608,7 @@ function InboundDataBind() {
 
 // Function for Outbound Upload Button , all comments can reference to InboundDataBind();
 function OutboundDataBind() {
-	var jsonData = $("#OutboundFormat").val();
+	var jsonData = $("#OutboundFormatData").val();
 	var dataObj = JSON.parse(jsonData);
 	$.ajax({
 		url: '/mapping/convert/outjson2GOJSD',  

@@ -208,7 +208,13 @@ $(function () {
           },
           duration_outbound_end_date:{
             required:"#duration_outbound_end_date:visible"
-          }
+          },
+          InboundFormatData: {
+            required: true
+          },
+          OutboundFormatData: {
+            required: true
+          },
         },
         messages : {
           ProjectCode : {
@@ -771,7 +777,21 @@ $(function () {
             }
             else if(index == 3)
             {
-              numberedStepper.next();
+              var check = $(this).parent().siblings('form').valid();
+              if(check)
+              {
+                var project_id = $('#project_id').val();
+                var mapping_setting_id = $("#mapping_setting_id").val();
+                var inbound_format = $("#InboundFormatData").val();
+                var outbound_format = $('#OutboundFormatData').val();
+                var mapping_data = $('#mySavedModel').val();
+
+                numberedStepper.next();
+              }
+              else
+              {
+                alert("not valid");
+              }
             }
             else if(index == 4)
             {
