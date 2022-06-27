@@ -64,11 +64,11 @@ router.get('/item/fulllist',projects.fullProject);
 router.get('/fulllist', async function(req,res){
     let items = await itemController.fulllistItem();
     let projects = await projectController.fulllistProject();
-
     let result = projects.map((project, index) => {
         let itemArray = items.filter((item, index) => {
             return project._id == item.ProjectId
         }).map((item, index) => {
+            try {
             let data = {
                 "item_ID": item._id,
                 "itemCode": item.ItemCode,
@@ -82,6 +82,7 @@ router.get('/fulllist', async function(req,res){
                 "scheduleDescr": item.schedule_setting.occurs_inbound
             }
             return data;
+        } catch {}
         })
 
         return {
@@ -97,7 +98,6 @@ router.get('/fulllist', async function(req,res){
         }
     })
 
-    console.log(result)
     res.status(200).json({
         "data": result
     })
