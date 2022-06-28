@@ -341,12 +341,16 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 					}
 				}
 			}
+			// console.log('newLinkDataArr:');
+			// console.log(newLinkDataArr);
 
 			var mappingInboound = [];
 			for (var key in newLinkDataArr) {
 				var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
 				mappingInboound[key] = inboundValue;
 			}
+			// console.log('mappingInboound:');
+			// console.log(mappingInboound);
 
 			var outboundFormatData = outboundformatdata(OutboundFormatData, newLinkDataArr);
 			console.log('Outbound format convert to replacement Format:');
@@ -355,62 +359,9 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 			outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
 			console.log('Outbound Final Result:');
 			console.log(outboundMappedData);
-		})
 
-		var outbound_url = config.domain + "/outbound_setting/editAPI/" + project_id;
-		request(outbound_url, function (error, response, body) {
-			if(error) {
-				return res.json({
-					code: "1",
-					MsgCode: "50001",
-					MsgType: "Invalid-Source",
-					MsgLang: "en",
-					ShortMsg: "Fail",
-					LongMsg: error.message || "Some error occurred while getting the inbound setting.",
-					InternalMsg: "",
-					EnableAlert: "No",
-					DisplayMsgBy: "LongMsg",
-					Data: []
-				});
-			}
-			var outboundSetting = JSON.parse(body);
-			var outbound_api_url = outboundSetting.api_url;
-
-			var oldheaders = newHeader;
-			// delete oldheaders['User-Agent'];
-			// delete oldheaders.Accept;
-			// delete oldheaders['Postman-Token'];
-			delete oldheaders.Host;
-			delete oldheaders['Accept-Encoding'];
-			delete oldheaders.Connection;
-			delete oldheaders['Content-Length'];
-			var split_outbound_url = outbound_api_url.split('/');
-			if (split_outbound_url.includes('dapi')) {} else {
-				// delete oldheaders['Content-Type'];
-			}
-			var options = {
-				'method': responseBody.method,
-				'url': outbound_api_url+'?'+queryString,
-				'headers': oldheaders,
-			};
-			if (bodyreq != '') {
-				bodyreq = outboundMappedData;
-				if(typereq[1] == 'json') {
-					options['body'] = JSON.stringify(bodyreq);
-				} else if(typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml') {
-					options['body'] = JSON.stringify(bodyreq);
-				} else {
-					options['body'] = JSON.stringify(bodyreq);
-				}
-			} else {
-				reqBody = outboundMappedData;
-				options['formData'] = JSON.parse(JSON.stringify(reqBody));
-				if(Object.entries(options.formData).length == 0) {
-					options.method = "GET";
-				}
-			}
-			
-			request(options, function (error, response, body) {
+			var outbound_url = config.domain + "/outbound_setting/editAPI/" + project_id;
+			request(outbound_url, function (error, response, body) {
 				if(error) {
 					return res.json({
 						code: "1",
@@ -418,29 +369,82 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 						MsgType: "Invalid-Source",
 						MsgLang: "en",
 						ShortMsg: "Fail",
-						LongMsg: error.message || "Some error occurred while getting.",
+						LongMsg: error.message || "Some error occurred while getting the inbound setting.",
 						InternalMsg: "",
 						EnableAlert: "No",
 						DisplayMsgBy: "LongMsg",
 						Data: []
 					});
 				}
-				if (response.statusCode == 200) {
-					var contentType = response.headers['content-type'];
-					var types = contentType.split(';');
-					var type = types[0].split('/');
-					if ((type[0] == 'application' && type[1] == 'json') || type[1] == 'json') {
-						return res.status(200).json(JSON.parse(body));
-					} else {
-						return res.send(body);
-					}
-				} else if(response.statusCode == 301 || response.statusCode == 302 || response.statusCode == 303) {
-					return res.send(response.body);
-				} else {
-					return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
+				var outboundSetting = JSON.parse(body);
+				var outbound_api_url = outboundSetting.api_url;
+
+				var oldheaders = newHeader;
+				// delete oldheaders['User-Agent'];
+				// delete oldheaders.Accept;
+				// delete oldheaders['Postman-Token'];
+				delete oldheaders.Host;
+				delete oldheaders['Accept-Encoding'];
+				delete oldheaders.Connection;
+				delete oldheaders['Content-Length'];
+				var split_outbound_url = outbound_api_url.split('/');
+				if (split_outbound_url.includes('dapi')) {} else {
+					// delete oldheaders['Content-Type'];
 				}
+				var options = {
+					'method': responseBody.method,
+					'url': outbound_api_url+'?'+queryString,
+					'headers': oldheaders,
+				};
+				if (bodyreq != '') {
+					bodyreq = outboundMappedData;
+					if(typereq[1] == 'json') {
+						options['body'] = JSON.stringify(bodyreq);
+					} else if(typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml') {
+						options['body'] = JSON.stringify(bodyreq);
+					} else {
+						options['body'] = JSON.stringify(bodyreq);
+					}
+				} else {
+					reqBody = outboundMappedData;
+					options['formData'] = JSON.parse(JSON.stringify(reqBody));
+					if(Object.entries(options.formData).length == 0) {
+						options.method = "GET";
+					}
+				}
+				
+				request(options, function (error, response, body) {
+					if(error) {
+						return res.json({
+							code: "1",
+							MsgCode: "50001",
+							MsgType: "Invalid-Source",
+							MsgLang: "en",
+							ShortMsg: "Fail",
+							LongMsg: error.message || "Some error occurred while getting.",
+							InternalMsg: "",
+							EnableAlert: "No",
+							DisplayMsgBy: "LongMsg",
+							Data: []
+						});
+					}
+					if (response.statusCode == 200) {
+						var contentType = response.headers['content-type'];
+						var types = contentType.split(';');
+						var type = types[0].split('/');
+						if ((type[0] == 'application' && type[1] == 'json') || type[1] == 'json') {
+							return res.status(200).json(JSON.parse(body));
+						} else {
+							return res.send(body);
+						}
+					} else if(response.statusCode == 301 || response.statusCode == 302 || response.statusCode == 303) {
+						return res.send(response.body);
+					} else {
+						return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
+					}
+				});
 			});
-		})
+		});
 	});
 });
 
@@ -1500,6 +1504,7 @@ function get_inbound_key_obj(key, value) {
 		}
 		mainKey.push(key);
 		var newKey = make_inbound_keys(value);
+		mainKey = [];
 	} else if (whatIsIt(value) == 'Array') {
 		if (mainKey.length == 0) {
 			var newKey = '@In{'+key+'}';
@@ -1536,6 +1541,7 @@ function get_inbound_key_obj(key, value) {
 			mainKey.push(key);
 		}
 		var newKey = make_inbound_keys(value);
+		mainKey = [];
 	} else if (whatIsIt(value) != 'Object' && whatIsIt(value) != 'Array') {
 		var keyObj = {};
 		if (mainKey.length == 0) {
@@ -1961,54 +1967,71 @@ function ddep_api(reqBody, ddepInput, res) {
 	});
 }
 
-function getInboundValue(reqBody, inboundkey) {
-	var inboundDataArray = [];
+var parentKey = [];
+var inboundDataArray = [];
+function getInboundValue(inboundPostData, inboundkey) {
+	parentKey = [];
+	inboundDataArray = [];
+	return returnValue = getInboundValueEach(inboundPostData, inboundkey);
+}
+
+function getInboundValueEach(inboundPostData, inboundkey) {
 	var returnValue = '';
-	Object.entries(reqBody).forEach((entry) => {
+	// console.log("inboundkey => "+inboundkey);
+	Object.entries(inboundPostData).forEach((entry) => {
 		const [key, value] = entry;
+		// console.log("key => "+key);
 
 		var newKey = '@In{'+key+'}';
-		var key_count = checkKey(newKey, inboundDataArray);
+		var firstKey = '';
+		if (parentKey.length != 0) {
+			for (var i = 0; i < parentKey.length; i++) {
+				// console.log('parentKey[i] 1');
+				// console.log(parentKey[i]);
+				if (parentKey[i] == 0) {
+					// console.log('0 value remove parentKey[i] 1');
+				} else {
+					// console.log('value add parentKey[i] 1');
+					if (firstKey != '') {
+						firstKey = firstKey + '.';
+					}
+					firstKey = firstKey + parentKey[i];
+				}
+			}
+		}
+		if (firstKey == '') {
+			newKey = '@In{'+key+'}';
+			// console.log('newKey 1 => '+ newKey);
+		} else {
+			newKey = '@In{'+firstKey+'.'+key+'}';
+			// console.log('newKey 2 => '+ newKey);
+		}
 		if (inboundkey == newKey) {
 			returnValue = value;
 		}
-
+		var key_count = checkKey(newKey, inboundDataArray);
 		if (key_count > 1) {
-			newKey = '@In{'+key+key_count+'}';
+			if (firstKey == '') {
+				newKey = '@In{'+key+key_count+'}';
+				// console.log('newKey 3 => '+ newKey);
+			} else {
+				newKey = '@In{'+firstKey+'.'+key+key_count+'}';
+				// console.log('newKey 4 => '+ newKey);
+			}
 			if (inboundkey == newKey) {
 				returnValue = value;
 			}
 		}
 
-		if (!Array.isArray(value) && value != null && typeof(value) != "object") {
-			inboundDataArray.push({ key: newKey, value: value });
-		}
-
-		if (!Array.isArray(value) && value != null && typeof(value) == "object") {
-			Object.entries(value).forEach((itementry) => {
-				const [subkey, subvalue] = itementry;
-
-				var newSubKey = '@In{'+key+'.'+subkey+'}';
-				var subkey_count = checkKey(newSubKey, inboundDataArray);
-				if (inboundkey == newSubKey) {
-					returnValue = subvalue;
-				}
-
-				if (subkey_count > 1) {
-					newSubKey = '@In{'+key+'.'+subkey+subkey_count+'}';
-					if (inboundkey == newSubKey) {
-						returnValue = subvalue;
-					}
-				}
-
-				inboundDataArray.push({ key: newSubKey, value: subvalue });
-			});
-		}
-		if (Array.isArray(value) && value != null && typeof(value) == "object") {
-			Object.entries(value).forEach((arritementry) => {
-				const [arrsubkey, arrsubvalue] = arritementry;
-
-				Object.entries(arrsubvalue).forEach((itementry) => {
+		if (returnValue == '') {
+			if (!Array.isArray(value) && value != null && typeof(value) != "object") {
+				inboundDataArray.push({ key: newKey, value: value });
+			}
+			if (!Array.isArray(value) && value != null && typeof(value) == "object") {
+				parentKey.push(key);
+				returnValue = getInboundValueEach1(value, inboundkey);
+				parentKey = [];
+				/*Object.entries(value).forEach((itementry) => {
 					const [subkey, subvalue] = itementry;
 
 					var newSubKey = '@In{'+key+'.'+subkey+'}';
@@ -2025,11 +2048,42 @@ function getInboundValue(reqBody, inboundkey) {
 					}
 
 					inboundDataArray.push({ key: newSubKey, value: subvalue });
-				});
-			});
+				});*/
+			}
+			if (Array.isArray(value) && value != null && typeof(value) == "object") {
+				parentKey.push(key);
+				returnValue = getInboundValueEach1(value, inboundkey);
+				parentKey = [];
+				/*Object.entries(value).forEach((arritementry) => {
+					const [arrsubkey, arrsubvalue] = arritementry;
+
+					Object.entries(arrsubvalue).forEach((itementry) => {
+						const [subkey, subvalue] = itementry;
+
+						var newSubKey = '@In{'+key+'.'+subkey+'}';
+						var subkey_count = checkKey(newSubKey, inboundDataArray);
+						if (inboundkey == newSubKey) {
+							returnValue = subvalue;
+						}
+
+						if (subkey_count > 1) {
+							newSubKey = '@In{'+key+'.'+subkey+subkey_count+'}';
+							if (inboundkey == newSubKey) {
+								returnValue = subvalue;
+							}
+						}
+
+						inboundDataArray.push({ key: newSubKey, value: subvalue });
+					});
+				});*/
+			}
 		}
 	});
 	return returnValue;
+}
+
+function getInboundValueEach1(value, inboundkey) {
+	return returnValue = getInboundValueEach(value, inboundkey);
 }
 
 function checkKey(key, dataArray) {
