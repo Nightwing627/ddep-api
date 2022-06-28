@@ -25,11 +25,16 @@ const { json } = require('body-parser');
 router.post('/save', projects.create);
 
 router.post('/item/create', async (req, res) => {
-    console.log(req.body)
     const result = await itemController.create(req.body)
     res.status(200).json(result)
 })
 
+router.post('/item/update/:id', async (req, res) => {
+    const result = await itemController.update(req.params.id, req.body)
+    res.status(200).json(result)
+})
+
+// This Api is merged
 router.post('/item/add', (req, res) => {
     console.log(req.body.type)
     let data;
@@ -55,7 +60,7 @@ router.post('/item/add', (req, res) => {
             data = req.body;
             data = { ...data, project_id: data.item_id };
             console.log(data)
-            request.post(config.domain+'/inbound_setting/save', {form:req.body}, function (error, response, body) {
+            request.post(config.domain+'/outbound_setting/save', {form:req.body}, function (error, response, body) {
             // request.post('http://localhost:8014/outbound_setting/save', {form:data}, function (error, response, body) {
                 var data = JSON.parse(body);
                 res.status(200).json(data)
@@ -65,7 +70,53 @@ router.post('/item/add', (req, res) => {
             data = req.body;
             data = { ...data, project_id: data.item_id };
             console.log(data)
-            request.post(config.domain+'/inbound_setting/save', {form:req.body}, function (error, response, body) {
+            request.post(config.domain+'/schedule_setting/save', {form:req.body}, function (error, response, body) {
+            // request.post('http://localhost:8014/schedule_setting/save', {form:data}, function (error, response, body) {
+                var data = JSON.parse(body);
+                res.status(200).json(data)
+            })
+            break;
+        default :
+    }
+})
+
+// This Api is merged
+router.post('/item/modify/:id', (req, res) => {
+    console.log(req.body.type)
+    let data;
+    switch (req.body.type) {
+        case "item" :
+            request.post(config.domain+'/project/item/update/:id', {form:req.body}, function (error, response, body) {
+            // request.post('http://localhost:8014/project/item/create', {form:req.body}, function (error, response, body) {
+                data = JSON.parse(body);
+                res.status(200).json(data)
+            })
+            break;
+        case "inbound":
+            data = req.body;
+            data = { ...data, project_id: data.item_id };
+            console.log(data)
+            request.post(config.domain+'/inbound_setting/update/:id', {form:req.body}, function (error, response, body) {
+            // request.post('http://localhost:8014/inbound_setting/save', {form:data}, function (error, response, body) {
+                var data = JSON.parse(body);
+                res.status(200).json(data)
+            })
+            break;
+        case "outbound":
+            data = req.body;
+            data = { ...data, project_id: data.item_id };
+            console.log(data)
+            request.post(config.domain+'/outbound_setting/update/:id', {form:req.body}, function (error, response, body) {
+            // request.post('http://localhost:8014/outbound_setting/save', {form:data}, function (error, response, body) {
+                var data = JSON.parse(body);
+                res.status(200).json(data)
+            })
+            break;
+        case "schedule":
+            data = req.body;
+            data = { ...data, project_id: data.item_id };
+            console.log(data)
+            request.post(config.domain+'/schedule_setting/update/:id', {form:req.body}, function (error, response, body) {
             // request.post('http://localhost:8014/schedule_setting/save', {form:data}, function (error, response, body) {
                 var data = JSON.parse(body);
                 res.status(200).json(data)
