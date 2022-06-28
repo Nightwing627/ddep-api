@@ -101,16 +101,16 @@ exports.searchUser = (req,res)=>{
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    OutboundSetting.findOne({"project_id":id})
+    OutboundSetting.findOne({"item_id":id})
     .then(data => {
       if (!data)
-        res.status(404).json({ message: "Not found Project with id " + id });
+        res.status(404).json({ message: "Not found Item with id " + id });
       else res.json(data);
     })
     .catch(err => {
       res
         .status(500)
-        .json({ message: "Error retrieving Project with id=" + id });
+        .json({ message: "Error retrieving Item with id=" + id });
     });
 };
 
