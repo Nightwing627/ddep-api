@@ -115,6 +115,7 @@ const update = async (id, data) => {
     CompanyName: data.CompanyName,
     isActive: data.isActive,
   };
+  console.log(id)
   let result;
   await Item.findByIdAndUpdate(id, item, { new: true })
     .then((item) => {

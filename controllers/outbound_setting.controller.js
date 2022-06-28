@@ -116,6 +116,7 @@ exports.findOne = (req, res) => {
 
 // Update a note identified by the noteId in the request
 exports.update = (req, res) => {
+    console.log("outbound_setting", req.body, req.params.id)
     var data = req.body;
     //var check =isJson(data);
     // if(!check)
