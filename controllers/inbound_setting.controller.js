@@ -388,7 +388,7 @@ exports.update = (req, res) => {
   (data1.item_id = data.project_id),
     (data1.inbound_format = data.inbound_format),
     (data1.sync_type = data.sync_type),
-    (data1.ftp_server_link = data.ftp_server_link),
+    (data1.ftp_server_link = data.ftp_server_link || ""),
     (data1.ftp_port = data.port),
     (data1.ftp_login_name = data.login_name),
     (data1.ftp_password = data.password),
