@@ -571,33 +571,33 @@ function InboundDataBind() {
 			console.log(response);
 			var newInboundJson = response;
 
-	SchemaCount = 0;
-	//Inbound and Outbund Group in GOJS UI
-	var inboundGroup = [{ isGroup: true, key: "inbound", text: "Inbound Schema", xy: "0 0", width: 400 }];
-	var outboundGroup = [{ isGroup: true, key: "outbound", text: "Outbound Schema", xy: "1000 0", width: 400 }];
+			SchemaCount = 0;
+			//Inbound and Outbund Group in GOJS UI
+			var inboundGroup = [{ isGroup: true, key: "inbound", text: "Inbound Schema", xy: "0 0", width: 400 }];
+			var outboundGroup = [{ isGroup: true, key: "outbound", text: "Outbound Schema", xy: "1000 0", width: 400 }];
 
-	// When user fill in Inbound_Format Textbox (id=InboundFormat)
-	// must post this Textbox value injson2GOJSD API ,and then GOJSD_Convertor(<injson2GOJSD result>,"inbound");
-	// Now hardcode a Temporary Sample data used json2GOJSD_txtData variable
-	var nodes_and_linkdata = GOJSD_Convertor(JSON.stringify(newInboundJson),"inbound");
+			// When user fill in Inbound_Format Textbox (id=InboundFormat)
+			// must post this Textbox value injson2GOJSD API ,and then GOJSD_Convertor(<injson2GOJSD result>,"inbound");
+			// Now hardcode a Temporary Sample data used json2GOJSD_txtData variable
+			var nodes_and_linkdata = GOJSD_Convertor(JSON.stringify(newInboundJson),"inbound");
 
-	//GOJSD_Convertor will return the (obj).nodes & (obj).linkdata
-	inbound_nodes = nodes_and_linkdata.nodes;
-	inbound_linkdata = nodes_and_linkdata.linkdata;
+			//GOJSD_Convertor will return the (obj).nodes & (obj).linkdata
+			inbound_nodes = nodes_and_linkdata.nodes;
+			inbound_linkdata = nodes_and_linkdata.linkdata;
 
-	// 2 Variables to merge previous outbound scheme
-	var nodesResult = [...inboundGroup,...outboundGroup,...inbound_nodes,...outbound_nodes];
-	var linkdataResult = [...inbound_linkdata,...outbound_linkdata];
+			// 2 Variables to merge previous outbound scheme
+			var nodesResult = [...inboundGroup,...outboundGroup,...inbound_nodes,...outbound_nodes];
+			var linkdataResult = [...inbound_linkdata,...outbound_linkdata];
 
-	//console.log(nodesResult);
-	//console.log(linkdataResult);
+			console.log(nodesResult);
+			console.log(linkdataResult);
 
-	// apply 2 merged variables into nodeDataArray & linkDataArray
-	nodeDataArray = nodesResult;
-	linkDataArray = linkdataResult;
+			// apply 2 merged variables into nodeDataArray & linkDataArray
+			nodeDataArray = nodesResult;
+			linkDataArray = linkdataResult;
 
-	//Init GOJS UI
-	myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+			//Init GOJS UI
+			myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
 
 		},
 		error: function(response) {
@@ -623,21 +623,25 @@ function OutboundDataBind() {
 			console.log(response);
 			var newOutboundJson = response;
 
-	SchemaCount = 0;
-	var inboundGroup = [{ isGroup: true, key: "inbound", text: "Inbound Schema", xy: "0 0", width: 400 }];
-	var outboundGroup = [{ isGroup: true, key: "outbound", text: "Outbound Schema", xy: "1000 0", width: 400 }];
-	var nodes_and_linkdata = GOJSD_Convertor( JSON.stringify(newOutboundJson),"outbound");
+			SchemaCount = 0;
+			var inboundGroup = [{ isGroup: true, key: "inbound", text: "Inbound Schema", xy: "0 0", width: 400 }];
+			var outboundGroup = [{ isGroup: true, key: "outbound", text: "Outbound Schema", xy: "1000 0", width: 400 }];
 
-	outbound_nodes = nodes_and_linkdata.nodes;
-	outbound_linkdata = nodes_and_linkdata.linkdata;
-	var nodesResult = [...inboundGroup,...outboundGroup,...inbound_nodes,...outbound_nodes];
-	var linkdataResult = [...inbound_linkdata,...outbound_linkdata];
-	console.log(nodesResult);
-	console.log(linkdataResult);
+			var nodes_and_linkdata = GOJSD_Convertor( JSON.stringify(newOutboundJson),"outbound");
 
-	nodeDataArray = nodesResult;
-	linkDataArray = linkdataResult;
-	myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+			outbound_nodes = nodes_and_linkdata.nodes;
+			outbound_linkdata = nodes_and_linkdata.linkdata;
+
+			var nodesResult = [...inboundGroup,...outboundGroup,...inbound_nodes,...outbound_nodes];
+			var linkdataResult = [...inbound_linkdata,...outbound_linkdata];
+
+			console.log(nodesResult);
+			console.log(linkdataResult);
+
+			nodeDataArray = nodesResult;
+			linkDataArray = linkdataResult;
+
+			myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
 
 		},
 		error: function(response) {
