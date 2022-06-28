@@ -23,6 +23,58 @@ const itemController = require('../controllers/item.controller.js')
 const ase = require('../my_modules/aes');
 const { json } = require('body-parser');
 router.post('/save', projects.create);
+
+router.post('/item/create', async (req, res) => {
+    console.log(req.body)
+    const result = await itemController.create(req.body)
+    res.status(200).json(result)
+})
+
+router.post('/item/add', (req, res) => {
+    console.log(req.body.type)
+    let data;
+    switch (req.body.type) {
+        case "item" :
+            request.post(config.domain+'/project/item/create', {form:req.body}, function (error, response, body) {
+            // request.post('http://localhost:8014/project/item/create', {form:req.body}, function (error, response, body) {
+                data = JSON.parse(body);
+                res.status(200).json(data)
+            })
+            break;
+        case "inbound":
+            data = req.body;
+            data = { ...data, project_id: data.item_id };
+            console.log(data)
+            request.post(config.domain+'/inbound_setting/save', {form:req.body}, function (error, response, body) {
+            // request.post('http://localhost:8014/inbound_setting/save', {form:data}, function (error, response, body) {
+                var data = JSON.parse(body);
+                res.status(200).json(data)
+            })
+            break;
+        case "outbound":
+            data = req.body;
+            data = { ...data, project_id: data.item_id };
+            console.log(data)
+            request.post(config.domain+'/inbound_setting/save', {form:req.body}, function (error, response, body) {
+            // request.post('http://localhost:8014/outbound_setting/save', {form:data}, function (error, response, body) {
+                var data = JSON.parse(body);
+                res.status(200).json(data)
+            })
+            break;
+        case "schedule":
+            data = req.body;
+            data = { ...data, project_id: data.item_id };
+            console.log(data)
+            request.post(config.domain+'/inbound_setting/save', {form:req.body}, function (error, response, body) {
+            // request.post('http://localhost:8014/schedule_setting/save', {form:data}, function (error, response, body) {
+                var data = JSON.parse(body);
+                res.status(200).json(data)
+            })
+            break;
+        default :
+    }
+})
+
 router.get('/item/detail/:id', async function(req,res){
     let id = req.params.id;
     let items = await itemController.fulllistItem();

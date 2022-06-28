@@ -1,11 +1,11 @@
-const Project = require('../models/project.model.js');
+const Item = require('../models/project.model.js');
 const InboundSetting = require('../models/inbound_setting.model.js');
 const OutboundSetting = require('../models/outbound_setting.model.js');
 const ScheduleSetting = require('../models/schedule_setting.model.js');
 
 const fulllistItem = async () => {
     let items;
-    await Project.aggregate([
+    await Item.aggregate([
         {
         $lookup: {
             from: "inboundsettings", // collection to join
@@ -76,4 +76,27 @@ const fulllistItem = async () => {
     return items;
   };
 
-  module.exports = { fulllistItem };
+  const create = async (data) => {
+    let result;
+    const item = new Item({
+      ProjectId: data.ProjectId,
+      ItemCode: data.ItemCode,
+      ItemName: data.ItemName,
+      CompanyName: data.CompanyName,
+      isActive: data.isActive,
+    });
+    await item
+    .save()
+    .then((data) => {
+      result = { item_id: data._id, msg: "Item Saved Successfully" };
+    })
+    .catch((err) => {
+      result = {
+        message: err.message || "Some error occurred while creating the User.",
+      }
+    });
+
+    return result
+  }
+
+  module.exports = { fulllistItem, create };
