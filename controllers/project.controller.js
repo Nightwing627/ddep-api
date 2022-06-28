@@ -243,6 +243,7 @@ exports.update = (req, res) => {
     ItemCode: data.ProjectCode,
     ItemName: data.ProjectName,
     CompanyName: data.CompanyName,
+    isActive: data.isActive
   };
   Project.findByIdAndUpdate(req.params.id, project, { new: true })
     .then((project) => {
