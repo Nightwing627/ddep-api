@@ -21,7 +21,7 @@ ENV DBCONFIG_SERVER_1 mongodb://192.168.254.233:27017/ddep2
 ENV SITE_URL https://ddep-phase2.a4apple.cn:63303
 
 #ENV DBCONFIG_SERVER_1  mongodb+srv://ddep:ddep2022@cluster0.dqoad.mongodb.net/ddep?retryWrites=true&w=majority
-#ENV SITE_URL https://powerful-reaches-77485.herokuapp.com
+#ENV SITE_URL https://ddep-phase2.herokuapp.com
 
 # 暴露8004端口
 EXPOSE 8015

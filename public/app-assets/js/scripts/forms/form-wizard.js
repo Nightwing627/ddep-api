@@ -238,7 +238,7 @@ $(function () {
           var project_id = $('#project_id').val();
 
           if (isValid) {
-            if(index==0)
+            if(index == 0)
             {
               //var forms = $(this).parent().siblings('form');
               project_detail.ProjectCode = $('#ProjectCode').val();
@@ -625,10 +625,32 @@ $(function () {
                     
                   }
                 })
+                $.ajax({
+                  url:'/project/item/mapping/editAPI/'+project_id,
+                  method:'get',
+                  dataType:'json',
+                  data:{},
+                  success:function(response,textStatus,xhr){
+                    if(xhr.status==200)
+                    {
+                      $("#mapping_setting_id").val(response._id);
+                      $('#InboundFormatData').val(response.inbound_format);
+                      $('#OutboundFormatData').val(response.outbound_format);
+                      $('#mySavedModel').val(response.mapping_data);
+
+                      var mapping_data = JSON.parse(response.mapping_data);
+
+                      nodeDataArray = mapping_data.nodeDataArray;
+                      linkDataArray = mapping_data.linkDataArray;
+
+                      //Init GOJS UI
+                      myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+                    }
+                  }
+                })
               }
-              //console.log(project_detail);
             }
-            else if(index==1)
+            else if(index == 1)
             {
               var check = $(this).parent().siblings('form').valid();
               if(check)
@@ -784,9 +806,42 @@ $(function () {
                 var mapping_setting_id = $("#mapping_setting_id").val();
                 var inbound_format = $("#InboundFormatData").val();
                 var outbound_format = $('#OutboundFormatData').val();
-                var mapping_data = $('#mySavedModel').val();
+                var mapping_data = $('#mySavedModel2').val();
 
-                numberedStepper.next();
+                if(mapping_setting_id=="")
+                {
+                  $.ajax({
+                    url:'/project/item/mapping/save',  
+                    method:'post',  
+                    dataType:'json',
+                    data:{project_id:project_id,inbound_format:inbound_format,outbound_format:outbound_format,mapping_data:mapping_data},
+                    success:function(response){
+                      $("#mapping_setting_id").val(response.id);
+                      numberedStepper.next();
+                    },
+                    error: function (textStatus, errorThrown) {
+                      $e.preventDefault();
+                    }
+                  });
+                }
+                else
+                {
+                  $.ajax({
+                    url:'/project/item/mapping/update/'+mapping_setting_id,  
+                    method:'put',  
+                    dataType:'json',
+                    data:{project_id:project_id,inbound_format:inbound_format,outbound_format:outbound_format,mapping_data:mapping_data},
+                    success:function(response){
+                      sweetAlert("success", "Mapping Setting Saved Successfully", "success");
+                      numberedStepper.next();
+                    },
+                    error: function (textStatus, errorThrown) {
+                      $('#collapseTwo').slideDown('slow');
+                      $thisform.valid();
+                      return false;
+                    }
+                  });
+                }
               }
               else
               {
@@ -876,8 +931,9 @@ $(function () {
                 $('#duration_outbound_end_date').removeClass('hidden');
               }
               numberedStepper.next();
+            } else {
+              e.preventDefault();
             }
-            
           } else {
             e.preventDefault();
           }
