@@ -152,10 +152,10 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 			delete oldheaders['Accept-Encoding'];
 			delete oldheaders.Connection;
 			delete oldheaders['Content-Length'];
-			var split_outbound_url = outbound_api_url.split('/');
-			if (split_outbound_url.includes('dapi')) {} else {
-				// delete oldheaders['Content-Type'];
-			}
+			// var split_outbound_url = outbound_api_url.split('/');
+			// if (split_outbound_url.includes('dapi')) {} else {
+			// 	// delete oldheaders['Content-Type'];
+			// }
 			var options = {
 				'method': responseBody.method,
 				'url': outbound_api_url+'?'+queryString,
@@ -387,10 +387,10 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 				delete oldheaders['Accept-Encoding'];
 				delete oldheaders.Connection;
 				delete oldheaders['Content-Length'];
-				var split_outbound_url = outbound_api_url.split('/');
+				/*var split_outbound_url = outbound_api_url.split('/');
 				if (split_outbound_url.includes('dapi')) {} else {
 					// delete oldheaders['Content-Type'];
-				}
+				}*/
 				var options = {
 					'method': responseBody.method,
 					'url': outbound_api_url+'?'+queryString,
@@ -633,10 +633,10 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 				delete oldheaders['Accept-Encoding'];
 				delete oldheaders.Connection;
 				delete oldheaders['Content-Length'];
-				var split_outbound_url = outbound_api_url.split('/');
+				/*var split_outbound_url = outbound_api_url.split('/');
 				if (split_outbound_url.includes('dapi')) {} else {
 					// delete oldheaders['Content-Type'];
-				}
+				}*/
 				var options = {
 					'method': responseBody.method,
 					'url': outbound_api_url+'?'+queryString,
@@ -881,10 +881,10 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 				delete oldheaders['Accept-Encoding'];
 				delete oldheaders.Connection;
 				delete oldheaders['Content-Length'];
-				var split_outbound_url = outbound_api_url.split('/');
+				/*var split_outbound_url = outbound_api_url.split('/');
 				if (split_outbound_url.includes('dapi')) {} else {
 					// delete oldheaders['Content-Type'];
-				}
+				}*/
 				var options = {
 					'method': responseBody.method,
 					'url': outbound_api_url+'?'+queryString,
@@ -1129,10 +1129,10 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 				delete oldheaders['Accept-Encoding'];
 				delete oldheaders.Connection;
 				delete oldheaders['Content-Length'];
-				var split_outbound_url = outbound_api_url.split('/');
+				/*var split_outbound_url = outbound_api_url.split('/');
 				if (split_outbound_url.includes('dapi')) {} else {
 					// delete oldheaders['Content-Type'];
-				}
+				}*/
 				var options = {
 					'method': responseBody.method,
 					'url': outbound_api_url+'?'+queryString,
