@@ -36,7 +36,7 @@ exports.create = (req, res) => {
     }
     
     const inboundSetting = new InboundHistory({
-        project_id:data.project_id,
+        item_id:data.project_id,
         status:data.status
     });
     inboundSetting.save()

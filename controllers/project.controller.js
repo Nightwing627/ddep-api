@@ -49,7 +49,7 @@ exports.fullProject = (req, res) => {
         $lookup: {
           from: "inboundhistories",
           localField: "_id",
-          foreignField: "project_id",
+          foreignField: "item_id",
           as: "inbound_history",
         },
       },
@@ -62,7 +62,7 @@ exports.fullProject = (req, res) => {
         $lookup: {
           from: "outboundhistories",
           localField: "_id",
-          foreignField: "project_id",
+          foreignField: "item_id",
           as: "outbound_history",
         },
       },
