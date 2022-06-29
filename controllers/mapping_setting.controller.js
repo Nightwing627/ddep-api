@@ -26,7 +26,7 @@ exports.create = (req, res) => {
 			message: "Project Not Found",
 		});
 	}
-	if (!data.inbound_format) {
+	/*if (!data.inbound_format) {
 		return res.status(400).send({
 			message: "Inbound Format is Required",
 		});
@@ -40,7 +40,7 @@ exports.create = (req, res) => {
 		return res.status(400).send({
 			message: "Mapping is Required",
 		});
-	}
+	}*/
 
 	const mappingSetting = new MappingSetting({
 		item_id: data.project_id,
@@ -116,7 +116,7 @@ exports.update = (req, res) => {
 			message: "Project Not Found",
 		});
 	}
-	if (!data.inbound_format) {
+	/*if (!data.inbound_format) {
 		return res.status(400).send({
 			message: "Inbound Format is Required",
 		});
@@ -130,7 +130,7 @@ exports.update = (req, res) => {
 		return res.status(400).send({
 			message: "Mapping is Required",
 		});
-	}
+	}*/
 
 	var data1 = {};
 	(data1.item_id = data.project_id),

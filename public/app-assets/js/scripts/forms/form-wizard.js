@@ -94,7 +94,7 @@ $(function () {
               url : "/projects/checkcodeexist",
               data : {
                 ProjectCode: function() { return $("#ProjectCode").val(); },
-                project_id: function() { return $("#project_id").html(); },
+                project_id: function() { return $("#project_id").val(); },
               },
             }
           },
@@ -150,14 +150,14 @@ $(function () {
           },
           api_ddep_api: {
             required: true,
-            maxlength: 20,
+            maxlength: 100,
             regex: /^(\/)[a-zA-Z0-9-_\/]+$/,
             remote : {
               type : 'POST',
               url : "/inbound_setting/checkddepinputexist",
               data : {
                 api_ddep_api: function() { return $("#api_ddep_api").val(); },
-                project_id: function() { return $("#project_id").html(); },
+                project_id: function() { return $("#project_id").val(); },
               },
             }
           },
@@ -209,12 +209,12 @@ $(function () {
           duration_outbound_end_date:{
             required:"#duration_outbound_end_date:visible"
           },
-          InboundFormatData: {
+          /*InboundFormatData: {
             required: true
           },
           OutboundFormatData: {
             required: true
-          },
+          },*/
         },
         messages : {
           ProjectCode : {
