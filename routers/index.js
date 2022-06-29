@@ -397,7 +397,9 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 					'headers': oldheaders,
 				};
 				if (bodyreq != '') {
-					bodyreq = outboundMappedData;
+					if (outboundMappedData.length != 0) {
+						bodyreq = outboundMappedData;
+					}
 					if(typereq[1] == 'json') {
 						options['body'] = JSON.stringify(bodyreq);
 					} else if(typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml') {
@@ -406,7 +408,9 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 						options['body'] = JSON.stringify(bodyreq);
 					}
 				} else {
-					reqBody = outboundMappedData;
+					if (outboundMappedData.length != 0) {
+						reqBody = outboundMappedData;
+					}
 					options['formData'] = JSON.parse(JSON.stringify(reqBody));
 					if(Object.entries(options.formData).length == 0) {
 						options.method = "GET";
@@ -540,9 +544,13 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 		var inbound_setting = JSON.parse(response.body);
 		var inbound_format = inbound_setting.Data.inbound_format;
 		var project_id = inbound_setting.Data.project_id;
-		var outbound_url = config.domain + "/outbound_setting/editAPI/" + project_id;
 
-		request(outbound_url, function (error, response, body) {
+		var OutboundFormatData = '';
+		var nodeDataArray = [];
+		var linkDataArray = [];
+		var outboundMappedData = {};
+		var mapping_url = config.domain + "/project/item/mapping/editAPI/" + project_id;
+		request(mapping_url, function (error, response, body) {
 			if(error) {
 				return res.json({
 					code: "1",
@@ -557,46 +565,49 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 					Data: []
 				});
 			}
-			var outboundSetting = JSON.parse(body);
-			var outbound_api_url = outboundSetting.api_url;
-
-			var oldheaders = newHeader;
-			// delete oldheaders['User-Agent'];
-			// delete oldheaders.Accept;
-			// delete oldheaders['Postman-Token'];
-			delete oldheaders.Host;
-			delete oldheaders['Accept-Encoding'];
-			delete oldheaders.Connection;
-			delete oldheaders['Content-Length'];
-			var split_outbound_url = outbound_api_url.split('/');
-			if (split_outbound_url.includes('dapi')) {} else {
-				// delete oldheaders['Content-Type'];
+			var inboundPostData = reqBody;
+			if (typereq[0] == 'text' && typereq[1] == 'plain') {
+				inboundPostData = JSON.parse(reqBody);
 			}
-			var options = {
-				'method': responseBody.method,
-				'url': outbound_api_url+'?'+queryString,
-				'headers': oldheaders,
-			};
-			if (bodyreq != '') {
-				if(typereq[1] == 'json') {
-					options['body'] = JSON.stringify(bodyreq);
-				} else if(typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml') {
-					options['body'] = bodyreq;
-				} else {
-					options['body'] = JSON.stringify(bodyreq);
-				}
-			} else {
-				options['formData'] = JSON.parse(JSON.stringify(reqBody));
-				//console.log("******body req null found");
-				//console.log(options['formData'].length);
-				//options.method = "GET";
-				if(Object.entries(options.formData).length==0)
-				{
-					options.method = "GET";
+			console.log('Inbound posted Json:');
+			console.log(inboundPostData);
+
+			var mappingSetting = JSON.parse(body);
+			OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
+			var mapping_data = JSON.parse(mappingSetting.mapping_data);
+			nodeDataArray = mapping_data.nodeDataArray;
+			linkDataArray = mapping_data.linkDataArray;
+
+			var linkdataarray = linkDataArray;
+			var newLinkDataArr = [];
+			for (var i = 0; i < linkdataarray.length; i++) {
+				if (Object.entries(linkdataarray[i]).length > 0) {
+					if (linkdataarray[i].category != undefined && linkdataarray[i].category == 'Mapping') {
+						newLinkDataArr[linkdataarray[i].to] = linkdataarray[i].from;
+					}
 				}
 			}
+			// console.log('newLinkDataArr:');
+			// console.log(newLinkDataArr);
 
-			request(options, function (error, response, body) {
+			var mappingInboound = [];
+			for (var key in newLinkDataArr) {
+				var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
+				mappingInboound[key] = inboundValue;
+			}
+			// console.log('mappingInboound:');
+			// console.log(mappingInboound);
+
+			var outboundFormatData = outboundformatdata(OutboundFormatData, newLinkDataArr);
+			console.log('Outbound format convert to replacement Format:');
+			console.log(outboundFormatData);
+
+			outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
+			console.log('Outbound Final Result:');
+			console.log(outboundMappedData);
+
+			var outbound_url = config.domain + "/outbound_setting/editAPI/" + project_id;
+			request(outbound_url, function (error, response, body) {
 				if(error) {
 					return res.json({
 						code: "1",
@@ -604,27 +615,88 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 						MsgType: "Invalid-Source",
 						MsgLang: "en",
 						ShortMsg: "Fail",
-						LongMsg: error.message || "Some error occurred while getting.",
+						LongMsg: error.message || "Some error occurred while getting the inbound setting.",
 						InternalMsg: "",
 						EnableAlert: "No",
 						DisplayMsgBy: "LongMsg",
 						Data: []
 					});
 				}
-				if (response.statusCode == 200) {
-					var contentType = response.headers['content-type'];
-					var types = contentType.split(';');
-					var type = types[0].split('/');
-					if ((type[0] == 'application' && type[1] == 'json') || type[1] == 'json') {
-						return res.status(200).json(JSON.parse(body));
+				var outboundSetting = JSON.parse(body);
+				var outbound_api_url = outboundSetting.api_url;
+
+				var oldheaders = newHeader;
+				// delete oldheaders['User-Agent'];
+				// delete oldheaders.Accept;
+				// delete oldheaders['Postman-Token'];
+				delete oldheaders.Host;
+				delete oldheaders['Accept-Encoding'];
+				delete oldheaders.Connection;
+				delete oldheaders['Content-Length'];
+				var split_outbound_url = outbound_api_url.split('/');
+				if (split_outbound_url.includes('dapi')) {} else {
+					// delete oldheaders['Content-Type'];
+				}
+				var options = {
+					'method': responseBody.method,
+					'url': outbound_api_url+'?'+queryString,
+					'headers': oldheaders,
+				};
+				if (bodyreq != '') {
+					if (outboundMappedData.length != 0) {
+						bodyreq = outboundMappedData;
+					}
+					if(typereq[1] == 'json') {
+						options['body'] = JSON.stringify(bodyreq);
+					} else if(typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml') {
+						options['body'] = bodyreq;
 					} else {
-						return res.send(body);
+						options['body'] = JSON.stringify(bodyreq);
 					}
 				} else {
-					return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
+					if (outboundMappedData.length != 0) {
+						reqBody = outboundMappedData;
+					}
+					options['formData'] = JSON.parse(JSON.stringify(reqBody));
+					//console.log("******body req null found");
+					//console.log(options['formData'].length);
+					//options.method = "GET";
+					if(Object.entries(options.formData).length==0)
+					{
+						options.method = "GET";
+					}
 				}
+
+				request(options, function (error, response, body) {
+					if(error) {
+						return res.json({
+							code: "1",
+							MsgCode: "50001",
+							MsgType: "Invalid-Source",
+							MsgLang: "en",
+							ShortMsg: "Fail",
+							LongMsg: error.message || "Some error occurred while getting.",
+							InternalMsg: "",
+							EnableAlert: "No",
+							DisplayMsgBy: "LongMsg",
+							Data: []
+						});
+					}
+					if (response.statusCode == 200) {
+						var contentType = response.headers['content-type'];
+						var types = contentType.split(';');
+						var type = types[0].split('/');
+						if ((type[0] == 'application' && type[1] == 'json') || type[1] == 'json') {
+							return res.status(200).json(JSON.parse(body));
+						} else {
+							return res.send(body);
+						}
+					} else {
+						return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
+					}
+				});
 			});
-		})
+		});
 	});
 });
 
@@ -720,9 +792,13 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 		var inbound_setting = JSON.parse(response.body);
 		var inbound_format = inbound_setting.Data.inbound_format;
 		var project_id = inbound_setting.Data.project_id;
-		var outbound_url = config.domain + "/outbound_setting/editAPI/" + project_id;
 
-		request(outbound_url, function (error, response, body) {
+		var OutboundFormatData = '';
+		var nodeDataArray = [];
+		var linkDataArray = [];
+		var outboundMappedData = {};
+		var mapping_url = config.domain + "/project/item/mapping/editAPI/" + project_id;
+		request(mapping_url, function (error, response, body) {
 			if(error) {
 				return res.json({
 					code: "1",
@@ -737,46 +813,49 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 					Data: []
 				});
 			}
-			var outboundSetting = JSON.parse(body);
-			var outbound_api_url = outboundSetting.api_url;
-
-			var oldheaders = newHeader;
-			// delete oldheaders['User-Agent'];
-			// delete oldheaders.Accept;
-			// delete oldheaders['Postman-Token'];
-			delete oldheaders.Host;
-			delete oldheaders['Accept-Encoding'];
-			delete oldheaders.Connection;
-			delete oldheaders['Content-Length'];
-			var split_outbound_url = outbound_api_url.split('/');
-			if (split_outbound_url.includes('dapi')) {} else {
-				// delete oldheaders['Content-Type'];
+			var inboundPostData = reqBody;
+			if (typereq[0] == 'text' && typereq[1] == 'plain') {
+				inboundPostData = JSON.parse(reqBody);
 			}
-			var options = {
-				'method': responseBody.method,
-				'url': outbound_api_url+'?'+queryString,
-				'headers': oldheaders,
-			};
-			if (bodyreq != '') {
-				if(typereq[1] == 'json') {
-					options['body'] = JSON.stringify(bodyreq);
-				} else if(typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml') {
-					options['body'] = bodyreq;
-				} else {
-					options['body'] = JSON.stringify(bodyreq);
-				}
-			} else {
-				options['formData'] = JSON.parse(JSON.stringify(reqBody));
-				//console.log("******body req null found");
-				//console.log(options['formData'].length);
-				//options.method = "GET";
-				if(Object.entries(options.formData).length==0)
-				{
-					options.method = "GET";
+			console.log('Inbound posted Json:');
+			console.log(inboundPostData);
+
+			var mappingSetting = JSON.parse(body);
+			OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
+			var mapping_data = JSON.parse(mappingSetting.mapping_data);
+			nodeDataArray = mapping_data.nodeDataArray;
+			linkDataArray = mapping_data.linkDataArray;
+
+			var linkdataarray = linkDataArray;
+			var newLinkDataArr = [];
+			for (var i = 0; i < linkdataarray.length; i++) {
+				if (Object.entries(linkdataarray[i]).length > 0) {
+					if (linkdataarray[i].category != undefined && linkdataarray[i].category == 'Mapping') {
+						newLinkDataArr[linkdataarray[i].to] = linkdataarray[i].from;
+					}
 				}
 			}
+			// console.log('newLinkDataArr:');
+			// console.log(newLinkDataArr);
 
-			request(options, function (error, response, body) {
+			var mappingInboound = [];
+			for (var key in newLinkDataArr) {
+				var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
+				mappingInboound[key] = inboundValue;
+			}
+			// console.log('mappingInboound:');
+			// console.log(mappingInboound);
+
+			var outboundFormatData = outboundformatdata(OutboundFormatData, newLinkDataArr);
+			console.log('Outbound format convert to replacement Format:');
+			console.log(outboundFormatData);
+
+			outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
+			console.log('Outbound Final Result:');
+			console.log(outboundMappedData);
+
+			var outbound_url = config.domain + "/outbound_setting/editAPI/" + project_id;
+			request(outbound_url, function (error, response, body) {
 				if(error) {
 					return res.json({
 						code: "1",
@@ -784,27 +863,88 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 						MsgType: "Invalid-Source",
 						MsgLang: "en",
 						ShortMsg: "Fail",
-						LongMsg: error.message || "Some error occurred while getting.",
+						LongMsg: error.message || "Some error occurred while getting the inbound setting.",
 						InternalMsg: "",
 						EnableAlert: "No",
 						DisplayMsgBy: "LongMsg",
 						Data: []
 					});
 				}
-				if (response.statusCode == 200) {
-					var contentType = response.headers['content-type'];
-					var types = contentType.split(';');
-					var type = types[0].split('/');
-					if ((type[0] == 'application' && type[1] == 'json') || type[1] == 'json') {
-						return res.status(200).json(JSON.parse(body));
+				var outboundSetting = JSON.parse(body);
+				var outbound_api_url = outboundSetting.api_url;
+
+				var oldheaders = newHeader;
+				// delete oldheaders['User-Agent'];
+				// delete oldheaders.Accept;
+				// delete oldheaders['Postman-Token'];
+				delete oldheaders.Host;
+				delete oldheaders['Accept-Encoding'];
+				delete oldheaders.Connection;
+				delete oldheaders['Content-Length'];
+				var split_outbound_url = outbound_api_url.split('/');
+				if (split_outbound_url.includes('dapi')) {} else {
+					// delete oldheaders['Content-Type'];
+				}
+				var options = {
+					'method': responseBody.method,
+					'url': outbound_api_url+'?'+queryString,
+					'headers': oldheaders,
+				};
+				if (bodyreq != '') {
+					if (outboundMappedData.length != 0) {
+						bodyreq = outboundMappedData;
+					}
+					if(typereq[1] == 'json') {
+						options['body'] = JSON.stringify(bodyreq);
+					} else if(typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml') {
+						options['body'] = bodyreq;
 					} else {
-						return res.send(body);
+						options['body'] = JSON.stringify(bodyreq);
 					}
 				} else {
-					return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
+					if (outboundMappedData.length != 0) {
+						reqBody = outboundMappedData;
+					}
+					options['formData'] = JSON.parse(JSON.stringify(reqBody));
+					//console.log("******body req null found");
+					//console.log(options['formData'].length);
+					//options.method = "GET";
+					if(Object.entries(options.formData).length==0)
+					{
+						options.method = "GET";
+					}
 				}
+
+				request(options, function (error, response, body) {
+					if(error) {
+						return res.json({
+							code: "1",
+							MsgCode: "50001",
+							MsgType: "Invalid-Source",
+							MsgLang: "en",
+							ShortMsg: "Fail",
+							LongMsg: error.message || "Some error occurred while getting.",
+							InternalMsg: "",
+							EnableAlert: "No",
+							DisplayMsgBy: "LongMsg",
+							Data: []
+						});
+					}
+					if (response.statusCode == 200) {
+						var contentType = response.headers['content-type'];
+						var types = contentType.split(';');
+						var type = types[0].split('/');
+						if ((type[0] == 'application' && type[1] == 'json') || type[1] == 'json') {
+							return res.status(200).json(JSON.parse(body));
+						} else {
+							return res.send(body);
+						}
+					} else {
+						return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
+					}
+				});
 			});
-		})
+		});
 	});
 });
 
@@ -900,9 +1040,13 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 		var inbound_setting = JSON.parse(response.body);
 		var inbound_format = inbound_setting.Data.inbound_format;
 		var project_id = inbound_setting.Data.project_id;
-		var outbound_url = config.domain + "/outbound_setting/editAPI/" + project_id;
 
-		request(outbound_url, function (error, response, body) {
+		var OutboundFormatData = '';
+		var nodeDataArray = [];
+		var linkDataArray = [];
+		var outboundMappedData = {};
+		var mapping_url = config.domain + "/project/item/mapping/editAPI/" + project_id;
+		request(mapping_url, function (error, response, body) {
 			if(error) {
 				return res.json({
 					code: "1",
@@ -917,46 +1061,49 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 					Data: []
 				});
 			}
-			var outboundSetting = JSON.parse(body);
-			var outbound_api_url = outboundSetting.api_url;
-
-			var oldheaders = newHeader;
-			// delete oldheaders['User-Agent'];
-			// delete oldheaders.Accept;
-			// delete oldheaders['Postman-Token'];
-			delete oldheaders.Host;
-			delete oldheaders['Accept-Encoding'];
-			delete oldheaders.Connection;
-			delete oldheaders['Content-Length'];
-			var split_outbound_url = outbound_api_url.split('/');
-			if (split_outbound_url.includes('dapi')) {} else {
-				// delete oldheaders['Content-Type'];
+			var inboundPostData = reqBody;
+			if (typereq[0] == 'text' && typereq[1] == 'plain') {
+				inboundPostData = JSON.parse(reqBody);
 			}
-			var options = {
-				'method': responseBody.method,
-				'url': outbound_api_url+'?'+queryString,
-				'headers': oldheaders,
-			};
-			if (bodyreq != '') {
-				if(typereq[1] == 'json') {
-					options['body'] = JSON.stringify(bodyreq);
-				} else if(typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml') {
-					options['body'] = bodyreq;
-				} else {
-					options['body'] = JSON.stringify(bodyreq);
-				}
-			} else {
-				options['formData'] = JSON.parse(JSON.stringify(reqBody));
-				//console.log("******body req null found");
-				//console.log(options['formData'].length);
-				//options.method = "GET";
-				if(Object.entries(options.formData).length==0)
-				{
-					options.method = "GET";
+			console.log('Inbound posted Json:');
+			console.log(inboundPostData);
+
+			var mappingSetting = JSON.parse(body);
+			OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
+			var mapping_data = JSON.parse(mappingSetting.mapping_data);
+			nodeDataArray = mapping_data.nodeDataArray;
+			linkDataArray = mapping_data.linkDataArray;
+
+			var linkdataarray = linkDataArray;
+			var newLinkDataArr = [];
+			for (var i = 0; i < linkdataarray.length; i++) {
+				if (Object.entries(linkdataarray[i]).length > 0) {
+					if (linkdataarray[i].category != undefined && linkdataarray[i].category == 'Mapping') {
+						newLinkDataArr[linkdataarray[i].to] = linkdataarray[i].from;
+					}
 				}
 			}
+			// console.log('newLinkDataArr:');
+			// console.log(newLinkDataArr);
 
-			request(options, function (error, response, body) {
+			var mappingInboound = [];
+			for (var key in newLinkDataArr) {
+				var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
+				mappingInboound[key] = inboundValue;
+			}
+			// console.log('mappingInboound:');
+			// console.log(mappingInboound);
+
+			var outboundFormatData = outboundformatdata(OutboundFormatData, newLinkDataArr);
+			console.log('Outbound format convert to replacement Format:');
+			console.log(outboundFormatData);
+
+			outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
+			console.log('Outbound Final Result:');
+			console.log(outboundMappedData);
+
+			var outbound_url = config.domain + "/outbound_setting/editAPI/" + project_id;
+			request(outbound_url, function (error, response, body) {
 				if(error) {
 					return res.json({
 						code: "1",
@@ -964,27 +1111,88 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 						MsgType: "Invalid-Source",
 						MsgLang: "en",
 						ShortMsg: "Fail",
-						LongMsg: error.message || "Some error occurred while getting.",
+						LongMsg: error.message || "Some error occurred while getting the inbound setting.",
 						InternalMsg: "",
 						EnableAlert: "No",
 						DisplayMsgBy: "LongMsg",
 						Data: []
 					});
 				}
-				if (response.statusCode == 200) {
-					var contentType = response.headers['content-type'];
-					var types = contentType.split(';');
-					var type = types[0].split('/');
-					if ((type[0] == 'application' && type[1] == 'json') || type[1] == 'json') {
-						return res.status(200).json(JSON.parse(body));
+				var outboundSetting = JSON.parse(body);
+				var outbound_api_url = outboundSetting.api_url;
+
+				var oldheaders = newHeader;
+				// delete oldheaders['User-Agent'];
+				// delete oldheaders.Accept;
+				// delete oldheaders['Postman-Token'];
+				delete oldheaders.Host;
+				delete oldheaders['Accept-Encoding'];
+				delete oldheaders.Connection;
+				delete oldheaders['Content-Length'];
+				var split_outbound_url = outbound_api_url.split('/');
+				if (split_outbound_url.includes('dapi')) {} else {
+					// delete oldheaders['Content-Type'];
+				}
+				var options = {
+					'method': responseBody.method,
+					'url': outbound_api_url+'?'+queryString,
+					'headers': oldheaders,
+				};
+				if (bodyreq != '') {
+					if (outboundMappedData.length != 0) {
+						bodyreq = outboundMappedData;
+					}
+					if(typereq[1] == 'json') {
+						options['body'] = JSON.stringify(bodyreq);
+					} else if(typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml') {
+						options['body'] = bodyreq;
 					} else {
-						return res.send(body);
+						options['body'] = JSON.stringify(bodyreq);
 					}
 				} else {
-					return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
+					if (outboundMappedData.length != 0) {
+						reqBody = outboundMappedData;
+					}
+					options['formData'] = JSON.parse(JSON.stringify(reqBody));
+					//console.log("******body req null found");
+					//console.log(options['formData'].length);
+					//options.method = "GET";
+					if(Object.entries(options.formData).length==0)
+					{
+						options.method = "GET";
+					}
 				}
+
+				request(options, function (error, response, body) {
+					if(error) {
+						return res.json({
+							code: "1",
+							MsgCode: "50001",
+							MsgType: "Invalid-Source",
+							MsgLang: "en",
+							ShortMsg: "Fail",
+							LongMsg: error.message || "Some error occurred while getting.",
+							InternalMsg: "",
+							EnableAlert: "No",
+							DisplayMsgBy: "LongMsg",
+							Data: []
+						});
+					}
+					if (response.statusCode == 200) {
+						var contentType = response.headers['content-type'];
+						var types = contentType.split(';');
+						var type = types[0].split('/');
+						if ((type[0] == 'application' && type[1] == 'json') || type[1] == 'json') {
+							return res.status(200).json(JSON.parse(body));
+						} else {
+							return res.send(body);
+						}
+					} else {
+						return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
+					}
+				});
 			});
-		})
+		});
 	});
 });
 

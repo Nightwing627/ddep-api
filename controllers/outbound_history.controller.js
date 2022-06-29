@@ -25,7 +25,7 @@ exports.create = (req, res) => {
    var checkinbound =isJson(data);
    
    if(checkinbound)
-   {``
+   {
 
        data.OutboundHistory = JSON.parse(data);
    }
@@ -36,7 +36,7 @@ exports.create = (req, res) => {
     }
     
     const inboundSetting = new OutboundHistory({
-        project_id:data.project_id,
+        item_id:data.project_id,
         status:data.status
     });
     inboundSetting.save()

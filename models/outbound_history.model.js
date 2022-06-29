@@ -1,19 +1,12 @@
 const mongoose = require('mongoose');
 
 const OutboundHistorySchema = mongoose.Schema({
-   
-    
-        project_id:{
-            type:mongoose.Schema.Types.ObjectId,ref:'Project'
-        } ,
-       
-        status:String,
-        
-     
+    item_id:{
+        type:mongoose.Schema.Types.ObjectId,ref:'Item'
+    },
+    status:String,
     //OutboundSetting: ProjectSchema.Types.Mixed,
     //ScheduleSetting: ProjectSchema.Types.Mixed,
-
-
 }, {
     timestamps: true
 });
