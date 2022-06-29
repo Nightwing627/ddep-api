@@ -41,7 +41,6 @@ router.post("/item/add", async (req, res) => {
   let result = {};
   for (let i=0; i<req.body.length; i++) {
 //   await req.body.map( async (item) => {
-    console.log(i)
     switch (req.body[i].type) {
       case "basic":
         await new Promise((resolve) => {request.post(config.domain + '/project/item/create', {form: req.body[i]}, function (error, response, body) {
@@ -55,7 +54,6 @@ router.post("/item/add", async (req, res) => {
           })
         }
         );
-        console.log("12345")
         break;
       case "inbound":
         data = req.body[i];
@@ -105,65 +103,58 @@ router.post("/item/add", async (req, res) => {
 });
 
 // This Api is merged
-router.post("/item/modify/:id", (req, res) => {
-  console.log(req.body.type);
+router.post("/item/modify", async (req, res) => {
   let data;
-  switch (req.body.type) {
-    case "basic":
-      request.post(
-        config.domain + "/project/item/update/" + req.params.id,
-        { form: req.body },
-        function (error, response, body) {
-          // request.post('http://localhost:8014/project/item/update/'+req.params.id, {form:req.body}, function (error, response, body) {
+  let result = {};
+  for (let i=0; i<req.body.length; i++) {
+    switch (req.body[i].type) {
+      case "basic":
+        await new Promise((resolve) => {request.post(config.domain + "/project/item/update/" + req.body[i].item_id, { form: req.body[i] }, function (error, response, body) {
+        // await new Promise((resolve) => {request.post("http://localhost:8014/project/item/update/" + req.body[i].item_id, { form: req.body[i] }, function (error, response, body) {
           data = JSON.parse(body);
-          res.status(200).json(data);
+          result = { ...result, basic: data};
+          resolve({});
+          })   
         }
-      );
-      break;
-    case "inbound":
-      data = req.body;
-      data = { ...data, project_id: data.item_id };
-      console.log(data);
-      request.put(
-        config.domain + "/inbound_setting/update/" + req.params.id,
-        { form: data },
-        function (error, response, body) {
-          // request.put('http://localhost:8014/inbound_setting/update/'+req.params.id, {form:data}, function (error, response, body) {
-          var data = JSON.parse(body);
-          res.status(200).json(data);
+        );
+        break;
+      case "inbound":
+        data = req.body[i];
+        data = { ...data, project_id: data.item_id };
+        await new Promise((resolve) => {request.put(config.domain + "/inbound_setting/update/" + req.body[i].inbound_id, { form: data }, function (error, response, body) {
+            var data = JSON.parse(body);
+            result = { ...result, inbound: data};
+            resolve({});
+          })   
         }
-      );
-      break;
-    case "outbound":
-      data = req.body;
-      data = { ...data, project_id: data.item_id };
-      console.log(data);
-      request.put(
-        config.domain + "/outbound_setting/update/" + req.params.id,
-        { form: data },
-        function (error, response, body) {
-          // request.put('http://localhost:8014/outbound_setting/update/'+req.params.id, {form:data}, function (error, response, body) {
-          var data = JSON.parse(body);
-          res.status(200).json(data);
+        );
+        break;
+      case "outbound":
+        data = req.body[i];
+        data = { ...data, project_id: data.item_id };
+        await new Promise((resolve) => {request.put( config.domain + "/outbound_setting/update/" + req.body[i].outbound_id, { form: data }, function (error, response, body) {
+            var data = JSON.parse(body);
+            result = { ...result, outbound: data};
+            resolve({});
+          })   
         }
-      );
-      break;
-    case "schedule":
-      data = req.body;
-      data = { ...data, project_id: data.item_id };
-      console.log(data);
-      request.put(
-        config.domain + "/schedule_setting/update/" + req.params.id,
-        { form: data },
-        function (error, response, body) {
-          // request.put('http://localhost:8014/schedule_setting/update/'+req.params.id, {form:data}, function (error, response, body) {
-          var data = JSON.parse(body);
-          res.status(200).json(data);
+        );
+        break;
+      case "schedule":
+        data = req.body[i];
+        data = { ...data, project_id: data.item_id };
+        await new Promise((resolve) => {request.put( config.domain + "/schedule_setting/update/" + req.body[i].schedule_id, { form: data }, function (error, response, body) {
+            var data = JSON.parse(body);
+            result = { ...result, schedule: data};
+            resolve({});
+          })   
         }
-      );
-      break;
-    default:
+        );
+        break;
+      default:
+    }
   }
+  res.status(200).json({data: result});
 });
 
 router.get("/item/detail/:id", async function (req, res) {
