@@ -47,6 +47,7 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 	}
 
 	var bodyreq = '';
+	var typereq = '';
 	if (newHeader['Content-Type'] != undefined) {
 		var reqContentType = newHeader['Content-Type'];
 		var typereq = reqContentType.split('/');
@@ -152,19 +153,19 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 			delete oldheaders['Accept-Encoding'];
 			delete oldheaders.Connection;
 			delete oldheaders['Content-Length'];
-			var split_outbound_url = outbound_api_url.split('/');
-			if (split_outbound_url.includes('dapi')) {} else {
-				// delete oldheaders['Content-Type'];
-			}
+			// var split_outbound_url = outbound_api_url.split('/');
+			// if (split_outbound_url.includes('dapi')) {} else {
+			// 	// delete oldheaders['Content-Type'];
+			// }
 			var options = {
 				'method': responseBody.method,
 				'url': outbound_api_url+'?'+queryString,
 				'headers': oldheaders,
 			};
 			if (bodyreq != '') {
-				if(typereq[1] == 'json') {
+				if(typereq != '' && typereq[1] == 'json') {
 					options['body'] = JSON.stringify(bodyreq);
-				} else if(typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml') {
+				} else if(typereq != '' && (typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml')) {
 					options['body'] = bodyreq;
 				} else {
 					options['body'] = JSON.stringify(bodyreq);
@@ -221,9 +222,10 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 	}
 
 	var bodyreq = '';
+	var typereq = '';
 	if (newHeader['Content-Type'] != undefined) {
 		var reqContentType = newHeader['Content-Type'];
-		var typereq = reqContentType.split('/');
+		typereq = reqContentType.split('/');
 		if ((typereq[0] == 'application' && (typereq[1] == 'json' || typereq[1] == 'xml' || typereq[1] == 'javascript')) || (typereq[0] == 'text' && (typereq[1] == 'plain' || typereq[1] == 'html'))) {
 			bodyreq = reqBody;
 		}
@@ -320,45 +322,53 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 				});
 			}
 			var inboundPostData = reqBody;
-			if (typereq[0] == 'text' && typereq[1] == 'plain') {
+			if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
 				inboundPostData = JSON.parse(reqBody);
 			}
 			console.log('Inbound posted Json:');
 			console.log(inboundPostData);
 
 			var mappingSetting = JSON.parse(body);
-			OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
-			var mapping_data = JSON.parse(mappingSetting.mapping_data);
-			nodeDataArray = mapping_data.nodeDataArray;
-			linkDataArray = mapping_data.linkDataArray;
+			if (mappingSetting.outbound_format.length != 0) {
+				OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
+				var mapping_data = JSON.parse(mappingSetting.mapping_data);
+				nodeDataArray = mapping_data.nodeDataArray;
+				linkDataArray = mapping_data.linkDataArray;
 
-			var linkdataarray = linkDataArray;
-			var newLinkDataArr = [];
-			for (var i = 0; i < linkdataarray.length; i++) {
-				if (Object.entries(linkdataarray[i]).length > 0) {
-					if (linkdataarray[i].category != undefined && linkdataarray[i].category == 'Mapping') {
-						newLinkDataArr[linkdataarray[i].to] = linkdataarray[i].from;
+				var linkdataarray = linkDataArray;
+				var newLinkDataArr = [];
+				for (var i = 0; i < linkdataarray.length; i++) {
+					if (Object.entries(linkdataarray[i]).length > 0) {
+						if (linkdataarray[i].category != undefined && linkdataarray[i].category == 'Mapping') {
+							newLinkDataArr[linkdataarray[i].to] = linkdataarray[i].from;
+						}
 					}
 				}
+				// console.log('newLinkDataArr:');
+				// console.log(newLinkDataArr);
+
+				var mappingInboound = [];
+				for (var key in newLinkDataArr) {
+					var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
+					mappingInboound[key] = inboundValue;
+				}
+				// console.log('mappingInboound:');
+				// console.log(mappingInboound);
+
+				var outboundFormatData = outboundformatdata(OutboundFormatData, newLinkDataArr);
+				console.log('Outbound format convert to replacement Format:');
+				console.log(outboundFormatData);
+
+				outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
+				console.log('Outbound Final Result:');
+				console.log(outboundMappedData);
+				if (bodyreq != '' && outboundMappedData.length != 0) {
+					bodyreq = outboundMappedData;
+				}
+				if (outboundMappedData.length != 0) {
+					reqBody = outboundMappedData;
+				}
 			}
-			// console.log('newLinkDataArr:');
-			// console.log(newLinkDataArr);
-
-			var mappingInboound = [];
-			for (var key in newLinkDataArr) {
-				var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
-				mappingInboound[key] = inboundValue;
-			}
-			// console.log('mappingInboound:');
-			// console.log(mappingInboound);
-
-			var outboundFormatData = outboundformatdata(OutboundFormatData, newLinkDataArr);
-			console.log('Outbound format convert to replacement Format:');
-			console.log(outboundFormatData);
-
-			outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
-			console.log('Outbound Final Result:');
-			console.log(outboundMappedData);
 
 			var outbound_url = config.domain + "/outbound_setting/editAPI/" + project_id;
 			request(outbound_url, function (error, response, body) {
@@ -387,30 +397,24 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 				delete oldheaders['Accept-Encoding'];
 				delete oldheaders.Connection;
 				delete oldheaders['Content-Length'];
-				var split_outbound_url = outbound_api_url.split('/');
+				/*var split_outbound_url = outbound_api_url.split('/');
 				if (split_outbound_url.includes('dapi')) {} else {
 					// delete oldheaders['Content-Type'];
-				}
+				}*/
 				var options = {
 					'method': responseBody.method,
 					'url': outbound_api_url+'?'+queryString,
 					'headers': oldheaders,
 				};
 				if (bodyreq != '') {
-					if (outboundMappedData.length != 0) {
-						bodyreq = outboundMappedData;
-					}
-					if(typereq[1] == 'json') {
+					if(typereq != '' && typereq[1] == 'json') {
 						options['body'] = JSON.stringify(bodyreq);
-					} else if(typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml') {
+					} else if(typereq != '' && (typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml')) {
 						options['body'] = JSON.stringify(bodyreq);
 					} else {
 						options['body'] = JSON.stringify(bodyreq);
 					}
 				} else {
-					if (outboundMappedData.length != 0) {
-						reqBody = outboundMappedData;
-					}
 					options['formData'] = JSON.parse(JSON.stringify(reqBody));
 					if(Object.entries(options.formData).length == 0) {
 						options.method = "GET";
@@ -467,6 +471,7 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 	}
 
 	var bodyreq = '';
+	var typereq = '';
 	if (newHeader['Content-Type'] != undefined) {
 		var reqContentType = newHeader['Content-Type'];
 		var typereq = reqContentType.split('/');
@@ -566,7 +571,7 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 				});
 			}
 			var inboundPostData = reqBody;
-			if (typereq[0] == 'text' && typereq[1] == 'plain') {
+			if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
 				inboundPostData = JSON.parse(reqBody);
 			}
 			console.log('Inbound posted Json:');
@@ -633,10 +638,10 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 				delete oldheaders['Accept-Encoding'];
 				delete oldheaders.Connection;
 				delete oldheaders['Content-Length'];
-				var split_outbound_url = outbound_api_url.split('/');
+				/*var split_outbound_url = outbound_api_url.split('/');
 				if (split_outbound_url.includes('dapi')) {} else {
 					// delete oldheaders['Content-Type'];
-				}
+				}*/
 				var options = {
 					'method': responseBody.method,
 					'url': outbound_api_url+'?'+queryString,
@@ -646,9 +651,9 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 					if (outboundMappedData.length != 0) {
 						bodyreq = outboundMappedData;
 					}
-					if(typereq[1] == 'json') {
+					if(typereq != '' && typereq[1] == 'json') {
 						options['body'] = JSON.stringify(bodyreq);
-					} else if(typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml') {
+					} else if(typereq != '' && (typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml')) {
 						options['body'] = bodyreq;
 					} else {
 						options['body'] = JSON.stringify(bodyreq);
@@ -715,6 +720,7 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 	}
 
 	var bodyreq = '';
+	var typereq = '';
 	if (newHeader['Content-Type'] != undefined) {
 		var reqContentType = newHeader['Content-Type'];
 		var typereq = reqContentType.split('/');
@@ -814,7 +820,7 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 				});
 			}
 			var inboundPostData = reqBody;
-			if (typereq[0] == 'text' && typereq[1] == 'plain') {
+			if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
 				inboundPostData = JSON.parse(reqBody);
 			}
 			console.log('Inbound posted Json:');
@@ -881,10 +887,10 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 				delete oldheaders['Accept-Encoding'];
 				delete oldheaders.Connection;
 				delete oldheaders['Content-Length'];
-				var split_outbound_url = outbound_api_url.split('/');
+				/*var split_outbound_url = outbound_api_url.split('/');
 				if (split_outbound_url.includes('dapi')) {} else {
 					// delete oldheaders['Content-Type'];
-				}
+				}*/
 				var options = {
 					'method': responseBody.method,
 					'url': outbound_api_url+'?'+queryString,
@@ -894,9 +900,9 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 					if (outboundMappedData.length != 0) {
 						bodyreq = outboundMappedData;
 					}
-					if(typereq[1] == 'json') {
+					if(typereq != '' && typereq[1] == 'json') {
 						options['body'] = JSON.stringify(bodyreq);
-					} else if(typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml') {
+					} else if(typereq != '' && (typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml')) {
 						options['body'] = bodyreq;
 					} else {
 						options['body'] = JSON.stringify(bodyreq);
@@ -963,6 +969,7 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 	}
 
 	var bodyreq = '';
+	var typereq = '';
 	if (newHeader['Content-Type'] != undefined) {
 		var reqContentType = newHeader['Content-Type'];
 		var typereq = reqContentType.split('/');
@@ -1062,7 +1069,7 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 				});
 			}
 			var inboundPostData = reqBody;
-			if (typereq[0] == 'text' && typereq[1] == 'plain') {
+			if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
 				inboundPostData = JSON.parse(reqBody);
 			}
 			console.log('Inbound posted Json:');
@@ -1129,10 +1136,10 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 				delete oldheaders['Accept-Encoding'];
 				delete oldheaders.Connection;
 				delete oldheaders['Content-Length'];
-				var split_outbound_url = outbound_api_url.split('/');
+				/*var split_outbound_url = outbound_api_url.split('/');
 				if (split_outbound_url.includes('dapi')) {} else {
 					// delete oldheaders['Content-Type'];
-				}
+				}*/
 				var options = {
 					'method': responseBody.method,
 					'url': outbound_api_url+'?'+queryString,
@@ -1142,9 +1149,9 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 					if (outboundMappedData.length != 0) {
 						bodyreq = outboundMappedData;
 					}
-					if(typereq[1] == 'json') {
+					if(typereq != '' && typereq[1] == 'json') {
 						options['body'] = JSON.stringify(bodyreq);
-					} else if(typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml') {
+					} else if(typereq != '' && (typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml')) {
 						options['body'] = bodyreq;
 					} else {
 						options['body'] = JSON.stringify(bodyreq);

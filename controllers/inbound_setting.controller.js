@@ -485,7 +485,7 @@ exports.checkddepinputexist = (req, res) => {
         for (var i = 0; i < inbound.length; i++) {
           if (
             inbound[i].api_ddep_api == api_ddep_api &&
-            inbound[i].project_id != project_id
+            inbound[i].item_id != project_id
           ) {
             is_true = 0;
           }
