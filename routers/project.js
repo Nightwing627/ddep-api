@@ -29,6 +29,12 @@ router.post("/item/create", async (req, res) => {
   res.status(200).json(result);
 });
 
+router.post("/item/checkbasic", async (req, res) => {
+  console.log(req.body)
+  const result = await itemController.check(req.body.itemCode);
+  res.status(200).json({result: result});
+})
+
 router.post("/item/update/:id", async (req, res) => {
   const result = await itemController.update(req.params.id, req.body);
   res.status(200).json(result);
@@ -39,12 +45,24 @@ router.post("/item/add", async (req, res) => {
   let item_id = "";
   let data;
   let result = {};
+  let duplicate = "";
   for (let i=0; i<req.body.length; i++) {
 //   await req.body.map( async (item) => {
+    if (duplicate != "")  break;
     switch (req.body[i].type) {
       case "basic":
+        // await new Promise((resolve) => {request.post(config.domain + '/project/item/checkbasic', {form: req.body[i].ItemCode}, function (error, response, body) {
+        await new Promise((resolve) => {request.post(config.domain + '/project/item/checkbasic', {form: {itemCode: req.body[i].ItemCode}}, function (error, response, body) {
+              data = JSON.parse(body);
+              if (data.result == false) {
+                duplicate = "ItemCode already exists";
+              }
+              resolve({});
+            })
+          }
+        );
+        if (duplicate != "")  break;
         await new Promise((resolve) => {request.post(config.domain + '/project/item/create', {form: req.body[i]}, function (error, response, body) {
-        // await new Promise((resolve) => {request.post('http://localhost:8014/project/item/create', {form: req.body[i]}, function (error, response, body) {
             data = JSON.parse(body);
             item_id = data.item_id
             result = { ...result, basic: data};
@@ -60,6 +78,17 @@ router.post("/item/add", async (req, res) => {
         data = { ...data, project_id: data.item_id };
         if (item_id != "")
             data = { ...data, project_id: item_id };
+        await new Promise((resolve) => {request.post(config.domain + '/inbound_setting/checkddepinputexist', {form: data}, function (error, response, body) {
+              let data1 = JSON.parse(body);
+              console.log(data1)
+              if (data1 == false) {
+                duplicate = "DDEP API already exists";
+              }
+              resolve({});
+            })
+          }
+        );
+        if (duplicate != "")  break;
         await new Promise((resolve) => {request.post(config.domain + '/inbound_setting/save', {form:data}, function (error, response, body) {
             var data = JSON.parse(body);
             result = { ...result, inbound: data};
@@ -99,13 +128,18 @@ router.post("/item/add", async (req, res) => {
     }
 //   });
   }
-  res.status(200).json({data: result});
+  if (duplicate != "") {
+    res.status(500).json({msg: duplicate});
+  } else {
+    res.status(200).json({data: result});
+  }
 });
 
 // This Api is merged
 router.post("/item/modify", async (req, res) => {
   let data;
   let result = {};
+  let duplicate = "";
   for (let i=0; i<req.body.length; i++) {
     switch (req.body[i].type) {
       case "basic":
@@ -154,7 +188,11 @@ router.post("/item/modify", async (req, res) => {
       default:
     }
   }
-  res.status(200).json({data: result});
+  if (duplicate != "") {
+    res.status(500).json({msg: duplicate});
+  } else {
+    res.status(200).json({data: result});
+  }
 });
 
 router.get("/item/detail/:id", async function (req, res) {
