@@ -140,4 +140,16 @@ const update = async (id, data) => {
   return result;
 };
 
-module.exports = { fulllistItem, create, update };
+const check = async (code) => {
+  let result;
+  await Item.findOne({ItemCode: code})
+    .then((item) => {
+      if (item == null) {
+        result = true;
+      }
+      else result = false;
+    });
+  return result;
+}
+
+module.exports = { fulllistItem, create, update, check };
