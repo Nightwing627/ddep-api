@@ -275,63 +275,59 @@ router.get("/fulllist", async function (req, res) {
     data: result,
   });
 });
-router.post("/add", function (req, res) {
-  var ProjectCode = req.body.projectCode;
-  var ProjectName = req.body.projectName;
-  var ProjectDescription = req.body.projectDescr;
+
+router.post("/add", async function (req, res) {
+  // var ProjectCode = req.body.projectCode;
+  // var ProjectName = req.body.projectName;
+  // var ProjectDescription = req.body.projectDescr;
+  let result = await projectController.create(req.body);
   //var Sequence = req.body.Sequence;
-  var Group = req.body.group;
-  var isActive = req.body.isActive;
-  res.status(200).json({
-    data: [
-      {
-        pj_ID: "62592d4a5c4b8a9d970b56aa",
-        projectCode: ProjectCode,
-        projectName: ProjectName,
-        projectDescr: ProjectDescription,
-        group: "",
-        isActive: "1",
-        createdAt: "2022-04-15T08:31:06.196Z",
-        updatedAt: "2022-05-19T06:42:06.239Z",
-      },
-    ],
-  });
+  // var Group = req.body.group;
+  // var isActive = req.body.isActive;
+  res.status(200).json(result)
 });
-router.post("/update/:id", function (req, res) {
-  var ProjectCode = req.body.projectCode;
-  var ProjectName = req.body.projectName;
-  var ProjectDescription = req.body.projectDescr;
+
+router.post("/modify/:id", async function (req, res) {
+  // var ProjectCode = req.body.projectCode;
+  // var ProjectName = req.body.projectName;
+  // var ProjectDescription = req.body.projectDescr;
   //var Sequence = req.body.Sequence;
-  var Group = req.body.group;
-  var isActive = req.body.isActive;
-  res.status(200).json({
-    data: [
-      {
-        pj_ID: "62592d4a5c4b8a9d970b56aa",
-        projectCode: ProjectCode,
-        projectName: ProjectName,
-        projectDescr: ProjectDescription,
-        group: "",
-        isActive: "1",
-        createdAt: "2022-04-15T08:31:06.196Z",
-        updatedAt: "2022-05-19T06:42:06.239Z",
-      },
-    ],
-  });
+  // var Group = req.body.group;
+  // var isActive = req.body.isActive;
+  let result = await projectController.update(req.params.id, req.body);
+  res.status(200).json(result);
+
+  // res.status(200).json({
+  //   data: [
+  //     {
+  //       pj_ID: "62592d4a5c4b8a9d970b56aa",
+  //       projectCode: ProjectCode,
+  //       projectName: ProjectName,
+  //       projectDescr: ProjectDescription,
+  //       group: "",
+  //       isActive: "1",
+  //       createdAt: "2022-04-15T08:31:06.196Z",
+  //       updatedAt: "2022-05-19T06:42:06.239Z",
+  //     },
+  //   ],
+  // });
 });
-router.get("/detail/:id", function (req, res) {
-  res.status(200).json({
-    data: {
-      pj_ID: "62592d4a5c4b8a9d970b56aa",
-      projectCode: "test",
-      projectName: "test",
-      projectDescr: "test",
-      group: "",
-      isActive: "1",
-      createdAt: "2022-04-15T08:31:06.196Z",
-      updatedAt: "2022-05-19T06:42:06.239Z",
-    },
-  });
+router.get("/detail/:id", async function (req, res) {
+  let result = await projectController.findOne(req.params.id);
+  res.status(200).json(result);
+
+  // res.status(200).json({
+  //   data: {
+  //     pj_ID: "62592d4a5c4b8a9d970b56aa",
+  //     projectCode: "test",
+  //     projectName: "test",
+  //     projectDescr: "test",
+  //     group: "",
+  //     isActive: "1",
+  //     createdAt: "2022-04-15T08:31:06.196Z",
+  //     updatedAt: "2022-05-19T06:42:06.239Z",
+  //   },
+  // });
 });
 router.get("/list", function (req, res) {
   res.status(200).json({
