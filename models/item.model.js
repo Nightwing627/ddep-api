@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const ProjectSchema = mongoose.Schema({
-    ProjectCode: String,
+    ProjectCode: {type: String, unique: true},
     ProjectName: String,
     //projectDescr:String,
-    //group:String,
+    group:String,
 
     CompanyName: String, //this is old value
     isActive:String
