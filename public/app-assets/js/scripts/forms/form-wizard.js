@@ -89,11 +89,14 @@ $(function () {
           console.log(value);
           console.log(element);
           console.log(regexp);
-          var re = new RegExp(regexp);
-          console.log(re.test(value));
-          return re.test(value);
+          console.log((value.match(/\//g) || []).length);
+          if ((value.match(/\//g) || []).length > regexp) {
+            return false;
+          } else {
+            return true;
+          }
         },
-        "test"
+        "DDEP API is only allow 10 '/'"
       );
     $form.each(function () {
       var $this = $(this);
@@ -164,7 +167,7 @@ $(function () {
             required: true,
             maxlength: 100,
             regex: /^(\/)[a-zA-Z0-9-_\/]+$/,
-            // pattern: /.*(?:\/.*){0,5}/,
+            pattern: 10,
             remote : {
               type : 'POST',
               url : "/inbound_setting/checkddepinputexist",
@@ -268,7 +271,7 @@ $(function () {
                     //alert("project saved successfully");
                     $('#project_id').val(response.id);
                     //console.log(response);
-                    numberedStepper.next();
+                    numberedStepper.to(2);
                   },
                   error:function(textStatus,error)
                   {
@@ -292,7 +295,7 @@ $(function () {
                       timer: 1200
                     });
                     //console.log(response);
-                    numberedStepper.next();
+                    numberedStepper.to(2);
                   },
                   error:function(textStatus,error)
                   {
@@ -729,7 +732,7 @@ $(function () {
                     success:function(response){
                       console.log(response);
                       $("#inbound_setting_id").val(response.id);
-                      numberedStepper.next();
+                      numberedStepper.to(3);
                     },
                     error: function (textStatus, errorThrown) {
                      $e.preventDefault();
@@ -752,7 +755,7 @@ $(function () {
                         type: "success",
                         timer: 1200
                       });
-                      numberedStepper.next();
+                      numberedStepper.to(3);
                     },
                     error: function (textStatus, errorThrown) {
                       $('#collapseTwo').slideDown('slow');
@@ -792,7 +795,7 @@ $(function () {
                       //console.log(response);
                       //alert("Setting saved successfully");
                       $("#outbound_setting_id").val(response.id);
-                      numberedStepper.next();
+                      numberedStepper.to(4);
                     },
                     error:function(textStatus,errorThrown)
                     {
@@ -820,7 +823,7 @@ $(function () {
                         timer: 1200
                       });
                       $("#outbound_setting_id").val(outbound_setting_id);
-                      numberedStepper.next();
+                      numberedStepper.to(4);
                     },
                     error:function(textStatus,errorThrown)
                     { 
@@ -857,7 +860,7 @@ $(function () {
                     data:{project_id:project_id,inbound_format:inbound_format,outbound_format:outbound_format,mapping_data:mapping_data},
                     success:function(response){
                       $("#mapping_setting_id").val(response.id);
-                      numberedStepper.next();
+                      numberedStepper.to(5);
                     },
                     error: function (textStatus, errorThrown) {
                       $e.preventDefault();
@@ -879,7 +882,7 @@ $(function () {
                         type: "success",
                         timer: 1200
                       });
-                      numberedStepper.next();
+                      numberedStepper.to(5);
                     },
                     error: function (textStatus, errorThrown) {
                       $('#collapseTwo').slideDown('slow');
@@ -896,7 +899,6 @@ $(function () {
             }
             else if(index == 4)
             {
-               
               /* if($('input[name="duration_inbound_is_end_date"]:checked').val()=="no_end_date")
               {
                 console.log("NO>>>"+$('#duration_inbound_end_date').val());
@@ -904,7 +906,7 @@ $(function () {
               }
               else
               {
-                  console.log('yes >>>>' + $('#duration_inbound_end_date').val());
+                console.log('yes >>>>' + $('#duration_inbound_end_date').val());
                 $('#duration_inbound_end_date').removeClass('hidden');
               } */
 
@@ -913,70 +915,64 @@ $(function () {
               outbound_start_date = $('#duration_outbound_start_date').val();
               var d = new Date();
 
-                  var month = d.getMonth()+1;
-                  var day = d.getDate();
+              var month = d.getMonth()+1;
+              var day = d.getDate();
 
-                  var output = d.getFullYear() + '-' +
-                      (month<10 ? '0' : '') + month + '-' +
-                      (day<10 ? '0' : '') + day;
+              var output = d.getFullYear() + '-' +
+                (month<10 ? '0' : '') + month + '-' +
+              (day<10 ? '0' : '') + day;
 
-                if($('#duration_inbound_start_date').val()=="")
-                {
-                  
-                      $('#duration_inbound_start_date').val(output);
-                      document.getElementById("duration_inbound_start_date").setAttribute("min", output);
-                }
-                if($('#duration_outbound_start_date').val()=="")
-                {
-                  
-                      $('#duration_inbound_start_date').val(output);
-                      document.getElementById("duration_outbound_start_date").setAttribute("min", output);
-                }
-                var d = new Date(inbound_start_date);
-          
-                var month = d.getMonth()+1;
-                var day = d.getDate();
+              if($('#duration_inbound_start_date').val()=="")
+              {
+                $('#duration_inbound_start_date').val(output);
+                document.getElementById("duration_inbound_start_date").setAttribute("min", output);
+              }
+              if($('#duration_outbound_start_date').val()=="")
+              {
+                $('#duration_inbound_start_date').val(output);
+                document.getElementById("duration_outbound_start_date").setAttribute("min", output);
+              }
+              var d = new Date(inbound_start_date);
+        
+              var month = d.getMonth()+1;
+              var day = d.getDate();
 
-                var output = d.getFullYear() + '-' +
-                    (month<10 ? '0' : '') + month + '-' +
-                    (day<10 ? '0' : '') + day;
-                    $('#duration_inbound_end_date').val(output);
-                    document.getElementById("duration_inbound_end_date").setAttribute("min", output);
+              var output = d.getFullYear() + '-' +
+                (month<10 ? '0' : '') + month + '-' +
+              (day<10 ? '0' : '') + day;
+              $('#duration_inbound_end_date').val(output);
+              document.getElementById("duration_inbound_end_date").setAttribute("min", output);
 
-                    var d = new Date(outbound_start_date);
-          
-                    var month = d.getMonth()+1;
-                    var day = d.getDate();
-            
-                    var output = d.getFullYear() + '-' +
-                        (month<10 ? '0' : '') + month + '-' +
-                        (day<10 ? '0' : '') + day;
-                        $('#duration_outbound_end_date').val(output);
-                        document.getElementById("duration_outbound_end_date").setAttribute("min", output);
-                //document.getElementById("duration_inbound_start_date").setAttribute("min", output);
+              var d = new Date(outbound_start_date);
+    
+              var month = d.getMonth()+1;
+              var day = d.getDate();
+      
+              var output = d.getFullYear() + '-' +
+                (month<10 ? '0' : '') + month + '-' +
+              (day<10 ? '0' : '') + day;
+              $('#duration_outbound_end_date').val(output);
+              document.getElementById("duration_outbound_end_date").setAttribute("min", output);
+              //document.getElementById("duration_inbound_start_date").setAttribute("min", output);
               
               if($('input[name="duration_inbound_is_end_date"]:checked').val()=="no_end_date")
               {
-               
                 $('#duration_inbound_end_date').addClass('hidden');
               }
               else
               {
-                 
                 $('#duration_inbound_end_date').removeClass('hidden');
               }
 
               if($('input[name="duration_outbound_is_end_date"]:checked').val()=="no_end_date")
               {
-               
                 $('#duration_outbound_end_date').addClass('hidden');
               }
               else
               {
-                 
                 $('#duration_outbound_end_date').removeClass('hidden');
               }
-              numberedStepper.next();
+              // numberedStepper.next();
             } else {
               e.preventDefault();
             }
@@ -1361,13 +1357,12 @@ $(function () {
               }
          }
       })
-    $(horizontalWizard)
+      $(horizontalWizard)
       .find('.btn-prev')
       .on('click', function () {
         numberedStepper.previous();
       });
-
-    $(horizontalWizard)
+      $(horizontalWizard)
       .find('.btn-submit')
       .on('click', function () {
         var isValid = $(this).parent().siblings('form').valid();
@@ -1686,7 +1681,7 @@ $(function () {
           }
         }
       });
-      
+        
       $('input[name=s_configure_inbound]').on('change',function(){
         if($(this).val()=='click_by_user')
         {
@@ -1788,133 +1783,131 @@ $(function () {
           $('#the_section_outbound').slideDown('slow');
         }
       });
-     
-     
-     $('input[name="duration_inbound_is_end_date"]').on('change',function(){
-       console.log($(this).val());
+
+      $('input[name="duration_inbound_is_end_date"]').on('change',function(){
+        console.log($(this).val());
         if($(this).val()=='yes_end_date')
         {
           $('#duration_inbound_end_date').removeClass('hidden');
-           //var start_date = 
+          //var start_date = 
           var d = new Date(inbound_start_date);
           
-        var month = d.getMonth()+1;
-        var day = d.getDate();
+          var month = d.getMonth()+1;
+          var day = d.getDate();
 
-        var output = d.getFullYear() + '-' +
+          var output = d.getFullYear() + '-' +
             (month<10 ? '0' : '') + month + '-' +
-            (day<10 ? '0' : '') + day;
-            $('#duration_inbound_end_date').val(output);
-            document.getElementById("duration_inbound_end_date").setAttribute("min", output);
+          (day<10 ? '0' : '') + day;
+          $('#duration_inbound_end_date').val(output);
+          document.getElementById("duration_inbound_end_date").setAttribute("min", output);
           //$('#duration_inbound_end_date').val
         }
         else
         {
           $('#duration_inbound_end_date').addClass('hidden');
         }
-     });
-     $('input[name="duration_outbound_is_end_date"]').on('change',function(){
-      console.log($(this).val());
-       if($(this).val()=='yes_end_date')
-       {
-         $('#duration_outbound_end_date').removeClass('hidden');
-         var d = new Date(outbound_start_date);
+      });
+      $('input[name="duration_outbound_is_end_date"]').on('change',function(){
+        console.log($(this).val());
+        if($(this).val()=='yes_end_date')
+        {
+          $('#duration_outbound_end_date').removeClass('hidden');
+          var d = new Date(outbound_start_date);
           
-        var month = d.getMonth()+1;
-        var day = d.getDate();
+          var month = d.getMonth()+1;
+          var day = d.getDate();
 
-        var output = d.getFullYear() + '-' +
+          var output = d.getFullYear() + '-' +
             (month<10 ? '0' : '') + month + '-' +
-            (day<10 ? '0' : '') + day;
-            $('#duration_outbound_end_date').val(output);
-            document.getElementById("duration_outbound_end_date").setAttribute("min", output);
-       }
-       else
-       {
-         $('#duration_outbound_end_date').addClass('hidden');
-       }
-    });
-    $('input[name="daily_frequency_type_inbound"]').on('change',function(){
-      console.log($(this).val());
-       if($(this).val()=='Occurs Once At')
-       {
+          (day<10 ? '0' : '') + day;
+          $('#duration_outbound_end_date').val(output);
+          document.getElementById("duration_outbound_end_date").setAttribute("min", output);
+        }
+        else
+        {
+          $('#duration_outbound_end_date').addClass('hidden');
+        }
+      });
+      $('input[name="daily_frequency_type_inbound"]').on('change',function(){
+        console.log($(this).val());
+        if($(this).val()=='Occurs Once At')
+        {
           $("#recursEveryDiv").hide();
           $("#startingEndingDiv").hide();
           $("#daily_frequency_once_time_inbound").show();
-         //$('#duration_outbound_end_date').removeClass('hidden');
-       }
-       else
-       {
-         $("#daily_frequency_once_time_inbound").hide();
+          //$('#duration_outbound_end_date').removeClass('hidden');
+        }
+        else
+        {
+          $("#daily_frequency_once_time_inbound").hide();
           $("#recursEveryDiv").show();
           $("#startingEndingDiv").show();
-         //$('#duration_outbound_end_date').addClass('hidden');
-       }
-    });
+          //$('#duration_outbound_end_date').addClass('hidden');
+        }
+      });
     
-    $('#duration_inbound_start_date').on('change',function(){
-      //alert("change");
-      //alert(inbound_start_date);
-      if($('#duration_inbound_start_date').val()=="")
-      {
-        var d = new Date();
+      $('#duration_inbound_start_date').on('change',function(){
+        //alert("change");
+        //alert(inbound_start_date);
+        if($('#duration_inbound_start_date').val()=="")
+        {
+          var d = new Date();
 
+          var month = d.getMonth()+1;
+          var day = d.getDate();
+
+          var output = d.getFullYear() + '-' +
+            (month<10 ? '0' : '') + month + '-' +
+          (day<10 ? '0' : '') + day;
+          $('#duration_inbound_start_date').val(output);
+          document.getElementById("duration_inbound_start_date").setAttribute("min", output);
+        }
+        else
+        {
+          document.getElementById("duration_inbound_start_date").setAttribute("min", inbound_start_date);
+        }
+        var d = new Date(inbound_start_date);
+            
         var month = d.getMonth()+1;
         var day = d.getDate();
 
         var output = d.getFullYear() + '-' +
-            (month<10 ? '0' : '') + month + '-' +
-            (day<10 ? '0' : '') + day;
-            $('#duration_inbound_start_date').val(output);
-            document.getElementById("duration_inbound_start_date").setAttribute("min", output);
+          (month<10 ? '0' : '') + month + '-' +
+        (day<10 ? '0' : '') + day;
+        $('#duration_inbound_end_date').val(output);
+        document.getElementById("duration_inbound_end_date").setAttribute("min", output);
+      })
+      $('#duration_outbound_start_date').on('change',function(){
+        //alert("outbound change found")
+        if($('#duration_outbound_start_date').val()=="")
+        {
+          var d = new Date();
 
-      }
-      else
-      {
-        document.getElementById("duration_inbound_start_date").setAttribute("min", inbound_start_date);
-      }
-      var d = new Date(inbound_start_date);
-          
+          var month = d.getMonth()+1;
+          var day = d.getDate();
+
+          var output = d.getFullYear() + '-' +
+            (month<10 ? '0' : '') + month + '-' +
+          (day<10 ? '0' : '') + day;
+          $('#duration_outbound_start_date').val(output);
+          document.getElementById("duration_outbound_start_date").setAttribute("min", output);
+        }
+        else
+        {
+          document.getElementById("duration_outbound_start_date").setAttribute("min", outbound_start_date);
+        }
+        var d = new Date(outbound_start_date);
+            
         var month = d.getMonth()+1;
         var day = d.getDate();
 
         var output = d.getFullYear() + '-' +
-            (month<10 ? '0' : '') + month + '-' +
-            (day<10 ? '0' : '') + day;
-            $('#duration_inbound_end_date').val(output);
-            document.getElementById("duration_inbound_end_date").setAttribute("min", output);
-    })
-    $('#duration_outbound_start_date').on('change',function(){
-      //alert("outbound change found")
-      if($('#duration_outbound_start_date').val()=="")
-      {
-        var d = new Date();
-
-                  var month = d.getMonth()+1;
-                  var day = d.getDate();
-
-                  var output = d.getFullYear() + '-' +
-                      (month<10 ? '0' : '') + month + '-' +
-                      (day<10 ? '0' : '') + day;
-            $('#duration_outbound_start_date').val(output);
-            document.getElementById("duration_outbound_start_date").setAttribute("min", output);
-      }
-      else
-      {
-        document.getElementById("duration_outbound_start_date").setAttribute("min", outbound_start_date);
-      }
-      var d = new Date(outbound_start_date);
-          
-        var month = d.getMonth()+1;
-        var day = d.getDate();
-
-        var output = d.getFullYear() + '-' +
-            (month<10 ? '0' : '') + month + '-' +
-            (day<10 ? '0' : '') + day;
-            $('#duration_outbound_end_date').val(output);
-            document.getElementById("duration_outbound_end_date").setAttribute("min", output);
-    })
-    //outbound div
+          (month<10 ? '0' : '') + month + '-' +
+        (day<10 ? '0' : '') + day;
+        $('#duration_outbound_end_date').val(output);
+        document.getElementById("duration_outbound_end_date").setAttribute("min", output);
+      })
+      //outbound div
 
     $('input[name="daily_frequency_type_outbound"]').on('change',function(){
       console.log($(this).val());

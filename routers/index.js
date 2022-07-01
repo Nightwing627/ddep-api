@@ -33,6 +33,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
+	// console.log(req);
 	var reqBody = req.body;
 	var reqQuery = req.query;
 	var reqRawHeader = req.rawHeaders;
@@ -50,7 +51,14 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 	var typereq = '';
 	if (newHeader['Content-Type'] != undefined) {
 		var reqContentType = newHeader['Content-Type'];
-		var typereq = reqContentType.split('/');
+		typereq = reqContentType.split('/');
+		if ((typereq[0] == 'application' && (typereq[1] == 'json' || typereq[1] == 'xml' || typereq[1] == 'javascript')) || (typereq[0] == 'text' && (typereq[1] == 'plain' || typereq[1] == 'html'))) {
+			bodyreq = reqBody;
+		}
+	} else {
+		newHeader['Content-Type'] = 'application/json';
+		var reqContentType = newHeader['Content-Type'];
+		typereq = reqContentType.split('/');
 		if ((typereq[0] == 'application' && (typereq[1] == 'json' || typereq[1] == 'xml' || typereq[1] == 'javascript')) || (typereq[0] == 'text' && (typereq[1] == 'plain' || typereq[1] == 'html'))) {
 			bodyreq = reqBody;
 		}
@@ -65,46 +73,71 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 	});
 
 	var ddepInput = '/'+req.params.ddepInput;
+	var ddepInputArr = [];
+	// ddepInput.push(req.params.ddepInput);
+	var ddepInputCount = 1;
 	if (req.params.ddepInput1 != undefined && req.params.ddepInput1 != '') {
-		ddepInput += '/'+req.params.ddepInput1;
+		// ddepInput += '/'+req.params.ddepInput1;
+		ddepInputArr.push(req.params.ddepInput1);
+		ddepInputCount = 2;
 	}
 	if (req.params.ddepInput2 != undefined && req.params.ddepInput2 != '') {
-		ddepInput += '/'+req.params.ddepInput2;
+		// ddepInput += '/'+req.params.ddepInput2;
+		ddepInputArr.push(req.params.ddepInput2);
+		ddepInputCount = 3;
 	}
 	if (req.params.ddepInput3 != undefined && req.params.ddepInput3 != '') {
-		ddepInput += '/'+req.params.ddepInput3;
+		// ddepInput += '/'+req.params.ddepInput3;
+		ddepInputArr.push(req.params.ddepInput3);
+		ddepInputCount = 4;
 	}
 	if (req.params.ddepInput4 != undefined && req.params.ddepInput4 != '') {
-		ddepInput += '/'+req.params.ddepInput4;
+		// ddepInput += '/'+req.params.ddepInput4;
+		ddepInputArr.push(req.params.ddepInput4);
+		ddepInputCount = 5;
 	}
 	if (req.params.ddepInput5 != undefined && req.params.ddepInput5 != '') {
-		ddepInput += '/'+req.params.ddepInput5;
+		// ddepInput += '/'+req.params.ddepInput5;
+		ddepInputArr.push(req.params.ddepInput5);
+		ddepInputCount = 6;
 	}
 	if (req.params.ddepInput6 != undefined && req.params.ddepInput6 != '') {
-		ddepInput += '/'+req.params.ddepInput6;
+		// ddepInput += '/'+req.params.ddepInput6;
+		ddepInputArr.push(req.params.ddepInput6);
+		ddepInputCount = 7;
 	}
 	if (req.params.ddepInput7 != undefined && req.params.ddepInput7 != '') {
-		ddepInput += '/'+req.params.ddepInput7;
+		// ddepInput += '/'+req.params.ddepInput7;
+		ddepInputArr.push(req.params.ddepInput7);
+		ddepInputCount = 8;
 	}
 	if (req.params.ddepInput8 != undefined && req.params.ddepInput8 != '') {
-		ddepInput += '/'+req.params.ddepInput8;
+		// ddepInput += '/'+req.params.ddepInput8;
+		ddepInputArr.push(req.params.ddepInput8);
+		ddepInputCount = 9;
 	}
 	if (req.params.ddepInput9 != undefined && req.params.ddepInput9 != '') {
-		ddepInput += '/'+req.params.ddepInput9;
+		// ddepInput += '/'+req.params.ddepInput9;
+		ddepInputArr.push(req.params.ddepInput9);
+		ddepInputCount = 10;
 	}
 	const { headers, method, url } = req;
 
 	var responseBody = { headers, method, url, reqBody };
-	
+
 	var inbound_url = config.domain + "/inbound_setting/editddepAPI/";
 
+	var ddepInputPath = '';
+	for (var i = 0; i < ddepInputArr.length; i++) {
+		ddepInputPath += '/'+ddepInputArr[i];
+	}
 	var inbound_options = {
 		'method': 'POST',
 		'url': inbound_url,
 		'headers': {
 			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify({'ddepInput': ddepInput}),
+		body: JSON.stringify({'ddepInput': ddepInput+ddepInputPath}),
 	}
 
 	request(inbound_options, function (error, response, body) {
@@ -123,11 +156,88 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 			});
 		}
 		var inbound_setting = JSON.parse(response.body);
-		var inbound_format = inbound_setting.Data.inbound_format;
-		var project_id = inbound_setting.Data.project_id;
-		var outbound_url = config.domain + "/outbound_setting/editAPI/" + project_id;
+		var project_id = '';
+		var inbound_format = '';
+		var outboundLastPath = '';
+		if (inbound_setting.code != 0) {
+			inbound_url = config.domain + "/inbound_setting/ddepInputAPI/";
+			inbound_options = {
+				'method': 'POST',
+				'url': inbound_url,
+				'headers': {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({'ddepInput': ddepInput}),
+			}
+			request(inbound_options, function (error, response, body) {
+				if(error) {
+					return res.json({
+						code: "1",
+						MsgCode: "50001",
+						MsgType: "Invalid-Source",
+						MsgLang: "en",
+						ShortMsg: "Fail",
+						LongMsg: error.message || "Some error occurred while getting the inbound setting.",
+						InternalMsg: "",
+						EnableAlert: "No",
+						DisplayMsgBy: "LongMsg",
+						Data: []
+					});
+				}
+				inbound_setting = JSON.parse(response.body);
+				if (inbound_setting.code == 0) {
+					var inbound_setting_data = inbound_setting.Data;
+					var itemsArr = [];
+					var inboundFormatArr = [];
+					for (var i = 0; i < inbound_setting_data.length; i++) {
+						itemsArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].item_id;
+						inboundFormatArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].inbound_format;
+					}
+					console.log("ITEMS_ARRAY => ");
+					console.log(itemsArr);
+					var newddepInputPath = ddepInput;
+					var lastArrKey = 0;
+					var ddepPath = '';
+					for (var i = 0; i < ddepInputArr.length - 1; i++) {
+						newddepInputPath += '/'+ddepInputArr[i];
+						if (itemsArr[newddepInputPath] != undefined) {
+							project_id = itemsArr[newddepInputPath];
+							inbound_format = inboundFormatArr[newddepInputPath];
+							lastArrKey = i;
+							ddepPath = newddepInputPath;
+						}
+					}
+					for (var i = lastArrKey + 1; i < ddepInputArr.length; i++) {
+						outboundLastPath += '/'+ddepInputArr[i];
+					}
+					console.log("DDEP_API_INPUT => " + ddepPath);
+					console.log("OUTBOUND_API_END_PATH => " + outboundLastPath);
+				} else {
+					return res.status(404).json({
+						code: "1",
+						MsgCode: "40001",
+						MsgType: "Invalid-Source",
+						MsgLang: "en",
+						ShortMsg: "Get Fail",
+						LongMsg: "Not found Project with ddep api input",
+						InternalMsg: "",
+						EnableAlert: "No",
+						DisplayMsgBy: "ShortMsg",
+						Data: [],
+					});
+				}
+			});
+		} else {
+			inbound_format = inbound_setting.Data.inbound_format;
+			project_id = inbound_setting.Data.item_id;
+		}
 
-		request(outbound_url, function (error, response, body) {
+		var OutboundFormatData = {};
+		var nodeDataArray = [];
+		var linkDataArray = [];
+		var outboundMappedData = {};
+		var mapping_url = config.domain + "/project/item/mapping/editAPI/" + project_id;
+		request(mapping_url, function (error, response, body) {
 			if(error) {
 				return res.json({
 					code: "1",
@@ -142,39 +252,59 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 					Data: []
 				});
 			}
-			var outboundSetting = JSON.parse(body);
-			var outbound_api_url = outboundSetting.api_url;
-
-			var oldheaders = newHeader;
-			// delete oldheaders['User-Agent'];
-			// delete oldheaders.Accept;
-			// delete oldheaders['Postman-Token'];
-			delete oldheaders.Host;
-			delete oldheaders['Accept-Encoding'];
-			delete oldheaders.Connection;
-			delete oldheaders['Content-Length'];
-			// var split_outbound_url = outbound_api_url.split('/');
-			// if (split_outbound_url.includes('dapi')) {} else {
-			// 	// delete oldheaders['Content-Type'];
-			// }
-			var options = {
-				'method': responseBody.method,
-				'url': outbound_api_url+'?'+queryString,
-				'headers': oldheaders,
-			};
-			if (bodyreq != '') {
-				if(typereq != '' && typereq[1] == 'json') {
-					options['body'] = JSON.stringify(bodyreq);
-				} else if(typereq != '' && (typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml')) {
-					options['body'] = bodyreq;
-				} else {
-					options['body'] = JSON.stringify(bodyreq);
+			if (reqBody.length > 0) {
+				var inboundPostData = reqBody;
+				if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
+					inboundPostData = JSON.parse(reqBody);
 				}
-			} else {
-				options['formData'] = JSON.parse(JSON.stringify(responseBody.reqBody));
+				console.log('Inbound posted Json:');
+				console.log(inboundPostData);
+
+				var mappingSetting = JSON.parse(body);
+				if (mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
+					OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
+					var mapping_data = JSON.parse(mappingSetting.mapping_data);
+					nodeDataArray = mapping_data.nodeDataArray;
+					linkDataArray = mapping_data.linkDataArray;
+
+					var linkdataarray = linkDataArray;
+					var newLinkDataArr = [];
+					for (var i = 0; i < linkdataarray.length; i++) {
+						if (Object.entries(linkdataarray[i]).length > 0) {
+							if (linkdataarray[i].category != undefined && linkdataarray[i].category == 'Mapping') {
+								newLinkDataArr[linkdataarray[i].to] = linkdataarray[i].from;
+							}
+						}
+					}
+					// console.log('newLinkDataArr:');
+					// console.log(newLinkDataArr);
+
+					var mappingInboound = [];
+					for (var key in newLinkDataArr) {
+						var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
+						mappingInboound[key] = inboundValue;
+					}
+					// console.log('mappingInboound:');
+					// console.log(mappingInboound);
+
+					var outboundFormatData = outboundformatdata(OutboundFormatData, newLinkDataArr);
+					console.log('Outbound format convert to replacement Format:');
+					console.log(outboundFormatData);
+
+					outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
+					console.log('Outbound Final Result:');
+					console.log(outboundMappedData);
+					if (bodyreq != '' && outboundMappedData.length != 0) {
+						bodyreq = outboundMappedData;
+					}
+					if (outboundMappedData.length != 0) {
+						reqBody = outboundMappedData;
+					}
+				}
 			}
 
-			request(options, function (error, response, body) {
+			var outbound_url = config.domain + "/outbound_setting/editAPI/" + project_id;
+			request(outbound_url, function (error, response, body) {
 				if(error) {
 					return res.json({
 						code: "1",
@@ -182,27 +312,78 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 						MsgType: "Invalid-Source",
 						MsgLang: "en",
 						ShortMsg: "Fail",
-						LongMsg: error.message || "Some error occurred while getting.",
+						LongMsg: error.message || "Some error occurred while getting the inbound setting.",
 						InternalMsg: "",
 						EnableAlert: "No",
 						DisplayMsgBy: "LongMsg",
 						Data: []
 					});
 				}
-				if (response.statusCode == 200) {
-					var contentType = response.headers['content-type'];
-					var types = contentType.split(';');
-					var type = types[0].split('/');
-					if ((type[0] == 'application' && type[1] == 'json') || type[1] == 'json') {
-						return res.status(200).json(JSON.parse(body));
+				var outboundSetting = JSON.parse(body);
+				var outbound_api_url = outboundSetting.api_url;
+
+				if (outboundLastPath != '') {
+					outbound_api_url += outboundLastPath;
+				}
+
+				var oldheaders = newHeader;
+				delete oldheaders.Host;
+				delete oldheaders['Accept-Encoding'];
+				delete oldheaders.Connection;
+				delete oldheaders['Content-Length'];
+
+				var options = {
+					'method': responseBody.method,
+					'url': outbound_api_url+'?'+queryString,
+					'headers': oldheaders,
+				};
+				if (bodyreq != '') {
+					if(typereq != '' && typereq[1] == 'json') {
+						options['body'] = JSON.stringify(bodyreq);
+					} else if(typereq != '' && (typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml')) {
+						options['body'] = JSON.stringify(bodyreq);
 					} else {
-						return res.send(body);
+						options['body'] = JSON.stringify(bodyreq);
 					}
 				} else {
-					return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
+					options['formData'] = JSON.parse(JSON.stringify(reqBody));
+					if(Object.entries(options.formData).length == 0) {
+						options.method = "GET";
+					}
 				}
+
+				request(options, function (error, response, body) {
+					if(error) {
+						return res.json({
+							code: "1",
+							MsgCode: "50001",
+							MsgType: "Invalid-Source",
+							MsgLang: "en",
+							ShortMsg: "Fail",
+							LongMsg: error.message || "Some error occurred while getting.",
+							InternalMsg: "",
+							EnableAlert: "No",
+							DisplayMsgBy: "LongMsg",
+							Data: []
+						});
+					}
+					if (response.statusCode == 200) {
+						var contentType = response.headers['content-type'];
+						var types = contentType.split(';');
+						var type = types[0].split('/');
+						if ((type[0] == 'application' && type[1] == 'json') || type[1] == 'json') {
+							return res.status(200).json(JSON.parse(body));
+						} else {
+							return res.send(body);
+						}
+					} else if(response.statusCode == 301 || response.statusCode == 302 || response.statusCode == 303) {
+						return res.send(response.body);
+					} else {
+						return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
+					}
+				});
 			});
-		})
+		});
 	});
 });
 
@@ -247,32 +428,53 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 	});
 
 	var ddepInput = '/'+req.params.ddepInput;
+	var ddepInputArr = [];
+	// ddepInput.push(req.params.ddepInput);
+	var ddepInputCount = 1;
 	if (req.params.ddepInput1 != undefined && req.params.ddepInput1 != '') {
-		ddepInput += '/'+req.params.ddepInput1;
+		// ddepInput += '/'+req.params.ddepInput1;
+		ddepInputArr.push(req.params.ddepInput1);
+		ddepInputCount = 2;
 	}
 	if (req.params.ddepInput2 != undefined && req.params.ddepInput2 != '') {
-		ddepInput += '/'+req.params.ddepInput2;
+		// ddepInput += '/'+req.params.ddepInput2;
+		ddepInputArr.push(req.params.ddepInput2);
+		ddepInputCount = 3;
 	}
 	if (req.params.ddepInput3 != undefined && req.params.ddepInput3 != '') {
-		ddepInput += '/'+req.params.ddepInput3;
+		// ddepInput += '/'+req.params.ddepInput3;
+		ddepInputArr.push(req.params.ddepInput3);
+		ddepInputCount = 4;
 	}
 	if (req.params.ddepInput4 != undefined && req.params.ddepInput4 != '') {
-		ddepInput += '/'+req.params.ddepInput4;
+		// ddepInput += '/'+req.params.ddepInput4;
+		ddepInputArr.push(req.params.ddepInput4);
+		ddepInputCount = 5;
 	}
 	if (req.params.ddepInput5 != undefined && req.params.ddepInput5 != '') {
-		ddepInput += '/'+req.params.ddepInput5;
+		// ddepInput += '/'+req.params.ddepInput5;
+		ddepInputArr.push(req.params.ddepInput5);
+		ddepInputCount = 6;
 	}
 	if (req.params.ddepInput6 != undefined && req.params.ddepInput6 != '') {
-		ddepInput += '/'+req.params.ddepInput6;
+		// ddepInput += '/'+req.params.ddepInput6;
+		ddepInputArr.push(req.params.ddepInput6);
+		ddepInputCount = 7;
 	}
 	if (req.params.ddepInput7 != undefined && req.params.ddepInput7 != '') {
-		ddepInput += '/'+req.params.ddepInput7;
+		// ddepInput += '/'+req.params.ddepInput7;
+		ddepInputArr.push(req.params.ddepInput7);
+		ddepInputCount = 8;
 	}
 	if (req.params.ddepInput8 != undefined && req.params.ddepInput8 != '') {
-		ddepInput += '/'+req.params.ddepInput8;
+		// ddepInput += '/'+req.params.ddepInput8;
+		ddepInputArr.push(req.params.ddepInput8);
+		ddepInputCount = 9;
 	}
 	if (req.params.ddepInput9 != undefined && req.params.ddepInput9 != '') {
-		ddepInput += '/'+req.params.ddepInput9;
+		// ddepInput += '/'+req.params.ddepInput9;
+		ddepInputArr.push(req.params.ddepInput9);
+		ddepInputCount = 10;
 	}
 	const { headers, method, url } = req;
 
@@ -280,13 +482,17 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 
 	var inbound_url = config.domain + "/inbound_setting/editddepAPI/";
 
+	var ddepInputPath = '';
+	for (var i = 0; i < ddepInputArr.length; i++) {
+		ddepInputPath += '/'+ddepInputArr[i];
+	}
 	var inbound_options = {
 		'method': 'POST',
 		'url': inbound_url,
 		'headers': {
 			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify({'ddepInput': ddepInput}),
+		body: JSON.stringify({'ddepInput': ddepInput+ddepInputPath}),
 	}
 
 	request(inbound_options, function (error, response, body) {
@@ -305,10 +511,83 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 			});
 		}
 		var inbound_setting = JSON.parse(response.body);
-		var inbound_format = inbound_setting.Data.inbound_format;
-		var project_id = inbound_setting.Data.item_id;
+		var project_id = '';
+		var inbound_format = '';
+		var outboundLastPath = '';
+		if (inbound_setting.code != 0) {
+			inbound_url = config.domain + "/inbound_setting/ddepInputAPI/";
+			inbound_options = {
+				'method': 'POST',
+				'url': inbound_url,
+				'headers': {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({'ddepInput': ddepInput}),
+			}
+			request(inbound_options, function (error, response, body) {
+				if(error) {
+					return res.json({
+						code: "1",
+						MsgCode: "50001",
+						MsgType: "Invalid-Source",
+						MsgLang: "en",
+						ShortMsg: "Fail",
+						LongMsg: error.message || "Some error occurred while getting the inbound setting.",
+						InternalMsg: "",
+						EnableAlert: "No",
+						DisplayMsgBy: "LongMsg",
+						Data: []
+					});
+				}
+				inbound_setting = JSON.parse(response.body);
+				if (inbound_setting.code == 0) {
+					var inbound_setting_data = inbound_setting.Data;
+					var itemsArr = [];
+					var inboundFormatArr = [];
+					for (var i = 0; i < inbound_setting_data.length; i++) {
+						itemsArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].item_id;
+						inboundFormatArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].inbound_format;
+					}
+					console.log("ITEMS_ARRAY => ");
+					console.log(itemsArr);
+					var newddepInputPath = ddepInput;
+					var lastArrKey = 0;
+					var ddepPath = '';
+					for (var i = 0; i < ddepInputArr.length - 1; i++) {
+						newddepInputPath += '/'+ddepInputArr[i];
+						if (itemsArr[newddepInputPath] != undefined) {
+							project_id = itemsArr[newddepInputPath];
+							inbound_format = inboundFormatArr[newddepInputPath];
+							lastArrKey = i;
+							ddepPath = newddepInputPath;
+						}
+					}
+					for (var i = lastArrKey + 1; i < ddepInputArr.length; i++) {
+						outboundLastPath += '/'+ddepInputArr[i];
+					}
+					console.log("DDEP_API_INPUT => " + ddepPath);
+					console.log("OUTBOUND_API_END_PATH => " + outboundLastPath);
+				} else {
+					return res.status(404).json({
+						code: "1",
+						MsgCode: "40001",
+						MsgType: "Invalid-Source",
+						MsgLang: "en",
+						ShortMsg: "Get Fail",
+						LongMsg: "Not found Project with ddep api input",
+						InternalMsg: "",
+						EnableAlert: "No",
+						DisplayMsgBy: "ShortMsg",
+						Data: [],
+					});
+				}
+			});
+		} else {
+			inbound_format = inbound_setting.Data.inbound_format;
+			project_id = inbound_setting.Data.item_id;
+		}
 
-		var OutboundFormatData = '';
+		var OutboundFormatData = {};
 		var nodeDataArray = [];
 		var linkDataArray = [];
 		var outboundMappedData = {};
@@ -328,52 +607,54 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 					Data: []
 				});
 			}
-			var inboundPostData = reqBody;
-			if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
-				inboundPostData = JSON.parse(reqBody);
-			}
-			console.log('Inbound posted Json:');
-			console.log(inboundPostData);
+			if (reqBody.length > 0) {
+				var inboundPostData = reqBody;
+				if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
+					inboundPostData = JSON.parse(reqBody);
+				}
+				console.log('Inbound posted Json:');
+				console.log(inboundPostData);
 
-			var mappingSetting = JSON.parse(body);
-			if (mappingSetting.outbound_format.length != 0) {
-				OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
-				var mapping_data = JSON.parse(mappingSetting.mapping_data);
-				nodeDataArray = mapping_data.nodeDataArray;
-				linkDataArray = mapping_data.linkDataArray;
+				var mappingSetting = JSON.parse(body);
+				if (mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
+					OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
+					var mapping_data = JSON.parse(mappingSetting.mapping_data);
+					nodeDataArray = mapping_data.nodeDataArray;
+					linkDataArray = mapping_data.linkDataArray;
 
-				var linkdataarray = linkDataArray;
-				var newLinkDataArr = [];
-				for (var i = 0; i < linkdataarray.length; i++) {
-					if (Object.entries(linkdataarray[i]).length > 0) {
-						if (linkdataarray[i].category != undefined && linkdataarray[i].category == 'Mapping') {
-							newLinkDataArr[linkdataarray[i].to] = linkdataarray[i].from;
+					var linkdataarray = linkDataArray;
+					var newLinkDataArr = [];
+					for (var i = 0; i < linkdataarray.length; i++) {
+						if (Object.entries(linkdataarray[i]).length > 0) {
+							if (linkdataarray[i].category != undefined && linkdataarray[i].category == 'Mapping') {
+								newLinkDataArr[linkdataarray[i].to] = linkdataarray[i].from;
+							}
 						}
 					}
-				}
-				// console.log('newLinkDataArr:');
-				// console.log(newLinkDataArr);
+					// console.log('newLinkDataArr:');
+					// console.log(newLinkDataArr);
 
-				var mappingInboound = [];
-				for (var key in newLinkDataArr) {
-					var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
-					mappingInboound[key] = inboundValue;
-				}
-				// console.log('mappingInboound:');
-				// console.log(mappingInboound);
+					var mappingInboound = [];
+					for (var key in newLinkDataArr) {
+						var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
+						mappingInboound[key] = inboundValue;
+					}
+					// console.log('mappingInboound:');
+					// console.log(mappingInboound);
 
-				var outboundFormatData = outboundformatdata(OutboundFormatData, newLinkDataArr);
-				console.log('Outbound format convert to replacement Format:');
-				console.log(outboundFormatData);
+					var outboundFormatData = outboundformatdata(OutboundFormatData, newLinkDataArr);
+					console.log('Outbound format convert to replacement Format:');
+					console.log(outboundFormatData);
 
-				outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
-				console.log('Outbound Final Result:');
-				console.log(outboundMappedData);
-				if (bodyreq != '' && outboundMappedData.length != 0) {
-					bodyreq = outboundMappedData;
-				}
-				if (outboundMappedData.length != 0) {
-					reqBody = outboundMappedData;
+					outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
+					console.log('Outbound Final Result:');
+					console.log(outboundMappedData);
+					if (bodyreq != '' && outboundMappedData.length != 0) {
+						bodyreq = outboundMappedData;
+					}
+					if (outboundMappedData.length != 0) {
+						reqBody = outboundMappedData;
+					}
 				}
 			}
 
@@ -396,18 +677,16 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 				var outboundSetting = JSON.parse(body);
 				var outbound_api_url = outboundSetting.api_url;
 
+				if (outboundLastPath != '') {
+					outbound_api_url += outboundLastPath;
+				}
+
 				var oldheaders = newHeader;
-				// delete oldheaders['User-Agent'];
-				// delete oldheaders.Accept;
-				// delete oldheaders['Postman-Token'];
 				delete oldheaders.Host;
 				delete oldheaders['Accept-Encoding'];
 				delete oldheaders.Connection;
 				delete oldheaders['Content-Length'];
-				/*var split_outbound_url = outbound_api_url.split('/');
-				if (split_outbound_url.includes('dapi')) {} else {
-					// delete oldheaders['Content-Type'];
-				}*/
+
 				var options = {
 					'method': responseBody.method,
 					'url': outbound_api_url+'?'+queryString,
@@ -427,7 +706,7 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 						options.method = "GET";
 					}
 				}
-				
+
 				request(options, function (error, response, body) {
 					if(error) {
 						return res.json({
@@ -464,6 +743,7 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 });
 
 router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
+	// console.log(req);
 	var reqBody = req.body;
 	var reqQuery = req.query;
 	var reqRawHeader = req.rawHeaders;
@@ -481,7 +761,14 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 	var typereq = '';
 	if (newHeader['Content-Type'] != undefined) {
 		var reqContentType = newHeader['Content-Type'];
-		var typereq = reqContentType.split('/');
+		typereq = reqContentType.split('/');
+		if ((typereq[0] == 'application' && (typereq[1] == 'json' || typereq[1] == 'xml' || typereq[1] == 'javascript')) || (typereq[0] == 'text' && (typereq[1] == 'plain' || typereq[1] == 'html'))) {
+			bodyreq = reqBody;
+		}
+	} else {
+		newHeader['Content-Type'] = 'application/json';
+		var reqContentType = newHeader['Content-Type'];
+		typereq = reqContentType.split('/');
 		if ((typereq[0] == 'application' && (typereq[1] == 'json' || typereq[1] == 'xml' || typereq[1] == 'javascript')) || (typereq[0] == 'text' && (typereq[1] == 'plain' || typereq[1] == 'html'))) {
 			bodyreq = reqBody;
 		}
@@ -496,46 +783,71 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 	});
 
 	var ddepInput = '/'+req.params.ddepInput;
+	var ddepInputArr = [];
+	// ddepInput.push(req.params.ddepInput);
+	var ddepInputCount = 1;
 	if (req.params.ddepInput1 != undefined && req.params.ddepInput1 != '') {
-		ddepInput += '/'+req.params.ddepInput1;
+		// ddepInput += '/'+req.params.ddepInput1;
+		ddepInputArr.push(req.params.ddepInput1);
+		ddepInputCount = 2;
 	}
 	if (req.params.ddepInput2 != undefined && req.params.ddepInput2 != '') {
-		ddepInput += '/'+req.params.ddepInput2;
+		// ddepInput += '/'+req.params.ddepInput2;
+		ddepInputArr.push(req.params.ddepInput2);
+		ddepInputCount = 3;
 	}
 	if (req.params.ddepInput3 != undefined && req.params.ddepInput3 != '') {
-		ddepInput += '/'+req.params.ddepInput3;
+		// ddepInput += '/'+req.params.ddepInput3;
+		ddepInputArr.push(req.params.ddepInput3);
+		ddepInputCount = 4;
 	}
 	if (req.params.ddepInput4 != undefined && req.params.ddepInput4 != '') {
-		ddepInput += '/'+req.params.ddepInput4;
+		// ddepInput += '/'+req.params.ddepInput4;
+		ddepInputArr.push(req.params.ddepInput4);
+		ddepInputCount = 5;
 	}
 	if (req.params.ddepInput5 != undefined && req.params.ddepInput5 != '') {
-		ddepInput += '/'+req.params.ddepInput5;
+		// ddepInput += '/'+req.params.ddepInput5;
+		ddepInputArr.push(req.params.ddepInput5);
+		ddepInputCount = 6;
 	}
 	if (req.params.ddepInput6 != undefined && req.params.ddepInput6 != '') {
-		ddepInput += '/'+req.params.ddepInput6;
+		// ddepInput += '/'+req.params.ddepInput6;
+		ddepInputArr.push(req.params.ddepInput6);
+		ddepInputCount = 7;
 	}
 	if (req.params.ddepInput7 != undefined && req.params.ddepInput7 != '') {
-		ddepInput += '/'+req.params.ddepInput7;
+		// ddepInput += '/'+req.params.ddepInput7;
+		ddepInputArr.push(req.params.ddepInput7);
+		ddepInputCount = 8;
 	}
 	if (req.params.ddepInput8 != undefined && req.params.ddepInput8 != '') {
-		ddepInput += '/'+req.params.ddepInput8;
+		// ddepInput += '/'+req.params.ddepInput8;
+		ddepInputArr.push(req.params.ddepInput8);
+		ddepInputCount = 9;
 	}
 	if (req.params.ddepInput9 != undefined && req.params.ddepInput9 != '') {
-		ddepInput += '/'+req.params.ddepInput9;
+		// ddepInput += '/'+req.params.ddepInput9;
+		ddepInputArr.push(req.params.ddepInput9);
+		ddepInputCount = 10;
 	}
 	const { headers, method, url } = req;
 
 	var responseBody = { headers, method, url, reqBody };
-	
+
 	var inbound_url = config.domain + "/inbound_setting/editddepAPI/";
 
+	var ddepInputPath = '';
+	for (var i = 0; i < ddepInputArr.length; i++) {
+		ddepInputPath += '/'+ddepInputArr[i];
+	}
 	var inbound_options = {
 		'method': 'POST',
 		'url': inbound_url,
 		'headers': {
 			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify({'ddepInput': ddepInput}),
+		body: JSON.stringify({'ddepInput': ddepInput+ddepInputPath}),
 	}
 
 	request(inbound_options, function (error, response, body) {
@@ -554,10 +866,83 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 			});
 		}
 		var inbound_setting = JSON.parse(response.body);
-		var inbound_format = inbound_setting.Data.inbound_format;
-		var project_id = inbound_setting.Data.project_id;
+		var project_id = '';
+		var inbound_format = '';
+		var outboundLastPath = '';
+		if (inbound_setting.code != 0) {
+			inbound_url = config.domain + "/inbound_setting/ddepInputAPI/";
+			inbound_options = {
+				'method': 'POST',
+				'url': inbound_url,
+				'headers': {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({'ddepInput': ddepInput}),
+			}
+			request(inbound_options, function (error, response, body) {
+				if(error) {
+					return res.json({
+						code: "1",
+						MsgCode: "50001",
+						MsgType: "Invalid-Source",
+						MsgLang: "en",
+						ShortMsg: "Fail",
+						LongMsg: error.message || "Some error occurred while getting the inbound setting.",
+						InternalMsg: "",
+						EnableAlert: "No",
+						DisplayMsgBy: "LongMsg",
+						Data: []
+					});
+				}
+				inbound_setting = JSON.parse(response.body);
+				if (inbound_setting.code == 0) {
+					var inbound_setting_data = inbound_setting.Data;
+					var itemsArr = [];
+					var inboundFormatArr = [];
+					for (var i = 0; i < inbound_setting_data.length; i++) {
+						itemsArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].item_id;
+						inboundFormatArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].inbound_format;
+					}
+					console.log("ITEMS_ARRAY => ");
+					console.log(itemsArr);
+					var newddepInputPath = ddepInput;
+					var lastArrKey = 0;
+					var ddepPath = '';
+					for (var i = 0; i < ddepInputArr.length - 1; i++) {
+						newddepInputPath += '/'+ddepInputArr[i];
+						if (itemsArr[newddepInputPath] != undefined) {
+							project_id = itemsArr[newddepInputPath];
+							inbound_format = inboundFormatArr[newddepInputPath];
+							lastArrKey = i;
+							ddepPath = newddepInputPath;
+						}
+					}
+					for (var i = lastArrKey + 1; i < ddepInputArr.length; i++) {
+						outboundLastPath += '/'+ddepInputArr[i];
+					}
+					console.log("DDEP_API_INPUT => " + ddepPath);
+					console.log("OUTBOUND_API_END_PATH => " + outboundLastPath);
+				} else {
+					return res.status(404).json({
+						code: "1",
+						MsgCode: "40001",
+						MsgType: "Invalid-Source",
+						MsgLang: "en",
+						ShortMsg: "Get Fail",
+						LongMsg: "Not found Project with ddep api input",
+						InternalMsg: "",
+						EnableAlert: "No",
+						DisplayMsgBy: "ShortMsg",
+						Data: [],
+					});
+				}
+			});
+		} else {
+			inbound_format = inbound_setting.Data.inbound_format;
+			project_id = inbound_setting.Data.item_id;
+		}
 
-		var OutboundFormatData = '';
+		var OutboundFormatData = {};
 		var nodeDataArray = [];
 		var linkDataArray = [];
 		var outboundMappedData = {};
@@ -577,46 +962,56 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 					Data: []
 				});
 			}
-			var inboundPostData = reqBody;
-			if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
-				inboundPostData = JSON.parse(reqBody);
-			}
-			console.log('Inbound posted Json:');
-			console.log(inboundPostData);
+			if (reqBody.length > 0) {
+				var inboundPostData = reqBody;
+				if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
+					inboundPostData = JSON.parse(reqBody);
+				}
+				console.log('Inbound posted Json:');
+				console.log(inboundPostData);
 
-			var mappingSetting = JSON.parse(body);
-			OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
-			var mapping_data = JSON.parse(mappingSetting.mapping_data);
-			nodeDataArray = mapping_data.nodeDataArray;
-			linkDataArray = mapping_data.linkDataArray;
+				var mappingSetting = JSON.parse(body);
+				if (mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
+					OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
+					var mapping_data = JSON.parse(mappingSetting.mapping_data);
+					nodeDataArray = mapping_data.nodeDataArray;
+					linkDataArray = mapping_data.linkDataArray;
 
-			var linkdataarray = linkDataArray;
-			var newLinkDataArr = [];
-			for (var i = 0; i < linkdataarray.length; i++) {
-				if (Object.entries(linkdataarray[i]).length > 0) {
-					if (linkdataarray[i].category != undefined && linkdataarray[i].category == 'Mapping') {
-						newLinkDataArr[linkdataarray[i].to] = linkdataarray[i].from;
+					var linkdataarray = linkDataArray;
+					var newLinkDataArr = [];
+					for (var i = 0; i < linkdataarray.length; i++) {
+						if (Object.entries(linkdataarray[i]).length > 0) {
+							if (linkdataarray[i].category != undefined && linkdataarray[i].category == 'Mapping') {
+								newLinkDataArr[linkdataarray[i].to] = linkdataarray[i].from;
+							}
+						}
+					}
+					// console.log('newLinkDataArr:');
+					// console.log(newLinkDataArr);
+
+					var mappingInboound = [];
+					for (var key in newLinkDataArr) {
+						var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
+						mappingInboound[key] = inboundValue;
+					}
+					// console.log('mappingInboound:');
+					// console.log(mappingInboound);
+
+					var outboundFormatData = outboundformatdata(OutboundFormatData, newLinkDataArr);
+					console.log('Outbound format convert to replacement Format:');
+					console.log(outboundFormatData);
+
+					outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
+					console.log('Outbound Final Result:');
+					console.log(outboundMappedData);
+					if (bodyreq != '' && outboundMappedData.length != 0) {
+						bodyreq = outboundMappedData;
+					}
+					if (outboundMappedData.length != 0) {
+						reqBody = outboundMappedData;
 					}
 				}
 			}
-			// console.log('newLinkDataArr:');
-			// console.log(newLinkDataArr);
-
-			var mappingInboound = [];
-			for (var key in newLinkDataArr) {
-				var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
-				mappingInboound[key] = inboundValue;
-			}
-			// console.log('mappingInboound:');
-			// console.log(mappingInboound);
-
-			var outboundFormatData = outboundformatdata(OutboundFormatData, newLinkDataArr);
-			console.log('Outbound format convert to replacement Format:');
-			console.log(outboundFormatData);
-
-			outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
-			console.log('Outbound Final Result:');
-			console.log(outboundMappedData);
 
 			var outbound_url = config.domain + "/outbound_setting/editAPI/" + project_id;
 			request(outbound_url, function (error, response, body) {
@@ -637,44 +1032,32 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 				var outboundSetting = JSON.parse(body);
 				var outbound_api_url = outboundSetting.api_url;
 
+				if (outboundLastPath != '') {
+					outbound_api_url += outboundLastPath;
+				}
+
 				var oldheaders = newHeader;
-				// delete oldheaders['User-Agent'];
-				// delete oldheaders.Accept;
-				// delete oldheaders['Postman-Token'];
 				delete oldheaders.Host;
 				delete oldheaders['Accept-Encoding'];
 				delete oldheaders.Connection;
 				delete oldheaders['Content-Length'];
-				/*var split_outbound_url = outbound_api_url.split('/');
-				if (split_outbound_url.includes('dapi')) {} else {
-					// delete oldheaders['Content-Type'];
-				}*/
+
 				var options = {
 					'method': responseBody.method,
 					'url': outbound_api_url+'?'+queryString,
 					'headers': oldheaders,
 				};
 				if (bodyreq != '') {
-					if (outboundMappedData.length != 0) {
-						bodyreq = outboundMappedData;
-					}
 					if(typereq != '' && typereq[1] == 'json') {
 						options['body'] = JSON.stringify(bodyreq);
 					} else if(typereq != '' && (typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml')) {
-						options['body'] = bodyreq;
+						options['body'] = JSON.stringify(bodyreq);
 					} else {
 						options['body'] = JSON.stringify(bodyreq);
 					}
 				} else {
-					if (outboundMappedData.length != 0) {
-						reqBody = outboundMappedData;
-					}
 					options['formData'] = JSON.parse(JSON.stringify(reqBody));
-					//console.log("******body req null found");
-					//console.log(options['formData'].length);
-					//options.method = "GET";
-					if(Object.entries(options.formData).length==0)
-					{
+					if(Object.entries(options.formData).length == 0) {
 						options.method = "GET";
 					}
 				}
@@ -703,6 +1086,8 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 						} else {
 							return res.send(body);
 						}
+					} else if(response.statusCode == 301 || response.statusCode == 302 || response.statusCode == 303) {
+						return res.send(response.body);
 					} else {
 						return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
 					}
@@ -713,6 +1098,7 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 });
 
 router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
+	// console.log(req);
 	var reqBody = req.body;
 	var reqQuery = req.query;
 	var reqRawHeader = req.rawHeaders;
@@ -730,7 +1116,14 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 	var typereq = '';
 	if (newHeader['Content-Type'] != undefined) {
 		var reqContentType = newHeader['Content-Type'];
-		var typereq = reqContentType.split('/');
+		typereq = reqContentType.split('/');
+		if ((typereq[0] == 'application' && (typereq[1] == 'json' || typereq[1] == 'xml' || typereq[1] == 'javascript')) || (typereq[0] == 'text' && (typereq[1] == 'plain' || typereq[1] == 'html'))) {
+			bodyreq = reqBody;
+		}
+	} else {
+		newHeader['Content-Type'] = 'application/json';
+		var reqContentType = newHeader['Content-Type'];
+		typereq = reqContentType.split('/');
 		if ((typereq[0] == 'application' && (typereq[1] == 'json' || typereq[1] == 'xml' || typereq[1] == 'javascript')) || (typereq[0] == 'text' && (typereq[1] == 'plain' || typereq[1] == 'html'))) {
 			bodyreq = reqBody;
 		}
@@ -745,46 +1138,71 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 	});
 
 	var ddepInput = '/'+req.params.ddepInput;
+	var ddepInputArr = [];
+	// ddepInput.push(req.params.ddepInput);
+	var ddepInputCount = 1;
 	if (req.params.ddepInput1 != undefined && req.params.ddepInput1 != '') {
-		ddepInput += '/'+req.params.ddepInput1;
+		// ddepInput += '/'+req.params.ddepInput1;
+		ddepInputArr.push(req.params.ddepInput1);
+		ddepInputCount = 2;
 	}
 	if (req.params.ddepInput2 != undefined && req.params.ddepInput2 != '') {
-		ddepInput += '/'+req.params.ddepInput2;
+		// ddepInput += '/'+req.params.ddepInput2;
+		ddepInputArr.push(req.params.ddepInput2);
+		ddepInputCount = 3;
 	}
 	if (req.params.ddepInput3 != undefined && req.params.ddepInput3 != '') {
-		ddepInput += '/'+req.params.ddepInput3;
+		// ddepInput += '/'+req.params.ddepInput3;
+		ddepInputArr.push(req.params.ddepInput3);
+		ddepInputCount = 4;
 	}
 	if (req.params.ddepInput4 != undefined && req.params.ddepInput4 != '') {
-		ddepInput += '/'+req.params.ddepInput4;
+		// ddepInput += '/'+req.params.ddepInput4;
+		ddepInputArr.push(req.params.ddepInput4);
+		ddepInputCount = 5;
 	}
 	if (req.params.ddepInput5 != undefined && req.params.ddepInput5 != '') {
-		ddepInput += '/'+req.params.ddepInput5;
+		// ddepInput += '/'+req.params.ddepInput5;
+		ddepInputArr.push(req.params.ddepInput5);
+		ddepInputCount = 6;
 	}
 	if (req.params.ddepInput6 != undefined && req.params.ddepInput6 != '') {
-		ddepInput += '/'+req.params.ddepInput6;
+		// ddepInput += '/'+req.params.ddepInput6;
+		ddepInputArr.push(req.params.ddepInput6);
+		ddepInputCount = 7;
 	}
 	if (req.params.ddepInput7 != undefined && req.params.ddepInput7 != '') {
-		ddepInput += '/'+req.params.ddepInput7;
+		// ddepInput += '/'+req.params.ddepInput7;
+		ddepInputArr.push(req.params.ddepInput7);
+		ddepInputCount = 8;
 	}
 	if (req.params.ddepInput8 != undefined && req.params.ddepInput8 != '') {
-		ddepInput += '/'+req.params.ddepInput8;
+		// ddepInput += '/'+req.params.ddepInput8;
+		ddepInputArr.push(req.params.ddepInput8);
+		ddepInputCount = 9;
 	}
 	if (req.params.ddepInput9 != undefined && req.params.ddepInput9 != '') {
-		ddepInput += '/'+req.params.ddepInput9;
+		// ddepInput += '/'+req.params.ddepInput9;
+		ddepInputArr.push(req.params.ddepInput9);
+		ddepInputCount = 10;
 	}
 	const { headers, method, url } = req;
 
 	var responseBody = { headers, method, url, reqBody };
-	
+
 	var inbound_url = config.domain + "/inbound_setting/editddepAPI/";
 
+	var ddepInputPath = '';
+	for (var i = 0; i < ddepInputArr.length; i++) {
+		ddepInputPath += '/'+ddepInputArr[i];
+	}
 	var inbound_options = {
 		'method': 'POST',
 		'url': inbound_url,
 		'headers': {
 			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify({'ddepInput': ddepInput}),
+		body: JSON.stringify({'ddepInput': ddepInput+ddepInputPath}),
 	}
 
 	request(inbound_options, function (error, response, body) {
@@ -803,10 +1221,83 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 			});
 		}
 		var inbound_setting = JSON.parse(response.body);
-		var inbound_format = inbound_setting.Data.inbound_format;
-		var project_id = inbound_setting.Data.project_id;
+		var project_id = '';
+		var inbound_format = '';
+		var outboundLastPath = '';
+		if (inbound_setting.code != 0) {
+			inbound_url = config.domain + "/inbound_setting/ddepInputAPI/";
+			inbound_options = {
+				'method': 'POST',
+				'url': inbound_url,
+				'headers': {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({'ddepInput': ddepInput}),
+			}
+			request(inbound_options, function (error, response, body) {
+				if(error) {
+					return res.json({
+						code: "1",
+						MsgCode: "50001",
+						MsgType: "Invalid-Source",
+						MsgLang: "en",
+						ShortMsg: "Fail",
+						LongMsg: error.message || "Some error occurred while getting the inbound setting.",
+						InternalMsg: "",
+						EnableAlert: "No",
+						DisplayMsgBy: "LongMsg",
+						Data: []
+					});
+				}
+				inbound_setting = JSON.parse(response.body);
+				if (inbound_setting.code == 0) {
+					var inbound_setting_data = inbound_setting.Data;
+					var itemsArr = [];
+					var inboundFormatArr = [];
+					for (var i = 0; i < inbound_setting_data.length; i++) {
+						itemsArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].item_id;
+						inboundFormatArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].inbound_format;
+					}
+					console.log("ITEMS_ARRAY => ");
+					console.log(itemsArr);
+					var newddepInputPath = ddepInput;
+					var lastArrKey = 0;
+					var ddepPath = '';
+					for (var i = 0; i < ddepInputArr.length - 1; i++) {
+						newddepInputPath += '/'+ddepInputArr[i];
+						if (itemsArr[newddepInputPath] != undefined) {
+							project_id = itemsArr[newddepInputPath];
+							inbound_format = inboundFormatArr[newddepInputPath];
+							lastArrKey = i;
+							ddepPath = newddepInputPath;
+						}
+					}
+					for (var i = lastArrKey + 1; i < ddepInputArr.length; i++) {
+						outboundLastPath += '/'+ddepInputArr[i];
+					}
+					console.log("DDEP_API_INPUT => " + ddepPath);
+					console.log("OUTBOUND_API_END_PATH => " + outboundLastPath);
+				} else {
+					return res.status(404).json({
+						code: "1",
+						MsgCode: "40001",
+						MsgType: "Invalid-Source",
+						MsgLang: "en",
+						ShortMsg: "Get Fail",
+						LongMsg: "Not found Project with ddep api input",
+						InternalMsg: "",
+						EnableAlert: "No",
+						DisplayMsgBy: "ShortMsg",
+						Data: [],
+					});
+				}
+			});
+		} else {
+			inbound_format = inbound_setting.Data.inbound_format;
+			project_id = inbound_setting.Data.item_id;
+		}
 
-		var OutboundFormatData = '';
+		var OutboundFormatData = {};
 		var nodeDataArray = [];
 		var linkDataArray = [];
 		var outboundMappedData = {};
@@ -826,46 +1317,56 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 					Data: []
 				});
 			}
-			var inboundPostData = reqBody;
-			if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
-				inboundPostData = JSON.parse(reqBody);
-			}
-			console.log('Inbound posted Json:');
-			console.log(inboundPostData);
+			if (reqBody.length > 0) {
+				var inboundPostData = reqBody;
+				if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
+					inboundPostData = JSON.parse(reqBody);
+				}
+				console.log('Inbound posted Json:');
+				console.log(inboundPostData);
 
-			var mappingSetting = JSON.parse(body);
-			OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
-			var mapping_data = JSON.parse(mappingSetting.mapping_data);
-			nodeDataArray = mapping_data.nodeDataArray;
-			linkDataArray = mapping_data.linkDataArray;
+				var mappingSetting = JSON.parse(body);
+				if (mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
+					OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
+					var mapping_data = JSON.parse(mappingSetting.mapping_data);
+					nodeDataArray = mapping_data.nodeDataArray;
+					linkDataArray = mapping_data.linkDataArray;
 
-			var linkdataarray = linkDataArray;
-			var newLinkDataArr = [];
-			for (var i = 0; i < linkdataarray.length; i++) {
-				if (Object.entries(linkdataarray[i]).length > 0) {
-					if (linkdataarray[i].category != undefined && linkdataarray[i].category == 'Mapping') {
-						newLinkDataArr[linkdataarray[i].to] = linkdataarray[i].from;
+					var linkdataarray = linkDataArray;
+					var newLinkDataArr = [];
+					for (var i = 0; i < linkdataarray.length; i++) {
+						if (Object.entries(linkdataarray[i]).length > 0) {
+							if (linkdataarray[i].category != undefined && linkdataarray[i].category == 'Mapping') {
+								newLinkDataArr[linkdataarray[i].to] = linkdataarray[i].from;
+							}
+						}
+					}
+					// console.log('newLinkDataArr:');
+					// console.log(newLinkDataArr);
+
+					var mappingInboound = [];
+					for (var key in newLinkDataArr) {
+						var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
+						mappingInboound[key] = inboundValue;
+					}
+					// console.log('mappingInboound:');
+					// console.log(mappingInboound);
+
+					var outboundFormatData = outboundformatdata(OutboundFormatData, newLinkDataArr);
+					console.log('Outbound format convert to replacement Format:');
+					console.log(outboundFormatData);
+
+					outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
+					console.log('Outbound Final Result:');
+					console.log(outboundMappedData);
+					if (bodyreq != '' && outboundMappedData.length != 0) {
+						bodyreq = outboundMappedData;
+					}
+					if (outboundMappedData.length != 0) {
+						reqBody = outboundMappedData;
 					}
 				}
 			}
-			// console.log('newLinkDataArr:');
-			// console.log(newLinkDataArr);
-
-			var mappingInboound = [];
-			for (var key in newLinkDataArr) {
-				var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
-				mappingInboound[key] = inboundValue;
-			}
-			// console.log('mappingInboound:');
-			// console.log(mappingInboound);
-
-			var outboundFormatData = outboundformatdata(OutboundFormatData, newLinkDataArr);
-			console.log('Outbound format convert to replacement Format:');
-			console.log(outboundFormatData);
-
-			outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
-			console.log('Outbound Final Result:');
-			console.log(outboundMappedData);
 
 			var outbound_url = config.domain + "/outbound_setting/editAPI/" + project_id;
 			request(outbound_url, function (error, response, body) {
@@ -886,44 +1387,32 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 				var outboundSetting = JSON.parse(body);
 				var outbound_api_url = outboundSetting.api_url;
 
+				if (outboundLastPath != '') {
+					outbound_api_url += outboundLastPath;
+				}
+
 				var oldheaders = newHeader;
-				// delete oldheaders['User-Agent'];
-				// delete oldheaders.Accept;
-				// delete oldheaders['Postman-Token'];
 				delete oldheaders.Host;
 				delete oldheaders['Accept-Encoding'];
 				delete oldheaders.Connection;
 				delete oldheaders['Content-Length'];
-				/*var split_outbound_url = outbound_api_url.split('/');
-				if (split_outbound_url.includes('dapi')) {} else {
-					// delete oldheaders['Content-Type'];
-				}*/
+
 				var options = {
 					'method': responseBody.method,
 					'url': outbound_api_url+'?'+queryString,
 					'headers': oldheaders,
 				};
 				if (bodyreq != '') {
-					if (outboundMappedData.length != 0) {
-						bodyreq = outboundMappedData;
-					}
 					if(typereq != '' && typereq[1] == 'json') {
 						options['body'] = JSON.stringify(bodyreq);
 					} else if(typereq != '' && (typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml')) {
-						options['body'] = bodyreq;
+						options['body'] = JSON.stringify(bodyreq);
 					} else {
 						options['body'] = JSON.stringify(bodyreq);
 					}
 				} else {
-					if (outboundMappedData.length != 0) {
-						reqBody = outboundMappedData;
-					}
 					options['formData'] = JSON.parse(JSON.stringify(reqBody));
-					//console.log("******body req null found");
-					//console.log(options['formData'].length);
-					//options.method = "GET";
-					if(Object.entries(options.formData).length==0)
-					{
+					if(Object.entries(options.formData).length == 0) {
 						options.method = "GET";
 					}
 				}
@@ -952,6 +1441,8 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 						} else {
 							return res.send(body);
 						}
+					} else if(response.statusCode == 301 || response.statusCode == 302 || response.statusCode == 303) {
+						return res.send(response.body);
 					} else {
 						return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
 					}
@@ -962,6 +1453,7 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 });
 
 router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
+	// console.log(req);
 	var reqBody = req.body;
 	var reqQuery = req.query;
 	var reqRawHeader = req.rawHeaders;
@@ -979,7 +1471,14 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 	var typereq = '';
 	if (newHeader['Content-Type'] != undefined) {
 		var reqContentType = newHeader['Content-Type'];
-		var typereq = reqContentType.split('/');
+		typereq = reqContentType.split('/');
+		if ((typereq[0] == 'application' && (typereq[1] == 'json' || typereq[1] == 'xml' || typereq[1] == 'javascript')) || (typereq[0] == 'text' && (typereq[1] == 'plain' || typereq[1] == 'html'))) {
+			bodyreq = reqBody;
+		}
+	} else {
+		newHeader['Content-Type'] = 'application/json';
+		var reqContentType = newHeader['Content-Type'];
+		typereq = reqContentType.split('/');
 		if ((typereq[0] == 'application' && (typereq[1] == 'json' || typereq[1] == 'xml' || typereq[1] == 'javascript')) || (typereq[0] == 'text' && (typereq[1] == 'plain' || typereq[1] == 'html'))) {
 			bodyreq = reqBody;
 		}
@@ -994,46 +1493,71 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 	});
 
 	var ddepInput = '/'+req.params.ddepInput;
+	var ddepInputArr = [];
+	// ddepInput.push(req.params.ddepInput);
+	var ddepInputCount = 1;
 	if (req.params.ddepInput1 != undefined && req.params.ddepInput1 != '') {
-		ddepInput += '/'+req.params.ddepInput1;
+		// ddepInput += '/'+req.params.ddepInput1;
+		ddepInputArr.push(req.params.ddepInput1);
+		ddepInputCount = 2;
 	}
 	if (req.params.ddepInput2 != undefined && req.params.ddepInput2 != '') {
-		ddepInput += '/'+req.params.ddepInput2;
+		// ddepInput += '/'+req.params.ddepInput2;
+		ddepInputArr.push(req.params.ddepInput2);
+		ddepInputCount = 3;
 	}
 	if (req.params.ddepInput3 != undefined && req.params.ddepInput3 != '') {
-		ddepInput += '/'+req.params.ddepInput3;
+		// ddepInput += '/'+req.params.ddepInput3;
+		ddepInputArr.push(req.params.ddepInput3);
+		ddepInputCount = 4;
 	}
 	if (req.params.ddepInput4 != undefined && req.params.ddepInput4 != '') {
-		ddepInput += '/'+req.params.ddepInput4;
+		// ddepInput += '/'+req.params.ddepInput4;
+		ddepInputArr.push(req.params.ddepInput4);
+		ddepInputCount = 5;
 	}
 	if (req.params.ddepInput5 != undefined && req.params.ddepInput5 != '') {
-		ddepInput += '/'+req.params.ddepInput5;
+		// ddepInput += '/'+req.params.ddepInput5;
+		ddepInputArr.push(req.params.ddepInput5);
+		ddepInputCount = 6;
 	}
 	if (req.params.ddepInput6 != undefined && req.params.ddepInput6 != '') {
-		ddepInput += '/'+req.params.ddepInput6;
+		// ddepInput += '/'+req.params.ddepInput6;
+		ddepInputArr.push(req.params.ddepInput6);
+		ddepInputCount = 7;
 	}
 	if (req.params.ddepInput7 != undefined && req.params.ddepInput7 != '') {
-		ddepInput += '/'+req.params.ddepInput7;
+		// ddepInput += '/'+req.params.ddepInput7;
+		ddepInputArr.push(req.params.ddepInput7);
+		ddepInputCount = 8;
 	}
 	if (req.params.ddepInput8 != undefined && req.params.ddepInput8 != '') {
-		ddepInput += '/'+req.params.ddepInput8;
+		// ddepInput += '/'+req.params.ddepInput8;
+		ddepInputArr.push(req.params.ddepInput8);
+		ddepInputCount = 9;
 	}
 	if (req.params.ddepInput9 != undefined && req.params.ddepInput9 != '') {
-		ddepInput += '/'+req.params.ddepInput9;
+		// ddepInput += '/'+req.params.ddepInput9;
+		ddepInputArr.push(req.params.ddepInput9);
+		ddepInputCount = 10;
 	}
 	const { headers, method, url } = req;
 
 	var responseBody = { headers, method, url, reqBody };
-	
+
 	var inbound_url = config.domain + "/inbound_setting/editddepAPI/";
 
+	var ddepInputPath = '';
+	for (var i = 0; i < ddepInputArr.length; i++) {
+		ddepInputPath += '/'+ddepInputArr[i];
+	}
 	var inbound_options = {
 		'method': 'POST',
 		'url': inbound_url,
 		'headers': {
 			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify({'ddepInput': ddepInput}),
+		body: JSON.stringify({'ddepInput': ddepInput+ddepInputPath}),
 	}
 
 	request(inbound_options, function (error, response, body) {
@@ -1052,10 +1576,83 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 			});
 		}
 		var inbound_setting = JSON.parse(response.body);
-		var inbound_format = inbound_setting.Data.inbound_format;
-		var project_id = inbound_setting.Data.project_id;
+		var project_id = '';
+		var inbound_format = '';
+		var outboundLastPath = '';
+		if (inbound_setting.code != 0) {
+			inbound_url = config.domain + "/inbound_setting/ddepInputAPI/";
+			inbound_options = {
+				'method': 'POST',
+				'url': inbound_url,
+				'headers': {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({'ddepInput': ddepInput}),
+			}
+			request(inbound_options, function (error, response, body) {
+				if(error) {
+					return res.json({
+						code: "1",
+						MsgCode: "50001",
+						MsgType: "Invalid-Source",
+						MsgLang: "en",
+						ShortMsg: "Fail",
+						LongMsg: error.message || "Some error occurred while getting the inbound setting.",
+						InternalMsg: "",
+						EnableAlert: "No",
+						DisplayMsgBy: "LongMsg",
+						Data: []
+					});
+				}
+				inbound_setting = JSON.parse(response.body);
+				if (inbound_setting.code == 0) {
+					var inbound_setting_data = inbound_setting.Data;
+					var itemsArr = [];
+					var inboundFormatArr = [];
+					for (var i = 0; i < inbound_setting_data.length; i++) {
+						itemsArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].item_id;
+						inboundFormatArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].inbound_format;
+					}
+					console.log("ITEMS_ARRAY => ");
+					console.log(itemsArr);
+					var newddepInputPath = ddepInput;
+					var lastArrKey = 0;
+					var ddepPath = '';
+					for (var i = 0; i < ddepInputArr.length - 1; i++) {
+						newddepInputPath += '/'+ddepInputArr[i];
+						if (itemsArr[newddepInputPath] != undefined) {
+							project_id = itemsArr[newddepInputPath];
+							inbound_format = inboundFormatArr[newddepInputPath];
+							lastArrKey = i;
+							ddepPath = newddepInputPath;
+						}
+					}
+					for (var i = lastArrKey + 1; i < ddepInputArr.length; i++) {
+						outboundLastPath += '/'+ddepInputArr[i];
+					}
+					console.log("DDEP_API_INPUT => " + ddepPath);
+					console.log("OUTBOUND_API_END_PATH => " + outboundLastPath);
+				} else {
+					return res.status(404).json({
+						code: "1",
+						MsgCode: "40001",
+						MsgType: "Invalid-Source",
+						MsgLang: "en",
+						ShortMsg: "Get Fail",
+						LongMsg: "Not found Project with ddep api input",
+						InternalMsg: "",
+						EnableAlert: "No",
+						DisplayMsgBy: "ShortMsg",
+						Data: [],
+					});
+				}
+			});
+		} else {
+			inbound_format = inbound_setting.Data.inbound_format;
+			project_id = inbound_setting.Data.item_id;
+		}
 
-		var OutboundFormatData = '';
+		var OutboundFormatData = {};
 		var nodeDataArray = [];
 		var linkDataArray = [];
 		var outboundMappedData = {};
@@ -1075,46 +1672,56 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 					Data: []
 				});
 			}
-			var inboundPostData = reqBody;
-			if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
-				inboundPostData = JSON.parse(reqBody);
-			}
-			console.log('Inbound posted Json:');
-			console.log(inboundPostData);
+			if (reqBody.length > 0) {
+				var inboundPostData = reqBody;
+				if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
+					inboundPostData = JSON.parse(reqBody);
+				}
+				console.log('Inbound posted Json:');
+				console.log(inboundPostData);
 
-			var mappingSetting = JSON.parse(body);
-			OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
-			var mapping_data = JSON.parse(mappingSetting.mapping_data);
-			nodeDataArray = mapping_data.nodeDataArray;
-			linkDataArray = mapping_data.linkDataArray;
+				var mappingSetting = JSON.parse(body);
+				if (mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
+					OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
+					var mapping_data = JSON.parse(mappingSetting.mapping_data);
+					nodeDataArray = mapping_data.nodeDataArray;
+					linkDataArray = mapping_data.linkDataArray;
 
-			var linkdataarray = linkDataArray;
-			var newLinkDataArr = [];
-			for (var i = 0; i < linkdataarray.length; i++) {
-				if (Object.entries(linkdataarray[i]).length > 0) {
-					if (linkdataarray[i].category != undefined && linkdataarray[i].category == 'Mapping') {
-						newLinkDataArr[linkdataarray[i].to] = linkdataarray[i].from;
+					var linkdataarray = linkDataArray;
+					var newLinkDataArr = [];
+					for (var i = 0; i < linkdataarray.length; i++) {
+						if (Object.entries(linkdataarray[i]).length > 0) {
+							if (linkdataarray[i].category != undefined && linkdataarray[i].category == 'Mapping') {
+								newLinkDataArr[linkdataarray[i].to] = linkdataarray[i].from;
+							}
+						}
+					}
+					// console.log('newLinkDataArr:');
+					// console.log(newLinkDataArr);
+
+					var mappingInboound = [];
+					for (var key in newLinkDataArr) {
+						var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
+						mappingInboound[key] = inboundValue;
+					}
+					// console.log('mappingInboound:');
+					// console.log(mappingInboound);
+
+					var outboundFormatData = outboundformatdata(OutboundFormatData, newLinkDataArr);
+					console.log('Outbound format convert to replacement Format:');
+					console.log(outboundFormatData);
+
+					outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
+					console.log('Outbound Final Result:');
+					console.log(outboundMappedData);
+					if (bodyreq != '' && outboundMappedData.length != 0) {
+						bodyreq = outboundMappedData;
+					}
+					if (outboundMappedData.length != 0) {
+						reqBody = outboundMappedData;
 					}
 				}
 			}
-			// console.log('newLinkDataArr:');
-			// console.log(newLinkDataArr);
-
-			var mappingInboound = [];
-			for (var key in newLinkDataArr) {
-				var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
-				mappingInboound[key] = inboundValue;
-			}
-			// console.log('mappingInboound:');
-			// console.log(mappingInboound);
-
-			var outboundFormatData = outboundformatdata(OutboundFormatData, newLinkDataArr);
-			console.log('Outbound format convert to replacement Format:');
-			console.log(outboundFormatData);
-
-			outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
-			console.log('Outbound Final Result:');
-			console.log(outboundMappedData);
 
 			var outbound_url = config.domain + "/outbound_setting/editAPI/" + project_id;
 			request(outbound_url, function (error, response, body) {
@@ -1135,44 +1742,32 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 				var outboundSetting = JSON.parse(body);
 				var outbound_api_url = outboundSetting.api_url;
 
+				if (outboundLastPath != '') {
+					outbound_api_url += outboundLastPath;
+				}
+
 				var oldheaders = newHeader;
-				// delete oldheaders['User-Agent'];
-				// delete oldheaders.Accept;
-				// delete oldheaders['Postman-Token'];
 				delete oldheaders.Host;
 				delete oldheaders['Accept-Encoding'];
 				delete oldheaders.Connection;
 				delete oldheaders['Content-Length'];
-				/*var split_outbound_url = outbound_api_url.split('/');
-				if (split_outbound_url.includes('dapi')) {} else {
-					// delete oldheaders['Content-Type'];
-				}*/
+
 				var options = {
 					'method': responseBody.method,
 					'url': outbound_api_url+'?'+queryString,
 					'headers': oldheaders,
 				};
 				if (bodyreq != '') {
-					if (outboundMappedData.length != 0) {
-						bodyreq = outboundMappedData;
-					}
 					if(typereq != '' && typereq[1] == 'json') {
 						options['body'] = JSON.stringify(bodyreq);
 					} else if(typereq != '' && (typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml')) {
-						options['body'] = bodyreq;
+						options['body'] = JSON.stringify(bodyreq);
 					} else {
 						options['body'] = JSON.stringify(bodyreq);
 					}
 				} else {
-					if (outboundMappedData.length != 0) {
-						reqBody = outboundMappedData;
-					}
 					options['formData'] = JSON.parse(JSON.stringify(reqBody));
-					//console.log("******body req null found");
-					//console.log(options['formData'].length);
-					//options.method = "GET";
-					if(Object.entries(options.formData).length==0)
-					{
+					if(Object.entries(options.formData).length == 0) {
 						options.method = "GET";
 					}
 				}
@@ -1201,6 +1796,8 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 						} else {
 							return res.send(body);
 						}
+					} else if(response.statusCode == 301 || response.statusCode == 302 || response.statusCode == 303) {
+						return res.send(response.body);
 					} else {
 						return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
 					}
