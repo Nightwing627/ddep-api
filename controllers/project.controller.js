@@ -137,7 +137,7 @@ exports.create = (req, res) => {
     ItemCode: data.ProjectCode,
     ItemName: data.ProjectName,
     CompanyName: data.CompanyName,
-    isActive: "0",
+    isActive: "1",
   });
   project
     .save()

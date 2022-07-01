@@ -22,13 +22,13 @@ $(function () {
     var outbound_start_date;
     var outbound_end_date;
     var project_detail ={};
-          var inbound_server_detail = {};
-          var outbound_detail = {};
-          var schedule_detail ={};
-          $('#weekly_fields').hide();
-          $('#weekly_fields_outbound').hide();
-          $('#monthly_fields').hide();  
-          $('#monthly_fields_outbound').hide();  
+    var inbound_server_detail = {};
+    var outbound_detail = {};
+    var schedule_detail ={};
+    $('#weekly_fields').hide();
+    $('#weekly_fields_outbound').hide();
+    $('#monthly_fields').hide();  
+    $('#monthly_fields_outbound').hide();  
           
   // Adds crossed class
   if (typeof bsStepper !== undefined && bsStepper !== null) {
@@ -82,6 +82,18 @@ $(function () {
           return this.optional(element) || re.test(value);
         },
         "DDEP API is not valid (must start with a '/' and must contain any letter, capitalize letter, number, dash or underscore)"
+      );
+      $.validator.addMethod(
+        "pattern",
+        function(value, element, regexp) {
+          console.log(value);
+          console.log(element);
+          console.log(regexp);
+          var re = new RegExp(regexp);
+          console.log(re.test(value));
+          return re.test(value);
+        },
+        "test"
       );
     $form.each(function () {
       var $this = $(this);
@@ -152,6 +164,7 @@ $(function () {
             required: true,
             maxlength: 100,
             regex: /^(\/)[a-zA-Z0-9-_\/]+$/,
+            // pattern: /.*(?:\/.*){0,5}/,
             remote : {
               type : 'POST',
               url : "/inbound_setting/checkddepinputexist",
@@ -246,7 +259,6 @@ $(function () {
               project_detail.CompanyName = $('#CompanyName').val();
               if(project_id=="")
               {
-
                 $.ajax({
                   url:'/projects/save',  
                   method:'post',  
@@ -272,7 +284,13 @@ $(function () {
                   dataType:'json',
                   data:{ProjectName:project_detail.ProjectName,ProjectCode:project_detail.ProjectCode,CompanyName:project_detail.CompanyName},
                   success:function(response){
-                    sweetAlert("success", "Project Setting Saved Successfully", "success");
+                    // sweetAlert("success", "Project Setting Saved Successfully", "success");
+                    swal({
+                      title: "success!",
+                      text: "Project Setting Saved Successfully",
+                      type: "success",
+                      timer: 1200
+                    });
                     //console.log(response);
                     numberedStepper.next();
                   },
@@ -296,12 +314,14 @@ $(function () {
                       $("#inbound_setting_id").val(response._id);
                       $('#inboundFormat').val(response.inbound_format);
                       if (response.inbound_format == 'json') {
-                        $('#inboundFormat > option:eq(1)').attr('selected', true);
-                      } else {
                         $('#inboundFormat > option:eq(0)').attr('selected', true);
+                        $('#select2-inboundFormat-container').attr("title", "JSON");
+                        $('#select2-inboundFormat-container').html("JSON");
+                      } else {
+                        $('#inboundFormat > option:eq(1)').attr('selected', true);
+                        $('#select2-inboundFormat-container').attr("title", "XML");
+                        $('#select2-inboundFormat-container').html("XML");
                       }
-                      $('#select2-inboundFormat-container').attr("title", response.inbound_format);
-                      $('#select2-inboundFormat-container').html(response.inbound_format);
                       $('#ftp_server_link').val(response.ftp_server_link);
                       //$('#host').val(response.host);
                       if (response.ftp_port == '' || response.ftp_port == undefined) {
@@ -401,6 +421,11 @@ $(function () {
                        $('input[name="sync_type_out"]:checked').val(response.sync_type_out);
                         $('#api_url').val(response.api_url);
                        $('#outbound_format').val(response.outbound_format);
+                        if (response.outbound_format == 'json') {
+                          $('#inboundFormat > option:eq(0)').attr('selected', true);
+                          $('#select2-inboundFormat-container').attr("title", "JSON");
+                          $('#select2-inboundFormat-container').html("JSON");
+                        }
                        $('#outbound_setting_id').val(response._id);
                        // $('#project_id').val(response.item_id);
                        if(response.is_active=="Active")
@@ -679,16 +704,19 @@ $(function () {
                 {
                   $('#inbound_shedule_setting_tab').hide();
                   $('#outbound_shedule_setting_tab').hide();
+                  $('#inbound_ddep_api_selected').show();
                 }
                 if(sync_type=="API" && api_type == 'User_API')
                 {
                   $('#inbound_shedule_setting_tab').show();
                   $('#outbound_shedule_setting_tab').hide();
+                  $('#inbound_ddep_api_selected').hide();
                 }
                 if(sync_type=="FTP")
                 {
                   $('#inbound_shedule_setting_tab').show();
                   $('#outbound_shedule_setting_tab').show();
+                  $('#inbound_ddep_api_selected').hide();
                 }
                 if(inbound_setting_id=="")
                 {
@@ -717,7 +745,13 @@ $(function () {
                     data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,api_ddep_api:api_ddep_api,api_user_api:api_user_api,api_type:api_type,is_active:is_active,api_ddep_api_receive_parameter_name:api_ddep_api_receive_parameter_name},
                     success:function(response){
                       // $('#inbound_shedule_setting_tab').show();
-                      sweetAlert("success", "Inbound Setting Saved Successfully", "success");
+                      // sweetAlert("success", "Inbound Setting Saved Successfully", "success");
+                      swal({
+                        title: "success!",
+                        text: "Inbound Setting Saved Successfully",
+                        type: "success",
+                        timer: 1200
+                      });
                       numberedStepper.next();
                     },
                     error: function (textStatus, errorThrown) {
@@ -779,6 +813,12 @@ $(function () {
                     success:function(response){
                       //console.log(response);
                       //alert("Setting saved successfully");
+                      swal({
+                        title: "success!",
+                        text: "Outbound Setting Saved Successfully",
+                        type: "success",
+                        timer: 1200
+                      });
                       $("#outbound_setting_id").val(outbound_setting_id);
                       numberedStepper.next();
                     },
@@ -832,7 +872,13 @@ $(function () {
                     dataType:'json',
                     data:{project_id:project_id,inbound_format:inbound_format,outbound_format:outbound_format,mapping_data:mapping_data},
                     success:function(response){
-                      sweetAlert("success", "Mapping Setting Saved Successfully", "success");
+                      // sweetAlert("success", "Mapping Setting Saved Successfully", "success");
+                      swal({
+                        title: "success!",
+                        text: "Mapping Setting Saved Successfully",
+                        type: "success",
+                        timer: 1200
+                      });
                       numberedStepper.next();
                     },
                     error: function (textStatus, errorThrown) {
@@ -957,7 +1003,13 @@ $(function () {
                   dataType:'json',
                   data:{ProjectName:project_detail.ProjectName,ProjectCode:project_detail.ProjectCode,CompanyName:project_detail.CompanyName},
                   success:function(response){
-                    sweetAlert("success", "Project Created Successfully", "success");
+                    // sweetAlert("success", "Project Created Successfully", "success");
+                      swal({
+                        title: "success!",
+                        text: "Project Created Successfully",
+                        type: "success",
+                        timer: 1200
+                      });
                     //console.log(response);
                     $('#project_id').val(response.id);
                   },
@@ -972,7 +1024,13 @@ $(function () {
                   dataType:'json',
                   data:{ProjectName:project_detail.ProjectName,ProjectCode:project_detail.ProjectCode,CompanyName:project_detail.CompanyName},
                   success:function(response){
-                    sweetAlert("success", "Project Setting Saved Successfully", "success");
+                    // sweetAlert("success", "Project Setting Saved Successfully", "success");
+                      swal({
+                        title: "success!",
+                        text: "Project Setting Saved Successfully",
+                        type: "success",
+                        timer: 1200
+                      });
                     console.log(response);
                   }
                 });
@@ -1005,11 +1063,13 @@ $(function () {
           {
             $('#inbound_shedule_setting_tab').hide();
             $('#outbound_shedule_setting_tab').hide();
+            $('#inbound_ddep_api_selected').show();
           }
           if(api_type == 'User_API')
           {
             $('#inbound_shedule_setting_tab').show();
             $('#outbound_shedule_setting_tab').hide();
+            $('#inbound_ddep_api_selected').hide();
           }
           if(inbound_setting_id=="")
           {
@@ -1040,7 +1100,13 @@ $(function () {
               data:{project_id:project_id,inbound_format:inbound_format,sync_type:sync_type,ftp_server_link:ftp_server_link,port:port,login_name:login_name,password:password,is_password_encrypted:is_password_encrypted,folder:folder,backup_folder:backup_folder,api_ddep_api:api_ddep_api,api_user_api:api_user_api,api_type:api_type,is_active:is_active},
               success:function(response){
                 //console.log(response);
-                sweetAlert("success", "Inbound Setting Saved Successfully", "success");
+                // sweetAlert("success", "Inbound Setting Saved Successfully", "success");
+                      swal({
+                        title: "success!",
+                        text: "Inbound Setting Saved Successfully",
+                        type: "success",
+                        timer: 1200
+                      });
                 //$("#inbound_setting_id").val(response.id);
               },
               error:function(textStatus,errorThrown){
@@ -1121,7 +1187,13 @@ $(function () {
               success:function(response){
                 //console.log(response);
 
-                sweetAlert("success", "Inbound Setting Saved Successfully", "success");
+                // sweetAlert("success", "Inbound Setting Saved Successfully", "success");
+                      swal({
+                        title: "success!",
+                        text: "Inbound Setting Saved Successfully",
+                        type: "success",
+                        timer: 1200
+                      });
                 //$("#inbound_setting_id").val(response.id);
               },
               error:function(textStatus,errorThrown){
@@ -1269,7 +1341,13 @@ $(function () {
                   data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active:is_active},
                   success:function(response){
                     //console.log(response);
-                    sweetAlert("success", "Outbound Setting Saved Successfully", "success");
+                    // sweetAlert("success", "Outbound Setting Saved Successfully", "success");
+                      swal({
+                        title: "success!",
+                        text: "Outbound Setting Saved Successfully",
+                        type: "success",
+                        timer: 1200
+                      });
                     //$("#outbound_setting_id").val(response.id);
                   },
                   error:function(textStatus,errorThrown)

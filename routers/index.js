@@ -229,6 +229,13 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 		if ((typereq[0] == 'application' && (typereq[1] == 'json' || typereq[1] == 'xml' || typereq[1] == 'javascript')) || (typereq[0] == 'text' && (typereq[1] == 'plain' || typereq[1] == 'html'))) {
 			bodyreq = reqBody;
 		}
+	} else {
+		newHeader['Content-Type'] = 'application/json';
+		var reqContentType = newHeader['Content-Type'];
+		typereq = reqContentType.split('/');
+		if ((typereq[0] == 'application' && (typereq[1] == 'json' || typereq[1] == 'xml' || typereq[1] == 'javascript')) || (typereq[0] == 'text' && (typereq[1] == 'plain' || typereq[1] == 'html'))) {
+			bodyreq = reqBody;
+		}
 	}
 
 	var queryString = '';
