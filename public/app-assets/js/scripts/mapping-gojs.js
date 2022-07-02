@@ -286,9 +286,21 @@ function init() {
 		if (tn.containingGroup === null || tn.containingGroup.data.key !== "outbound") return false;
 
 		// fn = Inbound Column
+		if (fn.data.type == "object") {
+			// tn = Outbound Column
+			if(tn.data.type == "integer" || tn.data.type == "number" || tn.data.type == "boolean") return false;
+		}
+
+		// fn = Inbound Column
+		if (fn.data.type == "string") {
+			// tn = Outbound Column
+			if(tn.data.type == "integer" || tn.data.type == "number" || tn.data.type == "boolean") return false;
+		}
+
+		// fn = Inbound Column
 		if (fn.data.type == "array") {
 			// tn = Outbound Column
-			if(tn.data.type == "object") return false;
+			if(tn.data.type == "object" || tn.data.type == "integer" || tn.data.type == "number" || tn.data.type == "boolean") return false;
 		}
 		//// optional limit to a single mapping link per node
 		//if (fn.linksConnected.any(l => l.category === "Mapping")) return false;

@@ -612,8 +612,8 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 				if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
 					inboundPostData = JSON.parse(reqBody);
 				}
-				// console.log('Inbound posted Json:');
-				// console.log(inboundPostData);
+				console.log('Inbound posted Json:');
+				console.log(inboundPostData);
 
 				var mappingSetting = JSON.parse(body);
 				if (mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
@@ -624,31 +624,38 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 
 					var linkdataarray = linkDataArray;
 					var newLinkDataArr = [];
+					var newLinkDataArrCount = [];
 					for (var i = 0; i < linkdataarray.length; i++) {
 						if (Object.entries(linkdataarray[i]).length > 0) {
 							if (linkdataarray[i].category != undefined && linkdataarray[i].category == 'Mapping') {
-								newLinkDataArr[linkdataarray[i].to] = linkdataarray[i].from;
+								var linkdataarraykey = linkdataarray[i].to;
+								var linkdataarraykeycount = checklinkdataarraykey(linkdataarraykey, newLinkDataArrCount);
+								if (linkdataarraykeycount > 1) {
+									linkdataarraykey += linkdataarraykeycount;
+								}
+								newLinkDataArr[linkdataarraykey] = linkdataarray[i].from;
+								newLinkDataArrCount.push(linkdataarraykey);
 							}
 						}
 					}
-					console.log('newLinkDataArr:');
-					console.log(newLinkDataArr);
+					// console.log('newLinkDataArr:');
+					// console.log(newLinkDataArr);
 
 					var mappingInboound = [];
 					for (var key in newLinkDataArr) {
 						var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
 						mappingInboound[key] = inboundValue;
 					}
-					console.log('mappingInboound:');
-					console.log(mappingInboound);
+					// console.log('mappingInboound:');
+					// console.log(mappingInboound);
 
 					var outboundFormatData = outboundreplacementformatdata(OutboundFormatData, newLinkDataArr);
 					console.log('Outbound format convert to replacement Format:');
 					console.log(outboundFormatData);
 
 					outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
-					// console.log('Outbound Final Result:');
-					// console.log(outboundMappedData);
+					console.log('Outbound Final Result:');
+					console.log(outboundMappedData);
 					if (bodyreq != '' && outboundMappedData.length != 0) {
 						bodyreq = outboundMappedData;
 					}
@@ -2852,51 +2859,11 @@ function getInboundValueEach(inboundPostData, inboundkey) {
 				parentKey.push(key);
 				returnValue = getInboundValueEach1(value, inboundkey);
 				parentKey = [];
-				/*Object.entries(value).forEach((itementry) => {
-					const [subkey, subvalue] = itementry;
-
-					var newSubKey = '@In{'+key+'.'+subkey+'}';
-					var subkey_count = checkKey(newSubKey, inboundDataArray);
-					if (inboundkey == newSubKey) {
-						returnValue = subvalue;
-					}
-
-					if (subkey_count > 1) {
-						newSubKey = '@In{'+key+'.'+subkey+subkey_count+'}';
-						if (inboundkey == newSubKey) {
-							returnValue = subvalue;
-						}
-					}
-
-					inboundDataArray.push({ key: newSubKey, value: subvalue });
-				});*/
 			}
 			if (Array.isArray(value) && value != null && typeof(value) == "object") {
 				parentKey.push(key);
 				returnValue = getInboundValueEach1(value, inboundkey);
 				parentKey = [];
-				/*Object.entries(value).forEach((arritementry) => {
-					const [arrsubkey, arrsubvalue] = arritementry;
-
-					Object.entries(arrsubvalue).forEach((itementry) => {
-						const [subkey, subvalue] = itementry;
-
-						var newSubKey = '@In{'+key+'.'+subkey+'}';
-						var subkey_count = checkKey(newSubKey, inboundDataArray);
-						if (inboundkey == newSubKey) {
-							returnValue = subvalue;
-						}
-
-						if (subkey_count > 1) {
-							newSubKey = '@In{'+key+'.'+subkey+subkey_count+'}';
-							if (inboundkey == newSubKey) {
-								returnValue = subvalue;
-							}
-						}
-
-						inboundDataArray.push({ key: newSubKey, value: subvalue });
-					});
-				});*/
 			}
 		}
 	});
@@ -2911,6 +2878,17 @@ function checkKey(key, dataArray) {
 	j = 1;
 	for (var i = 0; i < dataArray.length; i++) {
 		if (dataArray[i]['key'] == key) {
+			j++;
+			key += j;
+		}
+	}
+	return j;
+}
+
+function checklinkdataarraykey(key, dataArray) {
+	j = 1;
+	for (var i = 0; i < dataArray.length; i++) {
+		if (dataArray[i] == key) {
 			j++;
 			key += j;
 		}
@@ -2982,11 +2960,11 @@ function outboundformatdata(OutboundData, dataArr) {
 
 		if (!Array.isArray(value) && value != null && typeof(value) == "object") {
 			if (dataArr['@Out{'+key+'}'] != undefined) {
-				console.log("outbound key 2 => "+key);
-				console.log("outType 2 => object");
+				// console.log("outbound key 2 => "+key);
+				// console.log("outType 2 => object");
 				var isArray = Array.isArray(dataArr['@Out{'+key+'}']);
 				var inType = (isArray ? 'array' : typeof(dataArr['@Out{'+key+'}']));
-				console.log("inType 2 => "+inType);
+				// console.log("inType 2 => "+inType);
 				if (inType == 'string' || inType == 'integer' || inType == 'number' || inType == 'boolean') {
 					var dataValuestrnumbool = {};
 					dataValuestrnumbool[key] = dataArr['@Out{'+key+'}'];
@@ -3001,11 +2979,11 @@ function outboundformatdata(OutboundData, dataArr) {
 				Object.entries(value).forEach((itementry) => {
 					var [subkey, subvalue] = itementry;
 					var outType = typeof(subvalue);
-					console.log("outbound subkey 2 => "+subkey);
-					console.log("outType 2 => "+outType);
+					// console.log("outbound subkey 2 => "+subkey);
+					// console.log("outType 2 => "+outType);
 					if (dataArr['@Out{'+key+'.'+subkey+'}'] != undefined) {
 						var inType = typeof(dataArr['@Out{'+key+'.'+subkey+'}']);
-						console.log("inType 2 => "+inType);
+						// console.log("inType 2 => "+inType);
 						if (inType == 'object' && outType == 'string') {
 							var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
 						} else if (inType == 'array' && outType == 'string') {
@@ -3028,6 +3006,18 @@ function outboundformatdata(OutboundData, dataArr) {
 							}
 						} else if (inType == 'boolean' && outType == 'string') {
 							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
+						} else if (inType == 'boolean' && outType == 'number') {
+							if (dataArr['@Out{'+key+'.'+subkey+'}'] == false) {
+								var dataValuestrnumbool = 0;
+							} else {
+								var dataValuestrnumbool = 1;
+							}
+						} else if (inType == 'boolean' && outType == 'integer') {
+							if (dataArr['@Out{'+key+'.'+subkey+'}'] == false) {
+								var dataValuestrnumbool = 0;
+							} else {
+								var dataValuestrnumbool = 1;
+							}
 						} else {
 							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'];
 						}
@@ -3044,22 +3034,32 @@ function outboundformatdata(OutboundData, dataArr) {
 			}
 		} else if (Array.isArray(value) && value != null && typeof(value) == "object") {
 			if (dataArr['@Out{'+key+'}'] != undefined) {
-				console.log("outbound key 1 => "+key);
-				console.log("outType 1 => array");
+				// console.log("outbound key 1 => "+key);
+				// console.log("outType 1 => array");
 				var isArray = Array.isArray(dataArr['@Out{'+key+'}']);
 				var inType = (isArray ? 'array' : typeof(dataArr['@Out{'+key+'}']));
-				console.log("inType 1 => "+inType);
+				// console.log("inType 1 => "+inType);
+				var dataValuestrnumbool = [];
+
 				if (inType == 'object') {
-					var dataValuestrnumbool = [];
 					dataValuestrnumbool.push(dataArr['@Out{'+key+'}']);
 				} else if (inType == 'string' || inType == 'integer' || inType == 'number' || inType == 'boolean') {
-					var dataValuestrnumbool = [];
 					var newObject = {};
 					newObject[key] = dataArr['@Out{'+key+'}'];
 					dataValuestrnumbool.push(newObject);
 				} else {
-					var dataValuestrnumbool = dataArr['@Out{'+key+'}'];
+					dataValuestrnumbool = dataArr['@Out{'+key+'}'];
 				}
+				for (var i = 2; i < 26; i++) {
+					if (dataArr['@Out{'+key+'}'+i] != undefined) {
+						if (typeof(dataArr['@Out{'+key+'}'+i]) == 'object') {
+							dataValuestrnumbool.push(dataArr['@Out{'+key+'}'+i]);
+						} else {
+							dataValuestrnumbool.push(dataArr['@Out{'+key+'}'+i]);
+						}
+					}
+				}
+
 				var secondObject = merged = {};
 				secondObject[key] = dataValuestrnumbool;
 				merged = Object.assign(outboundFormatData, secondObject, secondObject);
@@ -3068,11 +3068,11 @@ function outboundformatdata(OutboundData, dataArr) {
 				Object.entries(value).forEach((itementry) => {
 					var [subkey, subvalue] = itementry;
 					var outType = typeof(subvalue);
-					console.log("outbound subkey 1 => "+subkey);
-					console.log("outType 1 => "+outType);
+					// console.log("outbound subkey 1 => "+subkey);
+					// console.log("outType 1 => "+outType);
 					if (dataArr['@Out{'+key+'.'+subkey+'}'] != undefined) {
 						var inType = typeof(dataArr['@Out{'+key+'.'+subkey+'}']);
-						console.log("inType 1 => "+inType);
+						// console.log("inType 1 => "+inType);
 						if (inType == 'object' && outType == 'string') {
 							var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
 						} else if (inType == 'array' && outType == 'string') {
@@ -3095,6 +3095,18 @@ function outboundformatdata(OutboundData, dataArr) {
 							}
 						} else if (inType == 'boolean' && outType == 'string') {
 							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
+						} else if (inType == 'boolean' && outType == 'number') {
+							if (dataArr['@Out{'+key+'.'+subkey+'}'] == false) {
+								var dataValuestrnumbool = 0;
+							} else {
+								var dataValuestrnumbool = 1;
+							}
+						} else if (inType == 'boolean' && outType == 'integer') {
+							if (dataArr['@Out{'+key+'.'+subkey+'}'] == false) {
+								var dataValuestrnumbool = 0;
+							} else {
+								var dataValuestrnumbool = 1;
+							}
 						} else {
 							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'];
 						}
@@ -3111,11 +3123,11 @@ function outboundformatdata(OutboundData, dataArr) {
 			}
 		} else if (!Array.isArray(value) && value != null && typeof(value) != "object") {
 			var outType = typeof(value);
-			console.log("outbound key => "+key);
-			console.log("outType => "+outType);
+			// console.log("outbound key => "+key);
+			// console.log("outType => "+outType);
 			if (dataArr['@Out{'+key+'}'] != undefined) {
 				var inType = typeof(dataArr['@Out{'+key+'}']);
-				console.log("inType => "+inType);
+				// console.log("inType => "+inType);
 				if (inType == 'object' && outType == 'string') {
 					var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'}']);
 				} else if (inType == 'array' && outType == 'string') {
@@ -3138,6 +3150,18 @@ function outboundformatdata(OutboundData, dataArr) {
 					}
 				} else if (inType == 'boolean' && outType == 'string') {
 					var dataValuestrnumbool = dataArr['@Out{'+key+'}'].toString();
+				} else if (inType == 'boolean' && outType == 'number') {
+					if (dataArr['@Out{'+key+'}'] == false) {
+						var dataValuestrnumbool = 0;
+					} else {
+						var dataValuestrnumbool = 1;
+					}
+				} else if (inType == 'boolean' && outType == 'integer') {
+					if (dataArr['@Out{'+key+'}'] == false) {
+						var dataValuestrnumbool = 0;
+					} else {
+						var dataValuestrnumbool = 1;
+					}
 				} else {
 					var dataValuestrnumbool = dataArr['@Out{'+key+'}'];
 				}
