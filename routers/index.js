@@ -252,7 +252,7 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 					Data: []
 				});
 			}
-			if (reqBody.length > 0) {
+			if (Object.entries(reqBody).length > 0) {
 				var inboundPostData = reqBody;
 				if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
 					inboundPostData = JSON.parse(reqBody);
@@ -607,7 +607,7 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 					Data: []
 				});
 			}
-			if (reqBody.length > 0) {
+			if (Object.entries(reqBody).length > 0) {
 				var inboundPostData = reqBody;
 				if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
 					inboundPostData = JSON.parse(reqBody);
@@ -962,7 +962,7 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 					Data: []
 				});
 			}
-			if (reqBody.length > 0) {
+			if (Object.entries(reqBody).length > 0) {
 				var inboundPostData = reqBody;
 				if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
 					inboundPostData = JSON.parse(reqBody);
@@ -1317,7 +1317,7 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 					Data: []
 				});
 			}
-			if (reqBody.length > 0) {
+			if (Object.entries(reqBody).length > 0) {
 				var inboundPostData = reqBody;
 				if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
 					inboundPostData = JSON.parse(reqBody);
@@ -1672,7 +1672,7 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 					Data: []
 				});
 			}
-			if (reqBody.length > 0) {
+			if (Object.entries(reqBody).length > 0) {
 				var inboundPostData = reqBody;
 				if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
 					inboundPostData = JSON.parse(reqBody);

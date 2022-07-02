@@ -2010,7 +2010,6 @@ $(function () {
         });
     }
   });
-  $('#')
   // Vertical Wizard
   // --------------------------------------------------------------------
   if (typeof verticalWizard !== undefined && verticalWizard !== null) {

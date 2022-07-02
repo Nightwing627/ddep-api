@@ -284,6 +284,12 @@ function init() {
 		// make sure the nodes are inside different Groups
 		if (fn.containingGroup === null || fn.containingGroup.data.key !== "inbound") return false;
 		if (tn.containingGroup === null || tn.containingGroup.data.key !== "outbound") return false;
+
+		// fn = Inbound Column
+		if (fn.data.type == "array") {
+			// tn = Outbound Column
+			if(tn.data.type == "object") return false;
+		}
 		//// optional limit to a single mapping link per node
 		//if (fn.linksConnected.any(l => l.category === "Mapping")) return false;
 		//if (tn.linksConnected.any(l => l.category === "Mapping")) return false;
@@ -329,7 +335,7 @@ function init() {
 			//    source: "images/defaultIcon.png" },
 			//  new go.Binding("source", "src")),
 			//Column Type Icons
-			$(go.Picture, { source: "string.png", width: 20, height: 20 }, new go.Binding("source","type", v => "app-assets/images/mapping/"+v+".png"   )    ),
+			$(go.Picture, { source: "string.png", width: 20, height: 20 }, new go.Binding("source","type", v => "/app-assets/images/mapping/"+v+".png"   )    ),
 			//Column name
 			$(go.TextBlock,new go.Binding("text","text")),
 			//Column type
@@ -532,11 +538,12 @@ function GOJSD_Convertor(schemaText,group="inbound") {
 	// Loop the "schema" from API Result
 	for (var column in schemaData["schema"]) {
 		var isArray = Array.isArray(schemaData["schema"][column]);
-		var columnType = (isArray ? 'array' : typeof(schemaData["schema"][column]));
+		// var columnType = (isArray ? 'array' : typeof(schemaData["schema"][column]));
+		var columnType = (isArray ? 'array' : (typeof(schemaData["schema"][column]) == 'object') ? 'object' : schemaData["schema"][column]);
 
 		// node Data will be key , text, type, group 4 object
 		// keys[SchemaCount] to get the @In{} or @Out{} unique name
-		var nodeData = { key: keys[SchemaCount] ,text: column, type: columnType, group: group };
+		var nodeData = { key: keys[SchemaCount], text: column, type: columnType, group: group };
 
 		//push the node Data into nodes
 		nodes.push(nodeData);
