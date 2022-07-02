@@ -1036,8 +1036,6 @@ $(function () {
       $('#save_inbound').on('click',function(e){
         e.preventDefault();
         var isValid = $('#frm-save-inbound').valid();
-         var project_id = $('#project_id').val();
-         var inbound_setting_id = $('#inbound_setting_id').val();
          if(isValid)
          {
           var inbound_setting_id = $("#inbound_setting_id").val();
@@ -1357,6 +1355,63 @@ $(function () {
               }
          }
       })
+      $('#save_mapping').on('click', function(e){
+        e.preventDefault();
+        var isValid = $('#frm-save-mapping').valid();
+        if(isValid)
+        {
+          var project_id = $('#project_id').val();
+          var mapping_setting_id = $("#mapping_setting_id").val();
+          var inbound_format = $("#InboundFormatData").val();
+          var outbound_format = $('#OutboundFormatData').val();
+          var mapping_data = $('#mySavedModel2').val();
+
+          if(mapping_setting_id=="")
+          {
+            $.ajax({
+              url:'/project/item/mapping/save',  
+              method:'post',  
+              dataType:'json',
+              data:{project_id:project_id,inbound_format:inbound_format,outbound_format:outbound_format,mapping_data:mapping_data},
+              success:function(response){
+                $("#mapping_setting_id").val(response.id);
+                swal({
+                  title: "success!",
+                  text: "Mapping Setting Saved Successfully",
+                  type: "success",
+                  timer: 1200
+                });
+              },
+              error: function (textStatus, errorThrown) {
+                $e.preventDefault();
+              }
+            });
+          }
+          else
+          {
+            $.ajax({
+              url:'/project/item/mapping/update/'+mapping_setting_id,  
+              method:'put',  
+              dataType:'json',
+              data:{project_id:project_id,inbound_format:inbound_format,outbound_format:outbound_format,mapping_data:mapping_data},
+              success:function(response){
+                // sweetAlert("success", "Mapping Setting Saved Successfully", "success");
+                swal({
+                  title: "success!",
+                  text: "Mapping Setting Saved Successfully",
+                  type: "success",
+                  timer: 1200
+                });
+              },
+              error: function (textStatus, errorThrown) {
+                $('#collapseTwo').slideDown('slow');
+                $thisform.valid();
+                return false;
+              }
+            });
+          }
+        }
+      })
       $(horizontalWizard)
       .find('.btn-prev')
       .on('click', function () {
@@ -1603,7 +1658,7 @@ $(function () {
                 console.log(response);
                 sweetAlert("success", "Setting Saved Successfully", "success");
                 $("#schedule_setting_id").val(response.id);
-                //window.location.href = "/projects/project-list";
+                window.location.href = "/projects/project-list";
               },
               error:function(textStatus,errorThrown)
               {
@@ -2081,7 +2136,6 @@ $(function () {
         alert('Submitted..!!');
       });
   }
-  
 });
 
 $('body').on('change', 'input:radio[name=sync_type]', function() {
@@ -2107,5 +2161,4 @@ $('body').on('change', 'input:radio[name=api_type]', function() {
     $('#api_ddep_api_input').show();
     $('#api_user_api_input').hide();
   }
-  
 });

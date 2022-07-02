@@ -303,6 +303,7 @@ function init() {
 			if(tn.data.type == "object" || tn.data.type == "integer" || tn.data.type == "number" || tn.data.type == "boolean") return false;
 		}
 		//// optional limit to a single mapping link per node
+		if (tn.linksConnected.any(l => l.category === "Mapping") && tn.data.type != "array") return false;
 		//if (fn.linksConnected.any(l => l.category === "Mapping")) return false;
 		//if (tn.linksConnected.any(l => l.category === "Mapping")) return false;
 		return true;

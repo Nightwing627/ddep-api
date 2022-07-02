@@ -547,7 +547,7 @@ License: You must have a valid license purchased only from themeforest(the above
               <div class="content-header">
                 <h5 class="mb-0">Mapping</h5>
               </div>
-              <form>
+              <form id="frm-save-mapping">
                 <div class="row">
                   <div class="col-6">
                     <input type="hidden" name="mapping_setting_id" id="mapping_setting_id" value="">
@@ -575,6 +575,11 @@ License: You must have a valid license purchased only from themeforest(the above
                         </button>
                       </div>
                     </div>
+                  </div>
+                  <div class="col-12">
+                    <p style="margin-bottom: 5px;">Create Relationship: Drag & Drop the inbound column to outbound column</p>
+                    <p style="margin-bottom: 5px;">Delete Relationship: Click the Relationship Line & Press 'Delete' Button from Keyboard to remove the relationship</p>
+                    <p style="margin-bottom: 5px;">Create Multiples Relationship : only allow the column type = array</p>
                   </div>
                   <!-- * * * * * * * * * * * * * -->
                   <!-- Start of GoJS sample code -->
@@ -856,18 +861,20 @@ License: You must have a valid license purchased only from themeforest(the above
                   </table>
                 </div>
                 -->
-                <button type="button" class="btn btn-relief-primary">Save</button>
+                <div class="mt-1">
+                  <button class="btn btn-relief-primary" id="save_mapping" type="submit">Save</button>
+                </div>
               </form>
               <hr/>
               <div class="d-flex justify-content-between">
-                  <button class="btn btn-primary btn-prev">
-                  <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
-                  <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                  </button>
-                  <button class="btn btn-primary btn-next">
-                  <span class="align-middle d-sm-inline-block d-none">Next</span>
-                  <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
-                  </button>
+                <button class="btn btn-primary btn-prev">
+                <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                </button>
+                <button class="btn btn-primary btn-next">
+                <span class="align-middle d-sm-inline-block d-none">Next</span>
+                <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+                </button>
               </div>
             </div>
             <div id="schedule-step" class="content">
