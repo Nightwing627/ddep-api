@@ -489,7 +489,8 @@ function LoopSchemaArray(schemaArray,group,nodes,keys,linkdata)
 			for (var column in schemaArray[key]) {
 			
 				var isArray = Array.isArray(schemaArray[key][column]);
-				var columnType = (isArray ? 'array' : typeof(schemaArray[key][column]));
+				// var columnType = (isArray ? 'array' : typeof(schemaArray[key][column]));
+				var columnType = (isArray ? 'array' : (typeof(schemaArray[key][column]) == 'object') ? 'object' : schemaArray[key][column]);
 				var columnKey = (typeof(keys[SchemaCount]) == 'undefined' ? SchemaCount:keys[SchemaCount]);
 				var nodeData = { key: columnKey,text: column, type: columnType, group: group };
 				
@@ -508,7 +509,8 @@ function LoopSchemaArray(schemaArray,group,nodes,keys,linkdata)
 		for (var column in schemaArray) {
 		
 			var isArray = Array.isArray(schemaArray[column]);
-			var columnType = (isArray ? 'array' : typeof(schemaArray[column]));
+			// var columnType = (isArray ? 'array' : typeof(schemaArray[column]));
+			var columnType = (isArray ? 'array' : (typeof(schemaArray[column]) == 'object') ? 'object' : schemaArray[column]);
 			var columnKey = (typeof(keys[SchemaCount]) == 'undefined' ? SchemaCount:keys[SchemaCount]);
 			var nodeData = { key: columnKey ,text: column, type: columnType, group: group };
 			nodes.push(nodeData);

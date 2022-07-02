@@ -612,8 +612,8 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 				if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
 					inboundPostData = JSON.parse(reqBody);
 				}
-				console.log('Inbound posted Json:');
-				console.log(inboundPostData);
+				// console.log('Inbound posted Json:');
+				// console.log(inboundPostData);
 
 				var mappingSetting = JSON.parse(body);
 				if (mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
@@ -631,24 +631,24 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 							}
 						}
 					}
-					// console.log('newLinkDataArr:');
-					// console.log(newLinkDataArr);
+					console.log('newLinkDataArr:');
+					console.log(newLinkDataArr);
 
 					var mappingInboound = [];
 					for (var key in newLinkDataArr) {
 						var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
 						mappingInboound[key] = inboundValue;
 					}
-					// console.log('mappingInboound:');
-					// console.log(mappingInboound);
+					console.log('mappingInboound:');
+					console.log(mappingInboound);
 
-					var outboundFormatData = outboundformatdata(OutboundFormatData, newLinkDataArr);
+					var outboundFormatData = outboundreplacementformatdata(OutboundFormatData, newLinkDataArr);
 					console.log('Outbound format convert to replacement Format:');
 					console.log(outboundFormatData);
 
 					outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
-					console.log('Outbound Final Result:');
-					console.log(outboundMappedData);
+					// console.log('Outbound Final Result:');
+					// console.log(outboundMappedData);
 					if (bodyreq != '' && outboundMappedData.length != 0) {
 						bodyreq = outboundMappedData;
 					}
@@ -2440,6 +2440,7 @@ function get_outbound_key_obj(key, value) {
 		}
 		mainKey.push(key);
 		var newKey = make_outbound_keys(value);
+		mainKey = [];
 	} else if (whatIsIt(value) == 'Array') {
 		if (mainKey.length == 0) {
 			var newKey = '@Out{'+key+'}';
@@ -2476,6 +2477,7 @@ function get_outbound_key_obj(key, value) {
 			mainKey.push(key);
 		}
 		var newKey = make_outbound_keys(value);
+		mainKey = [];
 	} else if (whatIsIt(value) != 'Object' && whatIsIt(value) != 'Array') {
 		var keyObj = {};
 		if (mainKey.length == 0) {
@@ -2916,6 +2918,62 @@ function checkKey(key, dataArray) {
 	return j;
 }
 
+function outboundreplacementformatdata(OutboundData, dataArr) {
+	var outboundFormatData = {};
+
+	Object.entries(OutboundData).forEach((entry) => {
+		var [key, value] = entry;
+
+		if (!Array.isArray(value) && value != null && typeof(value) == "object") {
+			if (dataArr['@Out{'+key+'}'] != undefined) {
+				var secondObject = merged = {};
+				secondObject[key] = dataArr['@Out{'+key+'}'];
+
+				merged = Object.assign(outboundFormatData, secondObject, secondObject);
+			} else {
+				var objval = {};
+				Object.entries(value).forEach((itementry) => {
+					var [subkey, subvalue] = itementry;
+
+					var secondObject = merged = {};
+					secondObject[subkey] = dataArr['@Out{'+key+'.'+subkey+'}'];
+
+					merged = Object.assign(objval, secondObject, secondObject);
+				});
+				var firstObject = merged1 = {};
+				firstObject[key] = objval;
+				merged1 = Object.assign(outboundFormatData, firstObject);
+			}
+		} else if (Array.isArray(value) && value != null && typeof(value) == "object") {
+			if (dataArr['@Out{'+key+'}'] != undefined) {
+				var secondObject = merged = {};
+				secondObject[key] = dataArr['@Out{'+key+'}'];
+
+				merged = Object.assign(outboundFormatData, secondObject, secondObject);
+			} else {
+				var objval = {};
+				Object.entries(value).forEach((itementry) => {
+					var [subkey, subvalue] = itementry;
+
+					var secondObject = merged = {};
+					secondObject[subkey] = dataArr['@Out{'+key+'.'+subkey+'}'];
+
+					merged = Object.assign(objval, secondObject, secondObject);
+				});
+				var firstObject = merged1 = {};
+				firstObject[key] = objval;
+				merged1 = Object.assign(outboundFormatData, firstObject);
+			}
+		} else if (!Array.isArray(value) && value != null && typeof(value) != "object") {
+			var firstObject = merged1 = {};
+			firstObject[key] = dataArr['@Out{'+key+'}'];
+
+			merged1 = Object.assign(outboundFormatData, firstObject);
+		}
+	});
+	return outboundFormatData;
+}
+
 function outboundformatdata(OutboundData, dataArr) {
 	var outboundFormatData = {};
 
@@ -2923,35 +2981,171 @@ function outboundformatdata(OutboundData, dataArr) {
 		var [key, value] = entry;
 
 		if (!Array.isArray(value) && value != null && typeof(value) == "object") {
-			var objval = {};
-			Object.entries(value).forEach((itementry) => {
-				var [subkey, subvalue] = itementry;
-
+			if (dataArr['@Out{'+key+'}'] != undefined) {
+				console.log("outbound key 2 => "+key);
+				console.log("outType 2 => object");
+				var isArray = Array.isArray(dataArr['@Out{'+key+'}']);
+				var inType = (isArray ? 'array' : typeof(dataArr['@Out{'+key+'}']));
+				console.log("inType 2 => "+inType);
+				if (inType == 'string' || inType == 'integer' || inType == 'number' || inType == 'boolean') {
+					var dataValuestrnumbool = {};
+					dataValuestrnumbool[key] = dataArr['@Out{'+key+'}'];
+				} else {
+					var dataValuestrnumbool = dataArr['@Out{'+key+'}'];
+				}
 				var secondObject = merged = {};
-				secondObject[subkey] = dataArr['@Out{'+key+'.'+subkey+'}'];
-
-				merged = Object.assign(objval, secondObject, secondObject);
-			});
-			var firstObject = merged1 = {};
-			firstObject[key] = objval;
-			merged1 = Object.assign(outboundFormatData, firstObject);
+				secondObject[key] = dataValuestrnumbool;
+				merged = Object.assign(outboundFormatData, secondObject, secondObject);
+			} else {
+				var objval = {};
+				Object.entries(value).forEach((itementry) => {
+					var [subkey, subvalue] = itementry;
+					var outType = typeof(subvalue);
+					console.log("outbound subkey 2 => "+subkey);
+					console.log("outType 2 => "+outType);
+					if (dataArr['@Out{'+key+'.'+subkey+'}'] != undefined) {
+						var inType = typeof(dataArr['@Out{'+key+'.'+subkey+'}']);
+						console.log("inType 2 => "+inType);
+						if (inType == 'object' && outType == 'string') {
+							var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
+						} else if (inType == 'array' && outType == 'string') {
+							var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
+						} else if (inType == 'integer' && outType == 'string') {
+							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
+						} else if (inType == 'integer' && outType == 'boolean') {
+							if (dataArr['@Out{'+key+'.'+subkey+'}'] == 0) {
+								var dataValuestrnumbool = false;
+							} else {
+								var dataValuestrnumbool = true;
+							}
+						} else if (inType == 'number' && outType == 'string') {
+							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
+						} else if (inType == 'number' && outType == 'boolean') {
+							if (dataArr['@Out{'+key+'.'+subkey+'}'] == 0) {
+								var dataValuestrnumbool = false;
+							} else {
+								var dataValuestrnumbool = true;
+							}
+						} else if (inType == 'boolean' && outType == 'string') {
+							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
+						} else {
+							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'];
+						}
+					} else {
+						var dataValuestrnumbool = '';
+					}
+					var secondObject = merged = {};
+					secondObject[subkey] = dataValuestrnumbool;
+					merged = Object.assign(objval, secondObject, secondObject);
+				});
+				var firstObject = merged1 = {};
+				firstObject[key] = objval;
+				merged1 = Object.assign(outboundFormatData, firstObject);
+			}
 		} else if (Array.isArray(value) && value != null && typeof(value) == "object") {
-			var objval = {};
-			Object.entries(value).forEach((itementry) => {
-				var [subkey, subvalue] = itementry;
-
+			if (dataArr['@Out{'+key+'}'] != undefined) {
+				console.log("outbound key 1 => "+key);
+				console.log("outType 1 => array");
+				var isArray = Array.isArray(dataArr['@Out{'+key+'}']);
+				var inType = (isArray ? 'array' : typeof(dataArr['@Out{'+key+'}']));
+				console.log("inType 1 => "+inType);
+				if (inType == 'object') {
+					var dataValuestrnumbool = [];
+					dataValuestrnumbool.push(dataArr['@Out{'+key+'}']);
+				} else if (inType == 'string' || inType == 'integer' || inType == 'number' || inType == 'boolean') {
+					var dataValuestrnumbool = [];
+					var newObject = {};
+					newObject[key] = dataArr['@Out{'+key+'}'];
+					dataValuestrnumbool.push(newObject);
+				} else {
+					var dataValuestrnumbool = dataArr['@Out{'+key+'}'];
+				}
 				var secondObject = merged = {};
-				secondObject[subkey] = dataArr['@Out{'+key+'.'+subkey+'}'];
-
-				merged = Object.assign(objval, secondObject, secondObject);
-			});
-			var firstObject = merged1 = {};
-			firstObject[key] = objval;
-			merged1 = Object.assign(outboundFormatData, firstObject);
+				secondObject[key] = dataValuestrnumbool;
+				merged = Object.assign(outboundFormatData, secondObject, secondObject);
+			} else {
+				var objval = {};
+				Object.entries(value).forEach((itementry) => {
+					var [subkey, subvalue] = itementry;
+					var outType = typeof(subvalue);
+					console.log("outbound subkey 1 => "+subkey);
+					console.log("outType 1 => "+outType);
+					if (dataArr['@Out{'+key+'.'+subkey+'}'] != undefined) {
+						var inType = typeof(dataArr['@Out{'+key+'.'+subkey+'}']);
+						console.log("inType 1 => "+inType);
+						if (inType == 'object' && outType == 'string') {
+							var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
+						} else if (inType == 'array' && outType == 'string') {
+							var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
+						} else if (inType == 'integer' && outType == 'string') {
+							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
+						} else if (inType == 'integer' && outType == 'boolean') {
+							if (dataArr['@Out{'+key+'.'+subkey+'}'] == 0) {
+								var dataValuestrnumbool = false;
+							} else {
+								var dataValuestrnumbool = true;
+							}
+						} else if (inType == 'number' && outType == 'string') {
+							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
+						} else if (inType == 'number' && outType == 'boolean') {
+							if (dataArr['@Out{'+key+'.'+subkey+'}'] == 0) {
+								var dataValuestrnumbool = false;
+							} else {
+								var dataValuestrnumbool = true;
+							}
+						} else if (inType == 'boolean' && outType == 'string') {
+							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
+						} else {
+							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'];
+						}
+					} else {
+						var dataValuestrnumbool = '';
+					}
+					var secondObject = merged = {};
+					secondObject[subkey] = dataValuestrnumbool;;
+					merged = Object.assign(objval, secondObject, secondObject);
+				});
+				var firstObject = merged1 = {};
+				firstObject[key] = objval;
+				merged1 = Object.assign(outboundFormatData, firstObject);
+			}
 		} else if (!Array.isArray(value) && value != null && typeof(value) != "object") {
+			var outType = typeof(value);
+			console.log("outbound key => "+key);
+			console.log("outType => "+outType);
+			if (dataArr['@Out{'+key+'}'] != undefined) {
+				var inType = typeof(dataArr['@Out{'+key+'}']);
+				console.log("inType => "+inType);
+				if (inType == 'object' && outType == 'string') {
+					var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'}']);
+				} else if (inType == 'array' && outType == 'string') {
+					var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'}']);
+				} else if (inType == 'integer' && outType == 'string') {
+					var dataValuestrnumbool = dataArr['@Out{'+key+'}'].toString();
+				} else if (inType == 'integer' && outType == 'boolean') {
+					if (dataArr['@Out{'+key+'}'] == 0) {
+						var dataValuestrnumbool = false;
+					} else {
+						var dataValuestrnumbool = true;
+					}
+				} else if (inType == 'number' && outType == 'string') {
+					var dataValuestrnumbool = dataArr['@Out{'+key+'}'].toString();
+				} else if (inType == 'number' && outType == 'boolean') {
+					if (dataArr['@Out{'+key+'}'] == 0) {
+						var dataValuestrnumbool = false;
+					} else {
+						var dataValuestrnumbool = true;
+					}
+				} else if (inType == 'boolean' && outType == 'string') {
+					var dataValuestrnumbool = dataArr['@Out{'+key+'}'].toString();
+				} else {
+					var dataValuestrnumbool = dataArr['@Out{'+key+'}'];
+				}
+			} else {
+				var dataValuestrnumbool = '';
+			}
 			var firstObject = merged1 = {};
-			firstObject[key] = dataArr['@Out{'+key+'}'];
-
+			firstObject[key] = dataValuestrnumbool;
 			merged1 = Object.assign(outboundFormatData, firstObject);
 		}
 	});
