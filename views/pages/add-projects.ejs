@@ -544,337 +544,346 @@ License: You must have a valid license purchased only from themeforest(the above
               </div>
             </div>
             <div id="mapping-step" class="content">
-              <div class="content-header">
-                <h5 class="mb-0">Mapping</h5>
-              </div>
-              <form id="frm-save-mapping">
-                <div class="row">
-                  <div class="col-6">
-                    <input type="hidden" name="mapping_setting_id" id="mapping_setting_id" value="">
-                    <div class="form-group">
-                      <label for="exampleFormControlTextarea1">Inbound Format</label>
-                      <textarea class="form-control" name="InboundFormatData" id="InboundFormatData" rows="10"></textarea>
-                      <br/>
-                      <div class="col-md-12 text-right">
-                        <a href="#"  onclick="saveBGRSJSON()" id="InboundJson" style="display: none;">Download Json</a>
-                        <button type="button" class="btn btn-outline-primary waves-effect" id="changeForm" onclick="InboundDataBind()">
-                          Upload
+              <div class="row">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-header">
+                      <h5 class="mb-0">Mapping</h5>
+                      <button type="button" id="is_active_mapping" data-value="Active" class="btn btn-success waves-effect waves-float waves-light float-right">Active</button>
+                    </div>
+                    <div class="card-body">
+                      <form id="frm-save-mapping">
+                        <div class="row">
+                          <div class="col-6">
+                            <input type="hidden" name="mapping_setting_id" id="mapping_setting_id" value="">
+                            <div class="form-group">
+                              <label for="exampleFormControlTextarea1">Inbound Format</label>
+                              <textarea class="form-control" name="InboundFormatData" id="InboundFormatData" rows="10"></textarea>
+                              <br/>
+                              <div class="col-md-12 text-right">
+                                <a href="#"  onclick="saveBGRSJSON()" id="InboundJson" style="display: none;">Download Json</a>
+                                <button type="button" class="btn btn-outline-primary waves-effect" id="changeForm" onclick="InboundDataBind()">
+                                  Upload
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-6">
+                            <div class="form-group">
+                              <label for="exampleFormControlTextarea1">Outbound Format</label>
+                              <textarea class="form-control" name="OutboundFormatData" id="OutboundFormatData" rows="10" ></textarea>
+                              <br/>
+                              <div class="col-md-12 text-right">
+                                <a href="#"  id="OutboundJson" onclick="saveiRMSJSON()" style="display: none;">Download Json</a>
+                                <button type="button" class="btn btn-outline-primary waves-effect" id="changeForm" onclick="OutboundDataBind()">
+                                  Upload
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-12">
+                            <p style="margin-bottom: 5px;">Create Relationship: Drag & Drop the inbound column to outbound column</p>
+                            <p style="margin-bottom: 5px;">Delete Relationship: Click the Relationship Line & Press 'Delete' Button from Keyboard to remove the relationship</p>
+                            <p style="margin-bottom: 5px;">Create Multiples Relationship : only allow the column type = array</p>
+                          </div>
+                          <!-- * * * * * * * * * * * * * -->
+                          <!-- Start of GoJS sample code -->
+                          <script src="/assets/js/go.js"></script>
+                          <div id="myDiagramDiv" style="border-radius: 8px; border: 1px solid #CCC; height: 1000px" class="col-12"></div>
+                          <div class="col-3" style="display:none">
+                            <div class="card">
+                              <div class="card-header">
+                                <h4 class="card-title">Properties</h4>
+                              </div>
+                              <table class="datatables-basic table">
+                                <tbody>
+                                  <tr>
+                                    <td style="font-weight:bold;font-size:15px;">General</td>
+                                    <td></td>
+                                  </tr>
+                                  <tr>
+                                    <td class="td">Item</td>
+                                    <td>InitiationBy</td>
+                                  </tr>
+                                  <tr>
+                                    <td style="font-weight:bold;font-size:15px;">Linked Items</td>
+                                    <td></td>
+                                  </tr>
+                                  <tr>
+                                    <td >Key</td>
+                                    <td>Name</td>
+                                  </tr>
+                                  <tr>
+                                    <td class="td">First Name</td>
+                                    <td>val1</td>
+                                  </tr>
+                                  <tr>
+                                    <td class="td">Last Name</td>
+                                    <td>val2</td>
+                                  </tr>
+                                  <tr>
+                                    <td style="font-weight:bold;font-size:15px;">Display</td>
+                                    <td></td>
+                                  </tr>
+                                  <tr>
+                                    <td class="td">Value</td>
+                                    <td>
+                                      <div>
+                                        <input style="border: 0;" type="text" name="alertsEmail" id="alertsEmail" class="form-control"   value="{val1},{val2}">
+                                      </div>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td style="font-weight:bold;font-size:15px;">Validation</td>
+                                    <td></td>
+                                  </tr>
+                                  <tr>
+                                    <td class="td">is Required?</td>
+                                    <td>
+                                      <div>
+                                        <input style="border: 0;" type="text" name="alertsEmail" id="alertsEmail" class="form-control"   value="FALSE">
+                                      </div>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td>Additional Rules</td>
+                                    <td></td>
+                                  </tr>
+                                  <tr>
+                                    <td style="font-weight:bold;font-size:15px;">Format</td>
+                                    <td></td>
+                                  </tr>
+                                  <tr>
+                                    <td class="td">TRIM</td>
+                                    <td>
+                                      <div>
+                                        <input style="border: 0;" type="text" name="alertsEmail" id="alertsEmail" class="form-control" value="FALSE"  >
+                                      </div>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td class="td">Additional Rules</td>
+                                    <td></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                          <div id="sample">
+                            <p>
+                              <div  style="display: none;">
+                                This sample supports three different routing styles:<br>
+                                <input type="radio" name="MyRoutingStyle" onclick="changeStyle()" value="Normal" />
+                                "Normal"<br>
+                                <input type="radio" name="MyRoutingStyle" onclick="changeStyle()" value="ToGroup" checked="checked"/>
+                                "ToGroup", where the links stop at the border of the group<br>
+                                <input type="radio" name="MyRoutingStyle" onclick="changeStyle()" value="ToNode" />
+                                "ToNode", where the links bend at the border of the group but go all the way to the node, as normal<br>
+                              </div>
+                            </p>
+                            <span style="display:none">Godmark : This is GOJS after drag and drop result you need to Save in Database</span>
+                            <!-- style="width:1000px;height:300px;display:none" -->
+                            <textarea id="mySavedModel" style="width:1000px;height:500px;display:none"></textarea> 
+                            <textarea id="txtGOJSD_Debug" style="width:100%;height:300px;display:none"></textarea>
+                            <input type="text" id="mySavedModel2" style="width:100%;height:300px;display:none"/>
+                          </div>
+                          <!-- * * * * * * * * * * * * * -->
+                          <!--  End of GoJS sample code  -->
+                          <div class="col-12" style="display: none;" id="Tree">
+                            <div class="form-group">
+                              <div class="col-md-12">
+                                需要显示的tREE DIV
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--
+                        <div class="col-md-12 text-right">
+                          <button type="button" class="btn btn-outline-primary " id="sycnFieldName">
+                            <i data-feather='arrow-down-circle'></i>
+                              Sycn Inbound/Outbound Field Name
+                          </button>
+                          <button type="button" class="btn btn-outline-primary " id="changeForm" onclick="changeForm()">
+                            Change form
+                          </button>
+                        </div>
+                        -->
+                        <div id="freeTextform" style="display: none">
+                          <table class="table table-hover">
+                            <thead>
+                              <tr>
+                                <th style="text-align:center;vertical-align:middle;">Inbound</th>
+                                <th style="text-align:center;vertical-align:middle;">Field</th>
+                                <th style="text-align:center;vertical-align:middle;">Outbound</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>   
+                                  <div class="form-grou ">
+                                    <input type="text" id="modern-username" class="form-control" value="" placeholder="Input Field Name">
+                                  </div>
+                                </td>
+                                <td style="text-align:center;vertical-align:middle;">Factory</td>
+                                <td>
+                                  <div class="form-grou ">
+                                    <input type="text" id="modern-username" class="form-control" value="" placeholder="Input Field Name">
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td> 
+                                  <div class="form-grou ">
+                                    <input type="text" id="modern-username" class="form-control" value="" placeholder="Input Field Name">
+                                  </div>
+                                </td>
+                                <td style="text-align:center;vertical-align:middle;">Order No.</td>
+                                <td>
+                                  <div class="form-grou ">
+                                    <input type="text" id="modern-username" class="form-control" value="" placeholder="Input Field Name">
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td> 
+                                  <div class="form-grou ">
+                                   <input type="text" id="modern-username" class="form-control" value="" placeholder="Input Field Name">
+                                  </div>
+                                </td>
+                                <td style="text-align:center;vertical-align:middle;">Date</td>
+                                <td>
+                                  <div class="form-grou ">
+                                    <input type="text" id="modern-username" class="form-control" value="" placeholder="Input Field Name">
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <div class="form-grou ">
+                                    <input type="text" id="modern-username" class="form-control" value="" placeholder="Input Field Name">
+                                  </div>
+                                </td>
+                                <td style="text-align:center;vertical-align:middle;">Qrcode</td>
+                                <td>
+                                  <div class="form-grou ">
+                                    <input type="text" id="modern-username" class="form-control" value="" placeholder="Input Field Name">
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <div class="form-grou ">
+                                    <input type="text" id="modern-username" class="form-control" value="" placeholder="Input Field Name">
+                                  </div>
+                                </td>
+                                <td style="text-align:center;vertical-align:middle;">Barcode</td>
+                                <td>
+                                  <div class="form-grou ">
+                                    <input type="text" id="modern-username" class="form-control" value="" placeholder="Input Field Name">
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <!--
+                        <div id="selectForm">
+                          <table class="table table-hover2">
+                            <thead>
+                              <tr>
+                                <th style="text-align:center;vertical-align:middle;">Inbound</th>
+                                <th style="text-align:center;vertical-align:middle;">Field</th>
+                                <th style="text-align:center;vertical-align:middle;">Outbound</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>   
+                                  <div class="form-group form-password-toggle col-md-12" class="layui-form">
+                                    <div id="radioselect1"></div>
+                                  </div>
+                                </td>
+                                <td style="text-align:center;vertical-align:middle;"></td>
+                                <td>
+                                  <div class="form-group form-password-toggle col-md-12" class="layui-form">
+                                    <div id="radioselect2"></div>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>   
+                                  <div class="form-group form-password-toggle col-md-12" class="layui-form">
+                                    <div id="radioselect3"></div>
+                                  </div>
+                                </td>
+                                <td style="text-align:center;vertical-align:middle;"></td>
+                                <td>
+                                  <div class="form-group form-password-toggle col-md-12" class="layui-form" >
+                                    <div id="radioselect4"></div>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>   
+                                  <div class="form-group form-password-toggle  col-md-12" class="layui-form">
+                                    <div id="radioselect5"></div>
+                                  </div>
+                                </td>
+                                <td style="text-align:center;vertical-align:middle;"></td>
+                                <td>
+                                  <div class="form-group form-password-toggle col-md-12" class="layui-form">
+                                    <div id="radioselect6"></div>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>   
+                                  <div class="form-group form-password-toggle col-md-12" class="layui-form">
+                                    <div id="radioselect7"></div>
+                                  </div>
+                                </td>
+                                <td style="text-align:center;vertical-align:middle;"></td>
+                                <td>
+                                  <div class="form-group form-password-toggle col-md-12" class="layui-form">
+                                    <div id="radioselect8"></div>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>   
+                                  <div class="form-group form-password-toggle col-md-12" class="layui-form">
+                                    <div id="radioselect9"></div>
+                                  </div>
+                                </td>
+                                <td style="text-align:center;vertical-align:middle;"></td>
+                                <td>
+                                  <div class="form-group form-password-toggle col-md-12" class="layui-form">
+                                    <div id="radioselect10"></div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        -->
+                        <div class="mt-1">
+                          <button class="btn btn-relief-primary" id="save_mapping" type="submit">Save</button>
+                        </div>
+                      </form>
+                      <hr/>
+                      <div class="d-flex justify-content-between">
+                        <button class="btn btn-primary btn-prev">
+                        <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                        </button>
+                        <button class="btn btn-primary btn-next">
+                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                        <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
                         </button>
                       </div>
                     </div>
                   </div>
-                  <div class="col-6">
-                    <div class="form-group">
-                      <label for="exampleFormControlTextarea1">Outbound Format</label>
-                      <textarea class="form-control" name="OutboundFormatData" id="OutboundFormatData" rows="10" ></textarea>
-                      <br/>
-                      <div class="col-md-12 text-right">
-                        <a href="#"  id="OutboundJson" onclick="saveiRMSJSON()" style="display: none;">Download Json</a>
-                        <button type="button" class="btn btn-outline-primary waves-effect" id="changeForm" onclick="OutboundDataBind()">
-                          Upload
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <p style="margin-bottom: 5px;">Create Relationship: Drag & Drop the inbound column to outbound column</p>
-                    <p style="margin-bottom: 5px;">Delete Relationship: Click the Relationship Line & Press 'Delete' Button from Keyboard to remove the relationship</p>
-                    <p style="margin-bottom: 5px;">Create Multiples Relationship : only allow the column type = array</p>
-                  </div>
-                  <!-- * * * * * * * * * * * * * -->
-                  <!-- Start of GoJS sample code -->
-                  <script src="/assets/js/go.js"></script>
-                  <div id="myDiagramDiv" style="margin-left:16px;border-radius: 8px;border: 1px solid #CCC; width: 1000px; height: 1000px" class="col-md-11"></div>
-                  <div class="col-md-3" style="display:none">
-                    <div class="card">
-                      <div class="card-header">
-                        <h4 class="card-title">Properties</h4>
-                      </div>
-                      <table class="datatables-basic table">
-                        <tbody>
-                          <tr>
-                            <td style="font-weight:bold;font-size:15px;">General</td>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <td class="td">Item</td>
-                            <td>InitiationBy</td>
-                          </tr>
-                          <tr>
-                            <td style="font-weight:bold;font-size:15px;">Linked Items</td>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <td >Key</td>
-                            <td>Name</td>
-                          </tr>
-                          <tr>
-                            <td class="td">First Name</td>
-                            <td>val1</td>
-                          </tr>
-                          <tr>
-                            <td class="td">Last Name</td>
-                            <td>val2</td>
-                          </tr>
-                          <tr>
-                            <td style="font-weight:bold;font-size:15px;">Display</td>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <td class="td">Value</td>
-                            <td>
-                              <div>
-                                <input style="border: 0;" type="text" name="alertsEmail" id="alertsEmail" class="form-control"   value="{val1},{val2}">
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style="font-weight:bold;font-size:15px;">Validation</td>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <td class="td">is Required?</td>
-                            <td>
-                              <div>
-                                <input style="border: 0;" type="text" name="alertsEmail" id="alertsEmail" class="form-control"   value="FALSE">
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Additional Rules</td>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <td style="font-weight:bold;font-size:15px;">Format</td>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <td class="td">TRIM</td>
-                            <td>
-                              <div>
-                                <input style="border: 0;" type="text" name="alertsEmail" id="alertsEmail" class="form-control" value="FALSE"  >
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="td">Additional Rules</td>
-                            <td></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                  <div id="sample">
-                    <p>
-                      <div  style="display: none;">
-                        This sample supports three different routing styles:<br>
-                        <input type="radio" name="MyRoutingStyle" onclick="changeStyle()" value="Normal" />
-                        "Normal"<br>
-                        <input type="radio" name="MyRoutingStyle" onclick="changeStyle()" value="ToGroup" checked="checked"/>
-                        "ToGroup", where the links stop at the border of the group<br>
-                        <input type="radio" name="MyRoutingStyle" onclick="changeStyle()" value="ToNode" />
-                        "ToNode", where the links bend at the border of the group but go all the way to the node, as normal<br>
-                      </div>
-                    </p>
-                    <span style="display:none">Godmark : This is GOJS after drag and drop result you need to Save in Database</span>
-                    <!-- style="width:1000px;height:300px;display:none" -->
-                    <textarea id="mySavedModel" style="width:1000px;height:500px;display:none"></textarea> 
-                    <textarea id="txtGOJSD_Debug" style="width:100%;height:300px;display:none"></textarea>
-                    <input type="text" id="mySavedModel2" style="width:100%;height:300px;display:none"/>
-                  </div>
-                  <!-- * * * * * * * * * * * * * -->
-                  <!--  End of GoJS sample code  -->
-                  <div class="col-12" style="display: none;" id="Tree">
-                    <div class="form-group">
-                      <div class="col-md-12">
-                        需要显示的tREE DIV
-                      </div>
-                    </div>
-                  </div>
                 </div>
-                <!--
-                <div class="col-md-12 text-right">
-                  <button type="button" class="btn btn-outline-primary " id="sycnFieldName">
-                    <i data-feather='arrow-down-circle'></i>
-                      Sycn Inbound/Outbound Field Name
-                  </button>
-                  <button type="button" class="btn btn-outline-primary " id="changeForm" onclick="changeForm()">
-                    Change form
-                  </button>
-                </div>
-                -->
-                <div id="freeTextform" style="display: none">
-                  <table class="table table-hover">
-                    <thead>
-                      <tr>
-                        <th style="text-align:center;vertical-align:middle;">Inbound</th>
-                        <th style="text-align:center;vertical-align:middle;">Field</th>
-                        <th style="text-align:center;vertical-align:middle;">Outbound</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>   
-                          <div class="form-grou ">
-                            <input type="text" id="modern-username" class="form-control" value="" placeholder="Input Field Name">
-                          </div>
-                        </td>
-                        <td style="text-align:center;vertical-align:middle;">Factory</td>
-                        <td>
-                          <div class="form-grou ">
-                            <input type="text" id="modern-username" class="form-control" value="" placeholder="Input Field Name">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td> 
-                          <div class="form-grou ">
-                            <input type="text" id="modern-username" class="form-control" value="" placeholder="Input Field Name">
-                          </div>
-                        </td>
-                        <td style="text-align:center;vertical-align:middle;">Order No.</td>
-                        <td>
-                          <div class="form-grou ">
-                            <input type="text" id="modern-username" class="form-control" value="" placeholder="Input Field Name">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td> 
-                          <div class="form-grou ">
-                           <input type="text" id="modern-username" class="form-control" value="" placeholder="Input Field Name">
-                          </div>
-                        </td>
-                        <td style="text-align:center;vertical-align:middle;">Date</td>
-                        <td>
-                          <div class="form-grou ">
-                            <input type="text" id="modern-username" class="form-control" value="" placeholder="Input Field Name">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="form-grou ">
-                            <input type="text" id="modern-username" class="form-control" value="" placeholder="Input Field Name">
-                          </div>
-                        </td>
-                        <td style="text-align:center;vertical-align:middle;">Qrcode</td>
-                        <td>
-                          <div class="form-grou ">
-                            <input type="text" id="modern-username" class="form-control" value="" placeholder="Input Field Name">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="form-grou ">
-                            <input type="text" id="modern-username" class="form-control" value="" placeholder="Input Field Name">
-                          </div>
-                        </td>
-                        <td style="text-align:center;vertical-align:middle;">Barcode</td>
-                        <td>
-                          <div class="form-grou ">
-                            <input type="text" id="modern-username" class="form-control" value="" placeholder="Input Field Name">
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <!--
-                <div id="selectForm">
-                  <table class="table table-hover2">
-                    <thead>
-                      <tr>
-                        <th style="text-align:center;vertical-align:middle;">Inbound</th>
-                        <th style="text-align:center;vertical-align:middle;">Field</th>
-                        <th style="text-align:center;vertical-align:middle;">Outbound</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>   
-                          <div class="form-group form-password-toggle col-md-12" class="layui-form">
-                            <div id="radioselect1"></div>
-                          </div>
-                        </td>
-                        <td style="text-align:center;vertical-align:middle;"></td>
-                        <td>
-                          <div class="form-group form-password-toggle col-md-12" class="layui-form">
-                            <div id="radioselect2"></div>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>   
-                          <div class="form-group form-password-toggle col-md-12" class="layui-form">
-                            <div id="radioselect3"></div>
-                          </div>
-                        </td>
-                        <td style="text-align:center;vertical-align:middle;"></td>
-                        <td>
-                          <div class="form-group form-password-toggle col-md-12" class="layui-form" >
-                            <div id="radioselect4"></div>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>   
-                          <div class="form-group form-password-toggle  col-md-12" class="layui-form">
-                            <div id="radioselect5"></div>
-                          </div>
-                        </td>
-                        <td style="text-align:center;vertical-align:middle;"></td>
-                        <td>
-                          <div class="form-group form-password-toggle col-md-12" class="layui-form">
-                            <div id="radioselect6"></div>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>   
-                          <div class="form-group form-password-toggle col-md-12" class="layui-form">
-                            <div id="radioselect7"></div>
-                          </div>
-                        </td>
-                        <td style="text-align:center;vertical-align:middle;"></td>
-                        <td>
-                          <div class="form-group form-password-toggle col-md-12" class="layui-form">
-                            <div id="radioselect8"></div>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>   
-                          <div class="form-group form-password-toggle col-md-12" class="layui-form">
-                            <div id="radioselect9"></div>
-                          </div>
-                        </td>
-                        <td style="text-align:center;vertical-align:middle;"></td>
-                        <td>
-                          <div class="form-group form-password-toggle col-md-12" class="layui-form">
-                            <div id="radioselect10"></div>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                -->
-                <div class="mt-1">
-                  <button class="btn btn-relief-primary" id="save_mapping" type="submit">Save</button>
-                </div>
-              </form>
-              <hr/>
-              <div class="d-flex justify-content-between">
-                <button class="btn btn-primary btn-prev">
-                <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
-                <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                </button>
-                <button class="btn btn-primary btn-next">
-                <span class="align-middle d-sm-inline-block d-none">Next</span>
-                <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
-                </button>
               </div>
             </div>
             <div id="schedule-step" class="content">
@@ -2340,17 +2349,19 @@ License: You must have a valid license purchased only from themeforest(the above
           console.log(response.is_active);
 
           //Thomas I changed Active evenet.
-          if(response.is_active=="Active")
+          if(response.is_active == "Active")
           {
+            $('#is_active_inbound').removeClass('btn-secondary');
             $('#is_active_inbound').addClass('btn-success');
-            $('#is_active_inbound').data('value','Active');
+            $('#is_active_inbound').attr('data-value','Active');
             $('#is_active_inbound').html('Active');
           }
           else
           {
-            $('#is_active_inbound').addClass('btn-success');      //removeClass
-            $('#is_active_inbound').data('value','Active');       //Inactive
-            $('#is_active_inbound').html('Active');               //Inactive
+            $('#is_active_inbound').removeClass('btn-success');      //removeClass
+            $('#is_active_inbound').addClass('btn-secondary');
+            $('#is_active_inbound').attr('data-value','Inactive');       //Inactive
+            $('#is_active_inbound').html('Inactive');               //Inactive
           }
         }
       }
@@ -2372,16 +2383,18 @@ License: You must have a valid license purchased only from themeforest(the above
             $('#select2-inboundFormat-container').html("JSON");
           }
           $('#outbound_setting_id').val(response._id);
-          if(response.is_active=="Active")
+          if(response.is_active == "Active")
           {
+            $('#is_active_outbound').removeClass('btn-secondary');
             $('#is_active_outbound').addClass('btn-success');
-            $('#is_active_outbound').data('value','Active');
+            $('#is_active_outbound').attr('data-value','Active');
             $('#is_active_outbound').html('Active');
           }
           else
           {
             $('#is_active_outbound').removeClass('btn-success');
-            $('#is_active_outbound').data('value','Inactive');
+            $('#is_active_outbound').addClass('btn-secondary');
+            $('#is_active_outbound').attr('data-value','Inactive');
             $('#is_active_outbound').html('Inactive');
           }
         }
@@ -2576,6 +2589,20 @@ License: You must have a valid license purchased only from themeforest(the above
           $('#InboundFormatData').val(response.inbound_format);
           $('#OutboundFormatData').val(response.outbound_format);
           $('#mySavedModel').val(response.mapping_data);
+          if(response.is_active == "Active")
+          {
+            $('#is_active_mapping').removeClass('btn-secondary');
+            $('#is_active_mapping').addClass('btn-success');
+            $('#is_active_mapping').attr('data-value','Active');
+            $('#is_active_mapping').html('Active');
+          }
+          else
+          {
+            $('#is_active_mapping').removeClass('btn-success');
+            $('#is_active_mapping').addClass('btn-secondary');
+            $('#is_active_mapping').attr('data-value','Inactive');
+            $('#is_active_mapping').html('Inactive');
+          }
 
           var mapping_data = JSON.parse(response.mapping_data);
 

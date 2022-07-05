@@ -312,7 +312,7 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 					console.log(inboundPostData);
 
 					var mappingSetting = JSON.parse(body);
-					if (mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
+					if (mappingSetting.is_active == 'Active' && mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
 						OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
 						var mapping_data = JSON.parse(mappingSetting.mapping_data);
 						nodeDataArray = mapping_data.nodeDataArray;
@@ -337,26 +337,28 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 						// console.log('newLinkDataArr:');
 						// console.log(newLinkDataArr);
 
-						var mappingInboound = [];
-						for (var key in newLinkDataArr) {
-							var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
-							mappingInboound[key] = inboundValue;
-						}
-						// console.log('mappingInboound:');
-						// console.log(mappingInboound);
+						if (newLinkDataArrCount.length > 0) {
+							var mappingInboound = [];
+							for (var key in newLinkDataArr) {
+								var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
+								mappingInboound[key] = inboundValue;
+							}
+							// console.log('mappingInboound:');
+							// console.log(mappingInboound);
 
-						var outboundFormatData = outboundreplacementformatdata(OutboundFormatData, newLinkDataArr);
-						console.log('Outbound format convert to replacement Format:');
-						console.log(outboundFormatData);
+							var outboundFormatData = outboundreplacementformatdata(OutboundFormatData, newLinkDataArr);
+							console.log('Outbound format convert to replacement Format:');
+							console.log(outboundFormatData);
 
-						outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
-						console.log('Outbound Final Result:');
-						console.log(outboundMappedData);
-						if (bodyreq != '' && outboundMappedData.length != 0) {
-							bodyreq = outboundMappedData;
-						}
-						if (outboundMappedData.length != 0) {
-							reqBody = outboundMappedData;
+							outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
+							console.log('Outbound Final Result:');
+							console.log(outboundMappedData);
+							if (bodyreq != '' && outboundMappedData.length != 0) {
+								bodyreq = outboundMappedData;
+							}
+							if (outboundMappedData.length != 0) {
+								reqBody = outboundMappedData;
+							}
 						}
 					}
 				}
@@ -575,7 +577,7 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 				console.log(inboundPostData);
 
 				var mappingSetting = JSON.parse(body);
-				if (mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
+				if (mappingSetting.is_active == 'Active' && mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
 					OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
 					var mapping_data = JSON.parse(mappingSetting.mapping_data);
 					nodeDataArray = mapping_data.nodeDataArray;
@@ -990,7 +992,7 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 					console.log(inboundPostData);
 
 					var mappingSetting = JSON.parse(body);
-					if (mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
+					if (mappingSetting.is_active == 'Active' && mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
 						OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
 						var mapping_data = JSON.parse(mappingSetting.mapping_data);
 						nodeDataArray = mapping_data.nodeDataArray;
@@ -1015,26 +1017,28 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 						// console.log('newLinkDataArr:');
 						// console.log(newLinkDataArr);
 
-						var mappingInboound = [];
-						for (var key in newLinkDataArr) {
-							var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
-							mappingInboound[key] = inboundValue;
-						}
-						// console.log('mappingInboound:');
-						// console.log(mappingInboound);
+						if (newLinkDataArrCount.length > 0) {
+							var mappingInboound = [];
+							for (var key in newLinkDataArr) {
+								var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
+								mappingInboound[key] = inboundValue;
+							}
+							// console.log('mappingInboound:');
+							// console.log(mappingInboound);
 
-						var outboundFormatData = outboundreplacementformatdata(OutboundFormatData, newLinkDataArr);
-						console.log('Outbound format convert to replacement Format:');
-						console.log(outboundFormatData);
+							var outboundFormatData = outboundreplacementformatdata(OutboundFormatData, newLinkDataArr);
+							console.log('Outbound format convert to replacement Format:');
+							console.log(outboundFormatData);
 
-						outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
-						console.log('Outbound Final Result:');
-						console.log(outboundMappedData);
-						if (bodyreq != '' && outboundMappedData.length != 0) {
-							bodyreq = outboundMappedData;
-						}
-						if (outboundMappedData.length != 0) {
-							reqBody = outboundMappedData;
+							outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
+							console.log('Outbound Final Result:');
+							console.log(outboundMappedData);
+							if (bodyreq != '' && outboundMappedData.length != 0) {
+								bodyreq = outboundMappedData;
+							}
+							if (outboundMappedData.length != 0) {
+								reqBody = outboundMappedData;
+							}
 						}
 					}
 				}
@@ -1253,7 +1257,7 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 				console.log(inboundPostData);
 
 				var mappingSetting = JSON.parse(body);
-				if (mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
+				if (mappingSetting.is_active == 'Active' && mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
 					OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
 					var mapping_data = JSON.parse(mappingSetting.mapping_data);
 					nodeDataArray = mapping_data.nodeDataArray;
@@ -1666,7 +1670,7 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 					console.log(inboundPostData);
 
 					var mappingSetting = JSON.parse(body);
-					if (mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
+					if (mappingSetting.is_active == 'Active' && mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
 						OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
 						var mapping_data = JSON.parse(mappingSetting.mapping_data);
 						nodeDataArray = mapping_data.nodeDataArray;
@@ -1691,26 +1695,28 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 						// console.log('newLinkDataArr:');
 						// console.log(newLinkDataArr);
 
-						var mappingInboound = [];
-						for (var key in newLinkDataArr) {
-							var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
-							mappingInboound[key] = inboundValue;
-						}
-						// console.log('mappingInboound:');
-						// console.log(mappingInboound);
+						if (newLinkDataArrCount.length > 0) {
+							var mappingInboound = [];
+							for (var key in newLinkDataArr) {
+								var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
+								mappingInboound[key] = inboundValue;
+							}
+							// console.log('mappingInboound:');
+							// console.log(mappingInboound);
 
-						var outboundFormatData = outboundreplacementformatdata(OutboundFormatData, newLinkDataArr);
-						console.log('Outbound format convert to replacement Format:');
-						console.log(outboundFormatData);
+							var outboundFormatData = outboundreplacementformatdata(OutboundFormatData, newLinkDataArr);
+							console.log('Outbound format convert to replacement Format:');
+							console.log(outboundFormatData);
 
-						outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
-						console.log('Outbound Final Result:');
-						console.log(outboundMappedData);
-						if (bodyreq != '' && outboundMappedData.length != 0) {
-							bodyreq = outboundMappedData;
-						}
-						if (outboundMappedData.length != 0) {
-							reqBody = outboundMappedData;
+							outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
+							console.log('Outbound Final Result:');
+							console.log(outboundMappedData);
+							if (bodyreq != '' && outboundMappedData.length != 0) {
+								bodyreq = outboundMappedData;
+							}
+							if (outboundMappedData.length != 0) {
+								reqBody = outboundMappedData;
+							}
 						}
 					}
 				}
@@ -1929,7 +1935,7 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 				console.log(inboundPostData);
 
 				var mappingSetting = JSON.parse(body);
-				if (mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
+				if (mappingSetting.is_active == 'Active' && mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
 					OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
 					var mapping_data = JSON.parse(mappingSetting.mapping_data);
 					nodeDataArray = mapping_data.nodeDataArray;
@@ -2342,7 +2348,7 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 					console.log(inboundPostData);
 
 					var mappingSetting = JSON.parse(body);
-					if (mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
+					if (mappingSetting.is_active == 'Active' && mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
 						OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
 						var mapping_data = JSON.parse(mappingSetting.mapping_data);
 						nodeDataArray = mapping_data.nodeDataArray;
@@ -2367,26 +2373,28 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 						// console.log('newLinkDataArr:');
 						// console.log(newLinkDataArr);
 
-						var mappingInboound = [];
-						for (var key in newLinkDataArr) {
-							var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
-							mappingInboound[key] = inboundValue;
-						}
-						// console.log('mappingInboound:');
-						// console.log(mappingInboound);
+						if (newLinkDataArrCount.length > 0) {
+							var mappingInboound = [];
+							for (var key in newLinkDataArr) {
+								var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
+								mappingInboound[key] = inboundValue;
+							}
+							// console.log('mappingInboound:');
+							// console.log(mappingInboound);
 
-						var outboundFormatData = outboundreplacementformatdata(OutboundFormatData, newLinkDataArr);
-						console.log('Outbound format convert to replacement Format:');
-						console.log(outboundFormatData);
+							var outboundFormatData = outboundreplacementformatdata(OutboundFormatData, newLinkDataArr);
+							console.log('Outbound format convert to replacement Format:');
+							console.log(outboundFormatData);
 
-						outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
-						console.log('Outbound Final Result:');
-						console.log(outboundMappedData);
-						if (bodyreq != '' && outboundMappedData.length != 0) {
-							bodyreq = outboundMappedData;
-						}
-						if (outboundMappedData.length != 0) {
-							reqBody = outboundMappedData;
+							outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
+							console.log('Outbound Final Result:');
+							console.log(outboundMappedData);
+							if (bodyreq != '' && outboundMappedData.length != 0) {
+								bodyreq = outboundMappedData;
+							}
+							if (outboundMappedData.length != 0) {
+								reqBody = outboundMappedData;
+							}
 						}
 					}
 				}
@@ -2605,7 +2613,7 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 				console.log(inboundPostData);
 
 				var mappingSetting = JSON.parse(body);
-				if (mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
+				if (mappingSetting.is_active == 'Active' && mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
 					OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
 					var mapping_data = JSON.parse(mappingSetting.mapping_data);
 					nodeDataArray = mapping_data.nodeDataArray;
@@ -3018,7 +3026,7 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 					console.log(inboundPostData);
 
 					var mappingSetting = JSON.parse(body);
-					if (mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
+					if (mappingSetting.is_active == 'Active' && mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
 						OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
 						var mapping_data = JSON.parse(mappingSetting.mapping_data);
 						nodeDataArray = mapping_data.nodeDataArray;
@@ -3043,26 +3051,28 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 						// console.log('newLinkDataArr:');
 						// console.log(newLinkDataArr);
 
-						var mappingInboound = [];
-						for (var key in newLinkDataArr) {
-							var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
-							mappingInboound[key] = inboundValue;
-						}
-						// console.log('mappingInboound:');
-						// console.log(mappingInboound);
+						if (newLinkDataArrCount.length > 0) {
+							var mappingInboound = [];
+							for (var key in newLinkDataArr) {
+								var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
+								mappingInboound[key] = inboundValue;
+							}
+							// console.log('mappingInboound:');
+							// console.log(mappingInboound);
 
-						var outboundFormatData = outboundreplacementformatdata(OutboundFormatData, newLinkDataArr);
-						console.log('Outbound format convert to replacement Format:');
-						console.log(outboundFormatData);
+							var outboundFormatData = outboundreplacementformatdata(OutboundFormatData, newLinkDataArr);
+							console.log('Outbound format convert to replacement Format:');
+							console.log(outboundFormatData);
 
-						outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
-						console.log('Outbound Final Result:');
-						console.log(outboundMappedData);
-						if (bodyreq != '' && outboundMappedData.length != 0) {
-							bodyreq = outboundMappedData;
-						}
-						if (outboundMappedData.length != 0) {
-							reqBody = outboundMappedData;
+							outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
+							console.log('Outbound Final Result:');
+							console.log(outboundMappedData);
+							if (bodyreq != '' && outboundMappedData.length != 0) {
+								bodyreq = outboundMappedData;
+							}
+							if (outboundMappedData.length != 0) {
+								reqBody = outboundMappedData;
+							}
 						}
 					}
 				}
@@ -3281,7 +3291,7 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 				console.log(inboundPostData);
 
 				var mappingSetting = JSON.parse(body);
-				if (mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
+				if (mappingSetting.is_active == 'Active' && mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
 					OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
 					var mapping_data = JSON.parse(mappingSetting.mapping_data);
 					nodeDataArray = mapping_data.nodeDataArray;
@@ -5399,6 +5409,7 @@ function outboundformatdata1(OutboundData, dataArr) {
 			} else {
 				var objval = {};
 				outboundFormatDataParentKey.push(key);
+				console.log('test key 1 => '+key);
 				objval = outboundformatdata2(value, dataArr);
 				outboundFormatDataParentKey = [];
 				/*Object.entries(value).forEach((itementry) => {
@@ -5462,6 +5473,7 @@ function outboundformatdata1(OutboundData, dataArr) {
 				}
 			}
 		} else if (!Array.isArray(value) && value != null && typeof(value) != "object") {
+				console.log('test key 5 => '+key);
 			var outType = typeof(value);
 			// console.log("outbound key => "+key);
 			// console.log("outType => "+outType);
@@ -5622,68 +5634,72 @@ function outboundformatdata2(OutboundData, dataArr) {
 					merged = Object.assign(outboundFormatData, secondObject, secondObject);
 				}
 			} else {
-				var objval = {};
-				outboundFormatDataParentKey.push(key);
-				objval = outboundformatdata1(value, dataArr);
-				outboundFormatDataParentKey = [];
-				/*Object.entries(value).forEach((itementry) => {
-					var [subkey, subvalue] = itementry;
-					var outType = typeof(subvalue);
-					// console.log("outbound subkey 2 => "+subkey);
-					// console.log("outType 2 => "+outType);
-					if (dataArr['@Out{'+key+'.'+subkey+'}'] != undefined) {
-						var inType = typeof(dataArr['@Out{'+key+'.'+subkey+'}']);
-						// console.log("inType 2 => "+inType);
-						if (inType == 'object' && outType == 'string') {
-							var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
-						} else if (inType == 'array' && outType == 'string') {
-							var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
-						} else if (inType == 'integer' && outType == 'string') {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
-						} else if (inType == 'integer' && outType == 'boolean') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == 0) {
-								var dataValuestrnumbool = false;
+				if (value.length != undefined && value.length > 0) {
+					var objval = {};
+					outboundFormatDataParentKey.push(key);
+					objval = outboundformatdata1(value, dataArr);
+					outboundFormatDataParentKey = [];
+					/*Object.entries(value).forEach((itementry) => {
+						var [subkey, subvalue] = itementry;
+						var outType = typeof(subvalue);
+						// console.log("outbound subkey 2 => "+subkey);
+						// console.log("outType 2 => "+outType);
+						if (dataArr['@Out{'+key+'.'+subkey+'}'] != undefined) {
+							var inType = typeof(dataArr['@Out{'+key+'.'+subkey+'}']);
+							// console.log("inType 2 => "+inType);
+							if (inType == 'object' && outType == 'string') {
+								var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
+							} else if (inType == 'array' && outType == 'string') {
+								var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
+							} else if (inType == 'integer' && outType == 'string') {
+								var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
+							} else if (inType == 'integer' && outType == 'boolean') {
+								if (dataArr['@Out{'+key+'.'+subkey+'}'] == 0) {
+									var dataValuestrnumbool = false;
+								} else {
+									var dataValuestrnumbool = true;
+								}
+							} else if (inType == 'number' && outType == 'string') {
+								var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
+							} else if (inType == 'number' && outType == 'boolean') {
+								if (dataArr['@Out{'+key+'.'+subkey+'}'] == 0) {
+									var dataValuestrnumbool = false;
+								} else {
+									var dataValuestrnumbool = true;
+								}
+							} else if (inType == 'boolean' && outType == 'string') {
+								var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
+							} else if (inType == 'boolean' && outType == 'number') {
+								if (dataArr['@Out{'+key+'.'+subkey+'}'] == false) {
+									var dataValuestrnumbool = 0;
+								} else {
+									var dataValuestrnumbool = 1;
+								}
+							} else if (inType == 'boolean' && outType == 'integer') {
+								if (dataArr['@Out{'+key+'.'+subkey+'}'] == false) {
+									var dataValuestrnumbool = 0;
+								} else {
+									var dataValuestrnumbool = 1;
+								}
 							} else {
-								var dataValuestrnumbool = true;
-							}
-						} else if (inType == 'number' && outType == 'string') {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
-						} else if (inType == 'number' && outType == 'boolean') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == 0) {
-								var dataValuestrnumbool = false;
-							} else {
-								var dataValuestrnumbool = true;
-							}
-						} else if (inType == 'boolean' && outType == 'string') {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
-						} else if (inType == 'boolean' && outType == 'number') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == false) {
-								var dataValuestrnumbool = 0;
-							} else {
-								var dataValuestrnumbool = 1;
-							}
-						} else if (inType == 'boolean' && outType == 'integer') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == false) {
-								var dataValuestrnumbool = 0;
-							} else {
-								var dataValuestrnumbool = 1;
+								var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'];
 							}
 						} else {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'];
+							var dataValuestrnumbool = '';
 						}
+						var secondObject = merged = {};
+						secondObject[subkey] = dataValuestrnumbool;
+						merged = Object.assign(objval, secondObject, secondObject);
+					});*/
+					var firstObject = merged1 = {};
+					if (key >= 0) {
+						outboundFormatData = objval;
 					} else {
-						var dataValuestrnumbool = '';
+						firstObject[key] = objval;
+						merged1 = Object.assign(outboundFormatData, firstObject);
 					}
-					var secondObject = merged = {};
-					secondObject[subkey] = dataValuestrnumbool;
-					merged = Object.assign(objval, secondObject, secondObject);
-				});*/
-				var firstObject = merged1 = {};
-				if (key >= 0) {
-					outboundFormatData = objval;
 				} else {
-					firstObject[key] = objval;
-					merged1 = Object.assign(outboundFormatData, firstObject);
+					outboundFormatData = '';
 				}
 			}
 		} else if (Array.isArray(value) && value != null && typeof(value) == "object") {

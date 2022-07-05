@@ -396,14 +396,16 @@ $(function () {
                       //Thomas I changed Active evenet.
                       if(response.is_active=="Active")
                       {
+                        $('#is_active_inbound').removeClass('btn-secondary');
                         $('#is_active_inbound').addClass('btn-success');
-                        $('#is_active_inbound').data('value','Active');
+                        $('#is_active_inbound').attr('data-value','Active');
                         $('#is_active_inbound').html('Active');
                       }
                       else
                       {
-                        $('#is_active_inbound').addClass('btn-success');      //removeClass
-                        $('#is_active_inbound').data('value','Active');       //Inactive
+                        $('#is_active_inbound').removeClass('btn-success');      //removeClass
+                        $('#is_active_inbound').addClass('btn-secondary');
+                        $('#is_active_inbound').attr('data-value','Active');       //Inactive
                         $('#is_active_inbound').html('Active');               //Inactive
                       }
                     }
@@ -433,14 +435,16 @@ $(function () {
                        // $('#project_id').val(response.item_id);
                        if(response.is_active=="Active")
                       {
+                        $('#is_active_outbound').removeClass('btn-secondary');
                         $('#is_active_outbound').addClass('btn-success');
-                        $('#is_active_outbound').data('value','Active');
+                        $('#is_active_outbound').attr('data-value','Active');
                         $('#is_active_outbound').html('Active');
                       }
                       else
                       {
                         $('#is_active_outbound').removeClass('btn-success');
-                        $('#is_active_outbound').data('value','Inactive');
+                        $('#is_active_outbound').addClass('btn-secondary');
+                        $('#is_active_outbound').attr('data-value','Inactive');
                         $('#is_active_outbound').html('Inactive');
                       }
                     }
@@ -665,6 +669,21 @@ $(function () {
                       $('#InboundFormatData').val(response.inbound_format);
                       $('#OutboundFormatData').val(response.outbound_format);
                       $('#mySavedModel').val(response.mapping_data);
+                      if(response.is_active == "Active")
+                      {
+                        $('#is_active_mapping').removeClass('btn-secondary');
+                        $('#is_active_mapping').addClass('btn-success');
+                        $('#is_active_mapping').attr('data-value','Active');
+                        $('#is_active_mapping').html('Active');
+                      }
+                      else
+                      {
+                        $('#is_active_mapping').removeClass('btn-success');
+                        $('#is_active_mapping').addClass('btn-secondary');
+                        $('#is_active_mapping').attr('data-value','Inactive');
+                        $('#is_active_mapping').html('Inactive');
+                      }
+
 
                       var mapping_data = JSON.parse(response.mapping_data);
 
@@ -1126,7 +1145,7 @@ $(function () {
             if(is_active=="Inactive")
             {
               is_active = "Active";
-              $(this).data('value',"Active");
+              $(this).attr('data-value',"Active");
               $(this).removeClass('btn-secondary');
               $(this).addClass('btn-success');
               $(this).html('Active');
@@ -1134,7 +1153,7 @@ $(function () {
             else
             {
               is_active = "Inactive";
-              $(this).data('value',"Inactive");
+              $(this).attr('data-value',"Inactive");
               $(this).removeClass('btn-success');
               $(this).addClass('btn-secondary');
               $(this).html('Inactive')
@@ -1201,7 +1220,7 @@ $(function () {
          else
          {
             is_active = "Inactive";
-            $(this).data('value',"Inactive");
+            $(this).attr('data-value',"Inactive");
             $(this).removeClass('btn-success');
             $(this).addClass('btn-secondary');
             $(this).html('Inactive');
@@ -1221,7 +1240,7 @@ $(function () {
             if(is_active=="Inactive")
             {
               is_active = "Active";
-              $(this).data('value',"Active");
+              $(this).attr('data-value',"Active");
               $(this).removeClass('btn-secondary');
               $(this).addClass('btn-success');
               $(this).html('Active');
@@ -1229,7 +1248,7 @@ $(function () {
             else
             {
               is_active = "Inactive";
-              $(this).data('value',"Inactive");
+              $(this).attr('data-value',"Inactive");
               $(this).removeClass('btn-success');
               $(this).addClass('btn-secondary');
               $(this).html('Inactive')
@@ -1355,7 +1374,7 @@ $(function () {
               }
          }
       })
-      $('#save_mapping').on('click', function(e){
+      $('#save_mapping, #is_active_mapping').on('click', function(e){
         e.preventDefault();
         var isValid = $('#frm-save-mapping').valid();
         if(isValid)
@@ -1365,6 +1384,15 @@ $(function () {
           var inbound_format = $("#InboundFormatData").val();
           var outbound_format = $('#OutboundFormatData').val();
           var mapping_data = $('#mySavedModel2').val();
+          var is_active = $('#is_active_mapping').data('value');
+          if(is_active=="Inactive")
+          {
+            is_active = "Active";
+          }
+          else
+          {
+            is_active = "Inactive";
+          }
 
           if(mapping_setting_id=="")
           {
@@ -1372,9 +1400,23 @@ $(function () {
               url:'/project/item/mapping/save',  
               method:'post',  
               dataType:'json',
-              data:{project_id:project_id,inbound_format:inbound_format,outbound_format:outbound_format,mapping_data:mapping_data},
+              data:{project_id:project_id,inbound_format:inbound_format,outbound_format:outbound_format,mapping_data:mapping_data,is_active:is_active},
               success:function(response){
                 $("#mapping_setting_id").val(response.id);
+                if(is_active=="Inactive")
+                {
+                  $('#is_active_mapping').attr('data-value',"Inactive");
+                  $('#is_active_mapping').removeClass('btn-success');
+                  $('#is_active_mapping').addClass('btn-secondary');
+                  $('#is_active_mapping').html('Inactive');
+                }
+                else
+                {
+                  $('#is_active_mapping').attr('data-value',"Active");
+                  $('#is_active_mapping').removeClass('btn-secondary');
+                  $('#is_active_mapping').addClass('btn-success');
+                  $('#is_active_mapping').html('Active');
+                }
                 swal({
                   title: "success!",
                   text: "Mapping Setting Saved Successfully",
@@ -1393,9 +1435,23 @@ $(function () {
               url:'/project/item/mapping/update/'+mapping_setting_id,  
               method:'put',  
               dataType:'json',
-              data:{project_id:project_id,inbound_format:inbound_format,outbound_format:outbound_format,mapping_data:mapping_data},
+              data:{project_id:project_id,inbound_format:inbound_format,outbound_format:outbound_format,mapping_data:mapping_data,is_active:is_active},
               success:function(response){
                 // sweetAlert("success", "Mapping Setting Saved Successfully", "success");
+                if(is_active=="Inactive")
+                {
+                  $('#is_active_mapping').attr('data-value',"Inactive");
+                  $('#is_active_mapping').removeClass('btn-success');
+                  $('#is_active_mapping').addClass('btn-secondary');
+                  $('#is_active_mapping').html('Inactive');
+                }
+                else
+                {
+                  $('#is_active_mapping').attr('data-value',"Active");
+                  $('#is_active_mapping').removeClass('btn-secondary');
+                  $('#is_active_mapping').addClass('btn-success');
+                  $('#is_active_mapping').html('Active');
+                }
                 swal({
                   title: "success!",
                   text: "Mapping Setting Saved Successfully",

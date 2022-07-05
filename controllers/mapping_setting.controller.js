@@ -47,6 +47,7 @@ exports.create = (req, res) => {
 		inbound_format: data.inbound_format,
 		outbound_format: data.outbound_format,
 		mapping_data: data.mapping_data,
+        is_active: data.is_active,
 		createdBy: config.userName,
 		updateBy: config.userName,
 	});
@@ -137,6 +138,7 @@ exports.update = (req, res) => {
 	(data1.inbound_format = data.inbound_format),
 	(data1.outbound_format = data.outbound_format),
 	(data1.mapping_data = data.mapping_data),
+    (data1.is_active = data.is_active),
 	(data1.updateBy = config.userName);
 
 	MappingSetting.findByIdAndUpdate(req.params.id, data1)

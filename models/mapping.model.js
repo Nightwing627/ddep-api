@@ -6,6 +6,10 @@ const mappingSchema = mongoose.Schema({
 	inbound_format:String,
 	outbound_format:String,
 	mapping_data:String,
+    is_active:{
+        type: String,
+        default:'Inactive'
+    },
 	createdBy:String,
 	updateBy:String,
 },{
