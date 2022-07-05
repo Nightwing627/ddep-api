@@ -1374,7 +1374,63 @@ $(function () {
               }
          }
       })
-      $('#save_mapping, #is_active_mapping').on('click', function(e){
+      $('#save_mapping').on('click', function(e){
+        e.preventDefault();
+        var isValid = $('#frm-save-mapping').valid();
+        if(isValid)
+        {
+          var project_id = $('#project_id').val();
+          var mapping_setting_id = $("#mapping_setting_id").val();
+          var inbound_format = $("#InboundFormatData").val();
+          var outbound_format = $('#OutboundFormatData').val();
+          var mapping_data = $('#mySavedModel2').val();
+          if(mapping_setting_id=="")
+          {
+            $.ajax({
+              url:'/project/item/mapping/save',  
+              method:'post',  
+              dataType:'json',
+              data:{project_id:project_id,inbound_format:inbound_format,outbound_format:outbound_format,mapping_data:mapping_data},
+              success:function(response){
+                $("#mapping_setting_id").val(response.id);
+                swal({
+                  title: "success!",
+                  text: "Mapping Setting Saved Successfully",
+                  type: "success",
+                  timer: 1200
+                });
+              },
+              error: function (textStatus, errorThrown) {
+                $e.preventDefault();
+              }
+            });
+          }
+          else
+          {
+            $.ajax({
+              url:'/project/item/mapping/update/'+mapping_setting_id,  
+              method:'put',  
+              dataType:'json',
+              data:{project_id:project_id,inbound_format:inbound_format,outbound_format:outbound_format,mapping_data:mapping_data},
+              success:function(response){
+                // sweetAlert("success", "Mapping Setting Saved Successfully", "success");
+                swal({
+                  title: "success!",
+                  text: "Mapping Setting Saved Successfully",
+                  type: "success",
+                  timer: 1200
+                });
+              },
+              error: function (textStatus, errorThrown) {
+                $('#collapseTwo').slideDown('slow');
+                $thisform.valid();
+                return false;
+              }
+            });
+          }
+        }
+      })
+      $('#is_active_mapping').on('click', function(e){
         e.preventDefault();
         var isValid = $('#frm-save-mapping').valid();
         if(isValid)

@@ -33,7 +33,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
-	// console.log(req);
 	var reqBody = req.body;
 	var reqQuery = req.query;
 	var reqRawHeader = req.rawHeaders;
@@ -194,8 +193,6 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 							itemsArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].item_id;
 							inboundFormatArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].inbound_format;
 						}
-						console.log("ITEMS_ARRAY => ");
-						console.log(itemsArr);
 						var newddepInputPath = ddepInput;
 						var lastArrKey = 0;
 						var ddepPath = '';
@@ -211,8 +208,6 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 						for (var i = lastArrKey + 1; i < ddepInputArr.length; i++) {
 							outboundLastPath += '/'+ddepInputArr[i];
 						}
-						console.log("DDEP_API_INPUT => " + ddepPath);
-						console.log("OUTBOUND_API_END_PATH => " + outboundLastPath);
 						resolve({
 							code: "0",
 							MsgCode: "10001",
@@ -280,9 +275,6 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 			var project_id = result.project_id;
 			var inbound_format = result.inbound_format;
 			var outboundLastPath = result.outboundLastPath;
-			console.log(project_id);
-			console.log(inbound_format);
-			console.log(outboundLastPath);
 			var OutboundFormatData = {};
 			var nodeDataArray = [];
 			var linkDataArray = [];
@@ -509,8 +501,6 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 						itemsArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].item_id;
 						inboundFormatArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].inbound_format;
 					}
-					console.log("ITEMS_ARRAY => ");
-					console.log(itemsArr);
 					var newddepInputPath = ddepInput;
 					var lastArrKey = 0;
 					var ddepPath = '';
@@ -526,8 +516,6 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 					for (var i = lastArrKey + 1; i < ddepInputArr.length; i++) {
 						outboundLastPath += '/'+ddepInputArr[i];
 					}
-					console.log("DDEP_API_INPUT => " + ddepPath);
-					console.log("OUTBOUND_API_END_PATH => " + outboundLastPath);
 				} else {
 					return res.status(404).json({
 						code: "1",
@@ -642,8 +630,6 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 						Data: []
 					});
 				}
-				console.log('outbound body');
-				console.log(response.body);
 				outboundSetting = JSON.parse(response.body);
 				outbound_api_url = outboundSetting.api_url;
 
@@ -713,7 +699,6 @@ router.get('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 });
 
 router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
-	// console.log(req);
 	var reqBody = req.body;
 	var reqQuery = req.query;
 	var reqRawHeader = req.rawHeaders;
@@ -874,8 +859,6 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 							itemsArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].item_id;
 							inboundFormatArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].inbound_format;
 						}
-						console.log("ITEMS_ARRAY => ");
-						console.log(itemsArr);
 						var newddepInputPath = ddepInput;
 						var lastArrKey = 0;
 						var ddepPath = '';
@@ -891,8 +874,6 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 						for (var i = lastArrKey + 1; i < ddepInputArr.length; i++) {
 							outboundLastPath += '/'+ddepInputArr[i];
 						}
-						console.log("DDEP_API_INPUT => " + ddepPath);
-						console.log("OUTBOUND_API_END_PATH => " + outboundLastPath);
 						resolve({
 							code: "0",
 							MsgCode: "10001",
@@ -960,9 +941,6 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 			var project_id = result.project_id;
 			var inbound_format = result.inbound_format;
 			var outboundLastPath = result.outboundLastPath;
-			console.log(project_id);
-			console.log(inbound_format);
-			console.log(outboundLastPath);
 			var OutboundFormatData = {};
 			var nodeDataArray = [];
 			var linkDataArray = [];
@@ -1030,7 +1008,7 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 							console.log('Outbound format convert to replacement Format:');
 							console.log(outboundFormatData);
 
-							outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound);
+							outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound, newLinkDataArr);
 							console.log('Outbound Final Result:');
 							console.log(outboundMappedData);
 							if (bodyreq != '' && outboundMappedData.length != 0) {
@@ -1189,8 +1167,6 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 						itemsArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].item_id;
 						inboundFormatArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].inbound_format;
 					}
-					console.log("ITEMS_ARRAY => ");
-					console.log(itemsArr);
 					var newddepInputPath = ddepInput;
 					var lastArrKey = 0;
 					var ddepPath = '';
@@ -1206,8 +1182,6 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 					for (var i = lastArrKey + 1; i < ddepInputArr.length; i++) {
 						outboundLastPath += '/'+ddepInputArr[i];
 					}
-					console.log("DDEP_API_INPUT => " + ddepPath);
-					console.log("OUTBOUND_API_END_PATH => " + outboundLastPath);
 				} else {
 					return res.status(404).json({
 						code: "1",
@@ -1391,7 +1365,6 @@ router.post('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepIn
 });
 
 router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
-	// console.log(req);
 	var reqBody = req.body;
 	var reqQuery = req.query;
 	var reqRawHeader = req.rawHeaders;
@@ -1552,8 +1525,6 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 							itemsArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].item_id;
 							inboundFormatArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].inbound_format;
 						}
-						console.log("ITEMS_ARRAY => ");
-						console.log(itemsArr);
 						var newddepInputPath = ddepInput;
 						var lastArrKey = 0;
 						var ddepPath = '';
@@ -1569,8 +1540,6 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 						for (var i = lastArrKey + 1; i < ddepInputArr.length; i++) {
 							outboundLastPath += '/'+ddepInputArr[i];
 						}
-						console.log("DDEP_API_INPUT => " + ddepPath);
-						console.log("OUTBOUND_API_END_PATH => " + outboundLastPath);
 						resolve({
 							code: "0",
 							MsgCode: "10001",
@@ -1638,9 +1607,6 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 			var project_id = result.project_id;
 			var inbound_format = result.inbound_format;
 			var outboundLastPath = result.outboundLastPath;
-			console.log(project_id);
-			console.log(inbound_format);
-			console.log(outboundLastPath);
 			var OutboundFormatData = {};
 			var nodeDataArray = [];
 			var linkDataArray = [];
@@ -1867,8 +1833,6 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 						itemsArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].item_id;
 						inboundFormatArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].inbound_format;
 					}
-					console.log("ITEMS_ARRAY => ");
-					console.log(itemsArr);
 					var newddepInputPath = ddepInput;
 					var lastArrKey = 0;
 					var ddepPath = '';
@@ -1884,8 +1848,6 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 					for (var i = lastArrKey + 1; i < ddepInputArr.length; i++) {
 						outboundLastPath += '/'+ddepInputArr[i];
 					}
-					console.log("DDEP_API_INPUT => " + ddepPath);
-					console.log("OUTBOUND_API_END_PATH => " + outboundLastPath);
 				} else {
 					return res.status(404).json({
 						code: "1",
@@ -2069,7 +2031,6 @@ router.put('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInp
 });
 
 router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
-	// console.log(req);
 	var reqBody = req.body;
 	var reqQuery = req.query;
 	var reqRawHeader = req.rawHeaders;
@@ -2230,8 +2191,6 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 							itemsArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].item_id;
 							inboundFormatArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].inbound_format;
 						}
-						console.log("ITEMS_ARRAY => ");
-						console.log(itemsArr);
 						var newddepInputPath = ddepInput;
 						var lastArrKey = 0;
 						var ddepPath = '';
@@ -2247,8 +2206,6 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 						for (var i = lastArrKey + 1; i < ddepInputArr.length; i++) {
 							outboundLastPath += '/'+ddepInputArr[i];
 						}
-						console.log("DDEP_API_INPUT => " + ddepPath);
-						console.log("OUTBOUND_API_END_PATH => " + outboundLastPath);
 						resolve({
 							code: "0",
 							MsgCode: "10001",
@@ -2316,9 +2273,6 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 			var project_id = result.project_id;
 			var inbound_format = result.inbound_format;
 			var outboundLastPath = result.outboundLastPath;
-			console.log(project_id);
-			console.log(inbound_format);
-			console.log(outboundLastPath);
 			var OutboundFormatData = {};
 			var nodeDataArray = [];
 			var linkDataArray = [];
@@ -2545,8 +2499,6 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 						itemsArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].item_id;
 						inboundFormatArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].inbound_format;
 					}
-					console.log("ITEMS_ARRAY => ");
-					console.log(itemsArr);
 					var newddepInputPath = ddepInput;
 					var lastArrKey = 0;
 					var ddepPath = '';
@@ -2562,8 +2514,6 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 					for (var i = lastArrKey + 1; i < ddepInputArr.length; i++) {
 						outboundLastPath += '/'+ddepInputArr[i];
 					}
-					console.log("DDEP_API_INPUT => " + ddepPath);
-					console.log("OUTBOUND_API_END_PATH => " + outboundLastPath);
 				} else {
 					return res.status(404).json({
 						code: "1",
@@ -2747,7 +2697,6 @@ router.delete('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddep
 });
 
 router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepInput2?/:ddepInput3?/:ddepInput4?/:ddepInput5?/:ddepInput6?/:ddepInput7?/:ddepInput8?/:ddepInput9?', function(req, res) {
-	// console.log(req);
 	var reqBody = req.body;
 	var reqQuery = req.query;
 	var reqRawHeader = req.rawHeaders;
@@ -2908,8 +2857,6 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 							itemsArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].item_id;
 							inboundFormatArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].inbound_format;
 						}
-						console.log("ITEMS_ARRAY => ");
-						console.log(itemsArr);
 						var newddepInputPath = ddepInput;
 						var lastArrKey = 0;
 						var ddepPath = '';
@@ -2925,8 +2872,6 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 						for (var i = lastArrKey + 1; i < ddepInputArr.length; i++) {
 							outboundLastPath += '/'+ddepInputArr[i];
 						}
-						console.log("DDEP_API_INPUT => " + ddepPath);
-						console.log("OUTBOUND_API_END_PATH => " + outboundLastPath);
 						resolve({
 							code: "0",
 							MsgCode: "10001",
@@ -2994,9 +2939,6 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 			var project_id = result.project_id;
 			var inbound_format = result.inbound_format;
 			var outboundLastPath = result.outboundLastPath;
-			console.log(project_id);
-			console.log(inbound_format);
-			console.log(outboundLastPath);
 			var OutboundFormatData = {};
 			var nodeDataArray = [];
 			var linkDataArray = [];
@@ -3223,8 +3165,6 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 						itemsArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].item_id;
 						inboundFormatArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].inbound_format;
 					}
-					console.log("ITEMS_ARRAY => ");
-					console.log(itemsArr);
 					var newddepInputPath = ddepInput;
 					var lastArrKey = 0;
 					var ddepPath = '';
@@ -3240,8 +3180,6 @@ router.patch('/'+config.ddepPrefix+'/:companyCode/:ddepInput/:ddepInput1?/:ddepI
 					for (var i = lastArrKey + 1; i < ddepInputArr.length; i++) {
 						outboundLastPath += '/'+ddepInputArr[i];
 					}
-					console.log("DDEP_API_INPUT => " + ddepPath);
-					console.log("OUTBOUND_API_END_PATH => " + outboundLastPath);
 				} else {
 					return res.status(404).json({
 						code: "1",
@@ -3439,13 +3377,11 @@ router.post('/mapping/convert/json2JSD', function(req, res) {
 router.post('/mapping/convert/xml2JSD', function(req, res) {
 	var reqBody = req.body;
 
-	console.log(reqBody);
 	var xmljson;
 	parseString(reqBody, function (err, result) {
 		console.dir(result);
 		xmljson = result;
 	});
-	console.log(xmljson);
 
 	// var schema = toJsonSchema(xmljson);
 
@@ -3457,8 +3393,6 @@ router.post('/mapping/convert/xml2JSD', function(req, res) {
 router.post('/mapping/convert/JSD2GOJSD', function(req, res) {
 	var reqBody = req.body;
 
-	console.log(reqBody);
-
 	var mainObject = {};
 	if (whatIsIt(reqBody) == 'Object') {
 		mainObject = object_for_each(reqBody);
@@ -3466,12 +3400,9 @@ router.post('/mapping/convert/JSD2GOJSD', function(req, res) {
 
 	var keys = make_inbound_keys(mainObject);
 
-	console.log('keyArray');
-	console.log(keyArray);
 	var gojsd = {};
 	gojsd['schema'] = mainObject;
 	gojsd['keys'] = keyArray;
-	console.log(gojsd);
 
 	return res.status(200).send(gojsd);
 });
@@ -3483,13 +3414,9 @@ router.post('/mapping/convert/json2GOJSD', function(req, res) {
 	mainKey = [];
 	keyArray = [];
 
-	console.log(reqBody);
-
 	// var schema = toJsonSchema(reqBody);
 
 	var schema = jsonSchemaGenerator(reqBody);
-
-	console.log(JSON.stringify(schema));
 
 	var mainObject = {};
 	if (whatIsIt(schema) == 'Object') {
@@ -3498,12 +3425,9 @@ router.post('/mapping/convert/json2GOJSD', function(req, res) {
 
 	var keys = make_inbound_keys(mainObject);
 
-	console.log('keyArray');
-	console.log(keyArray);
 	var gojsd = {};
 	gojsd['schema'] = mainObject;
 	gojsd['keys'] = keyArray;
-	console.log(gojsd);
 
 	return res.status(200).send(gojsd);
 });
@@ -3513,13 +3437,9 @@ router.post('/mapping/convert/injson2GOJSD', function(req, res) {
 	mainKey = [];
 	keyArray = [];
 
-	console.log(reqBody);
-
 	// var schema = toJsonSchema(reqBody);
 
 	var schema = jsonSchemaGenerator(reqBody);
-
-	console.log(JSON.stringify(schema));
 
 	var mainObject = {};
 	if (whatIsIt(schema) == 'Object') {
@@ -3528,12 +3448,9 @@ router.post('/mapping/convert/injson2GOJSD', function(req, res) {
 
 	var keys = make_inbound_keys(mainObject);
 
-	console.log('keyArray');
-	console.log(keyArray);
 	var gojsd = {};
 	gojsd['schema'] = mainObject;
 	gojsd['keys'] = keyArray;
-	console.log(gojsd);
 
 	return res.status(200).send(gojsd);
 });
@@ -3543,13 +3460,9 @@ router.post('/mapping/convert/outjson2GOJSD', function(req, res) {
 	mainKey = [];
 	keyArray = [];
 
-	console.log(reqBody);
-
 	// var schema = toJsonSchema(reqBody);
 
 	var schema = jsonSchemaGenerator(reqBody);
-
-	console.log(JSON.stringify(schema));
 
 	var mainObject = {};
 	if (whatIsIt(schema) == 'Object') {
@@ -3558,20 +3471,15 @@ router.post('/mapping/convert/outjson2GOJSD', function(req, res) {
 
 	var keys = make_outbound_keys(mainObject);
 
-	console.log('keyArray');
-	console.log(keyArray);
 	var gojsd = {};
 	gojsd['schema'] = mainObject;
 	gojsd['keys'] = keyArray;
-	console.log(gojsd);
 
 	return res.status(200).send(gojsd);
 });
 
 router.post('/mapping/convert/xml2GOJSD', function(req, res) {
 	var reqBody = req.body;
-
-	console.log(reqBody);
 
 	var xmljson;
 	parseString(reqBody, function (err, result) {
@@ -3583,8 +3491,6 @@ router.post('/mapping/convert/xml2GOJSD', function(req, res) {
 
 	var schema = jsonSchemaGenerator(xmljson);
 
-	console.log(JSON.stringify(schema));
-
 	var mainObject = {};
 	if (whatIsIt(schema) == 'Object') {
 		mainObject = object_for_each(schema);
@@ -3592,12 +3498,9 @@ router.post('/mapping/convert/xml2GOJSD', function(req, res) {
 
 	var keys = make_inbound_keys(mainObject);
 
-	console.log('keyArray');
-	console.log(keyArray);
 	var gojsd = {};
 	gojsd['schema'] = mainObject;
 	gojsd['keys'] = keyArray;
-	console.log(gojsd);
 
 	return res.status(200).send(gojsd);
 });
@@ -3605,20 +3508,15 @@ router.post('/mapping/convert/xml2GOJSD', function(req, res) {
 router.post('/mapping/convert/JSD2json', function(req, res) {
 	var reqBody = req.body;
 
-	console.log(reqBody);
-
 	var mainObject = {};
 	if (whatIsIt(reqBody) == 'Object') {
 		mainObject = object_for_each(reqBody);
 	}
 
 	var newMainObject = {};
-	console.log('JSD2json');
 	if (Object.entries(mainObject).length !== 0) {
-		console.log(Object.entries(mainObject).length);
 		newMainObject = json_schema_to_json(mainObject);
 	}
-	console.log(newMainObject);
 
 	return res.status(200).send(newMainObject);
 });
@@ -3626,24 +3524,18 @@ router.post('/mapping/convert/JSD2json', function(req, res) {
 /*router.post('/mapping/convert/JSD2xml', function(req, res) {
 	var reqBody = req.body;
 
-	console.log(reqBody);
-
 	var mainObject = {};
 	if (whatIsIt(reqBody) == 'Object') {
 		mainObject = object_for_each(reqBody);
 	}
 
 	var newMainObject = {};
-	console.log('JSD2xml');
 	if (Object.entries(mainObject).length !== 0) {
-		console.log(Object.entries(mainObject).length);
 		newMainObject = json_schema_to_json(mainObject);
 	}
-	console.log(newMainObject);
 
 	var builder = new xml2js.Builder();
 	var xml = builder.buildObject(newMainObject);
-	console.log(xml);
 
 	return res.status(200).send(xml);
 });
@@ -3651,17 +3543,12 @@ router.post('/mapping/convert/JSD2json', function(req, res) {
 router.post('/mapping/convert/GOJSD2json', function(req, res) {
 	var reqBody = req.body;
 
-	console.log(reqBody);
-
 	var mainObject = reqBody;
 
 	var newMainObject = {};
-	console.log('GOJSD2json');
 	if (Object.entries(mainObject).length !== 0) {
-		console.log(Object.entries(mainObject).length);
 		newMainObject = json_schema_to_json(mainObject);
 	}
-	console.log(newMainObject);
 
 	return res.status(200).send(newMainObject);
 });
@@ -3669,21 +3556,15 @@ router.post('/mapping/convert/GOJSD2json', function(req, res) {
 router.post('/mapping/convert/GOJSD2xml', function(req, res) {
 	var reqBody = req.body;
 
-	console.log(reqBody);
-
 	var mainObject = reqBody;
 
 	var newMainObject = {};
-	console.log('GOJSD2xml');
 	if (Object.entries(mainObject).length !== 0) {
-		console.log(Object.entries(mainObject).length);
 		newMainObject = json_schema_to_json(mainObject);
 	}
-	console.log(newMainObject);
 
 	var builder = new xml2js.Builder();
 	var xml = builder.buildObject(newMainObject);
-	console.log(xml);
 
 	return res.status(200).send(xml);
 });*/
@@ -3737,7 +3618,6 @@ function object_for_each1(key, value) {
 	console.log('j 123 '+key);
 	var mainObject = {};
 	if (key == 'format' || key == '$schema' || key == 'minLength' || key == 'minItems' || key == 'uniqueItems') {
-		console.log(key);
 		return mainObject;
 	}
 	var secondObject = {};
@@ -4436,21 +4316,15 @@ function getInboundValue(inboundPostData, inboundkey) {
 
 function getInboundValueEach(inboundPostData, inboundkey) {
 	var returnValue = '';
-	// console.log("inboundkey => "+inboundkey);
 	Object.entries(inboundPostData).forEach((entry) => {
 		const [key, value] = entry;
-		// console.log("key => "+key);
 
 		var newKey = '@In{'+key+'}';
 		var firstKey = '';
 		if (parentKey.length != 0) {
 			for (var i = 0; i < parentKey.length; i++) {
-				// console.log('parentKey[i] 1');
-				// console.log(parentKey[i]);
 				if (parentKey[i] == 0) {
-					// console.log('0 value remove parentKey[i] 1');
 				} else {
-					// console.log('value add parentKey[i] 1');
 					if (firstKey != '') {
 						firstKey = firstKey + '.';
 					}
@@ -4460,10 +4334,8 @@ function getInboundValueEach(inboundPostData, inboundkey) {
 		}
 		if (firstKey == '') {
 			newKey = '@In{'+key+'}';
-			// console.log('newKey 1 => '+ newKey);
 		} else {
 			newKey = '@In{'+firstKey+'.'+key+'}';
-			// console.log('newKey 2 => '+ newKey);
 		}
 		if (inboundkey == newKey) {
 			returnValue = value;
@@ -4472,10 +4344,8 @@ function getInboundValueEach(inboundPostData, inboundkey) {
 		if (key_count > 1) {
 			if (firstKey == '') {
 				newKey = '@In{'+key+key_count+'}';
-				// console.log('newKey 3 => '+ newKey);
 			} else {
 				newKey = '@In{'+firstKey+'.'+key+key_count+'}';
-				// console.log('newKey 4 => '+ newKey);
 			}
 			if (inboundkey == newKey) {
 				returnValue = value;
@@ -4537,12 +4407,8 @@ function outboundreplacementformatdata(OutboundData, dataArr) {
 		var firstKey = '';
 		if (outboundReplacementFormatDataParentKey.length != 0) {
 			for (var i = 0; i < outboundReplacementFormatDataParentKey.length; i++) {
-				// console.log('outboundReplacementFormatDataParentKey[i] 1');
-				// console.log(outboundReplacementFormatDataParentKey[i]);
 				if (outboundReplacementFormatDataParentKey[i] == 0) {
-					// console.log('0 value remove outboundReplacementFormatDataParentKey[i] 1');
 				} else {
-					// console.log('value add outboundReplacementFormatDataParentKey[i] 1');
 					if (firstKey != '') {
 						firstKey = firstKey + '.';
 					}
@@ -4648,12 +4514,8 @@ function outboundreplacementformatdata1(OutboundData, dataArr) {
 		var firstKey = '';
 		if (outboundReplacementFormatDataParentKey.length != 0) {
 			for (var i = 0; i < outboundReplacementFormatDataParentKey.length; i++) {
-				// console.log('outboundReplacementFormatDataParentKey[i] 1');
-				// console.log(outboundReplacementFormatDataParentKey[i]);
 				if (outboundReplacementFormatDataParentKey[i] == 0) {
-					// console.log('0 value remove outboundReplacementFormatDataParentKey[i] 1');
 				} else {
-					// console.log('value add outboundReplacementFormatDataParentKey[i] 1');
 					if (firstKey != '') {
 						firstKey = firstKey + '.';
 					}
@@ -4759,12 +4621,8 @@ function outboundreplacementformatdata2(OutboundData, dataArr) {
 		var firstKey = '';
 		if (outboundReplacementFormatDataParentKey.length != 0) {
 			for (var i = 0; i < outboundReplacementFormatDataParentKey.length; i++) {
-				// console.log('outboundReplacementFormatDataParentKey[i] 1');
-				// console.log(outboundReplacementFormatDataParentKey[i]);
 				if (outboundReplacementFormatDataParentKey[i] == 0) {
-					// console.log('0 value remove outboundReplacementFormatDataParentKey[i] 1');
 				} else {
-					// console.log('value add outboundReplacementFormatDataParentKey[i] 1');
 					if (firstKey != '') {
 						firstKey = firstKey + '.';
 					}
@@ -4862,7 +4720,7 @@ function outboundreplacementformatdata2(OutboundData, dataArr) {
 }
 
 var outboundFormatDataParentKey = [];
-function outboundformatdata(OutboundData, dataArr) {
+function outboundformatdata(OutboundData, dataArr, newLinkDataArr) {
 	var outboundFormatData = {};
 
 	Object.entries(OutboundData).forEach((entry) => {
@@ -4871,12 +4729,8 @@ function outboundformatdata(OutboundData, dataArr) {
 		var firstKey = '';
 		if (outboundFormatDataParentKey.length != 0) {
 			for (var i = 0; i < outboundFormatDataParentKey.length; i++) {
-				// console.log('outboundFormatDataParentKey[i] 1');
-				// console.log(outboundFormatDataParentKey[i]);
 				if (outboundFormatDataParentKey[i] == 0) {
-					// console.log('0 value remove outboundFormatDataParentKey[i] 1');
 				} else {
-					// console.log('value add outboundFormatDataParentKey[i] 1');
 					if (firstKey != '') {
 						firstKey = firstKey + '.';
 					}
@@ -4886,11 +4740,8 @@ function outboundformatdata(OutboundData, dataArr) {
 		}
 		if (!Array.isArray(value) && value != null && typeof(value) == "object") {
 			if (dataArr['@Out{'+key+'}'] != undefined) {
-				// console.log("outbound key 2 => "+key);
-				// console.log("outType 2 => object");
 				var isArray = Array.isArray(dataArr['@Out{'+key+'}']);
 				var inType = (isArray ? 'array' : typeof(dataArr['@Out{'+key+'}']));
-				// console.log("inType 2 => "+inType);
 				if (inType == 'string' || inType == 'integer' || inType == 'number' || inType == 'boolean') {
 					var dataValuestrnumbool = {};
 					dataValuestrnumbool[key] = dataArr['@Out{'+key+'}'];
@@ -4905,11 +4756,8 @@ function outboundformatdata(OutboundData, dataArr) {
 					merged = Object.assign(outboundFormatData, secondObject, secondObject);
 				}
 			} else if (dataArr['@Out{'+firstKey+'.'+key+'}'] != undefined) {
-				// console.log("outbound key 2 => "+key);
-				// console.log("outType 2 => object");
 				var isArray = Array.isArray(dataArr['@Out{'+firstKey+'.'+key+'}']);
 				var inType = (isArray ? 'array' : typeof(dataArr['@Out{'+firstKey+'.'+key+'}']));
-				// console.log("inType 2 => "+inType);
 				if (inType == 'string' || inType == 'integer' || inType == 'number' || inType == 'boolean') {
 					var dataValuestrnumbool = {};
 					dataValuestrnumbool[key] = dataArr['@Out{'+firstKey+'.'+key+'}'];
@@ -4926,60 +4774,9 @@ function outboundformatdata(OutboundData, dataArr) {
 			} else {
 				var objval = {};
 				outboundFormatDataParentKey.push(key);
-				objval = outboundformatdata1(value, dataArr);
+				objval = outboundformatdata1(value, dataArr, newLinkDataArr);
 				outboundFormatDataParentKey = [];
-				/*Object.entries(value).forEach((itementry) => {
-					var [subkey, subvalue] = itementry;
-					var outType = typeof(subvalue);
-					// console.log("outbound subkey 2 => "+subkey);
-					// console.log("outType 2 => "+outType);
-					if (dataArr['@Out{'+key+'.'+subkey+'}'] != undefined) {
-						var inType = typeof(dataArr['@Out{'+key+'.'+subkey+'}']);
-						// console.log("inType 2 => "+inType);
-						if (inType == 'object' && outType == 'string') {
-							var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
-						} else if (inType == 'array' && outType == 'string') {
-							var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
-						} else if (inType == 'integer' && outType == 'string') {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
-						} else if (inType == 'integer' && outType == 'boolean') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == 0) {
-								var dataValuestrnumbool = false;
-							} else {
-								var dataValuestrnumbool = true;
-							}
-						} else if (inType == 'number' && outType == 'string') {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
-						} else if (inType == 'number' && outType == 'boolean') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == 0) {
-								var dataValuestrnumbool = false;
-							} else {
-								var dataValuestrnumbool = true;
-							}
-						} else if (inType == 'boolean' && outType == 'string') {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
-						} else if (inType == 'boolean' && outType == 'number') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == false) {
-								var dataValuestrnumbool = 0;
-							} else {
-								var dataValuestrnumbool = 1;
-							}
-						} else if (inType == 'boolean' && outType == 'integer') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == false) {
-								var dataValuestrnumbool = 0;
-							} else {
-								var dataValuestrnumbool = 1;
-							}
-						} else {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'];
-						}
-					} else {
-						var dataValuestrnumbool = '';
-					}
-					var secondObject = merged = {};
-					secondObject[subkey] = dataValuestrnumbool;
-					merged = Object.assign(objval, secondObject, secondObject);
-				});*/
+
 				var firstObject = merged1 = {};
 				if (key >= 0) {
 					outboundFormatData = objval;
@@ -4990,28 +4787,48 @@ function outboundformatdata(OutboundData, dataArr) {
 			}
 		} else if (Array.isArray(value) && value != null && typeof(value) == "object") {
 			if (dataArr['@Out{'+key+'}'] != undefined) {
-				// console.log("outbound key 1 => "+key);
-				// console.log("outType 1 => array");
 				var isArray = Array.isArray(dataArr['@Out{'+key+'}']);
 				var inType = (isArray ? 'array' : typeof(dataArr['@Out{'+key+'}']));
-				// console.log("inType 1 => "+inType);
 				var dataValuestrnumbool = [];
 
 				if (inType == 'object') {
 					dataValuestrnumbool.push(dataArr['@Out{'+key+'}']);
-				} else if (inType == 'string' || inType == 'integer' || inType == 'number' || inType == 'boolean') {
-					var newObject = {};
-					newObject[key] = dataArr['@Out{'+key+'}'];
-					dataValuestrnumbool.push(newObject);
-				} else {
+				} else if (inType == 'array') {
 					dataValuestrnumbool = dataArr['@Out{'+key+'}'];
+				} else {
+					var newObject = {};
+					var newKey = newLinkDataArr['@Out{'+key+'}'].replace("@In{", "").replace(/}$/,"");
+					if (newKey == undefined) {
+						newKey = key;
+					}
+					newObject[newKey] = dataArr['@Out{'+key+'}'];
+					dataValuestrnumbool.push(newObject);
 				}
 				for (var i = 2; i < 26; i++) {
 					if (dataArr['@Out{'+key+'}'+i] != undefined) {
-						if (typeof(dataArr['@Out{'+key+'}'+i]) == 'object') {
+						var isArray1 = Array.isArray(dataArr['@Out{'+key+'}'+i]);
+						var inType1 = (isArray1 ? 'array' : typeof(dataArr['@Out{'+key+'}'+i]));
+						if (inType1 == 'object') {
+							var newObject = {};
+							var newKey = newLinkDataArr['@Out{'+key+'}'+i].replace("@In{", "").replace(/}$/,"");
+							if (newKey == undefined) {
+								newKey = key;
+							}
+							newObject[newKey] = dataArr['@Out{'+key+'}'+i];
 							dataValuestrnumbool.push(dataArr['@Out{'+key+'}'+i]);
+						} else if (inType1 == 'array') {
+							var dataArrlength = dataArr['@Out{'+key+'}'+i];
+							for (var q = 0; q < dataArrlength.length; q++) {
+								dataValuestrnumbool.push(dataArrlength[q]);
+							}
 						} else {
-							dataValuestrnumbool.push(dataArr['@Out{'+key+'}'+i]);
+							var newObject = {};
+							var newKey = newLinkDataArr['@Out{'+key+'}'+i].replace("@In{", "").replace(/}$/,"");
+							if (newKey == undefined) {
+								newKey = key;
+							}
+							newObject[newKey] = dataArr['@Out{'+key+'}'+i];
+							dataValuestrnumbool.push(newObject);
 						}
 					}
 				}
@@ -5024,23 +4841,48 @@ function outboundformatdata(OutboundData, dataArr) {
 					merged = Object.assign(outboundFormatData, secondObject, secondObject);
 				}
 			} else if (dataArr['@Out{'+firstKey+'.'+key+'}'] != undefined) {
-				// console.log("outbound key 2 => "+key);
-				// console.log("outType 2 => object");
 				var isArray = Array.isArray(dataArr['@Out{'+firstKey+'.'+key+'}']);
 				var inType = (isArray ? 'array' : typeof(dataArr['@Out{'+firstKey+'.'+key+'}']));
-				// console.log("inType 2 => "+inType);
-				if (inType == 'string' || inType == 'integer' || inType == 'number' || inType == 'boolean') {
-					var dataValuestrnumbool = {};
-					dataValuestrnumbool[key] = dataArr['@Out{'+firstKey+'.'+key+'}'];
+				var dataValuestrnumbool = [];
+
+				if (inType == 'object') {
+					dataValuestrnumbool.push(dataArr['@Out{'+firstKey+'.'+key+'}']);
+				} else if (inType == 'array') {
+					dataValuestrnumbool = dataArr['@Out{'+firstKey+'.'+key+'}'];
 				} else {
-					var dataValuestrnumbool = dataArr['@Out{'+firstKey+'.'+key+'}'];
+					var newObject = {};
+					var newKey = newLinkDataArr['@Out{'+firstKey+'.'+key+'}'].replace("@In{", "").replace(/}$/,"");
+					if (newKey == undefined) {
+						newKey = key;
+					}
+					newObject[newKey] = dataArr['@Out{'+firstKey+'.'+key+'}'];
+					dataValuestrnumbool.push(newObject);
 				}
 				for (var i = 2; i < 26; i++) {
 					if (dataArr['@Out{'+firstKey+'.'+key+'}'+i] != undefined) {
-						if (typeof(dataArr['@Out{'+firstKey+'.'+key+'}'+i]) == 'object') {
+						var isArray1 = Array.isArray(dataArr['@Out{'+firstKey+'.'+key+'}'+i]);
+						var inType1 = (isArray1 ? 'array' : typeof(dataArr['@Out{'+firstKey+'.'+key+'}'+i]));
+						if (inType1 == 'object') {
+							var newObject = {};
+							var newKey = newLinkDataArr['@Out{'+firstKey+'.'+key+'}'+i].replace("@In{", "").replace(/}$/,"");
+							if (newKey == undefined) {
+								newKey = key;
+							}
+							newObject[newKey] = dataArr['@Out{'+firstKey+'.'+key+'}'+i];
 							dataValuestrnumbool.push(dataArr['@Out{'+firstKey+'.'+key+'}'+i]);
+						} else if (inType1 == 'array') {
+							var dataArrlength = dataArr['@Out{'+firstKey+'.'+key+'}'+i];
+							for (var q = 0; q < dataArrlength.length; q++) {
+								dataValuestrnumbool.push(dataArrlength[q]);
+							}
 						} else {
-							dataValuestrnumbool.push(dataArr['@Out{'+firstKey+'.'+key+'}'+i]);
+							var newObject = {};
+							var newKey = newLinkDataArr['@Out{'+firstKey+'.'+key+'}'+i].replace("@In{", "").replace(/}$/,"");
+							if (newKey == undefined) {
+								newKey = key;
+							}
+							newObject[newKey] = dataArr['@Out{'+firstKey+'.'+key+'}'+i];
+							dataValuestrnumbool.push(newObject);
 						}
 					}
 				}
@@ -5053,77 +4895,24 @@ function outboundformatdata(OutboundData, dataArr) {
 					merged = Object.assign(outboundFormatData, secondObject, secondObject);
 				}
 			} else {
+				var emptyArr = [];
 				var objval = {};
 				outboundFormatDataParentKey.push(key);
-				objval = outboundformatdata1(value, dataArr);
+				objval = outboundformatdata2(value, dataArr, newLinkDataArr);
 				outboundFormatDataParentKey = [];
-				/*Object.entries(value).forEach((itementry) => {
-					var [subkey, subvalue] = itementry;
-					var outType = typeof(subvalue);
-					// console.log("outbound subkey 1 => "+subkey);
-					// console.log("outType 1 => "+outType);
-					if (dataArr['@Out{'+key+'.'+subkey+'}'] != undefined) {
-						var inType = typeof(dataArr['@Out{'+key+'.'+subkey+'}']);
-						// console.log("inType 1 => "+inType);
-						if (inType == 'object' && outType == 'string') {
-							var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
-						} else if (inType == 'array' && outType == 'string') {
-							var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
-						} else if (inType == 'integer' && outType == 'string') {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
-						} else if (inType == 'integer' && outType == 'boolean') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == 0) {
-								var dataValuestrnumbool = false;
-							} else {
-								var dataValuestrnumbool = true;
-							}
-						} else if (inType == 'number' && outType == 'string') {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
-						} else if (inType == 'number' && outType == 'boolean') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == 0) {
-								var dataValuestrnumbool = false;
-							} else {
-								var dataValuestrnumbool = true;
-							}
-						} else if (inType == 'boolean' && outType == 'string') {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
-						} else if (inType == 'boolean' && outType == 'number') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == false) {
-								var dataValuestrnumbool = 0;
-							} else {
-								var dataValuestrnumbool = 1;
-							}
-						} else if (inType == 'boolean' && outType == 'integer') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == false) {
-								var dataValuestrnumbool = 0;
-							} else {
-								var dataValuestrnumbool = 1;
-							}
-						} else {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'];
-						}
-					} else {
-						var dataValuestrnumbool = '';
-					}
-					var secondObject = merged = {};
-					secondObject[subkey] = dataValuestrnumbool;;
-					merged = Object.assign(objval, secondObject, secondObject);
-				});*/
+
 				var firstObject = merged1 = {};
 				if (key >= 0) {
-					outboundFormatData = objval;
+					outboundFormatData = (objval == '' || Object.entries(objval).length == 0) ? emptyArr : objval;
 				} else {
-					firstObject[key] = objval;
+					firstObject[key] = (objval == '' || Object.entries(objval).length == 0) ? emptyArr : objval;
 					merged1 = Object.assign(outboundFormatData, firstObject);
 				}
 			}
 		} else if (!Array.isArray(value) && value != null && typeof(value) != "object") {
 			var outType = typeof(value);
-			// console.log("outbound key => "+key);
-			// console.log("outType => "+outType);
 			if (dataArr['@Out{'+key+'}'] != undefined) {
 				var inType = typeof(dataArr['@Out{'+key+'}']);
-				// console.log("inType => "+inType);
 				if (inType == 'object' && outType == 'string') {
 					var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'}']);
 				} else if (inType == 'array' && outType == 'string') {
@@ -5163,7 +4952,6 @@ function outboundformatdata(OutboundData, dataArr) {
 				}
 			} else if (dataArr['@Out{'+firstKey+'.'+key+'}'] != undefined) {
 				var inType = typeof(dataArr['@Out{'+firstKey+'.'+key+'}']);
-				// console.log("inType => "+inType);
 				if (inType == 'object' && outType == 'string') {
 					var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+firstKey+'.'+key+'}']);
 				} else if (inType == 'array' && outType == 'string') {
@@ -5216,7 +5004,7 @@ function outboundformatdata(OutboundData, dataArr) {
 	return outboundFormatData;
 }
 
-function outboundformatdata1(OutboundData, dataArr) {
+function outboundformatdata1(OutboundData, dataArr, newLinkDataArr) {
 	var outboundFormatData = {};
 
 	Object.entries(OutboundData).forEach((entry) => {
@@ -5225,12 +5013,8 @@ function outboundformatdata1(OutboundData, dataArr) {
 		var firstKey = '';
 		if (outboundFormatDataParentKey.length != 0) {
 			for (var i = 0; i < outboundFormatDataParentKey.length; i++) {
-				// console.log('outboundFormatDataParentKey[i] 1');
-				// console.log(outboundFormatDataParentKey[i]);
 				if (outboundFormatDataParentKey[i] == 0) {
-					// console.log('0 value remove outboundFormatDataParentKey[i] 1');
 				} else {
-					// console.log('value add outboundFormatDataParentKey[i] 1');
 					if (firstKey != '') {
 						firstKey = firstKey + '.';
 					}
@@ -5240,11 +5024,8 @@ function outboundformatdata1(OutboundData, dataArr) {
 		}
 		if (!Array.isArray(value) && value != null && typeof(value) == "object") {
 			if (dataArr['@Out{'+key+'}'] != undefined) {
-				// console.log("outbound key 2 => "+key);
-				// console.log("outType 2 => object");
 				var isArray = Array.isArray(dataArr['@Out{'+key+'}']);
 				var inType = (isArray ? 'array' : typeof(dataArr['@Out{'+key+'}']));
-				// console.log("inType 2 => "+inType);
 				if (inType == 'string' || inType == 'integer' || inType == 'number' || inType == 'boolean') {
 					var dataValuestrnumbool = {};
 					dataValuestrnumbool[key] = dataArr['@Out{'+key+'}'];
@@ -5259,11 +5040,8 @@ function outboundformatdata1(OutboundData, dataArr) {
 					merged = Object.assign(outboundFormatData, secondObject, secondObject);
 				}
 			} else if (dataArr['@Out{'+firstKey+'.'+key+'}'] != undefined) {
-				// console.log("outbound key 2 => "+key);
-				// console.log("outType 2 => object");
 				var isArray = Array.isArray(dataArr['@Out{'+firstKey+'.'+key+'}']);
 				var inType = (isArray ? 'array' : typeof(dataArr['@Out{'+firstKey+'.'+key+'}']));
-				// console.log("inType 2 => "+inType);
 				if (inType == 'string' || inType == 'integer' || inType == 'number' || inType == 'boolean') {
 					var dataValuestrnumbool = {};
 					dataValuestrnumbool[key] = dataArr['@Out{'+firstKey+'.'+key+'}'];
@@ -5280,60 +5058,9 @@ function outboundformatdata1(OutboundData, dataArr) {
 			} else {
 				var objval = {};
 				outboundFormatDataParentKey.push(key);
-				objval = outboundformatdata2(value, dataArr);
+				objval = outboundformatdata2(value, dataArr, newLinkDataArr);
 				outboundFormatDataParentKey = [];
-				/*Object.entries(value).forEach((itementry) => {
-					var [subkey, subvalue] = itementry;
-					var outType = typeof(subvalue);
-					// console.log("outbound subkey 2 => "+subkey);
-					// console.log("outType 2 => "+outType);
-					if (dataArr['@Out{'+key+'.'+subkey+'}'] != undefined) {
-						var inType = typeof(dataArr['@Out{'+key+'.'+subkey+'}']);
-						// console.log("inType 2 => "+inType);
-						if (inType == 'object' && outType == 'string') {
-							var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
-						} else if (inType == 'array' && outType == 'string') {
-							var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
-						} else if (inType == 'integer' && outType == 'string') {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
-						} else if (inType == 'integer' && outType == 'boolean') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == 0) {
-								var dataValuestrnumbool = false;
-							} else {
-								var dataValuestrnumbool = true;
-							}
-						} else if (inType == 'number' && outType == 'string') {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
-						} else if (inType == 'number' && outType == 'boolean') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == 0) {
-								var dataValuestrnumbool = false;
-							} else {
-								var dataValuestrnumbool = true;
-							}
-						} else if (inType == 'boolean' && outType == 'string') {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
-						} else if (inType == 'boolean' && outType == 'number') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == false) {
-								var dataValuestrnumbool = 0;
-							} else {
-								var dataValuestrnumbool = 1;
-							}
-						} else if (inType == 'boolean' && outType == 'integer') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == false) {
-								var dataValuestrnumbool = 0;
-							} else {
-								var dataValuestrnumbool = 1;
-							}
-						} else {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'];
-						}
-					} else {
-						var dataValuestrnumbool = '';
-					}
-					var secondObject = merged = {};
-					secondObject[subkey] = dataValuestrnumbool;
-					merged = Object.assign(objval, secondObject, secondObject);
-				});*/
+
 				var firstObject = merged1 = {};
 				if (key >= 0) {
 					outboundFormatData = objval;
@@ -5344,28 +5071,48 @@ function outboundformatdata1(OutboundData, dataArr) {
 			}
 		} else if (Array.isArray(value) && value != null && typeof(value) == "object") {
 			if (dataArr['@Out{'+key+'}'] != undefined) {
-				// console.log("outbound key 1 => "+key);
-				// console.log("outType 1 => array");
 				var isArray = Array.isArray(dataArr['@Out{'+key+'}']);
 				var inType = (isArray ? 'array' : typeof(dataArr['@Out{'+key+'}']));
-				// console.log("inType 1 => "+inType);
 				var dataValuestrnumbool = [];
 
 				if (inType == 'object') {
 					dataValuestrnumbool.push(dataArr['@Out{'+key+'}']);
-				} else if (inType == 'string' || inType == 'integer' || inType == 'number' || inType == 'boolean') {
-					var newObject = {};
-					newObject[key] = dataArr['@Out{'+key+'}'];
-					dataValuestrnumbool.push(newObject);
-				} else {
+				} else if (inType == 'array') {
 					dataValuestrnumbool = dataArr['@Out{'+key+'}'];
+				} else {
+					var newObject = {};
+					var newKey = newLinkDataArr['@Out{'+key+'}'].replace("@In{", "").replace(/}$/,"");
+					if (newKey == undefined) {
+						newKey = key;
+					}
+					newObject[newKey] = dataArr['@Out{'+key+'}'];
+					dataValuestrnumbool.push(newObject);
 				}
 				for (var i = 2; i < 26; i++) {
 					if (dataArr['@Out{'+key+'}'+i] != undefined) {
-						if (typeof(dataArr['@Out{'+key+'}'+i]) == 'object') {
+						var isArray1 = Array.isArray(dataArr['@Out{'+key+'}'+i]);
+						var inType1 = (isArray1 ? 'array' : typeof(dataArr['@Out{'+key+'}'+i]));
+						if (inType1 == 'object') {
+							var newObject = {};
+							var newKey = newLinkDataArr['@Out{'+key+'}'+i].replace("@In{", "").replace(/}$/,"");
+							if (newKey == undefined) {
+								newKey = key;
+							}
+							newObject[newKey] = dataArr['@Out{'+key+'}'+i];
 							dataValuestrnumbool.push(dataArr['@Out{'+key+'}'+i]);
+						} else if (inType1 == 'array') {
+							var dataArrlength = dataArr['@Out{'+key+'}'+i];
+							for (var q = 0; q < dataArrlength.length; q++) {
+								dataValuestrnumbool.push(dataArrlength[q]);
+							}
 						} else {
-							dataValuestrnumbool.push(dataArr['@Out{'+key+'}'+i]);
+							var newObject = {};
+							var newKey = newLinkDataArr['@Out{'+key+'}'+i].replace("@In{", "").replace(/}$/,"");
+							if (newKey == undefined) {
+								newKey = key;
+							}
+							newObject[newKey] = dataArr['@Out{'+key+'}'+i];
+							dataValuestrnumbool.push(newObject);
 						}
 					}
 				}
@@ -5378,23 +5125,48 @@ function outboundformatdata1(OutboundData, dataArr) {
 					merged = Object.assign(outboundFormatData, secondObject, secondObject);
 				}
 			} else if (dataArr['@Out{'+firstKey+'.'+key+'}'] != undefined) {
-				// console.log("outbound key 2 => "+key);
-				// console.log("outType 2 => object");
 				var isArray = Array.isArray(dataArr['@Out{'+firstKey+'.'+key+'}']);
 				var inType = (isArray ? 'array' : typeof(dataArr['@Out{'+firstKey+'.'+key+'}']));
-				// console.log("inType 2 => "+inType);
-				if (inType == 'string' || inType == 'integer' || inType == 'number' || inType == 'boolean') {
-					var dataValuestrnumbool = {};
-					dataValuestrnumbool[key] = dataArr['@Out{'+firstKey+'.'+key+'}'];
+				var dataValuestrnumbool = [];
+
+				if (inType == 'object') {
+					dataValuestrnumbool.push(dataArr['@Out{'+firstKey+'.'+key+'}']);
+				} else if (inType == 'array') {
+					dataValuestrnumbool = dataArr['@Out{'+firstKey+'.'+key+'}'];
 				} else {
-					var dataValuestrnumbool = dataArr['@Out{'+firstKey+'.'+key+'}'];
+					var newObject = {};
+					var newKey = newLinkDataArr['@Out{'+firstKey+'.'+key+'}'].replace("@In{", "").replace(/}$/,"");
+					if (newKey == undefined) {
+						newKey = key;
+					}
+					newObject[newKey] = dataArr['@Out{'+firstKey+'.'+key+'}'];
+					dataValuestrnumbool.push(newObject);
 				}
 				for (var i = 2; i < 26; i++) {
 					if (dataArr['@Out{'+firstKey+'.'+key+'}'+i] != undefined) {
-						if (typeof(dataArr['@Out{'+firstKey+'.'+key+'}'+i]) == 'object') {
+						var isArray1 = Array.isArray(dataArr['@Out{'+firstKey+'.'+key+'}'+i]);
+						var inType1 = (isArray1 ? 'array' : typeof(dataArr['@Out{'+firstKey+'.'+key+'}'+i]));
+						if (inType1 == 'object') {
+							var newObject = {};
+							var newKey = newLinkDataArr['@Out{'+firstKey+'.'+key+'}'+i].replace("@In{", "").replace(/}$/,"");
+							if (newKey == undefined) {
+								newKey = key;
+							}
+							newObject[newKey] = dataArr['@Out{'+firstKey+'.'+key+'}'+i];
 							dataValuestrnumbool.push(dataArr['@Out{'+firstKey+'.'+key+'}'+i]);
+						} else if (inType1 == 'array') {
+							var dataArrlength = dataArr['@Out{'+firstKey+'.'+key+'}'+i];
+							for (var q = 0; q < dataArrlength.length; q++) {
+								dataValuestrnumbool.push(dataArrlength[q]);
+							}
 						} else {
-							dataValuestrnumbool.push(dataArr['@Out{'+firstKey+'.'+key+'}'+i]);
+							var newObject = {};
+							var newKey = newLinkDataArr['@Out{'+firstKey+'.'+key+'}'+i].replace("@In{", "").replace(/}$/,"");
+							if (newKey == undefined) {
+								newKey = key;
+							}
+							newObject[newKey] = dataArr['@Out{'+firstKey+'.'+key+'}'+i];
+							dataValuestrnumbool.push(newObject);
 						}
 					}
 				}
@@ -5407,79 +5179,24 @@ function outboundformatdata1(OutboundData, dataArr) {
 					merged = Object.assign(outboundFormatData, secondObject, secondObject);
 				}
 			} else {
+				var emptyArr = [];
 				var objval = {};
 				outboundFormatDataParentKey.push(key);
-				console.log('test key 1 => '+key);
-				objval = outboundformatdata2(value, dataArr);
+				objval = outboundformatdata2(value, dataArr, newLinkDataArr);
 				outboundFormatDataParentKey = [];
-				/*Object.entries(value).forEach((itementry) => {
-					var [subkey, subvalue] = itementry;
-					var outType = typeof(subvalue);
-					// console.log("outbound subkey 1 => "+subkey);
-					// console.log("outType 1 => "+outType);
-					if (dataArr['@Out{'+key+'.'+subkey+'}'] != undefined) {
-						var inType = typeof(dataArr['@Out{'+key+'.'+subkey+'}']);
-						// console.log("inType 1 => "+inType);
-						if (inType == 'object' && outType == 'string') {
-							var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
-						} else if (inType == 'array' && outType == 'string') {
-							var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
-						} else if (inType == 'integer' && outType == 'string') {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
-						} else if (inType == 'integer' && outType == 'boolean') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == 0) {
-								var dataValuestrnumbool = false;
-							} else {
-								var dataValuestrnumbool = true;
-							}
-						} else if (inType == 'number' && outType == 'string') {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
-						} else if (inType == 'number' && outType == 'boolean') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == 0) {
-								var dataValuestrnumbool = false;
-							} else {
-								var dataValuestrnumbool = true;
-							}
-						} else if (inType == 'boolean' && outType == 'string') {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
-						} else if (inType == 'boolean' && outType == 'number') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == false) {
-								var dataValuestrnumbool = 0;
-							} else {
-								var dataValuestrnumbool = 1;
-							}
-						} else if (inType == 'boolean' && outType == 'integer') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == false) {
-								var dataValuestrnumbool = 0;
-							} else {
-								var dataValuestrnumbool = 1;
-							}
-						} else {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'];
-						}
-					} else {
-						var dataValuestrnumbool = '';
-					}
-					var secondObject = merged = {};
-					secondObject[subkey] = dataValuestrnumbool;;
-					merged = Object.assign(objval, secondObject, secondObject);
-				});*/
+
 				var firstObject = merged1 = {};
 				if (key >= 0) {
-					outboundFormatData = objval;
+					outboundFormatData = (objval == '' || Object.entries(objval).length == 0) ? emptyArr : objval;
 				} else {
-					firstObject[key] = objval;
+					firstObject[key] = (objval == '' || Object.entries(objval).length == 0) ? emptyArr : objval;
 					merged1 = Object.assign(outboundFormatData, firstObject);
 				}
 			}
 		} else if (!Array.isArray(value) && value != null && typeof(value) != "object") {
-				console.log('test key 5 => '+key);
 			var outType = typeof(value);
-			// console.log("outbound key => "+key);
-			// console.log("outType => "+outType);
 			if (dataArr['@Out{'+key+'}'] != undefined) {
 				var inType = typeof(dataArr['@Out{'+key+'}']);
-				// console.log("inType => "+inType);
 				if (inType == 'object' && outType == 'string') {
 					var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'}']);
 				} else if (inType == 'array' && outType == 'string') {
@@ -5519,7 +5236,6 @@ function outboundformatdata1(OutboundData, dataArr) {
 				}
 			} else if (dataArr['@Out{'+firstKey+'.'+key+'}'] != undefined) {
 				var inType = typeof(dataArr['@Out{'+firstKey+'.'+key+'}']);
-				// console.log("inType => "+inType);
 				if (inType == 'object' && outType == 'string') {
 					var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+firstKey+'.'+key+'}']);
 				} else if (inType == 'array' && outType == 'string') {
@@ -5572,7 +5288,7 @@ function outboundformatdata1(OutboundData, dataArr) {
 	return outboundFormatData;
 }
 
-function outboundformatdata2(OutboundData, dataArr) {
+function outboundformatdata2(OutboundData, dataArr, newLinkDataArr) {
 	var outboundFormatData = {};
 
 	Object.entries(OutboundData).forEach((entry) => {
@@ -5581,12 +5297,8 @@ function outboundformatdata2(OutboundData, dataArr) {
 		var firstKey = '';
 		if (outboundFormatDataParentKey.length != 0) {
 			for (var i = 0; i < outboundFormatDataParentKey.length; i++) {
-				// console.log('outboundFormatDataParentKey[i] 1');
-				// console.log(outboundFormatDataParentKey[i]);
 				if (outboundFormatDataParentKey[i] == 0) {
-					// console.log('0 value remove outboundFormatDataParentKey[i] 1');
 				} else {
-					// console.log('value add outboundFormatDataParentKey[i] 1');
 					if (firstKey != '') {
 						firstKey = firstKey + '.';
 					}
@@ -5596,11 +5308,8 @@ function outboundformatdata2(OutboundData, dataArr) {
 		}
 		if (!Array.isArray(value) && value != null && typeof(value) == "object") {
 			if (dataArr['@Out{'+key+'}'] != undefined) {
-				// console.log("outbound key 2 => "+key);
-				// console.log("outType 2 => object");
 				var isArray = Array.isArray(dataArr['@Out{'+key+'}']);
 				var inType = (isArray ? 'array' : typeof(dataArr['@Out{'+key+'}']));
-				// console.log("inType 2 => "+inType);
 				if (inType == 'string' || inType == 'integer' || inType == 'number' || inType == 'boolean') {
 					var dataValuestrnumbool = {};
 					dataValuestrnumbool[key] = dataArr['@Out{'+key+'}'];
@@ -5615,11 +5324,8 @@ function outboundformatdata2(OutboundData, dataArr) {
 					merged = Object.assign(outboundFormatData, secondObject, secondObject);
 				}
 			} else if (dataArr['@Out{'+firstKey+'.'+key+'}'] != undefined) {
-				// console.log("outbound key 2 => "+key);
-				// console.log("outType 2 => object");
 				var isArray = Array.isArray(dataArr['@Out{'+firstKey+'.'+key+'}']);
 				var inType = (isArray ? 'array' : typeof(dataArr['@Out{'+firstKey+'.'+key+'}']));
-				// console.log("inType 2 => "+inType);
 				if (inType == 'string' || inType == 'integer' || inType == 'number' || inType == 'boolean') {
 					var dataValuestrnumbool = {};
 					dataValuestrnumbool[key] = dataArr['@Out{'+firstKey+'.'+key+'}'];
@@ -5637,60 +5343,9 @@ function outboundformatdata2(OutboundData, dataArr) {
 				if (value.length != undefined && value.length > 0) {
 					var objval = {};
 					outboundFormatDataParentKey.push(key);
-					objval = outboundformatdata1(value, dataArr);
+					objval = outboundformatdata1(value, dataArr, newLinkDataArr);
 					outboundFormatDataParentKey = [];
-					/*Object.entries(value).forEach((itementry) => {
-						var [subkey, subvalue] = itementry;
-						var outType = typeof(subvalue);
-						// console.log("outbound subkey 2 => "+subkey);
-						// console.log("outType 2 => "+outType);
-						if (dataArr['@Out{'+key+'.'+subkey+'}'] != undefined) {
-							var inType = typeof(dataArr['@Out{'+key+'.'+subkey+'}']);
-							// console.log("inType 2 => "+inType);
-							if (inType == 'object' && outType == 'string') {
-								var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
-							} else if (inType == 'array' && outType == 'string') {
-								var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
-							} else if (inType == 'integer' && outType == 'string') {
-								var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
-							} else if (inType == 'integer' && outType == 'boolean') {
-								if (dataArr['@Out{'+key+'.'+subkey+'}'] == 0) {
-									var dataValuestrnumbool = false;
-								} else {
-									var dataValuestrnumbool = true;
-								}
-							} else if (inType == 'number' && outType == 'string') {
-								var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
-							} else if (inType == 'number' && outType == 'boolean') {
-								if (dataArr['@Out{'+key+'.'+subkey+'}'] == 0) {
-									var dataValuestrnumbool = false;
-								} else {
-									var dataValuestrnumbool = true;
-								}
-							} else if (inType == 'boolean' && outType == 'string') {
-								var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
-							} else if (inType == 'boolean' && outType == 'number') {
-								if (dataArr['@Out{'+key+'.'+subkey+'}'] == false) {
-									var dataValuestrnumbool = 0;
-								} else {
-									var dataValuestrnumbool = 1;
-								}
-							} else if (inType == 'boolean' && outType == 'integer') {
-								if (dataArr['@Out{'+key+'.'+subkey+'}'] == false) {
-									var dataValuestrnumbool = 0;
-								} else {
-									var dataValuestrnumbool = 1;
-								}
-							} else {
-								var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'];
-							}
-						} else {
-							var dataValuestrnumbool = '';
-						}
-						var secondObject = merged = {};
-						secondObject[subkey] = dataValuestrnumbool;
-						merged = Object.assign(objval, secondObject, secondObject);
-					});*/
+
 					var firstObject = merged1 = {};
 					if (key >= 0) {
 						outboundFormatData = objval;
@@ -5699,33 +5354,53 @@ function outboundformatdata2(OutboundData, dataArr) {
 						merged1 = Object.assign(outboundFormatData, firstObject);
 					}
 				} else {
-					outboundFormatData = '';
+					outboundFormatData = {};
 				}
 			}
 		} else if (Array.isArray(value) && value != null && typeof(value) == "object") {
 			if (dataArr['@Out{'+key+'}'] != undefined) {
-				// console.log("outbound key 1 => "+key);
-				// console.log("outType 1 => array");
 				var isArray = Array.isArray(dataArr['@Out{'+key+'}']);
 				var inType = (isArray ? 'array' : typeof(dataArr['@Out{'+key+'}']));
-				// console.log("inType 1 => "+inType);
 				var dataValuestrnumbool = [];
 
 				if (inType == 'object') {
 					dataValuestrnumbool.push(dataArr['@Out{'+key+'}']);
-				} else if (inType == 'string' || inType == 'integer' || inType == 'number' || inType == 'boolean') {
-					var newObject = {};
-					newObject[key] = dataArr['@Out{'+key+'}'];
-					dataValuestrnumbool.push(newObject);
-				} else {
+				} else if (inType == 'array') {
 					dataValuestrnumbool = dataArr['@Out{'+key+'}'];
+				} else {
+					var newObject = {};
+					var newKey = newLinkDataArr['@Out{'+key+'}'].replace("@In{", "").replace(/}$/,"");
+					if (newKey == undefined) {
+						newKey = key;
+					}
+					newObject[newKey] = dataArr['@Out{'+key+'}'];
+					dataValuestrnumbool.push(newObject);
 				}
 				for (var i = 2; i < 26; i++) {
 					if (dataArr['@Out{'+key+'}'+i] != undefined) {
-						if (typeof(dataArr['@Out{'+key+'}'+i]) == 'object') {
+						var isArray1 = Array.isArray(dataArr['@Out{'+key+'}'+i]);
+						var inType1 = (isArray1 ? 'array' : typeof(dataArr['@Out{'+key+'}'+i]));
+						if (inType1 == 'object') {
+							var newObject = {};
+							var newKey = newLinkDataArr['@Out{'+key+'}'+i].replace("@In{", "").replace(/}$/,"");
+							if (newKey == undefined) {
+								newKey = key;
+							}
+							newObject[newKey] = dataArr['@Out{'+key+'}'+i];
 							dataValuestrnumbool.push(dataArr['@Out{'+key+'}'+i]);
+						} else if (inType1 == 'array') {
+							var dataArrlength = dataArr['@Out{'+key+'}'+i];
+							for (var q = 0; q < dataArrlength.length; q++) {
+								dataValuestrnumbool.push(dataArrlength[q]);
+							}
 						} else {
-							dataValuestrnumbool.push(dataArr['@Out{'+key+'}'+i]);
+							var newObject = {};
+							var newKey = newLinkDataArr['@Out{'+key+'}'+i].replace("@In{", "").replace(/}$/,"");
+							if (newKey == undefined) {
+								newKey = key;
+							}
+							newObject[newKey] = dataArr['@Out{'+key+'}'+i];
+							dataValuestrnumbool.push(newObject);
 						}
 					}
 				}
@@ -5738,23 +5413,48 @@ function outboundformatdata2(OutboundData, dataArr) {
 					merged = Object.assign(outboundFormatData, secondObject, secondObject);
 				}
 			} else if (dataArr['@Out{'+firstKey+'.'+key+'}'] != undefined) {
-				// console.log("outbound key 2 => "+key);
-				// console.log("outType 2 => object");
 				var isArray = Array.isArray(dataArr['@Out{'+firstKey+'.'+key+'}']);
 				var inType = (isArray ? 'array' : typeof(dataArr['@Out{'+firstKey+'.'+key+'}']));
-				// console.log("inType 2 => "+inType);
-				if (inType == 'string' || inType == 'integer' || inType == 'number' || inType == 'boolean') {
-					var dataValuestrnumbool = {};
-					dataValuestrnumbool[key] = dataArr['@Out{'+firstKey+'.'+key+'}'];
+				var dataValuestrnumbool = [];
+
+				if (inType == 'object') {
+					dataValuestrnumbool.push(dataArr['@Out{'+firstKey+'.'+key+'}']);
+				} else if (inType == 'array') {
+					dataValuestrnumbool = dataArr['@Out{'+firstKey+'.'+key+'}'];
 				} else {
-					var dataValuestrnumbool = dataArr['@Out{'+firstKey+'.'+key+'}'];
+					var newObject = {};
+					var newKey = newLinkDataArr['@Out{'+firstKey+'.'+key+'}'].replace("@In{", "").replace(/}$/,"");
+					if (newKey == undefined) {
+						newKey = key;
+					}
+					newObject[newKey] = dataArr['@Out{'+firstKey+'.'+key+'}'];
+					dataValuestrnumbool.push(newObject);
 				}
 				for (var i = 2; i < 26; i++) {
 					if (dataArr['@Out{'+firstKey+'.'+key+'}'+i] != undefined) {
-						if (typeof(dataArr['@Out{'+firstKey+'.'+key+'}'+i]) == 'object') {
+						var isArray1 = Array.isArray(dataArr['@Out{'+firstKey+'.'+key+'}'+i]);
+						var inType1 = (isArray1 ? 'array' : typeof(dataArr['@Out{'+firstKey+'.'+key+'}'+i]));
+						if (inType1 == 'object') {
+							var newObject = {};
+							var newKey = newLinkDataArr['@Out{'+firstKey+'.'+key+'}'+i].replace("@In{", "").replace(/}$/,"");
+							if (newKey == undefined) {
+								newKey = key;
+							}
+							newObject[newKey] = dataArr['@Out{'+firstKey+'.'+key+'}'+i];
 							dataValuestrnumbool.push(dataArr['@Out{'+firstKey+'.'+key+'}'+i]);
+						} else if (inType1 == 'array') {
+							var dataArrlength = dataArr['@Out{'+firstKey+'.'+key+'}'+i];
+							for (var q = 0; q < dataArrlength.length; q++) {
+								dataValuestrnumbool.push(dataArrlength[q]);
+							}
 						} else {
-							dataValuestrnumbool.push(dataArr['@Out{'+firstKey+'.'+key+'}'+i]);
+							var newObject = {};
+							var newKey = newLinkDataArr['@Out{'+firstKey+'.'+key+'}'+i].replace("@In{", "").replace(/}$/,"");
+							if (newKey == undefined) {
+								newKey = key;
+							}
+							newObject[newKey] = dataArr['@Out{'+firstKey+'.'+key+'}'+i];
+							dataValuestrnumbool.push(newObject);
 						}
 					}
 				}
@@ -5767,77 +5467,24 @@ function outboundformatdata2(OutboundData, dataArr) {
 					merged = Object.assign(outboundFormatData, secondObject, secondObject);
 				}
 			} else {
+				var emptyArr = [];
 				var objval = {};
 				outboundFormatDataParentKey.push(key);
-				objval = outboundformatdata1(value, dataArr);
+				objval = outboundformatdata2(value, dataArr, newLinkDataArr);
 				outboundFormatDataParentKey = [];
-				/*Object.entries(value).forEach((itementry) => {
-					var [subkey, subvalue] = itementry;
-					var outType = typeof(subvalue);
-					// console.log("outbound subkey 1 => "+subkey);
-					// console.log("outType 1 => "+outType);
-					if (dataArr['@Out{'+key+'.'+subkey+'}'] != undefined) {
-						var inType = typeof(dataArr['@Out{'+key+'.'+subkey+'}']);
-						// console.log("inType 1 => "+inType);
-						if (inType == 'object' && outType == 'string') {
-							var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
-						} else if (inType == 'array' && outType == 'string') {
-							var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'.'+subkey+'}']);
-						} else if (inType == 'integer' && outType == 'string') {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
-						} else if (inType == 'integer' && outType == 'boolean') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == 0) {
-								var dataValuestrnumbool = false;
-							} else {
-								var dataValuestrnumbool = true;
-							}
-						} else if (inType == 'number' && outType == 'string') {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
-						} else if (inType == 'number' && outType == 'boolean') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == 0) {
-								var dataValuestrnumbool = false;
-							} else {
-								var dataValuestrnumbool = true;
-							}
-						} else if (inType == 'boolean' && outType == 'string') {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'].toString();
-						} else if (inType == 'boolean' && outType == 'number') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == false) {
-								var dataValuestrnumbool = 0;
-							} else {
-								var dataValuestrnumbool = 1;
-							}
-						} else if (inType == 'boolean' && outType == 'integer') {
-							if (dataArr['@Out{'+key+'.'+subkey+'}'] == false) {
-								var dataValuestrnumbool = 0;
-							} else {
-								var dataValuestrnumbool = 1;
-							}
-						} else {
-							var dataValuestrnumbool = dataArr['@Out{'+key+'.'+subkey+'}'];
-						}
-					} else {
-						var dataValuestrnumbool = '';
-					}
-					var secondObject = merged = {};
-					secondObject[subkey] = dataValuestrnumbool;;
-					merged = Object.assign(objval, secondObject, secondObject);
-				});*/
+
 				var firstObject = merged1 = {};
 				if (key >= 0) {
-					outboundFormatData = objval;
+					outboundFormatData = (objval == '' || Object.entries(objval).length == 0) ? emptyArr : objval;
 				} else {
-					firstObject[key] = objval;
+					firstObject[key] = (objval == '' || Object.entries(objval).length == 0) ? emptyArr : objval;
 					merged1 = Object.assign(outboundFormatData, firstObject);
 				}
 			}
 		} else if (!Array.isArray(value) && value != null && typeof(value) != "object") {
 			var outType = typeof(value);
-			// console.log("outbound key => "+key);
-			// console.log("outType => "+outType);
 			if (dataArr['@Out{'+key+'}'] != undefined) {
 				var inType = typeof(dataArr['@Out{'+key+'}']);
-				// console.log("inType => "+inType);
 				if (inType == 'object' && outType == 'string') {
 					var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+key+'}']);
 				} else if (inType == 'array' && outType == 'string') {
@@ -5877,7 +5524,6 @@ function outboundformatdata2(OutboundData, dataArr) {
 				}
 			} else if (dataArr['@Out{'+firstKey+'.'+key+'}'] != undefined) {
 				var inType = typeof(dataArr['@Out{'+firstKey+'.'+key+'}']);
-				// console.log("inType => "+inType);
 				if (inType == 'object' && outType == 'string') {
 					var dataValuestrnumbool = JSON.stringify(dataArr['@Out{'+firstKey+'.'+key+'}']);
 				} else if (inType == 'array' && outType == 'string') {
