@@ -51,7 +51,6 @@ router.post("/item/add", async (req, res) => {
     if (duplicate != "")  break;
     switch (req.body[i].type) {
       case "basic":
-        // await new Promise((resolve) => {request.post(config.domain + '/project/item/checkbasic', {form: req.body[i].ItemCode}, function (error, response, body) {
         await new Promise((resolve) => {request.post(config.domain + '/project/item/checkbasic', {form: {itemCode: req.body[i].ItemCode}}, function (error, response, body) {
               data = JSON.parse(body);
               if (data.result == false) {
@@ -123,6 +122,20 @@ router.post("/item/add", async (req, res) => {
         }
         );
         break;
+      case "mapping":
+        data = req.body[i];
+        data = { ...data, project_id: data.item_id };
+        if (item_id != "")
+            data = { ...data, project_id: item_id };
+        await new Promise((resolve) => {request.post(config.domain + '/project/item/mapping/save', {form:data}, function (error, response, body) {
+            var data = JSON.parse(body);
+            result = { ...result, schedule: data};
+            resolve({});
+          })
+        }
+        );
+        break;
+        
       default:
         break;
     }
@@ -144,7 +157,6 @@ router.post("/item/modify", async (req, res) => {
     switch (req.body[i].type) {
       case "basic":
         await new Promise((resolve) => {request.post(config.domain + "/project/item/update/" + req.body[i].item_id, { form: req.body[i] }, function (error, response, body) {
-        // await new Promise((resolve) => {request.post("http://localhost:8014/project/item/update/" + req.body[i].item_id, { form: req.body[i] }, function (error, response, body) {
           data = JSON.parse(body);
           result = { ...result, basic: data};
           resolve({});
@@ -185,6 +197,17 @@ router.post("/item/modify", async (req, res) => {
         }
         );
         break;
+      case "mapping":
+        data = req.body[i];
+        data = { ...data, project_id: data.item_id };
+        await new Promise((resolve) => {request.put(config.domain + '/project/item/mapping/update/' + req.body[i].mapping_id, {form:data}, function (error, response, body) {
+            var data = JSON.parse(body);
+            result = { ...result, mapping: data};
+            resolve({});
+          })
+        }
+        );
+        break;
       default:
     }
   }
@@ -206,6 +229,7 @@ router.get("/item/detail/:id", async function (req, res) {
   let inbound = itemData[0].inbound_setting;
   let outbound = itemData[0].outbound_setting;
   let schedule = itemData[0].schedule_setting;
+  let mapping = itemData[0].mapping;
 
   inbound = { ...inbound, pj_id: projectData._id };
   outbound = { ...outbound, pj_id: projectData._id };
@@ -225,6 +249,7 @@ router.get("/item/detail/:id", async function (req, res) {
       inbound_setting: inbound,
       outbound_setting: outbound,
       schedule_setting: schedule,
+      mapping: mapping,
       inbound_history: [],
       outbound_history: [],
     },
@@ -277,57 +302,18 @@ router.get("/fulllist", async function (req, res) {
 });
 
 router.post("/add", async function (req, res) {
-  // var ProjectCode = req.body.projectCode;
-  // var ProjectName = req.body.projectName;
-  // var ProjectDescription = req.body.projectDescr;
   let result = await projectController.create(req.body);
-  //var Sequence = req.body.Sequence;
-  // var Group = req.body.group;
-  // var isActive = req.body.isActive;
   res.status(200).json(result)
 });
 
 router.post("/modify/:id", async function (req, res) {
-  // var ProjectCode = req.body.projectCode;
-  // var ProjectName = req.body.projectName;
-  // var ProjectDescription = req.body.projectDescr;
-  //var Sequence = req.body.Sequence;
-  // var Group = req.body.group;
-  // var isActive = req.body.isActive;
   let result = await projectController.update(req.params.id, req.body);
   res.status(200).json(result);
 
-  // res.status(200).json({
-  //   data: [
-  //     {
-  //       pj_ID: "62592d4a5c4b8a9d970b56aa",
-  //       projectCode: ProjectCode,
-  //       projectName: ProjectName,
-  //       projectDescr: ProjectDescription,
-  //       group: "",
-  //       isActive: "1",
-  //       createdAt: "2022-04-15T08:31:06.196Z",
-  //       updatedAt: "2022-05-19T06:42:06.239Z",
-  //     },
-  //   ],
-  // });
 });
 router.get("/detail/:id", async function (req, res) {
   let result = await projectController.findOne(req.params.id);
   res.status(200).json(result);
-
-  // res.status(200).json({
-  //   data: {
-  //     pj_ID: "62592d4a5c4b8a9d970b56aa",
-  //     projectCode: "test",
-  //     projectName: "test",
-  //     projectDescr: "test",
-  //     group: "",
-  //     isActive: "1",
-  //     createdAt: "2022-04-15T08:31:06.196Z",
-  //     updatedAt: "2022-05-19T06:42:06.239Z",
-  //   },
-  // });
 });
 router.get("/list", function (req, res) {
   res.status(200).json({

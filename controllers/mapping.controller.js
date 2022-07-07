@@ -13,6 +13,7 @@ function isJson(str) {
 }
 exports.create = (req, res) => {
     var data = req.body;
+    console.log("mapping-----------------------", data)
     //var check =isJson(data);
     // if(!check)
     // {
@@ -84,7 +85,7 @@ exports.findAll = (req, res) => {
     //var page =req.query.page;
     //var limit =eval(req.query.limit);
    //console.log(limit*page);
-   Mapping.find()
+   mapping.find()
     .then(Mapping => {
         res.status(200).send({data:Mapping})
     }).catch(err => {
@@ -161,7 +162,7 @@ exports.update = (req, res) => {
         });
     }
 
-    Mapping.findByIdAndUpdate(req.params.id,data, { new: true })
+    mapping.findByIdAndUpdate(req.params.id,data, { new: true })
     .then((Mapping) => {
         //console.log(req.params.id);
       if (!Mapping) {
@@ -184,7 +185,7 @@ exports.update = (req, res) => {
 
 // Delete a note with the specified noteId in the request
 exports.delete = (req, res) => {
-    Mapping.findByIdAndRemove(req.params.id,function(err){
+    mapping.findByIdAndRemove(req.params.id,function(err){
         if(err)
         {
 

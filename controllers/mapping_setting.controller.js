@@ -47,8 +47,8 @@ exports.create = (req, res) => {
 		inbound_format: data.inbound_format,
 		outbound_format: data.outbound_format,
 		mapping_data: data.mapping_data,
-		createdBy: config.userName,
-		updateBy: config.userName,
+		createdBy: data.createdBy || config.userName,
+		updateBy: data.updateBy || config.userName,
 	});
 	mappingSetting
 	.save()
@@ -137,7 +137,7 @@ exports.update = (req, res) => {
 	(data1.inbound_format = data.inbound_format),
 	(data1.outbound_format = data.outbound_format),
 	(data1.mapping_data = data.mapping_data),
-	(data1.updateBy = config.userName);
+	(data1.updateBy = data.updateBy || config.userName);
 
 	MappingSetting.findByIdAndUpdate(req.params.id, data1)
 	.then((MappingSetting) => {
