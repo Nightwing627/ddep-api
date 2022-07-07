@@ -574,7 +574,7 @@ This sample supports three different routing styles:<br>
             //  new go.Binding("source", "src")),
 			
 			//Column Type Icons
-			$(go.Picture, { source: "string.png", width: 20, height: 20 }, new go.Binding("source","objtype", v => "app-assets/images/mapping/"+v+".png"   )    ),
+			$(go.Picture, { source: "string.png", width: 20, height: 20 }, new go.Binding("source","objtype", v => "/app-assets/images/mapping/"+v+".png"   )    ),
             //Column name
 			$(go.TextBlock,new go.Binding("text","text")),
 			//Column type

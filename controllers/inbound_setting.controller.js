@@ -11,6 +11,7 @@ function isJson(str) {
   }
   return true;
 }
+
 exports.create = (req, res) => {
   var data = req.body;
   //var check =isJson(data);
@@ -194,13 +195,65 @@ exports.findAll = (req, res) => {
       });
     });
 };
+
 exports.countAll = (req, res) => {
   var query = InboundSetting.find();
   query.count(function (err, count) {
     res.status(200).send({ total: count });
   });
 };
-exports.searchUser = (req, res) => {};
+
+exports.searchItemByDdepInput = (req, res) => {
+  var ddepInput = req.body.ddepInput;
+  InboundSetting.find({api_ddep_api: new RegExp(ddepInput + '.*')})
+  .then((data) => {
+    if (!data) {
+      res.status(404).json({
+        code: "1",
+        MsgCode: "40001",
+        MsgType: "Invalid-Source",
+        MsgLang: "en",
+        ShortMsg: "Get Fail",
+        LongMsg: "Not found Project with ddep api input = " + ddepInput,
+        InternalMsg: "",
+        EnableAlert: "No",
+        DisplayMsgBy: "ShortMsg",
+        Data: [],
+      });
+    } else {
+      res.json({
+        code: "0",
+        MsgCode: "10001",
+        MsgType: "Get-Data-Success",
+        MsgLang: "en",
+        ShortMsg: "Get Successful",
+        LongMsg: "The Setting detail information was get successful",
+        InternalMsg: "",
+        EnableAlert: "No",
+        DisplayMsgBy: "ShortMsg",
+        msg: "Setting get successfully",
+        id: data._id,
+        Data: data,
+      });
+    }
+  })
+  .catch((err) => {
+    res.status(500).send({
+      code: "1",
+      MsgCode: "50001",
+      MsgType: "Exception-Error",
+      MsgLang: "en",
+      ShortMsg: "Get Fail",
+      LongMsg: err.message || "Some error occurred while getting the project.",
+      InternalMsg: "",
+      EnableAlert: "No",
+      DisplayMsgBy: "LongMsg",
+      message: "Error retrieving Project with ddep api input = " + ddepInput,
+      Data: [],
+    });
+  });
+};
+
 // Find a single note with a noteId
 exports.findOne = (req, res) => {
   const id = req.params.id;
@@ -266,8 +319,7 @@ exports.findOneByDdepInput = (req, res) => {
         MsgType: "Exception-Error",
         MsgLang: "en",
         ShortMsg: "Get Fail",
-        LongMsg:
-          err.message || "Some error occurred while getting the project.",
+        LongMsg: err.message || "Some error occurred while getting the project.",
         InternalMsg: "",
         EnableAlert: "No",
         DisplayMsgBy: "LongMsg",

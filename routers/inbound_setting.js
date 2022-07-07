@@ -12,6 +12,7 @@ router.post('/save', inbound_setting.create);
 router.put('/:id',inbound_setting.update);
 router.get('/editAPI/:id',inbound_setting.findOne);
 router.post('/editddepAPI', inbound_setting.findOneByDdepInput);
+router.post('/ddepInputAPI', inbound_setting.searchItemByDdepInput);
 // router.get('/add',function(req,res)+
 //     res.render('pages/add-projects');
 // })

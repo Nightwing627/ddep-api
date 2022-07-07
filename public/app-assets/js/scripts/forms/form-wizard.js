@@ -89,11 +89,14 @@ $(function () {
           console.log(value);
           console.log(element);
           console.log(regexp);
-          var re = new RegExp(regexp);
-          console.log(re.test(value));
-          return re.test(value);
+          console.log((value.match(/\//g) || []).length);
+          if ((value.match(/\//g) || []).length > regexp) {
+            return false;
+          } else {
+            return true;
+          }
         },
-        "test"
+        "DDEP API is only allow 10 '/'"
       );
     $form.each(function () {
       var $this = $(this);
@@ -164,7 +167,7 @@ $(function () {
             required: true,
             maxlength: 100,
             regex: /^(\/)[a-zA-Z0-9-_\/]+$/,
-            // pattern: /.*(?:\/.*){0,5}/,
+            pattern: 10,
             remote : {
               type : 'POST',
               url : "/inbound_setting/checkddepinputexist",
@@ -268,7 +271,7 @@ $(function () {
                     //alert("project saved successfully");
                     $('#project_id').val(response.id);
                     //console.log(response);
-                    numberedStepper.next();
+                    numberedStepper.to(2);
                   },
                   error:function(textStatus,error)
                   {
@@ -292,7 +295,7 @@ $(function () {
                       timer: 1200
                     });
                     //console.log(response);
-                    numberedStepper.next();
+                    numberedStepper.to(2);
                   },
                   error:function(textStatus,error)
                   {
@@ -393,14 +396,16 @@ $(function () {
                       //Thomas I changed Active evenet.
                       if(response.is_active=="Active")
                       {
+                        $('#is_active_inbound').removeClass('btn-secondary');
                         $('#is_active_inbound').addClass('btn-success');
-                        $('#is_active_inbound').data('value','Active');
+                        $('#is_active_inbound').attr('data-value','Active');
                         $('#is_active_inbound').html('Active');
                       }
                       else
                       {
-                        $('#is_active_inbound').addClass('btn-success');      //removeClass
-                        $('#is_active_inbound').data('value','Active');       //Inactive
+                        $('#is_active_inbound').removeClass('btn-success');      //removeClass
+                        $('#is_active_inbound').addClass('btn-secondary');
+                        $('#is_active_inbound').attr('data-value','Active');       //Inactive
                         $('#is_active_inbound').html('Active');               //Inactive
                       }
                     }
@@ -430,14 +435,16 @@ $(function () {
                        // $('#project_id').val(response.item_id);
                        if(response.is_active=="Active")
                       {
+                        $('#is_active_outbound').removeClass('btn-secondary');
                         $('#is_active_outbound').addClass('btn-success');
-                        $('#is_active_outbound').data('value','Active');
+                        $('#is_active_outbound').attr('data-value','Active');
                         $('#is_active_outbound').html('Active');
                       }
                       else
                       {
                         $('#is_active_outbound').removeClass('btn-success');
-                        $('#is_active_outbound').data('value','Inactive');
+                        $('#is_active_outbound').addClass('btn-secondary');
+                        $('#is_active_outbound').attr('data-value','Inactive');
                         $('#is_active_outbound').html('Inactive');
                       }
                     }
@@ -662,6 +669,21 @@ $(function () {
                       $('#InboundFormatData').val(response.inbound_format);
                       $('#OutboundFormatData').val(response.outbound_format);
                       $('#mySavedModel').val(response.mapping_data);
+                      if(response.is_active == "Active")
+                      {
+                        $('#is_active_mapping').removeClass('btn-secondary');
+                        $('#is_active_mapping').addClass('btn-success');
+                        $('#is_active_mapping').attr('data-value','Active');
+                        $('#is_active_mapping').html('Active');
+                      }
+                      else
+                      {
+                        $('#is_active_mapping').removeClass('btn-success');
+                        $('#is_active_mapping').addClass('btn-secondary');
+                        $('#is_active_mapping').attr('data-value','Inactive');
+                        $('#is_active_mapping').html('Inactive');
+                      }
+
 
                       var mapping_data = JSON.parse(response.mapping_data);
 
@@ -729,7 +751,7 @@ $(function () {
                     success:function(response){
                       console.log(response);
                       $("#inbound_setting_id").val(response.id);
-                      numberedStepper.next();
+                      numberedStepper.to(3);
                     },
                     error: function (textStatus, errorThrown) {
                      $e.preventDefault();
@@ -752,7 +774,7 @@ $(function () {
                         type: "success",
                         timer: 1200
                       });
-                      numberedStepper.next();
+                      numberedStepper.to(3);
                     },
                     error: function (textStatus, errorThrown) {
                       $('#collapseTwo').slideDown('slow');
@@ -792,7 +814,7 @@ $(function () {
                       //console.log(response);
                       //alert("Setting saved successfully");
                       $("#outbound_setting_id").val(response.id);
-                      numberedStepper.next();
+                      numberedStepper.to(4);
                     },
                     error:function(textStatus,errorThrown)
                     {
@@ -820,7 +842,7 @@ $(function () {
                         timer: 1200
                       });
                       $("#outbound_setting_id").val(outbound_setting_id);
-                      numberedStepper.next();
+                      numberedStepper.to(4);
                     },
                     error:function(textStatus,errorThrown)
                     { 
@@ -857,7 +879,7 @@ $(function () {
                     data:{project_id:project_id,inbound_format:inbound_format,outbound_format:outbound_format,mapping_data:mapping_data},
                     success:function(response){
                       $("#mapping_setting_id").val(response.id);
-                      numberedStepper.next();
+                      numberedStepper.to(5);
                     },
                     error: function (textStatus, errorThrown) {
                       $e.preventDefault();
@@ -879,7 +901,7 @@ $(function () {
                         type: "success",
                         timer: 1200
                       });
-                      numberedStepper.next();
+                      numberedStepper.to(5);
                     },
                     error: function (textStatus, errorThrown) {
                       $('#collapseTwo').slideDown('slow');
@@ -896,7 +918,6 @@ $(function () {
             }
             else if(index == 4)
             {
-               
               /* if($('input[name="duration_inbound_is_end_date"]:checked').val()=="no_end_date")
               {
                 console.log("NO>>>"+$('#duration_inbound_end_date').val());
@@ -904,7 +925,7 @@ $(function () {
               }
               else
               {
-                  console.log('yes >>>>' + $('#duration_inbound_end_date').val());
+                console.log('yes >>>>' + $('#duration_inbound_end_date').val());
                 $('#duration_inbound_end_date').removeClass('hidden');
               } */
 
@@ -913,70 +934,64 @@ $(function () {
               outbound_start_date = $('#duration_outbound_start_date').val();
               var d = new Date();
 
-                  var month = d.getMonth()+1;
-                  var day = d.getDate();
+              var month = d.getMonth()+1;
+              var day = d.getDate();
 
-                  var output = d.getFullYear() + '-' +
-                      (month<10 ? '0' : '') + month + '-' +
-                      (day<10 ? '0' : '') + day;
+              var output = d.getFullYear() + '-' +
+                (month<10 ? '0' : '') + month + '-' +
+              (day<10 ? '0' : '') + day;
 
-                if($('#duration_inbound_start_date').val()=="")
-                {
-                  
-                      $('#duration_inbound_start_date').val(output);
-                      document.getElementById("duration_inbound_start_date").setAttribute("min", output);
-                }
-                if($('#duration_outbound_start_date').val()=="")
-                {
-                  
-                      $('#duration_inbound_start_date').val(output);
-                      document.getElementById("duration_outbound_start_date").setAttribute("min", output);
-                }
-                var d = new Date(inbound_start_date);
-          
-                var month = d.getMonth()+1;
-                var day = d.getDate();
+              if($('#duration_inbound_start_date').val()=="")
+              {
+                $('#duration_inbound_start_date').val(output);
+                document.getElementById("duration_inbound_start_date").setAttribute("min", output);
+              }
+              if($('#duration_outbound_start_date').val()=="")
+              {
+                $('#duration_inbound_start_date').val(output);
+                document.getElementById("duration_outbound_start_date").setAttribute("min", output);
+              }
+              var d = new Date(inbound_start_date);
+        
+              var month = d.getMonth()+1;
+              var day = d.getDate();
 
-                var output = d.getFullYear() + '-' +
-                    (month<10 ? '0' : '') + month + '-' +
-                    (day<10 ? '0' : '') + day;
-                    $('#duration_inbound_end_date').val(output);
-                    document.getElementById("duration_inbound_end_date").setAttribute("min", output);
+              var output = d.getFullYear() + '-' +
+                (month<10 ? '0' : '') + month + '-' +
+              (day<10 ? '0' : '') + day;
+              $('#duration_inbound_end_date').val(output);
+              document.getElementById("duration_inbound_end_date").setAttribute("min", output);
 
-                    var d = new Date(outbound_start_date);
-          
-                    var month = d.getMonth()+1;
-                    var day = d.getDate();
-            
-                    var output = d.getFullYear() + '-' +
-                        (month<10 ? '0' : '') + month + '-' +
-                        (day<10 ? '0' : '') + day;
-                        $('#duration_outbound_end_date').val(output);
-                        document.getElementById("duration_outbound_end_date").setAttribute("min", output);
-                //document.getElementById("duration_inbound_start_date").setAttribute("min", output);
+              var d = new Date(outbound_start_date);
+    
+              var month = d.getMonth()+1;
+              var day = d.getDate();
+      
+              var output = d.getFullYear() + '-' +
+                (month<10 ? '0' : '') + month + '-' +
+              (day<10 ? '0' : '') + day;
+              $('#duration_outbound_end_date').val(output);
+              document.getElementById("duration_outbound_end_date").setAttribute("min", output);
+              //document.getElementById("duration_inbound_start_date").setAttribute("min", output);
               
               if($('input[name="duration_inbound_is_end_date"]:checked').val()=="no_end_date")
               {
-               
                 $('#duration_inbound_end_date').addClass('hidden');
               }
               else
               {
-                 
                 $('#duration_inbound_end_date').removeClass('hidden');
               }
 
               if($('input[name="duration_outbound_is_end_date"]:checked').val()=="no_end_date")
               {
-               
                 $('#duration_outbound_end_date').addClass('hidden');
               }
               else
               {
-                 
                 $('#duration_outbound_end_date').removeClass('hidden');
               }
-              numberedStepper.next();
+              // numberedStepper.next();
             } else {
               e.preventDefault();
             }
@@ -1040,8 +1055,6 @@ $(function () {
       $('#save_inbound').on('click',function(e){
         e.preventDefault();
         var isValid = $('#frm-save-inbound').valid();
-         var project_id = $('#project_id').val();
-         var inbound_setting_id = $('#inbound_setting_id').val();
          if(isValid)
          {
           var inbound_setting_id = $("#inbound_setting_id").val();
@@ -1132,7 +1145,7 @@ $(function () {
             if(is_active=="Inactive")
             {
               is_active = "Active";
-              $(this).data('value',"Active");
+              $(this).attr('data-value',"Active");
               $(this).removeClass('btn-secondary');
               $(this).addClass('btn-success');
               $(this).html('Active');
@@ -1140,7 +1153,7 @@ $(function () {
             else
             {
               is_active = "Inactive";
-              $(this).data('value',"Inactive");
+              $(this).attr('data-value',"Inactive");
               $(this).removeClass('btn-success');
               $(this).addClass('btn-secondary');
               $(this).html('Inactive')
@@ -1207,7 +1220,7 @@ $(function () {
          else
          {
             is_active = "Inactive";
-            $(this).data('value',"Inactive");
+            $(this).attr('data-value',"Inactive");
             $(this).removeClass('btn-success');
             $(this).addClass('btn-secondary');
             $(this).html('Inactive');
@@ -1227,7 +1240,7 @@ $(function () {
             if(is_active=="Inactive")
             {
               is_active = "Active";
-              $(this).data('value',"Active");
+              $(this).attr('data-value',"Active");
               $(this).removeClass('btn-secondary');
               $(this).addClass('btn-success');
               $(this).html('Active');
@@ -1235,7 +1248,7 @@ $(function () {
             else
             {
               is_active = "Inactive";
-              $(this).data('value',"Inactive");
+              $(this).attr('data-value',"Inactive");
               $(this).removeClass('btn-success');
               $(this).addClass('btn-secondary');
               $(this).html('Inactive')
@@ -1361,13 +1374,162 @@ $(function () {
               }
          }
       })
-    $(horizontalWizard)
+      $('#save_mapping').on('click', function(e){
+        e.preventDefault();
+        var isValid = $('#frm-save-mapping').valid();
+        if(isValid)
+        {
+          var project_id = $('#project_id').val();
+          var mapping_setting_id = $("#mapping_setting_id").val();
+          var inbound_format = $("#InboundFormatData").val();
+          var outbound_format = $('#OutboundFormatData').val();
+          var mapping_data = $('#mySavedModel2').val();
+          if(mapping_setting_id=="")
+          {
+            $.ajax({
+              url:'/project/item/mapping/save',  
+              method:'post',  
+              dataType:'json',
+              data:{project_id:project_id,inbound_format:inbound_format,outbound_format:outbound_format,mapping_data:mapping_data},
+              success:function(response){
+                $("#mapping_setting_id").val(response.id);
+                swal({
+                  title: "success!",
+                  text: "Mapping Setting Saved Successfully",
+                  type: "success",
+                  timer: 1200
+                });
+              },
+              error: function (textStatus, errorThrown) {
+                $e.preventDefault();
+              }
+            });
+          }
+          else
+          {
+            $.ajax({
+              url:'/project/item/mapping/update/'+mapping_setting_id,  
+              method:'put',  
+              dataType:'json',
+              data:{project_id:project_id,inbound_format:inbound_format,outbound_format:outbound_format,mapping_data:mapping_data},
+              success:function(response){
+                // sweetAlert("success", "Mapping Setting Saved Successfully", "success");
+                swal({
+                  title: "success!",
+                  text: "Mapping Setting Saved Successfully",
+                  type: "success",
+                  timer: 1200
+                });
+              },
+              error: function (textStatus, errorThrown) {
+                $('#collapseTwo').slideDown('slow');
+                $thisform.valid();
+                return false;
+              }
+            });
+          }
+        }
+      })
+      $('#is_active_mapping').on('click', function(e){
+        e.preventDefault();
+        var isValid = $('#frm-save-mapping').valid();
+        if(isValid)
+        {
+          var project_id = $('#project_id').val();
+          var mapping_setting_id = $("#mapping_setting_id").val();
+          var inbound_format = $("#InboundFormatData").val();
+          var outbound_format = $('#OutboundFormatData').val();
+          var mapping_data = $('#mySavedModel2').val();
+          var is_active = $('#is_active_mapping').data('value');
+          if(is_active=="Inactive")
+          {
+            is_active = "Active";
+          }
+          else
+          {
+            is_active = "Inactive";
+          }
+
+          if(mapping_setting_id=="")
+          {
+            $.ajax({
+              url:'/project/item/mapping/save',  
+              method:'post',  
+              dataType:'json',
+              data:{project_id:project_id,inbound_format:inbound_format,outbound_format:outbound_format,mapping_data:mapping_data,is_active:is_active},
+              success:function(response){
+                $("#mapping_setting_id").val(response.id);
+                if(is_active=="Inactive")
+                {
+                  $('#is_active_mapping').attr('data-value',"Inactive");
+                  $('#is_active_mapping').removeClass('btn-success');
+                  $('#is_active_mapping').addClass('btn-secondary');
+                  $('#is_active_mapping').html('Inactive');
+                }
+                else
+                {
+                  $('#is_active_mapping').attr('data-value',"Active");
+                  $('#is_active_mapping').removeClass('btn-secondary');
+                  $('#is_active_mapping').addClass('btn-success');
+                  $('#is_active_mapping').html('Active');
+                }
+                swal({
+                  title: "success!",
+                  text: "Mapping Setting Saved Successfully",
+                  type: "success",
+                  timer: 1200
+                });
+              },
+              error: function (textStatus, errorThrown) {
+                $e.preventDefault();
+              }
+            });
+          }
+          else
+          {
+            $.ajax({
+              url:'/project/item/mapping/update/'+mapping_setting_id,  
+              method:'put',  
+              dataType:'json',
+              data:{project_id:project_id,inbound_format:inbound_format,outbound_format:outbound_format,mapping_data:mapping_data,is_active:is_active},
+              success:function(response){
+                // sweetAlert("success", "Mapping Setting Saved Successfully", "success");
+                if(is_active=="Inactive")
+                {
+                  $('#is_active_mapping').attr('data-value',"Inactive");
+                  $('#is_active_mapping').removeClass('btn-success');
+                  $('#is_active_mapping').addClass('btn-secondary');
+                  $('#is_active_mapping').html('Inactive');
+                }
+                else
+                {
+                  $('#is_active_mapping').attr('data-value',"Active");
+                  $('#is_active_mapping').removeClass('btn-secondary');
+                  $('#is_active_mapping').addClass('btn-success');
+                  $('#is_active_mapping').html('Active');
+                }
+                swal({
+                  title: "success!",
+                  text: "Mapping Setting Saved Successfully",
+                  type: "success",
+                  timer: 1200
+                });
+              },
+              error: function (textStatus, errorThrown) {
+                $('#collapseTwo').slideDown('slow');
+                $thisform.valid();
+                return false;
+              }
+            });
+          }
+        }
+      })
+      $(horizontalWizard)
       .find('.btn-prev')
       .on('click', function () {
         numberedStepper.previous();
       });
-
-    $(horizontalWizard)
+      $(horizontalWizard)
       .find('.btn-submit')
       .on('click', function () {
         var isValid = $(this).parent().siblings('form').valid();
@@ -1608,7 +1770,7 @@ $(function () {
                 console.log(response);
                 sweetAlert("success", "Setting Saved Successfully", "success");
                 $("#schedule_setting_id").val(response.id);
-                //window.location.href = "/projects/project-list";
+                window.location.href = "/projects/project-list";
               },
               error:function(textStatus,errorThrown)
               {
@@ -1686,7 +1848,7 @@ $(function () {
           }
         }
       });
-      
+        
       $('input[name=s_configure_inbound]').on('change',function(){
         if($(this).val()=='click_by_user')
         {
@@ -1788,133 +1950,131 @@ $(function () {
           $('#the_section_outbound').slideDown('slow');
         }
       });
-     
-     
-     $('input[name="duration_inbound_is_end_date"]').on('change',function(){
-       console.log($(this).val());
+
+      $('input[name="duration_inbound_is_end_date"]').on('change',function(){
+        console.log($(this).val());
         if($(this).val()=='yes_end_date')
         {
           $('#duration_inbound_end_date').removeClass('hidden');
-           //var start_date = 
+          //var start_date = 
           var d = new Date(inbound_start_date);
           
-        var month = d.getMonth()+1;
-        var day = d.getDate();
+          var month = d.getMonth()+1;
+          var day = d.getDate();
 
-        var output = d.getFullYear() + '-' +
+          var output = d.getFullYear() + '-' +
             (month<10 ? '0' : '') + month + '-' +
-            (day<10 ? '0' : '') + day;
-            $('#duration_inbound_end_date').val(output);
-            document.getElementById("duration_inbound_end_date").setAttribute("min", output);
+          (day<10 ? '0' : '') + day;
+          $('#duration_inbound_end_date').val(output);
+          document.getElementById("duration_inbound_end_date").setAttribute("min", output);
           //$('#duration_inbound_end_date').val
         }
         else
         {
           $('#duration_inbound_end_date').addClass('hidden');
         }
-     });
-     $('input[name="duration_outbound_is_end_date"]').on('change',function(){
-      console.log($(this).val());
-       if($(this).val()=='yes_end_date')
-       {
-         $('#duration_outbound_end_date').removeClass('hidden');
-         var d = new Date(outbound_start_date);
+      });
+      $('input[name="duration_outbound_is_end_date"]').on('change',function(){
+        console.log($(this).val());
+        if($(this).val()=='yes_end_date')
+        {
+          $('#duration_outbound_end_date').removeClass('hidden');
+          var d = new Date(outbound_start_date);
           
-        var month = d.getMonth()+1;
-        var day = d.getDate();
+          var month = d.getMonth()+1;
+          var day = d.getDate();
 
-        var output = d.getFullYear() + '-' +
+          var output = d.getFullYear() + '-' +
             (month<10 ? '0' : '') + month + '-' +
-            (day<10 ? '0' : '') + day;
-            $('#duration_outbound_end_date').val(output);
-            document.getElementById("duration_outbound_end_date").setAttribute("min", output);
-       }
-       else
-       {
-         $('#duration_outbound_end_date').addClass('hidden');
-       }
-    });
-    $('input[name="daily_frequency_type_inbound"]').on('change',function(){
-      console.log($(this).val());
-       if($(this).val()=='Occurs Once At')
-       {
+          (day<10 ? '0' : '') + day;
+          $('#duration_outbound_end_date').val(output);
+          document.getElementById("duration_outbound_end_date").setAttribute("min", output);
+        }
+        else
+        {
+          $('#duration_outbound_end_date').addClass('hidden');
+        }
+      });
+      $('input[name="daily_frequency_type_inbound"]').on('change',function(){
+        console.log($(this).val());
+        if($(this).val()=='Occurs Once At')
+        {
           $("#recursEveryDiv").hide();
           $("#startingEndingDiv").hide();
           $("#daily_frequency_once_time_inbound").show();
-         //$('#duration_outbound_end_date').removeClass('hidden');
-       }
-       else
-       {
-         $("#daily_frequency_once_time_inbound").hide();
+          //$('#duration_outbound_end_date').removeClass('hidden');
+        }
+        else
+        {
+          $("#daily_frequency_once_time_inbound").hide();
           $("#recursEveryDiv").show();
           $("#startingEndingDiv").show();
-         //$('#duration_outbound_end_date').addClass('hidden');
-       }
-    });
+          //$('#duration_outbound_end_date').addClass('hidden');
+        }
+      });
     
-    $('#duration_inbound_start_date').on('change',function(){
-      //alert("change");
-      //alert(inbound_start_date);
-      if($('#duration_inbound_start_date').val()=="")
-      {
-        var d = new Date();
+      $('#duration_inbound_start_date').on('change',function(){
+        //alert("change");
+        //alert(inbound_start_date);
+        if($('#duration_inbound_start_date').val()=="")
+        {
+          var d = new Date();
 
+          var month = d.getMonth()+1;
+          var day = d.getDate();
+
+          var output = d.getFullYear() + '-' +
+            (month<10 ? '0' : '') + month + '-' +
+          (day<10 ? '0' : '') + day;
+          $('#duration_inbound_start_date').val(output);
+          document.getElementById("duration_inbound_start_date").setAttribute("min", output);
+        }
+        else
+        {
+          document.getElementById("duration_inbound_start_date").setAttribute("min", inbound_start_date);
+        }
+        var d = new Date(inbound_start_date);
+            
         var month = d.getMonth()+1;
         var day = d.getDate();
 
         var output = d.getFullYear() + '-' +
-            (month<10 ? '0' : '') + month + '-' +
-            (day<10 ? '0' : '') + day;
-            $('#duration_inbound_start_date').val(output);
-            document.getElementById("duration_inbound_start_date").setAttribute("min", output);
+          (month<10 ? '0' : '') + month + '-' +
+        (day<10 ? '0' : '') + day;
+        $('#duration_inbound_end_date').val(output);
+        document.getElementById("duration_inbound_end_date").setAttribute("min", output);
+      })
+      $('#duration_outbound_start_date').on('change',function(){
+        //alert("outbound change found")
+        if($('#duration_outbound_start_date').val()=="")
+        {
+          var d = new Date();
 
-      }
-      else
-      {
-        document.getElementById("duration_inbound_start_date").setAttribute("min", inbound_start_date);
-      }
-      var d = new Date(inbound_start_date);
-          
+          var month = d.getMonth()+1;
+          var day = d.getDate();
+
+          var output = d.getFullYear() + '-' +
+            (month<10 ? '0' : '') + month + '-' +
+          (day<10 ? '0' : '') + day;
+          $('#duration_outbound_start_date').val(output);
+          document.getElementById("duration_outbound_start_date").setAttribute("min", output);
+        }
+        else
+        {
+          document.getElementById("duration_outbound_start_date").setAttribute("min", outbound_start_date);
+        }
+        var d = new Date(outbound_start_date);
+            
         var month = d.getMonth()+1;
         var day = d.getDate();
 
         var output = d.getFullYear() + '-' +
-            (month<10 ? '0' : '') + month + '-' +
-            (day<10 ? '0' : '') + day;
-            $('#duration_inbound_end_date').val(output);
-            document.getElementById("duration_inbound_end_date").setAttribute("min", output);
-    })
-    $('#duration_outbound_start_date').on('change',function(){
-      //alert("outbound change found")
-      if($('#duration_outbound_start_date').val()=="")
-      {
-        var d = new Date();
-
-                  var month = d.getMonth()+1;
-                  var day = d.getDate();
-
-                  var output = d.getFullYear() + '-' +
-                      (month<10 ? '0' : '') + month + '-' +
-                      (day<10 ? '0' : '') + day;
-            $('#duration_outbound_start_date').val(output);
-            document.getElementById("duration_outbound_start_date").setAttribute("min", output);
-      }
-      else
-      {
-        document.getElementById("duration_outbound_start_date").setAttribute("min", outbound_start_date);
-      }
-      var d = new Date(outbound_start_date);
-          
-        var month = d.getMonth()+1;
-        var day = d.getDate();
-
-        var output = d.getFullYear() + '-' +
-            (month<10 ? '0' : '') + month + '-' +
-            (day<10 ? '0' : '') + day;
-            $('#duration_outbound_end_date').val(output);
-            document.getElementById("duration_outbound_end_date").setAttribute("min", output);
-    })
-    //outbound div
+          (month<10 ? '0' : '') + month + '-' +
+        (day<10 ? '0' : '') + day;
+        $('#duration_outbound_end_date').val(output);
+        document.getElementById("duration_outbound_end_date").setAttribute("min", output);
+      })
+      //outbound div
 
     $('input[name="daily_frequency_type_outbound"]').on('change',function(){
       console.log($(this).val());
@@ -2017,7 +2177,6 @@ $(function () {
         });
     }
   });
-  $('#')
   // Vertical Wizard
   // --------------------------------------------------------------------
   if (typeof verticalWizard !== undefined && verticalWizard !== null) {
@@ -2089,7 +2248,6 @@ $(function () {
         alert('Submitted..!!');
       });
   }
-  
 });
 
 $('body').on('change', 'input:radio[name=sync_type]', function() {
@@ -2115,5 +2273,4 @@ $('body').on('change', 'input:radio[name=api_type]', function() {
     $('#api_ddep_api_input').show();
     $('#api_user_api_input').hide();
   }
-  
 });
