@@ -35,9 +35,9 @@ spec:
           value: "mongodb+srv://ddep_p2_admin:R0AnhfXVb4IgtQTV@ddep_p2.j0gx3.mongodb.net/ddep_p2"
         - name: SITE_URL
           value: "http://61.244.27.62/"
-		- name: branch
+        - name: branch
           value: <BRANCH_NAME>
-	  volumes:
+      volumes:
       - name: ddep_p2-output
         nfs:
           path: /data/ddep_p2
@@ -56,7 +56,7 @@ spec:
    - name: ddep-http
      port: 80
      targetPort: 80
-	 nodePort: 80
+     nodePort: 80
    - name: ddep-https
      port: 443
      targetPort: 443
