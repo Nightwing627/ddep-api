@@ -12,6 +12,14 @@ router.use(express.json());
 //app.use(cookieParser());
 router.use(express.static(path.join(__dirname, "public")));
 router.use(express.static("public"));
+
+const Item = require("../models/project.model.js");
+const ProjectModel = require("../models/item.model.js");
+const InboundSetting = require("../models/inbound_setting.model.js");
+const OutboundSetting = require("../models/outbound_setting.model.js");
+const ScheduleSetting = require("../models/schedule_setting.model.js");
+const MappingSetting = require("../models/mapping.model.js")
+
 const projects = require("../controllers/project.controller.js");
 const inbound_setting = require("../controllers/inbound_setting.controller.js");
 const outbound_setting = require("../controllers/outbound_setting.controller.js");
@@ -220,51 +228,115 @@ router.post("/item/modify", async (req, res) => {
 
 router.get("/item/detail/:id", async function (req, res) {
   let id = req.params.id;
-  let items;
-  try {
-    items = await itemController.fulllistItem();
-  } catch (err) {
-    res.status(200).json({data: "Database connecting..."})
-  }
-  let itemData = items.filter((item) => {
-    return item._id == id;
-  });
-
-  let projectData;
-  try {
-    projectData = await projectController.findOne(itemData[0].ProjectId);
-  } catch (err) {
-    res.status(200).json({data: "Database connecting..."})
-  }
-  let inbound = itemData[0].inbound_setting;
-  let outbound = itemData[0].outbound_setting;
-  let schedule = itemData[0].schedule_setting;
-  let mapping = itemData[0].mapping;
-
-  inbound = { ...inbound, pj_id: projectData._id };
-  outbound = { ...outbound, pj_id: projectData._id };
-  schedule = { ...schedule, pj_id: projectData._id };
-  mapping = { ...mapping, pj_id: projectData._id }
+  let data = [];
+  await Item.findOne({ _id: id})
+    .then((res) => {
+      data.push(res);
+    })
+    .catch((err) => {
+      return res.status(200).json({err: err})
+    });
+  await InboundSetting.findOne({item_id:id})
+    .then((res) => {
+      data.push(res);
+    })
+    .catch((err) => {
+      return res.status(200).json({err: err})
+    });
+  await OutboundSetting.findOne({item_id:id})
+    .then((res) => {
+      data.push(res);
+    })
+    .catch((err) => {
+      return res.status(200).json({err: err})
+    });
+  await ScheduleSetting.findOne({item_id:id})
+    .then((res) => {
+      data.push(res);
+    })
+    .catch((err) => {
+      return res.status(200).json({err: err})
+    });
+  await MappingSetting.findOne({item_id:id})
+    .then((res) => {
+      data.push(res);
+    })
+    .catch((err) => {
+      return res.status(200).json({err: err})
+    });
+  await ProjectModel.findOne({item_id:id})
+    .then((res) => {
+      data.push(res);
+    })
+    .catch((err) => {
+      return res.status(200).json({err: err})
+    });
 
   res.status(200).json({
     data: {
-      item_ID: itemData[0]._id,
-      pj_ID: itemData[0].ProjectId,
-      projectCode: projectData.ProjectCode,
-      projectName: projectData.ProjectName,
-      companyName: projectData.CompanyName,
-      isActive: projectData.isActive,
-      createdAt: projectData.createdAt,
-      updatedAt: projectData.updatedAt,
-      __v: itemData[0].__v,
-      inbound_setting: inbound,
-      outbound_setting: outbound,
-      schedule_setting: schedule,
-      mapping: mapping,
+      item_ID: data[0]._id,
+      pj_ID: data[0].ProjectId,
+      projectCode: data[5].ProjectCode,
+      projectName: data[5].ProjectName,
+      companyName: data[5].CompanyName,
+      isActive: data[5].isActive,
+      createdAt: data[5].createdAt,
+      updatedAt: data[5].updatedAt,
+      __v: data[0].__v,
+      inbound_setting: data[1],
+      outbound_setting: data[2],
+      schedule_setting: data[3],
+      mapping: data[4],
       inbound_history: [],
       outbound_history: [],
     },
   });
+  
+  // let items;
+  // try {
+  //   items = await itemController.fulllistItem();
+  // } catch (err) {
+  //   res.status(200).json({data: "Database connecting..."})
+  // }
+  // let itemData = items.filter((item) => {
+  //   return item._id == id;
+  // });
+
+  // let projectData;
+  // try {
+  //   projectData = await projectController.findOne(itemData[0].ProjectId);
+  // } catch (err) {
+  //   res.status(200).json({data: "Database connecting..."})
+  // }
+  // let inbound = itemData[0].inbound_setting;
+  // let outbound = itemData[0].outbound_setting;
+  // let schedule = itemData[0].schedule_setting;
+  // let mapping = itemData[0].mapping;
+
+  // inbound = { ...inbound, pj_id: projectData._id };
+  // outbound = { ...outbound, pj_id: projectData._id };
+  // schedule = { ...schedule, pj_id: projectData._id };
+  // mapping = { ...mapping, pj_id: projectData._id }
+
+  // res.status(200).json({
+  //   data: {
+  //     item_ID: itemData[0]._id,
+  //     pj_ID: itemData[0].ProjectId,
+  //     projectCode: projectData.ProjectCode,
+  //     projectName: projectData.ProjectName,
+  //     companyName: projectData.CompanyName,
+  //     isActive: projectData.isActive,
+  //     createdAt: projectData.createdAt,
+  //     updatedAt: projectData.updatedAt,
+  //     __v: itemData[0].__v,
+  //     inbound_setting: inbound,
+  //     outbound_setting: outbound,
+  //     schedule_setting: schedule,
+  //     mapping: mapping,
+  //     inbound_history: [],
+  //     outbound_history: [],
+  //   },
+  // });
   
 });
 
