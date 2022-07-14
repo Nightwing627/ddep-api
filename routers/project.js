@@ -220,12 +220,22 @@ router.post("/item/modify", async (req, res) => {
 
 router.get("/item/detail/:id", async function (req, res) {
   let id = req.params.id;
-  let items = await itemController.fulllistItem();
+  let items;
+  try {
+    items = await itemController.fulllistItem();
+  } catch (err) {
+    res.status(200).json({data: "Database connecting..."})
+  }
   let itemData = items.filter((item) => {
     return item._id == id;
   });
 
-  let projectData = await projectController.findOne(itemData[0].ProjectId);
+  let projectData;
+  try {
+    projectData = await projectController.findOne(itemData[0].ProjectId);
+  } catch (err) {
+    res.status(200).json({data: "Database connecting..."})
+  }
   let inbound = itemData[0].inbound_setting;
   let outbound = itemData[0].outbound_setting;
   let schedule = itemData[0].schedule_setting;
@@ -234,6 +244,7 @@ router.get("/item/detail/:id", async function (req, res) {
   inbound = { ...inbound, pj_id: projectData._id };
   outbound = { ...outbound, pj_id: projectData._id };
   schedule = { ...schedule, pj_id: projectData._id };
+  mapping = { ...mapping, pj_id: projectData._id }
 
   res.status(200).json({
     data: {
@@ -254,6 +265,7 @@ router.get("/item/detail/:id", async function (req, res) {
       outbound_history: [],
     },
   });
+  
 });
 
 router.get("/item/fulllist", projects.fullProject);
