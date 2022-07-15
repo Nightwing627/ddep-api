@@ -283,6 +283,7 @@ router.get("/item/detail/:id", async function (req, res) {
       createdAt: data[5].createdAt,
       updatedAt: data[5].updatedAt,
       __v: data[0].__v,
+      basic: data[0],
       inbound_setting: data[1],
       outbound_setting: data[2],
       schedule_setting: data[3],
