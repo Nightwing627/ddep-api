@@ -343,47 +343,129 @@ router.get("/item/detail/:id", async function (req, res) {
 
 router.get("/item/fulllist", projects.fullProject);
 router.get("/fulllist", async function (req, res) {
-  let items = await itemController.fulllistItem();
-  let projects = await projectController.fulllistProject();
-  let result = projects.map((project, index) => {
-    let itemArray = items
-      .filter((item, index) => {
-        return project._id == item.ProjectId;
-      })
-      .map((item, index) => {
-        try {
-          let data = {
-            item_ID: item._id,
-            itemCode: item.ItemCode,
-            itemName: item.ItemName,
-            itemDescr: item.CompanyName,
-            isActive: item.isActive,
-            version: item.__v,
-            inboundType: item.inbound_setting.api_type,
-            inboundFormat: item.inbound_setting.inbound_format,
-            outboundFormat: item.outbound_setting.outbound_format,
-            scheduleDescr: item.schedule_setting.occurs_inbound,
-          };
-          return data;
-        } catch {}
+  let data = [];
+  await Item.find()
+    .then((res) => {
+      data.push(res);
+    })
+    .catch((err) => {
+      return res.status(200).json({err: err})
+    });
+  await InboundSetting.find()
+    .then((res) => {
+      data.push(res);
+    })
+    .catch((err) => {
+      return res.status(200).json({err: err})
+    });
+  await OutboundSetting.find()
+    .then((res) => {
+      data.push(res);
+    })
+    .catch((err) => {
+      return res.status(200).json({err: err})
+    });
+  await ScheduleSetting.find()
+    .then((res) => {
+      data.push(res);
+    })
+    .catch((err) => {
+      return res.status(200).json({err: err})
+    });
+  await MappingSetting.find()
+    .then((res) => {
+      data.push(res);
+    })
+    .catch((err) => {
+      return res.status(200).json({err: err})
+    });
+  await ProjectModel.find()
+    .then((res) => {
+      data.push(res);
+    })
+    .catch((err) => {
+      return res.status(200).json({err: err})
+    });
+
+  let result = [];
+  await data[5].map(async project => {
+    let items = await data[0]
+      .filter(item => item.ProjectId == project._id)
+      .map((i) => {
+        let inbound = data[1].filter(d => d.item_id.toString() == i._id.toString())
+        let outbound = data[2].filter(d => d.item_id.toString() == i._id.toString())
+        let schedule = data[3].filter(d => d.item_id.toString() == i._id.toString())
+        return {
+          item_ID: i._id,
+          itemCode: i.ItemCode,
+          itemName: i.ItemName,
+          itemDescr: i.CompanyName,
+          isActive: i.isActive,
+          version: i.__v,
+          inboundType: inbound[0].api_ddep_api,
+          inboundFormat: inbound[0].inbound_format,
+          outboundFormat: outbound[0].outbound_format,
+          scheduleDescr: schedule[0].occurs_inbound
+        }
       });
 
-    return {
+    result.push({
       pj_ID: project._id,
       projectCode: project.ProjectCode,
       projectName: project.ProjectName,
       projectDescr: project.CompanyName,
-      group: "",
+      group: project.group,
       isActive: project.isActive,
       createdAt: project.createdAt,
       updatedAt: project.updatedAt,
-      items: itemArray,
-    };
-  });
+      items: items
+    })
+    return;
+  })
 
-  res.status(200).json({
-    data: result,
-  });
+  res.send({data: result})
+
+  // let items = await itemController.fulllistItem();
+  // let projects = await projectController.fulllistProject();
+  // let result = projects.map((project, index) => {
+  //   let itemArray = items
+  //     .filter((item, index) => {
+  //       return project._id == item.ProjectId;
+  //     })
+  //     .map((item, index) => {
+  //       try {
+  //         let data = {
+  //           item_ID: item._id,
+  //           itemCode: item.ItemCode,
+  //           itemName: item.ItemName,
+  //           itemDescr: item.CompanyName,
+  //           isActive: item.isActive,
+  //           version: item.__v,
+  //           inboundType: item.inbound_setting.api_type,
+  //           inboundFormat: item.inbound_setting.inbound_format,
+  //           outboundFormat: item.outbound_setting.outbound_format,
+  //           scheduleDescr: item.schedule_setting.occurs_inbound,
+  //         };
+  //         return data;
+  //       } catch {}
+  //     });
+
+  //   return {
+  //     pj_ID: project._id,
+  //     projectCode: project.ProjectCode,
+  //     projectName: project.ProjectName,
+  //     projectDescr: project.CompanyName,
+  //     group: "",
+  //     isActive: project.isActive,
+  //     createdAt: project.createdAt,
+  //     updatedAt: project.updatedAt,
+  //     items: itemArray,
+  //   };
+  // });
+
+  // res.status(200).json({
+  //   data: result,
+  // });
 });
 
 router.post("/add", async function (req, res) {
