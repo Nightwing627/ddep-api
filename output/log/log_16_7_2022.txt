@@ -1,0 +1,7 @@
+=====================Log of DateSat Jul 16 2022 12:48:00 GMT+0300 (Eastern European Summer Time)=================
+[Sat Jul 16 2022 12:48:00 GMT+0300 (Eastern European Summer Time)] - [/routers/scheduler_job.js] > [/scheduling] > [not defined] > scanning total project >2
+[Sat Jul 16 2022 12:48:00 GMT+0300 (Eastern European Summer Time)] - [/routers/scheduler_job.js] > [/scheduling] > [not defined] > [Project Id] > undefined > [current time not match with schedule time outbound]
+[Sat Jul 16 2022 12:48:00 GMT+0300 (Eastern European Summer Time)] - [/routers/scheduler_job.js] > [/scheduling] > [not defined] > [Project Id] > undefined > [current time not match with schedule time outbound]
+[Sat Jul 16 2022 12:49:00 GMT+0300 (Eastern European Summer Time)] - [/routers/scheduler_job.js] > [/scheduling] > [not defined] > scanning total project >2
+[Sat Jul 16 2022 12:49:00 GMT+0300 (Eastern European Summer Time)] - [/routers/scheduler_job.js] > [/scheduling] > [not defined] > [Project Id] > undefined > [current time not match with schedule time outbound]
+[Sat Jul 16 2022 12:49:00 GMT+0300 (Eastern European Summer Time)] - [/routers/scheduler_job.js] > [/scheduling] > [not defined] > [Project Id] > undefined > [current time not match with schedule time outbound]

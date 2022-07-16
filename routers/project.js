@@ -389,13 +389,14 @@ router.get("/fulllist", async function (req, res) {
 
   let result = [];
   await data[5].map(async project => {
-    let items = await data[0]
-      .filter(item => item.ProjectId == project._id)
+    let items = [];
+    await data[0]
+      .filter(item => item.ProjectId.toString() == project._id.toString())
       .map((i) => {
         let inbound = data[1].filter(d => d.item_id.toString() == i._id.toString())
         let outbound = data[2].filter(d => d.item_id.toString() == i._id.toString())
         let schedule = data[3].filter(d => d.item_id.toString() == i._id.toString())
-        return {
+        items.push({
           item_ID: i._id,
           itemCode: i.ItemCode,
           itemName: i.ItemName,
@@ -406,7 +407,8 @@ router.get("/fulllist", async function (req, res) {
           inboundFormat: inbound[0].inbound_format,
           outboundFormat: outbound[0].outbound_format,
           scheduleDescr: schedule[0].occurs_inbound
-        }
+        })
+        return
       });
 
     result.push({
