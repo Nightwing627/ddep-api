@@ -1,0 +1,65 @@
+
+apiVersion: apps/v1
+kind: Deployment #对象类型
+metadata:
+  name: ddep-p2-deployment
+  namespace: uat
+  labels:
+    app: ddep-p2 #标注
+spec:
+  replicas: 1 #运行容器的副本数，修改这里可以快速修改分布式节点数量
+  selector:
+    matchLabels:
+      app: ddep-p2
+  template:
+    metadata:
+      labels:
+        app: ddep-p2
+    spec:
+      imagePullSecrets:
+      - name: artifactory
+      containers: #docker容器的配置
+      - name: ddep-p2
+        image: artifactory.a4apple.cn/dockerimages/ddep_p2:<BUILD_TAG>
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80 #容器对外开放http端口
+        ports:
+        - containerPort: 443 #容器对外开放https端口
+        volumeMounts:
+        - mountPath: /app/output
+          name: ddep-p2-output
+        env:
+        - name: PORT
+          value: "80"
+        - name: DBCONFIG_SERVER_1
+          value: "mongodb+srv://DDEP_admin:R0AnhfXVb4IgtQTV@ddep.j0gx3.mongodb.net/ddep_p2"
+        - name: SITE_URL
+          value: "http://61.244.27.62/30000"
+        - name: branch
+          value: <BRANCH_NAME>
+      volumes:
+      - name: ddep-p2-output
+        nfs:
+          path: /data/ddep_p2
+          server: 172.16.0.62
+          readOnly: false
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ddep-p2-service
+  namespace: uat
+spec:
+  type: LoadBalancer
+  ports:
+   - name: ddep-http
+     port: 80
+     targetPort: 80
+     nodePort: 30000
+   - name: ddep-https
+     port: 443
+     targetPort: 443
+  selector:
+    app: ddep-p2

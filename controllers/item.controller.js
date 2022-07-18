@@ -41,6 +41,14 @@ const fulllistItem = async () => {
         },
       },
       {
+        $lookup: {
+          from: "mappings", // from collection name
+          localField: "_id",
+          foreignField: "item_id",
+          as: "mapping",
+        },
+      },
+      {
         $addFields: {
           inbound_history: { $slice: ["$inbound_history", -1] },
         },
@@ -73,6 +81,12 @@ const fulllistItem = async () => {
       {
         $unwind: {
           path: "$schedule_setting",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $unwind: {
+          path: "$mapping",
           preserveNullAndEmptyArrays: true,
         },
       },
