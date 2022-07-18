@@ -1,0 +1,11 @@
+=====================Log of DateWed Jul 06 2022 16:51:00 GMT+0530 (India Standard Time)=================
+[Wed Jul 06 2022 16:51:00 GMT+0530 (India Standard Time)] - [/routers/scheduler_job.js] > [/scheduling] > [not defined] > [Project Id] > undefined > [current Time Not match with Schedule inbound setting]
+[Wed Jul 06 2022 16:51:00 GMT+0530 (India Standard Time)] - [/routers/scheduler_job.js] > [/scheduling] > [not defined] > [Project Id] > undefined > [current time not match with schedule time outbound]
+[Wed Jul 06 2022 16:51:00 GMT+0530 (India Standard Time)] - [/routers/scheduler_job.js] > [/scheduling] > [not defined] > scanning total project >11
+[Wed Jul 06 2022 16:51:00 GMT+0530 (India Standard Time)] - [/routers/scheduler_job.js] > [/scheduling] > [not defined] > [Project Id] > undefined > [current time not match with schedule time outbound]
+[Wed Jul 06 2022 16:51:00 GMT+0530 (India Standard Time)] - [/routers/scheduler_job.js] > [/scheduling] > [not defined] > [Project Id] > undefined > [current time not match with schedule time outbound]
+[Wed Jul 06 2022 16:54:00 GMT+0530 (India Standard Time)] - [/routers/scheduler_job.js] > [/scheduling] > [not defined] > [Project Id] > undefined > [current Time Not match with Schedule inbound setting]
+[Wed Jul 06 2022 16:54:00 GMT+0530 (India Standard Time)] - [/routers/scheduler_job.js] > [/scheduling] > [not defined] > scanning total project >11
+[Wed Jul 06 2022 16:54:00 GMT+0530 (India Standard Time)] - [/routers/scheduler_job.js] > [/scheduling] > [not defined] > [Project Id] > undefined > [current time not match with schedule time outbound]
+[Wed Jul 06 2022 16:54:00 GMT+0530 (India Standard Time)] - [/routers/scheduler_job.js] > [/scheduling] > [not defined] > [Project Id] > undefined > [current time not match with schedule time outbound]
+[Wed Jul 06 2022 16:54:00 GMT+0530 (India Standard Time)] - [/routers/scheduler_job.js] > [/scheduling] > [not defined] > [Project Id] > undefined > [current time not match with schedule time outbound]
