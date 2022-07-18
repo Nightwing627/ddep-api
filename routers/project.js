@@ -391,13 +391,17 @@ router.get("/fulllist", async function (req, res) {
   await data[5].map(async project => {
     let items = [];
     dataItems = data[0].filter(item => item.ProjectId != undefined && item.ProjectId != "")
-    console.log(dataItems)
     await dataItems
       .filter(item => item.ProjectId.toString() == project._id.toString())
       .map((i) => {
         let inbound = data[1].filter(d => d.item_id.toString() == i._id.toString())
         let outbound = data[2].filter(d => d.item_id.toString() == i._id.toString())
         let schedule = data[3].filter(d => d.item_id.toString() == i._id.toString())
+        console.log("others-------------", inbound, outbound, schedule)
+        let inboundType = inbound.length == 0 ? "" : inbound[0].api_ddep_api;
+        let inboundFormat = inbound.length == 0 ? "" : inbound[0].inbound_format;
+        let outboundFormat = outbound.length == 0 ? "" : outbound[0].outbound_format;
+        let scheduleDescr = schedule.length == 0 ? "" : schedule[0].occurs_inbound;
         items.push({
           item_ID: i._id,
           itemCode: i.ItemCode,
@@ -405,10 +409,10 @@ router.get("/fulllist", async function (req, res) {
           itemDescr: i.CompanyName,
           isActive: i.isActive,
           version: i.__v,
-          inboundType: inbound[0].api_ddep_api,
-          inboundFormat: inbound[0].inbound_format,
-          outboundFormat: outbound[0].outbound_format,
-          scheduleDescr: schedule[0].occurs_inbound
+          inboundType: inboundType,
+          inboundFormat: inboundFormat,
+          outboundFormat: outboundFormat,
+          scheduleDescr: scheduleDescr
         })
         return
       });
