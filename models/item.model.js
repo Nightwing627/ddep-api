@@ -6,7 +6,8 @@ const ProjectSchema = mongoose.Schema({
     //projectDescr:String,
     group:String,
 
-    CompanyName: String, //this is old value
+    ProjectDescr: String, //this is old value
+    Sequence: String,
     isActive:String
     
 },{

@@ -37,14 +37,15 @@ const create = async (data) => {
     const project = new Project({
         ProjectCode: data.projectCode,
         ProjectName: data.projectName,
-        CompanyName: data.projectDescr, //this is old value
+        ProjectDescr: data.projectDescr, //this is old value
+        Sequence: data.sequence,
         isActive: data.isActive,
         group: data.group
       });
       await project
         .save()
         .then((data) => {
-          result = { pj_ID: data._id, projectCode: data.ProjectCode, projectName: data.ProjectName, projectDescr: data.CompanyName, group: data.group,
+          result = { pj_ID: data._id, projectCode: data.ProjectCode, projectName: data.ProjectName, projectDescr: data.projectDescr, sequence: data.sequence, group: data.group,
             isActive: data.isActive, createdAt: data.createdAt, updatedAt: data.updatedAt, msg: "Project Saved Successfully" };
         })
         .catch((err) => {
@@ -60,7 +61,8 @@ const update = async (id, data) => {
     const project = {
         ProjectCode: data.projectCode,
         ProjectName: data.projectName,
-        CompanyName: data.projectDescr, //this is old value
+        ProjectDescr: data.projectDescr, //this is old value
+        Sequence: data.sequence,
         isActive: data.isActive,
         group: data.group
       };
