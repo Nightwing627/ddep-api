@@ -27,6 +27,7 @@ var fs = require('fs');
 var stringConstructor = "test".constructor;
 var arrayConstructor = [].constructor;
 var objectConstructor = ({}).constructor;
+var inboundFormatDataArray = [];
 
 router.get('/', function(req, res, next) {
 	res.redirect('/projects/project-list');
@@ -116,157 +117,17 @@ function _ddep_api_function(req, res) {
 	for (var i = 0; i < ddepInputArr.length; i++) {
 		ddepInputPath += '/'+ddepInputArr[i];
 	}
-
-	var inpromise = new Promise(function(resolve, reject) {
-		var inbound_options = {
-			'method': 'POST',
-			'url': inbound_url,
-			'headers': {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({'ddepInput': ddepInput+ddepInputPath}),
-		}
-		request(inbound_options, function (error, response, body) {
-			if(error) {
-				return res.json({
-					code: "1",
-					MsgCode: "50001",
-					MsgType: "Invalid-Source",
-					MsgLang: "en",
-					ShortMsg: "Fail",
-					LongMsg: error.message || "Some error occurred while getting the inbound setting.",
-					InternalMsg: "",
-					EnableAlert: "No",
-					DisplayMsgBy: "LongMsg",
-					Data: []
-				});
+	try {
+		var inpromise = new Promise(function(resolve, reject) {
+			var inbound_options = {
+				'method': 'POST',
+				'url': inbound_url,
+				'headers': {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({'ddepInput': ddepInput+ddepInputPath}),
 			}
-			var inbound_setting = JSON.parse(response.body);
-			var project_id = '';
-			var inbound_format = '';
-			var outboundLastPath = '';
-			if (inbound_setting.code != 0) {
-				inbound_url = config.domain + "/inbound_setting/ddepInputAPI/";
-				inbound_options = {
-					'method': 'POST',
-					'url': inbound_url,
-					'headers': {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({'ddepInput': ddepInput}),
-				}
-				request(inbound_options, function (error, response, body) {
-					if(error) {
-						return res.json({
-							code: "1",
-							MsgCode: "50001",
-							MsgType: "Invalid-Source",
-							MsgLang: "en",
-							ShortMsg: "Fail",
-							LongMsg: error.message || "Some error occurred while getting the inbound setting.",
-							InternalMsg: "",
-							EnableAlert: "No",
-							DisplayMsgBy: "LongMsg",
-							Data: []
-						});
-					}
-					inbound_setting = JSON.parse(response.body);
-					if (inbound_setting.code == 0) {
-						var inbound_setting_data = inbound_setting.Data;
-						var itemsArr = [];
-						var inboundFormatArr = [];
-						for (var i = 0; i < inbound_setting_data.length; i++) {
-							itemsArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].item_id;
-							inboundFormatArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].inbound_format;
-						}
-						var newddepInputPath = ddepInput;
-						var lastArrKey = 0;
-						var ddepPath = '';
-						for (var i = 0; i < ddepInputArr.length - 1; i++) {
-							newddepInputPath += '/'+ddepInputArr[i];
-							if (itemsArr[newddepInputPath] != undefined) {
-								project_id = itemsArr[newddepInputPath];
-								inbound_format = inboundFormatArr[newddepInputPath];
-								lastArrKey = i;
-								ddepPath = newddepInputPath;
-							}
-						}
-						for (var i = lastArrKey + 1; i < ddepInputArr.length; i++) {
-							outboundLastPath += '/'+ddepInputArr[i];
-						}
-						resolve({
-							code: "0",
-							MsgCode: "10001",
-							MsgType: "Get-Data-Success",
-							MsgLang: "en",
-							ShortMsg: "Get Success",
-							LongMsg: "Found Project with ddep api input",
-							InternalMsg: "",
-							EnableAlert: "No",
-							DisplayMsgBy: "ShortMsg",
-							project_id : project_id,
-							inbound_format : inbound_format,
-							outboundLastPath : outboundLastPath
-						});
-					} else {
-						return res.json({
-							code: "1",
-							MsgCode: "40001",
-							MsgType: "Invalid-Source",
-							MsgLang: "en",
-							ShortMsg: "Get Fail",
-							LongMsg: "Not found Project with ddep api input",
-							InternalMsg: "",
-							EnableAlert: "No",
-							DisplayMsgBy: "ShortMsg",
-							Data: [],
-						});
-					}
-				});
-			} else {
-				inbound_format = inbound_setting.Data.inbound_format;
-				project_id = inbound_setting.Data.item_id;
-				resolve({
-					code: "0",
-					MsgCode: "10001",
-					MsgType: "Get-Data-Success",
-					MsgLang: "en",
-					ShortMsg: "Get Success",
-					LongMsg: "Found Project with ddep api input",
-					InternalMsg: "",
-					EnableAlert: "No",
-					DisplayMsgBy: "ShortMsg",
-					project_id : project_id,
-					inbound_format : inbound_format,
-					outboundLastPath : outboundLastPath
-				});
-			}
-		});
-	});
-	inpromise.then(function(result){
-		if (result.code == 1) {
-			return res.json({
-				code: "1",
-				MsgCode: "40001",
-				MsgType: "Invalid-Source",
-				MsgLang: "en",
-				ShortMsg: "Get Fail",
-				LongMsg: "Not found Project with ddep api input",
-				InternalMsg: "",
-				EnableAlert: "No",
-				DisplayMsgBy: "ShortMsg",
-				Data: [],
-			});
-		} else {
-			var project_id = result.project_id;
-			var inbound_format = result.inbound_format;
-			var outboundLastPath = result.outboundLastPath;
-			var OutboundFormatData = {};
-			var nodeDataArray = [];
-			var linkDataArray = [];
-			var outboundMappedData = {};
-			var mapping_url = config.domain + "/project/item/mapping/editAPI/" + project_id;
-			request(mapping_url, function (error, response, body) {
+			request(inbound_options, function (error, response, body) {
 				if(error) {
 					return res.json({
 						code: "1",
@@ -281,121 +142,165 @@ function _ddep_api_function(req, res) {
 						Data: []
 					});
 				}
-				if (Object.entries(reqBody).length > 0) {
-					var inboundPostData = reqBody;
-					if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
-						inboundPostData = JSON.parse(reqBody);
-					}
-					console.log('Inbound posted Json:');
-					console.log(inboundPostData);
-
-					var mappingSetting = JSON.parse(body);
-					if (mappingSetting.is_active == 'Active' && mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
-						OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
-						var mapping_data = JSON.parse(mappingSetting.mapping_data);
-						nodeDataArray = mapping_data.nodeDataArray;
-						linkDataArray = mapping_data.linkDataArray;
-
-						var linkdataarray = linkDataArray;
-						var newLinkDataArr = [];
-						var newLinkDataArrCount = [];
-						for (var i = 0; i < linkdataarray.length; i++) {
-							if (Object.entries(linkdataarray[i]).length > 0) {
-								if (linkdataarray[i].category != undefined && linkdataarray[i].category == 'Mapping') {
-									var linkdataarraykey = linkdataarray[i].to;
-									var linkdataarraykeycount = checklinkdataarraykey(linkdataarraykey, newLinkDataArrCount);
-									if (linkdataarraykeycount > 1) {
-										linkdataarraykey += linkdataarraykeycount;
+				try {
+					var inbound_setting = JSON.parse(response.body);
+					var project_id = '';
+					var inbound_format = '';
+					var outboundLastPath = '';
+					if (inbound_setting.code != 0) {
+						inbound_url = config.domain + "/inbound_setting/ddepInputAPI/";
+						inbound_options = {
+							'method': 'POST',
+							'url': inbound_url,
+							'headers': {
+								'Content-Type': 'application/json'
+							},
+							body: JSON.stringify({'ddepInput': ddepInput}),
+						}
+						request(inbound_options, function (error, response, body) {
+							if(error) {
+								return res.json({
+									code: "1",
+									MsgCode: "50001",
+									MsgType: "Invalid-Source",
+									MsgLang: "en",
+									ShortMsg: "Fail",
+									LongMsg: error.message || "Some error occurred while getting the inbound setting.",
+									InternalMsg: "",
+									EnableAlert: "No",
+									DisplayMsgBy: "LongMsg",
+									Data: []
+								});
+							}
+							try {
+								inbound_setting = JSON.parse(response.body);
+								if (inbound_setting.code == 0) {
+									var inbound_setting_data = inbound_setting.Data;
+									var itemsArr = [];
+									var inboundFormatArr = [];
+									for (var i = 0; i < inbound_setting_data.length; i++) {
+										itemsArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].item_id;
+										inboundFormatArr[inbound_setting_data[i].api_ddep_api] = inbound_setting_data[i].inbound_format;
 									}
-									newLinkDataArr[linkdataarraykey] = linkdataarray[i].from;
-									newLinkDataArrCount.push(linkdataarraykey);
+									var newddepInputPath = ddepInput;
+									var lastArrKey = 0;
+									var ddepPath = '';
+									for (var i = 0; i < ddepInputArr.length - 1; i++) {
+										newddepInputPath += '/'+ddepInputArr[i];
+										if (itemsArr[newddepInputPath] != undefined) {
+											project_id = itemsArr[newddepInputPath];
+											inbound_format = inboundFormatArr[newddepInputPath];
+											lastArrKey = i;
+											ddepPath = newddepInputPath;
+										}
+									}
+									for (var i = lastArrKey + 1; i < ddepInputArr.length; i++) {
+										outboundLastPath += '/'+ddepInputArr[i];
+									}
+									resolve({
+										code: "0",
+										MsgCode: "10001",
+										MsgType: "Get-Data-Success",
+										MsgLang: "en",
+										ShortMsg: "Get Success",
+										LongMsg: "Found Project with ddep api input",
+										InternalMsg: "",
+										EnableAlert: "No",
+										DisplayMsgBy: "ShortMsg",
+										project_id : project_id,
+										inbound_format : inbound_format,
+										outboundLastPath : outboundLastPath
+									});
+								} else {
+									return res.json({
+										code: "1",
+										MsgCode: "40001",
+										MsgType: "Invalid-Source",
+										MsgLang: "en",
+										ShortMsg: "Get Fail",
+										LongMsg: "Not found Project with ddep api input",
+										InternalMsg: "",
+										EnableAlert: "No",
+										DisplayMsgBy: "ShortMsg",
+										Data: [],
+									});
 								}
+							} catch (err) {
+								console.log('catch' + err);
+								return res.json({
+									code: "1",
+									MsgCode: "50001",
+									MsgType: "Exception-Error",
+									MsgLang: "en",
+									ShortMsg: "Fail",
+									LongMsg: "catch " + err + " - Some error occurred while checking inbound setting.",
+									InternalMsg: "",
+									EnableAlert: "No",
+									DisplayMsgBy: "LongMsg",
+									Data: []
+								});
 							}
-						}
-						// console.log('newLinkDataArr:');
-						// console.log(newLinkDataArr);
-
-						if (newLinkDataArrCount.length > 0) {
-							var mappingInboound = [];
-							for (var key in newLinkDataArr) {
-								var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
-								mappingInboound[key] = inboundValue;
-							}
-							// console.log('mappingInboound:');
-							// console.log(mappingInboound);
-
-							var outboundFormatData = outboundreplacementformatdata(OutboundFormatData, newLinkDataArr);
-							console.log('Outbound format convert to replacement Format:');
-							console.log(outboundFormatData);
-
-							outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound, newLinkDataArr);
-							console.log('Outbound Final Result:');
-							console.log(outboundMappedData);
-
-							if (bodyreq != '' && outboundMappedData.length != 0) {
-								bodyreq = outboundMappedData;
-							}
-							if (outboundMappedData.length != 0) {
-								reqBody = outboundMappedData;
-							}
-						}
-					}
-				}
-
-				var outbound_url = config.domain + "/outbound_setting/editAPI/" + project_id;
-				request(outbound_url, function (error, response, body) {
-					if(error) {
-						return res.json({
-							code: "1",
-							MsgCode: "50001",
-							MsgType: "Invalid-Source",
+						});
+					} else {
+						inbound_format = inbound_setting.Data.inbound_format;
+						project_id = inbound_setting.Data.item_id;
+						resolve({
+							code: "0",
+							MsgCode: "10001",
+							MsgType: "Get-Data-Success",
 							MsgLang: "en",
-							ShortMsg: "Fail",
-							LongMsg: error.message || "Some error occurred while getting the inbound setting.",
+							ShortMsg: "Get Success",
+							LongMsg: "Found Project with ddep api input",
 							InternalMsg: "",
 							EnableAlert: "No",
-							DisplayMsgBy: "LongMsg",
-							Data: []
+							DisplayMsgBy: "ShortMsg",
+							project_id : project_id,
+							inbound_format : inbound_format,
+							outboundLastPath : outboundLastPath
 						});
 					}
-					outboundSetting = JSON.parse(response.body);
-					outbound_api_url = outboundSetting.api_url;
-
-					if (outboundLastPath != '') {
-						outbound_api_url += outboundLastPath;
-					}
-
-					if (queryString != '') {
-						outbound_api_url += '?' + queryString;
-					}
-
-					var oldheaders = newHeader;
-					delete oldheaders.Host;
-					delete oldheaders['Accept-Encoding'];
-					delete oldheaders.Connection;
-					delete oldheaders['Content-Length'];
-
-					var options = {
-						'method': responseBody.method,
-						'url': outbound_api_url,
-						'headers': oldheaders,
-					};
-					if (bodyreq != '') {
-						if(typereq != '' && typereq[1] == 'json') {
-							options['body'] = JSON.stringify(bodyreq);
-						} else if(typereq != '' && (typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml')) {
-							options['body'] = JSON.stringify(bodyreq);
-						} else {
-							options['body'] = JSON.stringify(bodyreq);
-						}
-					} else {
-						options['formData'] = JSON.parse(JSON.stringify(reqBody));
-						if(Object.entries(options.formData).length == 0) {
-							options.method = "GET";
-						}
-					}
-
-					request(options, function (error, response, body) {
+				} catch (err) {
+					console.log('catch' + err);
+					return res.json({
+						code: "1",
+						MsgCode: "50001",
+						MsgType: "Exception-Error",
+						MsgLang: "en",
+						ShortMsg: "Fail",
+						LongMsg: "catch " + err + " - Some error occurred while checking inbound setting.",
+						InternalMsg: "",
+						EnableAlert: "No",
+						DisplayMsgBy: "LongMsg",
+						Data: []
+					});
+				}
+			});
+		});
+		inpromise.then(function(result) {
+			if (result.code == 1) {
+				return res.json({
+					code: "1",
+					MsgCode: "40001",
+					MsgType: "Invalid-Source",
+					MsgLang: "en",
+					ShortMsg: "Get Fail",
+					LongMsg: "Not found Project with ddep api input",
+					InternalMsg: "",
+					EnableAlert: "No",
+					DisplayMsgBy: "ShortMsg",
+					Data: [],
+				});
+			} else {
+				try {
+					var project_id = result.project_id;
+					var inbound_format = result.inbound_format;
+					var outboundLastPath = result.outboundLastPath;
+					var OutboundFormatData = {};
+					var nodeDataArray = [];
+					var linkDataArray = [];
+					var outboundMappedData = {};
+					var mapping_url = config.domain + "/project/item/mapping/editAPI/" + project_id;
+					request(mapping_url, function (error, response, body) {
 						if(error) {
 							return res.json({
 								code: "1",
@@ -403,32 +308,315 @@ function _ddep_api_function(req, res) {
 								MsgType: "Invalid-Source",
 								MsgLang: "en",
 								ShortMsg: "Fail",
-								LongMsg: error.message || "Some error occurred while getting.",
+								LongMsg: error.message || "Some error occurred while getting the inbound setting.",
 								InternalMsg: "",
 								EnableAlert: "No",
 								DisplayMsgBy: "LongMsg",
 								Data: []
 							});
 						}
-						if (response.statusCode == 200) {
-							var contentType = response.headers['content-type'];
-							var types = contentType.split(';');
-							var type = types[0].split('/');
-							if ((type[0] == 'application' && type[1] == 'json') || type[1] == 'json') {
-								return res.status(200).json(JSON.parse(body));
-							} else {
-								return res.send(body);
+						try {
+							if (Object.entries(reqBody).length > 0) {
+								var inboundPostData = reqBody;
+								if (typereq != '' && typereq[0] == 'text' && typereq[1] == 'plain') {
+									inboundPostData = JSON.parse(reqBody);
+								}
+								console.log('Inbound posted Json:');
+								console.log(inboundPostData);
+
+								var inboundFormatData = inboundConsole(inboundPostData);
+								console.log('Inbound format convert to replacement Format:');
+								console.log(inboundFormatData);
+
+								var mappingSetting = JSON.parse(body);
+								if (mappingSetting.is_active == 'Active' && mappingSetting.outbound_format != '' && mappingSetting.mapping_data != '') {
+									OutboundFormatData = JSON.parse(mappingSetting.outbound_format);
+									var mapping_data = JSON.parse(mappingSetting.mapping_data);
+									nodeDataArray = mapping_data.nodeDataArray;
+									linkDataArray = mapping_data.linkDataArray;
+
+									var linkdataarray = linkDataArray;
+									var newLinkDataArr = [];
+									var newLinkDataArrCount = [];
+									for (var i = 0; i < linkdataarray.length; i++) {
+										if (Object.entries(linkdataarray[i]).length > 0) {
+											if (linkdataarray[i].category != undefined && linkdataarray[i].category == 'Mapping') {
+												var linkdataarraykey = linkdataarray[i].to;
+												var linkdataarraykeycount = checklinkdataarraykey(linkdataarraykey, newLinkDataArrCount);
+												if (linkdataarraykeycount > 1) {
+													linkdataarraykey += linkdataarraykeycount;
+												}
+												newLinkDataArr[linkdataarraykey] = linkdataarray[i].from;
+												newLinkDataArrCount.push(linkdataarraykey);
+											}
+										}
+									}
+									// console.log('newLinkDataArr:');
+									// console.log(newLinkDataArr);
+
+									if (newLinkDataArrCount.length > 0) {
+										var mappingInboound = [];
+										for (var key in newLinkDataArr) {
+											var inboundValue = getInboundValue(inboundPostData, newLinkDataArr[key]);
+											mappingInboound[key] = inboundValue;
+										}
+										// console.log('mappingInboound:');
+										// console.log(mappingInboound);
+
+										var outboundFormatData = outboundreplacementformatdata(OutboundFormatData, newLinkDataArr);
+										console.log('Outbound format convert to replacement Format:');
+										console.log(outboundFormatData);
+
+										outboundMappedData = outboundformatdata(OutboundFormatData, mappingInboound, newLinkDataArr);
+										console.log('Outbound Final Result:');
+										console.log(outboundMappedData);
+
+										if (bodyreq != '' && outboundMappedData.length != 0) {
+											bodyreq = outboundMappedData;
+										}
+										if (outboundMappedData.length != 0) {
+											reqBody = outboundMappedData;
+										}
+									}
+								}
 							}
-						} else if(response.statusCode == 301 || response.statusCode == 302 || response.statusCode == 303) {
-							return res.send(response.body);
-						} else {
-							return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
+						} catch (err) {
+							console.log('catch' + err);
+							return res.json({
+								code: "1",
+								MsgCode: "50001",
+								MsgType: "Exception-Error",
+								MsgLang: "en",
+								ShortMsg: "Fail",
+								LongMsg: "catch " + err + " - Some error occurred while run mapping function.",
+								InternalMsg: "",
+								EnableAlert: "No",
+								DisplayMsgBy: "LongMsg",
+								Data: []
+							});
+						}
+
+						try {
+							var outbound_url = config.domain + "/outbound_validation/editAPI/" + project_id;
+							request(outbound_url, function (error, response, body) {
+								if(error) {
+									return res.json({
+										code: "1",
+										MsgCode: "50001",
+										MsgType: "Invalid-Source",
+										MsgLang: "en",
+										ShortMsg: "Fail",
+										LongMsg: error.message || "Some error occurred while getting the inbound setting.",
+										InternalMsg: "",
+										EnableAlert: "No",
+										DisplayMsgBy: "LongMsg",
+										Data: []
+									});
+								}
+								try {
+									var outboundValidationSetting = JSON.parse(response.body);
+									var outboundValidation = true;
+									if (outboundValidationSetting.code == "0" && Object.entries(reqBody).length > 0) {
+										var validations = outboundValidationSetting.Data.validations;
+										if (validations.length > 0) {
+											outboundValidation = outboundvalidationfunc(validations, inboundFormatData);
+											if (!outboundValidation.valid) {
+												return res.json({
+													code: "1",
+													MsgCode: "50001",
+													MsgType: "Invalid-Source",
+													MsgLang: "en",
+													ShortMsg: "Outbound Validation Fail",
+													LongMsg: outboundValidation.fieldName+" field not valid data.",
+													InternalMsg: "",
+													EnableAlert: "No",
+													DisplayMsgBy: "LongMsg",
+													Data: []
+												});
+											}
+										}
+									}
+
+									var outbound_url = config.domain + "/outbound_setting/editAPI/" + project_id;
+									request(outbound_url, function (error, response, body) {
+										if(error) {
+											return res.json({
+												code: "1",
+												MsgCode: "50001",
+												MsgType: "Invalid-Source",
+												MsgLang: "en",
+												ShortMsg: "Fail",
+												LongMsg: error.message || "Some error occurred while getting the inbound setting.",
+												InternalMsg: "",
+												EnableAlert: "No",
+												DisplayMsgBy: "LongMsg",
+												Data: []
+											});
+										}
+										try {
+											var outboundSetting = JSON.parse(response.body);
+											var outbound_api_url = outboundSetting.api_url;
+
+											if (outboundLastPath != '') {
+												outbound_api_url += outboundLastPath;
+											}
+
+											if (queryString != '') {
+												outbound_api_url += '?' + queryString;
+											}
+
+											var oldheaders = newHeader;
+											delete oldheaders.Host;
+											delete oldheaders['Accept-Encoding'];
+											delete oldheaders.Connection;
+											delete oldheaders['Content-Length'];
+
+											var options = {
+												'method': responseBody.method,
+												'url': outbound_api_url,
+												'headers': oldheaders,
+											};
+											if (bodyreq != '') {
+												if(typereq != '' && typereq[1] == 'json') {
+													options['body'] = JSON.stringify(bodyreq);
+												} else if(typereq != '' && (typereq[1] == 'plain' || typereq[1] == 'html' || typereq[1] == 'javascript' || typereq[1] == 'xml')) {
+													options['body'] = JSON.stringify(bodyreq);
+												} else {
+													options['body'] = JSON.stringify(bodyreq);
+												}
+											} else {
+												options['formData'] = JSON.parse(JSON.stringify(reqBody));
+												if(Object.entries(options.formData).length == 0) {
+													options.method = "GET";
+												}
+											}
+
+											request(options, function (error, response, body) {
+												if(error) {
+													return res.json({
+														code: "1",
+														MsgCode: "50001",
+														MsgType: "Invalid-Source",
+														MsgLang: "en",
+														ShortMsg: "Fail",
+														LongMsg: error.message || "Some error occurred while getting.",
+														InternalMsg: "",
+														EnableAlert: "No",
+														DisplayMsgBy: "LongMsg",
+														Data: []
+													});
+												}
+												try {
+													if (response.statusCode == 200) {
+														var contentType = response.headers['content-type'];
+														var types = contentType.split(';');
+														var type = types[0].split('/');
+														if ((type[0] == 'application' && type[1] == 'json') || type[1] == 'json') {
+															return res.status(200).json(JSON.parse(body));
+														} else {
+															return res.send(body);
+														}
+													} else if(response.statusCode == 301 || response.statusCode == 302 || response.statusCode == 303) {
+														return res.send(response.body);
+													} else {
+														return res.status(response.statusCode).json({"message": response.statusMessage, "http_status_code": response.statusCode});
+													}
+												} catch (err) {
+													console.log('catch' + err);
+													return res.json({
+														code: "1",
+														MsgCode: "50001",
+														MsgType: "Exception-Error",
+														MsgLang: "en",
+														ShortMsg: "Fail",
+														LongMsg: "catch " + err + " - Some error occurred while outbound post data.",
+														InternalMsg: "",
+														EnableAlert: "No",
+														DisplayMsgBy: "LongMsg",
+														Data: []
+													});
+												}
+											});
+										} catch (err) {
+											console.log('catch' + err);
+											return res.json({
+												code: "1",
+												MsgCode: "50001",
+												MsgType: "Exception-Error",
+												MsgLang: "en",
+												ShortMsg: "Fail",
+												LongMsg: "catch " + err + " - Some error occurred while checking outbound setting.",
+												InternalMsg: "",
+												EnableAlert: "No",
+												DisplayMsgBy: "LongMsg",
+												Data: []
+											});
+										}
+									});
+								} catch (err) {
+									console.log('catch' + err);
+									return res.json({
+										code: "1",
+										MsgCode: "50001",
+										MsgType: "Exception-Error",
+										MsgLang: "en",
+										ShortMsg: "Fail",
+										LongMsg: "catch " + err + " - Some error occurred while getting outbound setting.",
+										InternalMsg: "",
+										EnableAlert: "No",
+										DisplayMsgBy: "LongMsg",
+										Data: []
+									});
+								}
+							});
+						} catch (err) {
+							console.log('catch' + err);
+							return res.json({
+								code: "1",
+								MsgCode: "50001",
+								MsgType: "Exception-Error",
+								MsgLang: "en",
+								ShortMsg: "Fail",
+								LongMsg: "catch " + err + " - Some error occurred while getting outbound validations.",
+								InternalMsg: "",
+								EnableAlert: "No",
+								DisplayMsgBy: "LongMsg",
+								Data: []
+							});
 						}
 					});
-				});
-			});
-		}
-	});
+				} catch (err) {
+					console.log('catch' + err);
+					return res.json({
+						code: "1",
+						MsgCode: "50001",
+						MsgType: "Exception-Error",
+						MsgLang: "en",
+						ShortMsg: "Fail",
+						LongMsg: "catch " + err + " - Some error occurred while getting maooing setting.",
+						InternalMsg: "",
+						EnableAlert: "No",
+						DisplayMsgBy: "LongMsg",
+						Data: []
+					});
+				}
+			}
+		});
+	} catch (err) {
+		console.log('catch' + err);
+		return res.json({
+			code: "1",
+			MsgCode: "50001",
+			MsgType: "Exception-Error",
+			MsgLang: "en",
+			ShortMsg: "Fail",
+			LongMsg: "catch " + err + " - Some error occurred while run promise function.",
+			InternalMsg: "",
+			EnableAlert: "No",
+			DisplayMsgBy: "LongMsg",
+			Data: []
+		});
+	}
 }
 
 router.post('/mapping/convert/json2JSD', function(req, res) {
@@ -1375,6 +1563,204 @@ function ddep_api(reqBody, ddepInput, res) {
 	});
 }
 
+function inboundConsole(reqBody) {
+	var retrun = '';
+	inboundFormatDataArray = [];
+	Object.entries(reqBody).forEach((entry) => {
+		const [key, value] = entry;
+
+		var newKey = '@In{'+key+'}';
+		var normalKey = key;
+		var key_count = checkInboundConsoleKey(newKey, inboundFormatDataArray);
+
+		if (key_count > 1) {
+			newKey = '@In{'+key+key_count+'}';
+			normalKey = normalKey+key_count;
+		}
+
+		if (key >= 0) {} else {
+			inboundFormatDataArray[newKey] = value;
+		}
+		if (!Array.isArray(value) && value != null && typeof(value) != "object") {
+		}
+
+		if (!Array.isArray(value) && value != null && typeof(value) == "object") {
+			var newtest = inboundConsole1(normalKey, value);
+			/*Object.entries(value).forEach((itementry) => {
+				const [subkey, subvalue] = itementry;
+
+				var newSubKey = '@In{'+key+'.'+subkey+'}';
+				var subkey_count = checkInboundConsoleKey(newSubKey, inboundFormatDataArray);
+
+				if (subkey_count > 1) {
+					newSubKey = '@In{'+key+'.'+subkey+subkey_count+'}';
+				}
+				console.log(newSubKey+' = '+subvalue);
+
+				inboundFormatDataArray[newSubKey] = subvalue;
+			});*/
+		}
+		if (Array.isArray(value) && value != null && typeof(value) == "object") {
+			var newtest = inboundConsole1(normalKey, value);
+			/*Object.entries(value).forEach((arritementry) => {
+				const [arrsubkey, arrsubvalue] = arritementry;
+
+				Object.entries(arrsubvalue).forEach((itementry) => {
+					const [subkey, subvalue] = itementry;
+
+					var newSubKey = '@In{'+key+'.'+subkey+'}';
+					var subkey_count = checkInboundConsoleKey(newSubKey, inboundFormatDataArray);
+
+					if (subkey_count > 1) {
+						newSubKey = '@In{'+key+'.'+subkey+subkey_count+'}';
+					}
+					console.log(newSubKey+' = '+subvalue);
+
+					inboundFormatDataArray.push({ key: newSubKey, value: subvalue });
+					inboundFormatDataArray[newSubKey] = subvalue;
+				});
+			});*/
+		}
+	});
+	return inboundFormatDataArray;
+}
+
+function inboundConsole1(normalKey, reqBody) {
+	var retrun = '';
+	var parentKeya = normalKey;
+	Object.entries(reqBody).forEach((entry) => {
+		const [key, value] = entry;
+
+		var normalKey = parentKeya;
+		if (key >= 0) {
+			var newKey = '@In{'+normalKey+'}';
+			normalKey = normalKey;
+		} else {
+			var newKey = '@In{'+normalKey+'.'+key+'}';
+			normalKey = normalKey+'.'+key;
+		}
+		var key_count = checkInboundConsoleKey(newKey, inboundFormatDataArray);
+
+		if (key_count > 1) {
+			newKey = '@In{'+normalKey+'.'+key_count+'}';
+			normalKey = normalKey+'.'+key_count;
+		}
+
+		if (key >= 0) {} else {
+			inboundFormatDataArray[newKey] = value;
+		}
+		if (!Array.isArray(value) && value != null && typeof(value) != "object") {
+		}
+
+		if (!Array.isArray(value) && value != null && typeof(value) == "object") {
+			var newtest = inboundConsole2(normalKey, value);
+			/*Object.entries(value).forEach((itementry) => {
+				const [subkey, subvalue] = itementry;
+
+				var newSubKey = '@In{'+key+'.'+subkey+'}';
+				var subkey_count = checkInboundConsoleKey(newSubKey, inboundFormatDataArray);
+
+				if (subkey_count > 1) {
+					newSubKey = '@In{'+key+'.'+subkey+subkey_count+'}';
+				}
+				console.log(newSubKey+' = '+subvalue);
+
+				inboundFormatDataArray[newSubKey] = subvalue;
+			});*/
+		}
+		if (Array.isArray(value) && value != null && typeof(value) == "object") {
+			var newtest = inboundConsole2(normalKey, value);
+			/*Object.entries(value).forEach((arritementry) => {
+				const [arrsubkey, arrsubvalue] = arritementry;
+
+				Object.entries(arrsubvalue).forEach((itementry) => {
+					const [subkey, subvalue] = itementry;
+
+					var newSubKey = '@In{'+key+'.'+subkey+'}';
+					var subkey_count = checkInboundConsoleKey(newSubKey, inboundFormatDataArray);
+
+					if (subkey_count > 1) {
+						newSubKey = '@In{'+key+'.'+subkey+subkey_count+'}';
+					}
+					console.log(newSubKey+' = '+subvalue);
+
+					inboundFormatDataArray.push({ key: newSubKey, value: subvalue });
+					inboundFormatDataArray[newSubKey] = subvalue;
+				});
+			});*/
+		}
+	});
+	return retrun;
+}
+
+function inboundConsole2(normalKey, reqBody) {
+	var retrun = '';
+	var parentKeya = normalKey;
+	Object.entries(reqBody).forEach((entry) => {
+		const [key, value] = entry;
+
+		var normalKey = parentKeya;
+		if (key >= 0) {
+			var newKey = '@In{'+normalKey+'}';
+			normalKey = normalKey;
+		} else {
+			var newKey = '@In{'+normalKey+'.'+key+'}';
+			normalKey = normalKey+'.'+key;
+		}
+		var key_count = checkInboundConsoleKey(newKey, inboundFormatDataArray);
+
+		if (key_count > 1) {
+			newKey = '@In{'+normalKey+key_count+'}';
+			normalKey = normalKey+key_count;
+		}
+
+		if (key >= 0) {} else {
+			inboundFormatDataArray[newKey] = value;
+		}
+		if (!Array.isArray(value) && value != null && typeof(value) != "object") {
+		}
+
+		if (!Array.isArray(value) && value != null && typeof(value) == "object") {
+			var newtest = inboundConsole1(normalKey, value);
+			/*Object.entries(value).forEach((itementry) => {
+				const [subkey, subvalue] = itementry;
+
+				var newSubKey = '@In{'+key+'.'+subkey+'}';
+				var subkey_count = checkInboundConsoleKey(newSubKey, inboundFormatDataArray);
+
+				if (subkey_count > 1) {
+					newSubKey = '@In{'+key+'.'+subkey+subkey_count+'}';
+				}
+				console.log(newSubKey+' = '+subvalue);
+
+				inboundFormatDataArray[newSubKey] = subvalue;
+			});*/
+		}
+		if (Array.isArray(value) && value != null && typeof(value) == "object") {
+			var newtest = inboundConsole1(normalKey, value);
+			/*Object.entries(value).forEach((arritementry) => {
+				const [arrsubkey, arrsubvalue] = arritementry;
+
+				Object.entries(arrsubvalue).forEach((itementry) => {
+					const [subkey, subvalue] = itementry;
+
+					var newSubKey = '@In{'+key+'.'+subkey+'}';
+					var subkey_count = checkInboundConsoleKey(newSubKey, inboundFormatDataArray);
+
+					if (subkey_count > 1) {
+						newSubKey = '@In{'+key+'.'+subkey+subkey_count+'}';
+					}
+					console.log(newSubKey+' = '+subvalue);
+
+					inboundFormatDataArray.push({ key: newSubKey, value: subvalue });
+					inboundFormatDataArray[newSubKey] = subvalue;
+				});
+			});*/
+		}
+	});
+	return retrun;
+}
+
 var parentKey = [];
 var inboundDataArray = [];
 function getInboundValue(inboundPostData, inboundkey) {
@@ -1449,6 +1835,17 @@ function checkKey(key, dataArray) {
 	for (var i = 0; i < dataArray.length; i++) {
 		var key1 = (j == 1) ? key : key + j;
 		if (dataArray[i]['key'] == key1) {
+			j++;
+		}
+	}
+	return j;
+}
+
+function checkInboundConsoleKey(key, dataArray) {
+	j = 1;
+	for (var datakey in dataArray) {
+		var key1 = (j == 1) ? key : key + j;
+		if (datakey == key1) {
 			j++;
 		}
 	}
@@ -2601,6 +2998,151 @@ function outboundformatdata2(OutboundData, dataArr, newLinkDataArr) {
 		}
 	});
 	return outboundFormatData;
+}
+
+function outboundvalidationfunc(validations, inboundFormatData) {
+	var outboundValidation = true;
+	for (var inbounddatakey in inboundFormatData) {
+		var inbounddatavalue = inboundFormatData[inbounddatakey];
+		if (isNaN(inbounddatavalue) && !Array.isArray(inbounddatavalue) && inbounddatavalue != null && typeof(inbounddatavalue) != "object") {
+			inbounddatavalue = inbounddatavalue.toLowerCase();
+		}
+		var fieldName = '';
+		var andCondition = '';
+		var andContainsString = '';
+		var andContainsValue = '';
+		var orCondition = '';
+		var orContainsString = '';
+		var orContainsValue = '';
+		var replaceCount = 0;
+
+		for (var i = 0; i < validations.length; i++) {
+			var original = validations[i].original;
+			if (original == inbounddatakey) {
+				console.log(inbounddatakey);
+				console.log(inbounddatavalue);
+				var column = validations[i].column;
+				if (isNaN(column) && !column.includes("@In{") && !column.includes("@Out{")) {
+					column = column.toLowerCase();
+				}
+				if (column != '') {
+					var logical = validations[i].logical;
+					var operations = validations[i].operations;
+					if (operations == '<>') {
+						operations = '!=';
+					}
+					if (logical == 'AND' && operations != 'Contains') {
+						if (andCondition != '') { andCondition += ' && '; }
+						andCondition += '"'+original+'" '+operations+' "'+column+'"';
+					}
+					if (logical == 'OR' && operations != 'Contains') {
+						if (orCondition != '') { orCondition += ' || '; }
+						orCondition += '"'+original+'" '+operations+' "'+column+'"';
+					}
+					if (logical == 'AND' && operations == 'Contains') {
+						andContainsString = original;
+						andContainsValue = column;
+					}
+					if (logical == 'OR' && operations == 'Contains') {
+						orContainsString = original;
+						orContainsValue = column;
+					}
+					replaceCount++;
+				}
+			}
+		}
+
+		if (andCondition.includes(inbounddatakey)) {
+			for (var i = 0; i < replaceCount; i++) {
+				andCondition = andCondition.replace(inbounddatakey, inbounddatavalue);
+			}
+		}
+
+		if (andContainsString.includes(inbounddatakey)) {
+			for (var i = 0; i < replaceCount; i++) {
+				andContainsString = andContainsString.replace(inbounddatakey, inbounddatavalue);
+			}
+		}
+
+		if (orCondition.includes(inbounddatakey)) {
+			for (var i = 0; i < replaceCount; i++) {
+				orCondition = orCondition.replace(inbounddatakey, inbounddatavalue);
+			}
+		}
+
+		if (orContainsString.includes(inbounddatakey)) {
+			for (var i = 0; i < replaceCount; i++) {
+				orContainsString = orContainsString.replace(inbounddatakey, inbounddatavalue);
+			}
+		}
+
+		var andContainsValid = true;
+		if (andContainsString != '' && andContainsValue != '') {
+			andContainsValue = andContainsValue.toLowerCase();
+			andContainsValid = andContainsString.includes(andContainsValue);
+		}
+		var orContainsValid = false;
+		if (orContainsString != '' && orContainsValue != '') {
+			orContainsValue = orContainsValue.toLowerCase();
+			orContainsValid = orContainsString.includes(orContainsValue);
+		}
+		var andConditionValid = eval(andCondition);
+		var orConditionValid = eval(orCondition);
+		if (andConditionValid && andContainsValid) {
+			var andValid = true;
+		} else {
+			var andValid = false;
+		}
+		if (orConditionValid || orContainsValid) {
+			var orValid = true;
+		} else {
+			var orValid = false;
+		}
+		if (andCondition != '' && orCondition != '') {
+			if (andValid || orValid) {
+			} else {
+				fieldName = inbounddatakey.replace("@In{", "").replace("}", "");
+				outboundValidation = false;
+				break;
+			}
+		} else if (andCondition != '') {
+			if (andValid) {
+			} else {
+				fieldName = inbounddatakey.replace("@In{", "").replace("}", "");
+				outboundValidation = false;
+				break;
+			}
+		} else if (orCondition != '') {
+			if (orValid) {
+			} else {
+				fieldName = inbounddatakey.replace("@In{", "").replace("}", "");
+				outboundValidation = false;
+				break;
+			}
+		} else if (andContainsString != '' && andContainsValue != '' && orContainsString != '' && orContainsValue != '') {
+			if (andContainsValid || orContainsValid) {
+			} else {
+				fieldName = inbounddatakey.replace("@In{", "").replace("}", "");
+				outboundValidation = false;
+				break;
+			}
+		} else if (andContainsString != '' && andContainsValue != '') {
+			if (andContainsValid) {
+			} else {
+				fieldName = inbounddatakey.replace("@In{", "").replace("}", "");
+				outboundValidation = false;
+				break;
+			}
+		} else if (orContainsString != '' && orContainsValue != '') {
+			if (orContainsValid) {
+			} else {
+				fieldName = inbounddatakey.replace("@In{", "").replace("}", "");
+				outboundValidation = false;
+				break;
+			}
+		}
+	}
+	return { valid: outboundValidation, fieldName: fieldName };
 }
 
 router.get('/filereader/xml', function(req, res, next) {

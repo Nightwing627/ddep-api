@@ -491,7 +491,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                 <div class="card-body">
                                   <div class="row">
                                     <!-- <div class="form-group col-md-3">
-                                        <label class="form-label required" for="first-name">FTP/SFTP</label> 
+                                      <label class="form-label required" for="first-name">FTP/SFTP</label> 
                                     </div> -->
                                     <div class="form-group col-md-9">
                                       <!-- <input type="radio" name="sync_type_out" id="sync_type_out" checked class="radio-inline" value="API" />
@@ -503,25 +503,22 @@ License: You must have a valid license purchased only from themeforest(the above
                                     </div>
                                   </div>
                                   <div class="row">
-                                      <div class="form-group col-md-1">
-                                          <label class="form-label required" for="first-name">API URL</label>
-                                      </div>
-                                      <div class="form-group col-md-8">
-                                          <input type="text" name="api_url" id="api_url" class="form-control" placeholder="" />
-                                      </div>
-                                      <!-- Thomas creates setting button. there are events and modal in mapping.ejs -->
-                                                              
-                                      <div class="col-md-2" style="margin: auto; margin-top: 0; margin-left: 0;">
-                                        <a href="#" class="btn btn-primary settings-button" id="ddepApiSettings">
-                                          <i data-feather="settings" class="align-middle mr-sm-25 mr-0"></i>
-                                        </a>
-                                      </div>
+                                    <div class="form-group col-md-1">
+                                      <label class="form-label required" for="first-name">API URL</label>
+                                    </div>
+                                    <div class="form-group col-md-8">
+                                      <input type="text" name="api_url" id="api_url" class="form-control" placeholder="" />
+                                    </div>
+                                    <!-- Thomas creates setting button. there are events and modal in mapping.ejs -->
+                                    <div class="col-md-2" style="margin: auto; margin-top: 0; margin-left: 0;">
+                                      <a href="javascript:void(0);" class="btn btn-primary settings-button" id="ddepApiSettings">
+                                        <i data-feather="settings" class="align-middle mr-sm-25 mr-0"></i>
+                                      </a>
+                                    </div>
                                   </div>
-                                 
                                 </div>
                               </div>
                             </div>
-                            
                           </div>
                           <div class="mt-1">
                             <button class="btn btn-primary" id="save_outbound" type="submit">Save</button>
@@ -529,14 +526,14 @@ License: You must have a valid license purchased only from themeforest(the above
                         </form>
                         <hr>
                         <div class="d-flex justify-content-between">
-                            <button class="btn btn-primary btn-prev">
-                            <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
-                            <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                            </button>
-                            <button class="btn btn-primary btn-next">
-                            <span class="align-middle d-sm-inline-block d-none">Next</span>
-                            <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
-                            </button>
+                          <button class="btn btn-primary btn-prev">
+                          <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
+                          <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                          </button>
+                          <button class="btn btn-primary btn-next">
+                          <span class="align-middle d-sm-inline-block d-none">Next</span>
+                          <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
+                          </button>
                         </div>
                       </div>
                   </div>
@@ -1792,9 +1789,8 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- END: Page JS-->
 
 <!-- Modal -->
-<div id="ddepApiModal" class="modal">
+<div id="outbound_validation_modal" class="modal">
   <div style="width:260px" class="d-none modal-left"></div>
-
   <!-- Modal content -->
   <div class="modal-content">
     <div class="d-flex justify-content-between p-1 align-items-center">
@@ -1802,141 +1798,77 @@ License: You must have a valid license purchased only from themeforest(the above
       <span class="close" id="modal-close">&times;</span>
     </div>
     <!-- End: Customizer-->
-
-        
-        <div style="width:80%" class="ml-3">
-        <div class="container">
+    <div> <!-- style="width:80%" class="ml-3" -->
+      <div class="container">
+        <input type="hidden" name="outbound_validation_id" id="outbound_validation_id" value="">
+        <form id="frm-save-outbound-validation">
           <div class="">
-            <a href="#" class="btn btn-lg btn-block modal-button" id="back"><i data-feather="rotate-ccw" class="font-medium-2"></i></a>
-            <a href="#" class="btn btn-lg btn-block modal-button" id="save"><i data-feather="save" class="font-medium-2"></i></a>
-            <a href="#" class="btn btn-lg btn-block modal-button" id="addrow"><i data-feather="plus" class="font-medium-2"></i></a>
+            <a href="javascript:void(0);" class="btn btn-lg btn-block modal-button" id="back"><i data-feather="rotate-ccw" class="font-medium-2"></i></a>
+            <button class="btn btn-lg btn-block modal-button" id="outbound_validation_save" type="submit"><i data-feather="save" class="font-medium-2"></i></button>
+            <a href="javascript:void(0);" class="btn btn-lg btn-block modal-button" id="addrow"><i data-feather="plus" class="font-medium-2"></i></a>
           </div>
           <table id="myTable" class="table order-list table-bordered">
-          <thead>
-            <tr>
-              <td>Logical Operation</td>
-              <td>Original Value</td>
-              <td>Comparsion operations</td>
-              <td>Column Value</td>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody>
-            <% if(typeof(alldata) =="undefined"){ %>
+            <thead>
               <tr>
-          <td class="col-sm-2">
-              <details class="custom-select m-0 p-0 border-0">
-                  <summary class="radios form-control border-0" name="logical">
-                      <input type="radio" name="item" id="default" title="Select..." checked>
-                      <input type="radio" name="item" id="AND" title="AND">
-                      <input type="radio" name="item" id="OR" title="OR">
-                  </summary>
-                  <ul class="list p-0">
-                      <li>
-                          <label for="AND">AND</label>
-                      </li>
-                      <li>
-                          <label for="OR">OR</label>
-                      </li>
-                  </ul>
-              </details>
-          </td>
-          <td class="col-sm-3">
-            <input type="text" name="original" class="form-control border-0" />
-          </td>
-          <td class="col-sm-3">
-            <input type="text" name="comparison" class="form-control border-0"/>
-          </td>
-          <td class="col-sm-2">
-            <input type="text" name="column" class="form-control border-0"/>
-          </td>
-          <td class="col-sm-2"><a href="#" type="button" class="ibtnDel"> Delete </a></td>
-        </tr>
-        <% } else { %>
-          <% if(alldata.ProjectCode =="RMC-Initiation-to-SilkRelo"){ %>
-            <tr>
-              <td class="col-sm-2">
-                  <details class="custom-select m-0 p-0 border-0">
-                      <summary class="radios form-control border-0" name="logical">
-                          <input type="radio" name="item" id="default" title="AND" checked>
-                          <input type="radio" name="item" id="AND" title="AND">
-                          <input type="radio" name="item" id="OR" title="OR">
-                      </summary>
-                      <ul class="list p-0">
-                          <li>
-                              <label for="AND">AND</label>
-                          </li>
-                          <li>
-                              <label for="OR">OR</label>
-                          </li>
-                      </ul>
-                  </details>
-              </td>
-              <td class="col-sm-3">
-                <input type="text" name="original" class="form-control border-0" value="@In{SupplierID}" />
-              </td>
-              <td class="col-sm-3">
-                <input type="text" name="comparison" class="form-control border-0" value="=" />
-              </td>
-              <td class="col-sm-2">
-                <input type="text" name="column" class="form-control border-0" value="SilkRelo"/>
-              </td>
-              <td class="col-sm-2"><a href="#" type="button" class="ibtnDel"> Delete </a></td>
-            </tr>
-        <% } else { %>
-          <tr>
-            <td class="col-sm-2">
-                <details class="custom-select m-0 p-0 border-0">
-                    <summary class="radios form-control border-0" name="logical">
-                        <input type="radio" name="item" id="default" title="Select..." checked>
-                        <input type="radio" name="item" id="AND" title="AND">
-                        <input type="radio" name="item" id="OR" title="OR">
-                    </summary>
-                    <ul class="list p-0">
-                        <li>
-                            <label for="AND">AND</label>
-                        </li>
-                        <li>
-                            <label for="OR">OR</label>
-                        </li>
-                    </ul>
-                </details>
-            </td>
-            <td class="col-sm-3">
-              <input type="text" name="original" class="form-control border-0" />
-            </td>
-            <td class="col-sm-3">
-              <input type="text" name="comparison" class="form-control border-0" />
-            </td>
-            <td class="col-sm-2">
-              <input type="text" name="column" class="form-control border-0"/>
-            </td>
-            <td class="col-sm-2"><a href="#" type="button" class="ibtnDel"> Delete </a></td>
-          </tr>
-        <% } %>
-        <% } %>
-      </tbody>
-    </table>
+                <td>Logical Operation</td>
+                <td>Original Value</td>
+                <td>Comparison operations</td>
+                <td>Column Value</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="col-sm-2 logical-select">
+                  <select class="select-dropdown form-control form-control-lg" name="validations[][logical]">
+                    <option value="AND">AND</option>
+                    <option value="OR">OR</option>
+                  </select>
+                </td>
+                <td class="col-sm-3">
+                  <input type="text" name="validations[][original]" class="form-control border-0" />
+                </td>
+                <td class="col-sm-3 operations-select">
+                  <select class="select-dropdown form-control form-control-lg" name="validations[][operations]">
+                    <option value="==">=</option>
+                    <option value=">">></option>
+                    <option value=">=">>=</option>
+                    <option value="<"><</option>
+                    <option value="<="><=</option>
+                    <option value="<>"><></option>
+                    <option value="Contains">Contains</option>
+                    <!-- <option value="NOT IN">NOT IN</option>
+                    <option value="IN">IN</option> -->
+                  </select>
+                </td>
+                <td class="col-sm-2">
+                  <input type="text" name="validations[][column]" class="form-control border-0"/>
+                </td>
+                <td class="col-sm-2"><a href="javascript:void(0);" type="button" class="ibtnDel"> Delete </a></td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
     </div>
-  </div>
   </div>
 </div>
 <script>
-  var modal = document.getElementById("ddepApiModal");
+  var modal = document.getElementById("outbound_validation_modal");
   var btn = document.getElementById("ddepApiSettings");
   var mclose = document.getElementById("modal-close");
-  var save = document.getElementById("save");
+  var outbound_validation_save = document.getElementById("outbound_validation_save");
   // var span = document.getElementsByClassName("close")[0];
   btn.onclick = function() {
-    // $("#ddepApiModal").show();
+    // $("#outbound_validation_modal").show();
     modal.style.display = "flex";
   }
   mclose.onclick = function() {
     modal.style.display = "none";
   }
-  save.onclick = function() {
+  /*outbound_validation_save.onclick = function() {
     modal.style.display = "none";
-  }
+  }*/
   window.onclick = function(event) {
     if (event.target == modal) {
       modal.style.display = "none";
@@ -2023,36 +1955,26 @@ License: You must have a valid license purchased only from themeforest(the above
       display: block !important;
     }
   }
+
+  .select-dropdown {border: unset;}
+  .logical-select .select2-container--default .select2-selection--single, .operations-select .select2-container--default .select2-selection--single {border: unset;}
+  #select2-logical-results li:hover, #select2-operations-results li:hover {background: #fff !important; color: #8DC454 !important;}
+  #frm-save-outbound-validation .form-control:focus:valid { box-shadow: unset; border: unset !important; }
 </style>
 <script>
   $(document).ready(function () {
     var counter = 0;
     $("#addrow").on("click", function () {
-      var newRow = $("<tr>");
+      var newRow = "<tr>";
       var cols = "";
-      cols +=
-        '<td class="col-sm-2"/><details class="custom-select m-0 p-0 border-0"><summary class="radios form-control border-0" name="logical' +
-        counter +'">'
-        +'<input type="radio" name="item'+counter+'" id="default'+counter+'" title="Select..." checked><input type="radio" name="item'+counter+'" id="AND'+counter+'" title="AND"><input type="radio" name="item'+counter+'" id="OR'+counter+'" title="OR">'
-        +'</summary>'
-        +'<ul class="list p-0"><li><label for="AND'+counter+'">AND</label></li><li><label for="OR'+counter+'">OR</label></li></ul>'
-        +'</details></td>';
-      cols +=
-        '<td  class="col-sm-3"><input type="text" class="form-control border-0" name="original' +
-        counter +
-        '"/></td>';
-      cols +=
-        '<td class="col-sm-3"><input type="text" class="form-control border-0" name="comparison' +
-        counter +
-        '"/></td>';
-      cols +=
-        '<td class="col-sm-2"><input type="text" class="form-control border-0" name="column' +
-        counter +
-        '"/></td>';
-      cols +=
-        '<td class="col-sm-2"><a href="#" type="button" class="ibtnDel"> Delete </a></td>';
-      newRow.append(cols);
-      $("table.order-list").append(newRow);
+      cols += '<td class="col-sm-2 logical-select"><select class="select-dropdown form-control form-control-lg" name="validations[][logical]"><option value="AND">AND</option><option value="OR">OR</option></select></td>';
+      cols += '<td class="col-sm-3"><input type="text" class="form-control border-0" name="validations[][original]"/></td>';
+      cols += '<td class="col-sm-3 operations-select"><select class="select-dropdown form-control form-control-lg" name="validations[][operations]"><option value="==">=</option><option value=">">></option><option value=">=">>=</option><option value="<"><</option><option value="<="><=</option><option value="<>"><></option><option value="Contains">Contains</option></select></td>';
+      cols += '<td class="col-sm-2"><input type="text" class="form-control border-0" name="validations[][column]"/></td>';
+      cols += '<td class="col-sm-2"><a href="javascript:void(0);" type="button" class="ibtnDel"> Delete </a></td>';
+      newRow += cols;
+      newRow += "</tr>";
+      $("table.order-list tbody").append(newRow);
       counter++;
     });
 
@@ -2231,12 +2153,6 @@ License: You must have a valid license purchased only from themeforest(the above
     $('.step-trigger').removeAttr('disabled');
     $('body').on('click', '.bs-stepper-header .step', function(){
       var dataID = $(this).attr('data-target');
-      /*$('.step').removeClass('active');
-      $('.step-trigger').attr('aria-selected','false');
-      $('.bs-stepper-content .content').removeClass('active dstepper-block');
-      $(this).addClass('active');
-      $('.step.active .step-trigger').attr('aria-selected','true');
-      $(dataID).addClass('active dstepper-block');*/
       var stepper = new Stepper(document.querySelector('.bs-stepper'));
       if (dataID == '#create-project') {
         stepper.to(1);
@@ -2611,6 +2527,92 @@ License: You must have a valid license purchased only from themeforest(the above
 
           //Init GOJS UI
           myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+        }
+      }
+    });
+    $.ajax({
+      url:'/outbound_validation/editAPI/'+project_id,
+      method:'get',
+      dataType:'json',
+      data:{},
+      success:function(response,textStatus,xhr){
+        if(xhr.status==200)
+        {
+          var validations = response.Data.validations;
+          $('#outbound_validation_id').val(response.id);
+          if (validations.length > 0) {
+            var htmldata = '';
+            for (var i = 0; i < validations.length; i++) {
+              var newRow = "<tr>";
+              var cols = "";
+              cols += '<td class="col-sm-2 logical-select"><select class="select-dropdown form-control form-control-lg" name="validations[][logical]">';
+              cols += '<option value="AND"';
+              if (validations[i].logical == 'AND') {
+                cols += ' selected';
+              }
+              cols += '>AND</option>';
+              cols += '<option value="OR"';
+              if (validations[i].logical == 'OR') {
+                cols += ' selected';
+              }
+              cols += '>OR</option>';
+              cols += '</select></td>';
+              cols += '<td class="col-sm-3"><input type="text" class="form-control border-0" name="validations[][original]" value="'+validations[i].original+'"/></td>';
+              cols += '<td class="col-sm-3 operations-select"><select class="select-dropdown form-control form-control-lg" name="validations[][operations]">';
+              cols += '<option value="=="';
+              if (validations[i].operations == '==') {
+                cols += ' selected';
+              }
+              cols += '>=</option>';
+              cols += '<option value=">"';
+              if (validations[i].operations == '>') {
+                cols += ' selected';
+              }
+              cols += '>></option>';
+              cols += '<option value=">="';
+              if (validations[i].operations == '>=') {
+                cols += ' selected';
+              }
+              cols += '>>=</option>';
+              cols += '<option value="<"';
+              if (validations[i].operations == '<') {
+                cols += ' selected';
+              }
+              cols += '><</option>';
+              cols += '<option value="<="';
+              if (validations[i].operations == '<=') {
+                cols += ' selected';
+              }
+              cols += '><=</option>';
+              cols += '<option value="<>"';
+              if (validations[i].operations == '<>') {
+                cols += ' selected';
+              }
+              cols += '><></option>';
+             /* cols += '<option value="NOT IN"';
+              if (validations[i].operations == 'NOT IN') {
+                cols += ' selected';
+              }
+              cols += '>NOT IN</option>';
+              cols += '<option value="IN"';
+              if (validations[i].operations == 'IN') {
+                cols += ' selected';
+              }
+              cols += '>IN</option>';*/
+              cols += '<option value="Contains"';
+              if (validations[i].operations == 'Contains') {
+                cols += ' selected';
+              }
+              cols += '>Contains</option>';
+              cols += '</select></td>';
+              cols += '<td class="col-sm-2"><input type="text" class="form-control border-0" name="validations[][column]" value="'+validations[i].column+'"/></td>';
+              cols += '<td class="col-sm-2"><a href="javascript:void(0);" type="button" class="ibtnDel"> Delete </a></td>';
+              newRow += cols;
+              newRow += "</tr>";
+              htmldata += newRow;
+            }
+            $("table.order-list tbody").html(htmldata);
+          }
         }
       }
     });
