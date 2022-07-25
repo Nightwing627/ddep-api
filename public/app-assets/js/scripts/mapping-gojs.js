@@ -596,7 +596,7 @@ function InboundDataBind() {
 			SchemaCount = 0;
 			//Inbound and Outbund Group in GOJS UI
 			var inboundGroup = [{ isGroup: true, key: "inbound", text: "Inbound Schema", xy: "0 0", width: 400 }];
-			var outboundGroup = [{ isGroup: true, key: "outbound", text: "Outbound Schema", xy: "1000 0", width: 400 }];
+			var outboundGroup = [{ isGroup: true, key: "outbound", text: "Outbound Schema", xy: "800 0", width: 400 }];
 
 			// When user fill in Inbound_Format Textbox (id=InboundFormat)
 			// must post this Textbox value injson2GOJSD API ,and then GOJSD_Convertor(<injson2GOJSD result>,"inbound");

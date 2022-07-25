@@ -7,9 +7,9 @@
     Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
 
-$(function () {
+$(document).ready(function () {
   'use strict';
- 
+
   var bsStepper = document.querySelectorAll('.bs-stepper'),
   select = $('.select2'),
   horizontalWizard = document.querySelector('.horizontal-wizard-example'),
@@ -21,15 +21,19 @@ $(function () {
   var inbound_end_date;
   var outbound_start_date;
   var outbound_end_date;
-  var project_detail ={};
+  var project_detail = {};
   var inbound_server_detail = {};
   var outbound_detail = {};
-  var schedule_detail ={};
+  var schedule_detail = {};
   $('#weekly_fields').hide();
   $('#weekly_fields_outbound').hide();
   $('#monthly_fields').hide();  
-  $('#monthly_fields_outbound').hide();  
-          
+  $('#monthly_fields_outbound').hide(); 
+  var validationRowCounter = 1;
+  var inOutAutocompleteDataArray = [];
+  var inboundAutocompleteDataArray = [];
+  var outboundAutocompleteDataArray = [];
+
   // Adds crossed class
   if (typeof bsStepper !== undefined && bsStepper !== null) {
     for (var el = 0; el < bsStepper.length; ++el) {
@@ -307,482 +311,7 @@ $(function () {
             }
             if(project_id!="")
             {
-              $.ajax({
-                url:'/inbound_setting/editAPI/'+project_id,
-                method:'get',
-                dataType:'json',
-                data:{},
-                success:function(response,textStatus,xhr){
-                  if(xhr.status==200)
-                  {
-                    console.log("inbound_id", response)
-                    $("#inbound_setting_id").val(response._id);
-                    $('#inboundFormat').val(response.inbound_format);
-                    if (response.inbound_format == 'json') {
-                      $('#inboundFormat > option:eq(0)').attr('selected', true);
-                      $('#select2-inboundFormat-container').attr("title", "JSON");
-                      $('#select2-inboundFormat-container').html("JSON");
-                    } else {
-                      $('#inboundFormat > option:eq(1)').attr('selected', true);
-                      $('#select2-inboundFormat-container').attr("title", "XML");
-                      $('#select2-inboundFormat-container').html("XML");
-                    }
-                    $('#ftp_server_link').val(response.ftp_server_link);
-                    //$('#host').val(response.host);
-                    if (response.ftp_port == '' || response.ftp_port == undefined) {
-                      $('#port').val(response.port);
-                    } else {
-                      $('#port').val(response.ftp_port);
-                    }
-                    if (response.ftp_login_name == '' || response.ftp_login_name == undefined) {
-                      $('#login_name').val(response.login_name);
-                    } else {
-                      $('#login_name').val(response.ftp_login_name);
-                    }
-                    if (response.ftp_password == '' || response.ftp_password == undefined) {
-                      $('#password').val(response.password);
-                    } else {
-                      $('#password').val(response.ftp_password);
-                    }
-                    $('input[value="'+response.sync_type+'"]').prop('checked',true);
-                    if (response.sync_type == 'API' || response.sync_type == '' || response.sync_type == undefined) {
-                      $('#apiInUrlDiv').show();
-                      $('#api_options').show();
-                      var api_type = response.api_type;
-                      $('input[value="'+response.api_type+'"]').prop('checked',true);
-                      if(api_type == "User_API")
-                      {
-                        $('#api_ddep_api_input').hide();
-                        $('#api_user_api_input').show();
-                        $('#api_user_api').val(response.api_user_api);
-                      }
-                      if(api_type == "DDEP_API")
-                      {
-                        $('#api_user_api_input').hide();
-                        $('#api_ddep_api_input').show();
-                        $('#api_ddep_api').val(response.api_ddep_api);
-                      }
-                    }
-                    else
-                    {
-                      $('#apiInUrlDiv').hide();
-                      $('#api_options').hide();
-                      $('#api_user_api_input').hide();
-                      $('#api_ddep_api_input').hide();
-                      $('#api_ddep_api_input_method').hide();
-                      $('#api_ddep_api_input_parameter').hide();
-                    }
-                    if (response.sync_type == 'FTP' || response.sync_type == 'SFTP') {
-                      $('#ftpInDiv').show();
-                      $('#apiInUrlDiv').hide();
-                      $('#api_options').hide();
-                      $('#api_user_api_input').hide();
-                      $('#api_ddep_api_input').hide();
-                      $('#api_ddep_api_input_method').hide();
-                      $('#api_ddep_api_input_parameter').hide();
-                    }
-                    if (response.ftp_folder == '' || response.ftp_folder == undefined) {
-                      $('#folderpath').val(response.folder);
-                    } else {
-                      $('#folderpath').val(response.ftp_folder);
-                    }
-                    if (response.ftp_backup_folder == '' || response.ftp_backup_folder == undefined) {
-                      $('#backup_folder').val(response.backup_folder);
-                    } else {
-                      $('#backup_folder').val(response.ftp_backup_folder);
-                    }
-                    $('#is_password_encrypted option[value="'+response.is_password_encrypted+'"]').prop('selected',true);
-                    $('#is_password_encrypted').trigger('change');
-                    console.log(response.is_active);
-
-                    //Thomas I changed Active evenet.
-                    if(response.is_active=="Active")
-                    {
-                      $('#is_active_inbound').removeClass('btn-secondary');
-                      $('#is_active_inbound').addClass('btn-success');
-                      $('#is_active_inbound').attr('data-value','Active');
-                      $('#is_active_inbound').html('Active');
-                    }
-                    else
-                    {
-                      $('#is_active_inbound').removeClass('btn-success');      //removeClass
-                      $('#is_active_inbound').addClass('btn-secondary');
-                      $('#is_active_inbound').attr('data-value','Active');       //Inactive
-                      $('#is_active_inbound').html('Active');               //Inactive
-                    }
-                  }
-                  //console.log(response);
-                  //console.log(response._id);
-                  //if(response.status)
-                  
-                }
-              })
-              $.ajax({
-                url:'/outbound_setting/editAPI/'+project_id,
-                method:'get',
-                dataType:'json',
-                data:{},
-                success:function(response,textStatus,xhr){
-                  if(xhr.status==200)
-                  {
-                     $('input[name="sync_type_out"]:checked').val(response.sync_type_out);
-                      $('#api_url').val(response.api_url);
-                     $('#outbound_format').val(response.outbound_format);
-                      if (response.outbound_format == 'json') {
-                        $('#inboundFormat > option:eq(0)').attr('selected', true);
-                        $('#select2-inboundFormat-container').attr("title", "JSON");
-                        $('#select2-inboundFormat-container').html("JSON");
-                      }
-                     $('#outbound_setting_id').val(response._id);
-                     // $('#project_id').val(response.item_id);
-                     if(response.is_active=="Active")
-                    {
-                      $('#is_active_outbound').removeClass('btn-secondary');
-                      $('#is_active_outbound').addClass('btn-success');
-                      $('#is_active_outbound').attr('data-value','Active');
-                      $('#is_active_outbound').html('Active');
-                    }
-                    else
-                    {
-                      $('#is_active_outbound').removeClass('btn-success');
-                      $('#is_active_outbound').addClass('btn-secondary');
-                      $('#is_active_outbound').attr('data-value','Inactive');
-                      $('#is_active_outbound').html('Inactive');
-                    }
-                  }
-                  //console.log(response);
-                  //console.log(response._id);
-                  //if(response.status)
-                  
-                }
-              })
-              $.ajax({
-                url:'/schedule_setting/editAPI/'+project_id,
-                method:'get',
-                dataType:'json',
-                data:{},
-                success:function(response,textStatus,xhr){
-                  if(xhr.status==200)
-                  {
-                      $('input[name="s_configure_inbound"][value="'+response.Schedule_configure_inbound+'"]').prop('checked',true);
-                      if(response.Schedule_configure_inbound=='click_by_user')
-                      {
-                          $('div.relation-schedule-open').hide();
-                      }
-                      else
-                      {
-                        $('div.relation-schedule-open').show();
-                      }
-
-                      if(response.Schedule_configure_outbound=='click_by_user')
-                      {
-                          $('div.relation-outbound-schedule-open').hide();
-                      }
-                      else
-                      {
-                        $('div.relation-outbound-schedule-open').show();
-                      }
-                      $('input[name="schedule_type_inbound"][value="'+response.schedule_type_inbound+'"]').prop('checked',true);
-                      if(response.schedule_type_inbound=='OneTime')
-                      {
-                        $('#inbound-data-recurring').hide();
-                        $('#inbound-data-one-time').show();
-                        $('#one_time_occurrence_inbound_date').val(response.one_time_occurrence_inbound_date);
-                        $('#one_time_occurrence_inbound_time').val(response.one_time_occurrence_inbound_time);
-                      }
-                      else
-                      {
-                        $('#inbound-data-recurring').show();
-                        $('#inbound-data-one-time').hide();
-                      }
-                      if(response.schedule_type_outbound=='OneTime')
-                      {
-                        $('#outbound-data-recurring').hide();
-                        $('#outbound-data-one-time').show();
-                        $('#one_time_occurrence_outbound_date').val(response.one_time_occurrence_outbound_date);
-                        $('#one_time_occurrence_outbound_time').val(response.one_time_occurrence_outbound_time);
-                      }
-                      else
-                      {
-                        $('#outbound-data-recurring').show();
-                        $('#outbound-data-one-time').hide();
-                      }
-                      $('#occurs_time_inbound').val(response.occurs_inbound).change();
-                      //$('#recurs_count_inbound').val(response.recurs_count_inbound);
-                      //$('#recurs_time_inbound').val(response.recurs_time_inbound);
-                      //$('#schedule_setting_id').val(response._id);
-                      console.log("schedule id found = "+response._id);
-                     $('input[name="s_configure_outbound"][value="'+response.Schedule_configure_outbound+'"]').prop('checked',true);
-                     $('input[name="schedule_type_outbound"][value="'+response.schedule_type_outbound+'"]').prop('checked',true);
-                     $('#day_frequency_inbound_count').val(response.day_frequency_inbound_count);
-                     $('#day_frequency_outbound_count').val(response.day_frequency_outbound_count);
-                     $('#weekly_frequency_inbound_count').val(response.weekly_frequency_inbound_count);
-                     $('#weekly_frequency_outbound_count').val(response.weekly_frequency_outbound_count);
-                     $('#weekly_frequency_inbound_count').val(response.weekly_frequency_inbound_count);
-                     $('#weekly_frequency_outbound_count').val(response.weekly_frequency_outbound_count);
-                     $('#monthly_frequency_day_inbound').val(response.monthly_frequency_day_inbound);
-                     $('#monthly_frequency_day_outbound').val(response.monthly_frequency_day_outbound);
-                     $('#monthly_frequency_day_inbound_count').val(response.monthly_frequency_day_inbound_count);
-                     $('#monthly_frequency_day_outbound_count').val(response.monthly_frequency_day_outbound_count);
-                     $('#monthly_frequency_the_inbound_count').val(response.monthly_frequency_the_inbound_count);
-                     $('#monthly_frequency_the_outbound_count').val(response.monthly_frequency_the_outbound_count);
-                     $('input[name="daily_frequency_type_inbound"][value="'+response.daily_frequency_type_inbound+'"]').prop('checked',true);
-                     $('input[name="daily_frequency_type_outbound"][value="'+response.daily_frequency_type_outbound+'"]').prop('checked',true);
-                     //$('#daily_frequency_type_inbound').val(response.daily_frequency_type_inbound);
-                     //$('#daily_frequency_type_outbound').val(response.daily_frequency_type_outbound);
-                     $('#daily_frequency_once_time_inbound').val(response.daily_frequency_once_time_inbound);
-                     $('#daily_frequency_once_time_outbound').val(response.daily_frequency_once_time_outbound);
-                     if($('input[name="daily_frequency_type_inbound"]:checked').val()=='Occurs every')
-                     {
-                        $("#daily_frequency_once_time_inbound").hide();
-                        $("#recursEveryDiv").show();
-                        $("#startingEndingDiv").show();
-                        $('#daily_frequency_every_time_unit_inbound').val(response.daily_frequency_every_time_unit_inbound).change();
-                        $('#daily_frequency_every_time_count_inbound').val(response.daily_frequency_every_time_count_inbound);
-                        $('#daily_frequency_every_time_count_start_inbound').val(response.daily_frequency_every_time_count_start_inbound);
-                        $('#daily_frequency_every_time_count_end_inbound').val(response.daily_frequency_every_time_count_end_inbound);
-                      }
-                     if($('input[name="daily_frequency_type_outbound"]:checked').val()=='Occurs every')
-                     {
-                        $("#daily_frequency_once_time_outbound").hide();
-                        $("#recursEveryDivOutbound").show();
-                        $("#startingEndingDivOutbound").show();
-                        $('#daily_frequency_every_time_unit_outbound').val(response.daily_frequency_every_time_unit_outbound).change();
-                        $('#daily_frequency_every_time_count_outbound').val(response.daily_frequency_every_time_count_outbound);
-                        $('#daily_frequency_every_time_count_start_outbound').val(response.daily_frequency_every_time_count_start_outbound);
-                        $('#daily_frequency_every_time_count_end_outbound').val(response.daily_frequency_every_time_count_end_outbound);
-                      }
-                     
-                     //$('#occurs_time_inbound option[value="'+response.occurs_time_inbound+'"]').attr("selected","selected");
-                     console.log("inbound"+response.occurs_inbound);
-                     console.log("outbound"+response.occurs_outbound);
-                     $("#occurs_time_inbound").val(response.occurs_inbound);
-                     $("#occurs_time_inbound").select2().trigger("change");
-                     $("#occurs_time_outbound").val(response.occurs_outbound)
-                     $("#occurs_time_outbound").select2().trigger("change");
-                     
-                     //$('#occurs_time_inbound').val(response.occurs_outbound);
-                     //$('#recurs_count_outbound').val(response.recurs_count_outbound);
-                     //$('#recurs_time_outbound').val(response.recurs_time_outbound);
-                     $("#schedule_setting_id").val(response._id);
-                     if(response.duration_inbound_start_date!=undefined)
-                     {
-                        $('#duration_inbound_start_date').val(response.duration_inbound_start_date);
-                     }
-                     if(response.duration_inbound_is_end_date!=undefined)
-                     {
-                      $('input[name="duration_inbound_is_end_date"][value="'+response.duration_inbound_is_end_date+'"]').prop('checked',true); 
-                     }
-                     if(response.duration_inbound_end_date!=undefined)
-                     {
-                        $('#duration_inbound_end_date').val(response.duration_inbound_end_date);
-                     }
-                     if(response.duration_outbound_start_date!=undefined)
-                     {
-                      $('#duration_outbound_start_date').val(response.duration_outbound_start_date);
-                     }
-                     if(response.duration_outbound_is_end_date!=undefined)
-                     {
-                      $('input[name="duration_outbound_is_end_date"][value="'+response.duration_outbound_is_end_date+'"]').prop('checked',true);
-                     }
-                     if(response.duration_outbound_end_date!=undefined)
-                     {
-                      $('#duration_outbound_end_date').val(response.duration_outbound_end_date);
-                     }
-                     if(response.occurs_inbound=="weekly")
-                     {
-                       $(response.occurs_weekly_fields_inbound).each(function(index,item){
-                         //console.log(item.day);
-                        $('input[name="occurs_weekly_fields_inbound"][value="'+item.day+'"]').prop('checked',true);
-                      });
-
-                     }
-                     if(response.occurs_outbound=="weekly")
-                     {
-
-                        $(response.occurs_weekly_fields_outbound).each(function(index,item){
-                          //console.log(item);
-                          $('input[name = occurs_weekly_fields_outbound][value="'+item.day+'"]').prop('checked',true);
-                        });
-                     }
-                     if(response.occurs_inbound=="monthly")
-                     {
-                        $(response.monthly_field_setting_inbound).each(function(index,item){
-                          console.log("monthly setting==="+item.inbound_monthly_day)
-                          if(item.inbound_monthly_day=="the")
-                          {
-                            $('input[name=inbound_monthly_day][value="The"]').prop('checked',true).trigger('change');
-                            $('#day_txt_box_inbound').hide();
-                            $('#the_section_inbound').show();
-                            $('#the_day_of').val(item.the_day_of).change();
-                            //$('#the_day_of').val(item.the_day_of).change();
-                            //$('#the_days').val(item.the_days).change();
-                            $('#the_days').val(item.the_days).change();
-                            //$('input[name=inbound_monthly_day]:checked').prop('checked',false);
-                          }
-                          else
-                          {
-                            $('#the_section_inbound').hide();
-                            $('#day_txt_box_inbound').show();
-                          }
-                          //$('input[name = occurs_weekly_fields_outbound][value="'+item.day+'"]').prop('checked',true);
-                        });
-                     }
-                     if(response.occurs_outbound=="monthly")
-                     {
-                        $(response.monthly_field_setting_outbound).each(function(index,item){
-                          console.log("monthly setting==="+item.outbound_monthly_day)
-                          if(item.outbound_monthly_day=="the")
-                          {
-                            $('input[name=outbound_monthly_day][value="The"]').prop('checked',true).trigger('change');
-                            $('#day_txt_box_outbound').hide();
-                            $('#the_section_outbound').show();
-                            $('#the_day_of_outbound').val(item.the_day_of).change();
-                            //$('#the_day_of').val(item.the_day_of).change();
-                            //$('#the_days').val(item.the_days).change();
-                            $('#the_days_outbound').val(item.the_days).change();
-                            //$('input[name=inbound_monthly_day]:checked').prop('checked',false);
-                          }
-                          else
-                          {
-                            $('#the_section_outbound').hide();
-                            $('#day_txt_box_outbound').show();
-                          }
-                          //$('input[name = occurs_weekly_fields_outbound][value="'+item.day+'"]').prop('checked',true);
-                        });
-                     }
-                        
-                  }
-                  //console.log(response);
-                  //console.log(response._id);
-                  //if(response.status)
-                  
-                }
-              })
-              $.ajax({
-                url:'/project/item/mapping/editAPI/'+project_id,
-                method:'get',
-                dataType:'json',
-                data:{},
-                success:function(response,textStatus,xhr){
-                  if(xhr.status==200)
-                  {
-                    $("#mapping_setting_id").val(response._id);
-                    $('#InboundFormatData').val(response.inbound_format);
-                    $('#OutboundFormatData').val(response.outbound_format);
-                    $('#mySavedModel').val(response.mapping_data);
-                    if(response.is_active == "Active")
-                    {
-                      $('#is_active_mapping').removeClass('btn-secondary');
-                      $('#is_active_mapping').addClass('btn-success');
-                      $('#is_active_mapping').attr('data-value','Active');
-                      $('#is_active_mapping').html('Active');
-                    }
-                    else
-                    {
-                      $('#is_active_mapping').removeClass('btn-success');
-                      $('#is_active_mapping').addClass('btn-secondary');
-                      $('#is_active_mapping').attr('data-value','Inactive');
-                      $('#is_active_mapping').html('Inactive');
-                    }
-
-
-                    var mapping_data = JSON.parse(response.mapping_data);
-
-                    nodeDataArray = mapping_data.nodeDataArray;
-                    linkDataArray = mapping_data.linkDataArray;
-
-                    //Init GOJS UI
-                    myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
-                  }
-                }
-              })
-              $.ajax({
-                url:'/outbound_validation/editAPI/'+project_id,
-                method:'get',
-                dataType:'json',
-                data:{},
-                success:function(response,textStatus,xhr){
-                  if(xhr.status==200)
-                  {
-                    var validations = response.Data.validations;
-                    $('#outbound_validation_id').val(response.id);
-                    if (validations.length > 0) {
-                      var htmldata = '';
-                      for (var i = 0; i < validations.length; i++) {
-                        var newRow = "<tr>";
-                        var cols = "";
-                        cols += '<td class="col-sm-2 logical-select"><select class="select-dropdown form-control form-control-lg" name="validations[][logical]">';
-                        cols += '<option value="AND"';
-                        if (validations[i].logical == 'AND') {
-                          cols += ' selected';
-                        }
-                        cols += '>AND</option>';
-                        cols += '<option value="OR"';
-                        if (validations[i].logical == 'OR') {
-                          cols += ' selected';
-                        }
-                        cols += '>OR</option>';
-                        cols += '</select></td>';
-                        cols += '<td class="col-sm-3"><input type="text" class="form-control border-0" name="validations[][original]" value="'+validations[i].original+'"/></td>';
-                        cols += '<td class="col-sm-3 operations-select"><select class="select-dropdown form-control form-control-lg" name="validations[][operations]">';
-                        cols += '<option value="=="';
-                        if (validations[i].operations == '==') {
-                          cols += ' selected';
-                        }
-                        cols += '>=</option>';
-                        cols += '<option value=">"';
-                        if (validations[i].operations == '>') {
-                          cols += ' selected';
-                        }
-                        cols += '>></option>';
-                        cols += '<option value=">="';
-                        if (validations[i].operations == '>=') {
-                          cols += ' selected';
-                        }
-                        cols += '>>=</option>';
-                        cols += '<option value="<"';
-                        if (validations[i].operations == '<') {
-                          cols += ' selected';
-                        }
-                        cols += '><</option>';
-                        cols += '<option value="<="';
-                        if (validations[i].operations == '<=') {
-                          cols += ' selected';
-                        }
-                        cols += '><=</option>';
-                        cols += '<option value="<>"';
-                        if (validations[i].operations == '<>') {
-                          cols += ' selected';
-                        }
-                        cols += '><></option>';
-                        /*cols += '<option value="NOT IN"';
-                        if (validations[i].operations == 'NOT IN') {
-                          cols += ' selected';
-                        }
-                        cols += '>NOT IN</option>';
-                        cols += '<option value="IN"';
-                        if (validations[i].operations == 'IN') {
-                          cols += ' selected';
-                        }
-                        cols += '>IN</option>';*/
-                        cols += '<option value="Contains"';
-                        if (validations[i].operations == 'Contains') {
-                          cols += ' selected';
-                        }
-                        cols += '>Contains</option>';
-                        cols += '</select></td>';
-                        cols += '<td class="col-sm-2"><input type="text" class="form-control border-0" name="validations[][column]" value="'+validations[i].column+'"/></td>';
-                        cols += '<td class="col-sm-2"><a href="javascript:void(0);" type="button" class="ibtnDel"> Delete </a></td>';
-                        newRow += cols;
-                        newRow += "</tr>";
-                        htmldata += newRow;
-                      }
-                      $("table.order-list tbody").html(htmldata);
-                    }
-                  }
-                }
-              })
+              editalltabs(project_id);
             }
           }
           else if(index == 1)
@@ -967,6 +496,11 @@ $(function () {
                   data:{project_id:project_id,inbound_format:inbound_format,outbound_format:outbound_format,mapping_data:mapping_data},
                   success:function(response){
                     $("#mapping_setting_id").val(response.id);
+                    inboundautocompletedata(JSON.parse(inbound_format));
+                    console.log(inboundAutocompleteDataArray);
+                    outboundautocompletedata(JSON.parse(outbound_format));
+                    console.log(outboundAutocompleteDataArray);
+                    inOutAutocompleteDataArray = inboundAutocompleteDataArray.concat(outboundAutocompleteDataArray);
                     numberedStepper.to(5);
                   },
                   error: function (textStatus, errorThrown) {
@@ -982,13 +516,17 @@ $(function () {
                   dataType:'json',
                   data:{project_id:project_id,inbound_format:inbound_format,outbound_format:outbound_format,mapping_data:mapping_data},
                   success:function(response){
-                    // sweetAlert("success", "Mapping Setting Saved Successfully", "success");
                     swal({
                       title: "success!",
                       text: "Mapping Setting Saved Successfully",
                       type: "success",
                       timer: 1200
                     });
+                    inboundautocompletedata(JSON.parse(inbound_format));
+                    console.log(inboundAutocompleteDataArray);
+                    outboundautocompletedata(JSON.parse(outbound_format));
+                    console.log(outboundAutocompleteDataArray);
+                    inOutAutocompleteDataArray = inboundAutocompleteDataArray.concat(outboundAutocompleteDataArray);
                     numberedStepper.to(5);
                   },
                   error: function (textStatus, errorThrown) {
@@ -1092,8 +630,7 @@ $(function () {
     $('#save_project').on('click',function(e){
       e.preventDefault();
       var isValid = $('#frm-save-project').valid();
-       
-        var project_id = $('#project_id').val();
+      var project_id = $('#project_id').val();
       if (isValid) {
             project_detail.ProjectCode = $('#ProjectCode').val();
             project_detail.ProjectName = $('#ProjectName').val();
@@ -1145,8 +682,8 @@ $(function () {
     $('#save_inbound').on('click',function(e){
       e.preventDefault();
       var isValid = $('#frm-save-inbound').valid();
-       if(isValid)
-       {
+      if(isValid)
+      {
         var inbound_setting_id = $("#inbound_setting_id").val();
         var inbound_format = $('#inboundFormat').val();
         var sync_type = $('input[name="sync_type"]:checked').val();
@@ -1221,34 +758,33 @@ $(function () {
             }
           });
         }
-       }
+      }
     });
 
     $('#is_active_inbound').on('click',function(e){
       var is_active = $(this).data('value');
-      
       e.preventDefault();
       var isValid = $('#frm-save-inbound').valid();
-       var project_id = $('#project_id').val();
-       var inbound_setting_id = $('#inbound_setting_id').val();
-       if(isValid)
-       {
-          if(is_active=="Inactive")
-          {
-            is_active = "Active";
-            $(this).attr('data-value',"Active");
-            $(this).removeClass('btn-secondary');
-            $(this).addClass('btn-success');
-            $(this).html('Active');
-          }
-          else
-          {
-            is_active = "Inactive";
-            $(this).attr('data-value',"Inactive");
-            $(this).removeClass('btn-success');
-            $(this).addClass('btn-secondary');
-            $(this).html('Inactive')
-          }
+      var project_id = $('#project_id').val();
+      var inbound_setting_id = $('#inbound_setting_id').val();
+      if(isValid)
+      {
+        if(is_active=="Inactive")
+        {
+          is_active = "Active";
+          $(this).attr('data-value',"Active");
+          $(this).removeClass('btn-secondary');
+          $(this).addClass('btn-success');
+          $(this).html('Active');
+        }
+        else
+        {
+          is_active = "Inactive";
+          $(this).attr('data-value',"Inactive");
+          $(this).removeClass('btn-success');
+          $(this).addClass('btn-secondary');
+          $(this).html('Inactive')
+        }
         var inbound_setting_id = $("#inbound_setting_id").val();
         var inbound_format = $('#inboundFormat').val();
         var sync_type = $('input[name="sync_type"]:checked').val();
@@ -1307,165 +843,163 @@ $(function () {
             }
           });
         }
-       }
-       else
-       {
-          is_active = "Inactive";
-          $(this).attr('data-value',"Inactive");
-          $(this).removeClass('btn-success');
-          $(this).addClass('btn-secondary');
-          $(this).html('Inactive');
-       }
+      }
+      else
+      {
+        is_active = "Inactive";
+        $(this).attr('data-value',"Inactive");
+        $(this).removeClass('btn-success');
+        $(this).addClass('btn-secondary');
+        $(this).html('Inactive');
+      }
     });
 
     $('#is_active_outbound').on('click',function(e){
       e.preventDefault();
       var is_active = $(this).data('value');
-      
-      
       var isValid = $('#frm-save-outbound').valid();
-       var project_id = $('#project_id').val();
-       var outbound_setting_id = $('#outbound_setting_id').val();
-       var is_active = $('#is_active_outbound').data('value');
-       if(isValid)
-       {
-          if(is_active=="Inactive")
-          {
-            is_active = "Active";
-            $(this).attr('data-value',"Active");
-            $(this).removeClass('btn-secondary');
-            $(this).addClass('btn-success');
-            $(this).html('Active');
-          }
-          else
-          {
-            is_active = "Inactive";
-            $(this).attr('data-value',"Inactive");
-            $(this).removeClass('btn-success');
-            $(this).addClass('btn-secondary');
-            $(this).html('Inactive')
-          }
-          var sync_type_out =$('input[name="sync_type_out"]:checked').val();
-            var api_url = $('#api_url').val();
-            var outbound_format = $('#outbound_format').val();
-            var outbound_setting_id = $('#outbound_setting_id').val();
-            var project_id = $('#project_id').val();
-            if(outbound_setting_id=="")
-            {
-              $.ajax({
-                url:'/outbound_setting/save',  
-                method:'post',  
-                dataType:'json',
-                data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active:is_active},
-                success:function(response){
-                  console.log(response);
-                  //alert("Setting saved successfully");
-                  $("#outbound_setting_id").val(response.id);
-                },
-                error:function(textStatus,errorThrown)
-                  { 
-                    console.log("error in outbound setting");
-                    $('#collapseFour').slideDown('slow');
-                    $('#frm-save-outbound').valid();
-                    return false;
-                  }
-              });
-            }
-            else
-            {
-              $.ajax({
-                url:'/outbound_setting/update/'+outbound_setting_id,  
-                method:'put',  
-                dataType:'json',
-                data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active:is_active},
-                success:function(response){
-                  //console.log(response);
-                  //alert("Outbound Setting saved successfully");
-                  //$("#outbound_setting_id").val(response.id);
-                },
-                error:function(textStatus,errorThrown)
-                  { 
-                    console.log("error in outbound setting");
-                    $('#collapseFour').slideDown('slow');
-                    $('#frm-save-outbound').valid();
-                    return false;
-                  }
-              });
-            }
-       }
-       else
-       {
+      var project_id = $('#project_id').val();
+      var outbound_setting_id = $('#outbound_setting_id').val();
+      var is_active = $('#is_active_outbound').data('value');
+      if(isValid)
+      {
+        if(is_active=="Inactive")
+        {
+          is_active = "Active";
+          $(this).attr('data-value',"Active");
+          $(this).removeClass('btn-secondary');
+          $(this).addClass('btn-success');
+          $(this).html('Active');
+        }
+        else
+        {
           is_active = "Inactive";
-          $(this).data('value',"Inactive");
+          $(this).attr('data-value',"Inactive");
           $(this).removeClass('btn-success');
           $(this).addClass('btn-secondary');
-          $(this).html('Inactive');
-       }
+          $(this).html('Inactive')
+        }
+        var sync_type_out =$('input[name="sync_type_out"]:checked').val();
+        var api_url = $('#api_url').val();
+        var outbound_format = $('#outbound_format').val();
+        var outbound_setting_id = $('#outbound_setting_id').val();
+        var project_id = $('#project_id').val();
+        if(outbound_setting_id=="")
+        {
+          $.ajax({
+            url:'/outbound_setting/save',  
+            method:'post',  
+            dataType:'json',
+            data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active:is_active},
+            success:function(response){
+              console.log(response);
+              //alert("Setting saved successfully");
+              $("#outbound_setting_id").val(response.id);
+            },
+            error:function(textStatus,errorThrown)
+              { 
+                console.log("error in outbound setting");
+                $('#collapseFour').slideDown('slow');
+                $('#frm-save-outbound').valid();
+                return false;
+              }
+          });
+        }
+        else
+        {
+          $.ajax({
+            url:'/outbound_setting/update/'+outbound_setting_id,  
+            method:'put',  
+            dataType:'json',
+            data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active:is_active},
+            success:function(response){
+              //console.log(response);
+              //alert("Outbound Setting saved successfully");
+              //$("#outbound_setting_id").val(response.id);
+            },
+            error:function(textStatus,errorThrown)
+              { 
+                console.log("error in outbound setting");
+                $('#collapseFour').slideDown('slow');
+                $('#frm-save-outbound').valid();
+                return false;
+              }
+          });
+        }
+      }
+      else
+      {
+        is_active = "Inactive";
+        $(this).data('value',"Inactive");
+        $(this).removeClass('btn-success');
+        $(this).addClass('btn-secondary');
+        $(this).html('Inactive');
+      }
     });
 
     $('#save_outbound').on('click',function(e){
       e.preventDefault();
       var isValid = $('#frm-save-outbound').valid();
-       var project_id = $('#project_id').val();
-       var outbound_setting_id = $('#outbound_setting_id').val();
-       var is_active = $('#is_active_outbound').data('value');
-       if(isValid)
-       {
-          var sync_type_out =$('input[name="sync_type_out"]:checked').val();
-            var api_url = $('#api_url').val();
-            var outbound_format = $('#outbound_format').val();
-            var outbound_setting_id = $('#outbound_setting_id').val();
-            var project_id = $('#project_id').val();
-            var is_active = $("#is_active_outbound").data('value');
-            if(outbound_setting_id=="")
-            {
-              $.ajax({
-                url:'/outbound_setting/save',  
-                method:'post',  
-                dataType:'json',
-                data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active:is_active},
-                success:function(response){
-                  console.log(response);
-                  //alert("Setting saved successfully");
-                  $("#outbound_setting_id").val(response.id);
-                },
-                error:function(textStatus,errorThrown)
-                  { 
-                    console.log("error in outbound setting");
-                    $('#collapseFour').slideDown('slow');
-                    $('#frm-save-outbound').valid();
-                    return false;
-                  }
-              });
+      var project_id = $('#project_id').val();
+      var outbound_setting_id = $('#outbound_setting_id').val();
+      var is_active = $('#is_active_outbound').data('value');
+      if(isValid)
+      {
+        var sync_type_out =$('input[name="sync_type_out"]:checked').val();
+        var api_url = $('#api_url').val();
+        var outbound_format = $('#outbound_format').val();
+        var outbound_setting_id = $('#outbound_setting_id').val();
+        var project_id = $('#project_id').val();
+        var is_active = $("#is_active_outbound").data('value');
+        if(outbound_setting_id=="")
+        {
+          $.ajax({
+            url:'/outbound_setting/save',  
+            method:'post',  
+            dataType:'json',
+            data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active:is_active},
+            success:function(response){
+              console.log(response);
+              //alert("Setting saved successfully");
+              $("#outbound_setting_id").val(response.id);
+            },
+            error:function(textStatus,errorThrown)
+            { 
+              console.log("error in outbound setting");
+              $('#collapseFour').slideDown('slow');
+              $('#frm-save-outbound').valid();
+              return false;
             }
-            else
-            {
-              $.ajax({
-                url:'/outbound_setting/update/'+outbound_setting_id,  
-                method:'put',  
-                dataType:'json',
-                data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active:is_active},
-                success:function(response){
-                  //console.log(response);
-                  // sweetAlert("success", "Outbound Setting Saved Successfully", "success");
-                    swal({
-                      title: "success!",
-                      text: "Outbound Setting Saved Successfully",
-                      type: "success",
-                      timer: 1200
-                    });
-                  //$("#outbound_setting_id").val(response.id);
-                },
-                error:function(textStatus,errorThrown)
-                  { 
-                    console.log("error in outbound setting");
-                    $('#collapseFour').slideDown('slow');
-                    $('#frm-save-outbound').valid();
-                    return false;
-                  }
-              });
-            }
-       }
+          });
+        }
+        else
+        {
+          $.ajax({
+            url:'/outbound_setting/update/'+outbound_setting_id,  
+            method:'put',  
+            dataType:'json',
+            data:{project_id:project_id,sync_type_out:sync_type_out,api_url:api_url,outbound_format:outbound_format,is_active:is_active},
+            success:function(response){
+              //console.log(response);
+              // sweetAlert("success", "Outbound Setting Saved Successfully", "success");
+                swal({
+                  title: "success!",
+                  text: "Outbound Setting Saved Successfully",
+                  type: "success",
+                  timer: 1200
+                });
+              //$("#outbound_setting_id").val(response.id);
+            },
+            error:function(textStatus,errorThrown)
+              { 
+                console.log("error in outbound setting");
+                $('#collapseFour').slideDown('slow');
+                $('#frm-save-outbound').valid();
+                return false;
+              }
+          });
+        }
+      }
     });
 
     $('#save_mapping').on('click', function(e){
@@ -1493,6 +1027,11 @@ $(function () {
                 type: "success",
                 timer: 1200
               });
+              inboundautocompletedata(JSON.parse(inbound_format));
+              console.log(inboundAutocompleteDataArray);
+              outboundautocompletedata(JSON.parse(outbound_format));
+              console.log(outboundAutocompleteDataArray);
+              inOutAutocompleteDataArray = inboundAutocompleteDataArray.concat(outboundAutocompleteDataArray);
             },
             error: function (textStatus, errorThrown) {
               $e.preventDefault();
@@ -1507,13 +1046,17 @@ $(function () {
             dataType:'json',
             data:{project_id:project_id,inbound_format:inbound_format,outbound_format:outbound_format,mapping_data:mapping_data},
             success:function(response){
-              // sweetAlert("success", "Mapping Setting Saved Successfully", "success");
               swal({
                 title: "success!",
                 text: "Mapping Setting Saved Successfully",
                 type: "success",
                 timer: 1200
               });
+              inboundautocompletedata(JSON.parse(inbound_format));
+              console.log(inboundAutocompleteDataArray);
+              outboundautocompletedata(JSON.parse(outbound_format));
+              console.log(outboundAutocompleteDataArray);
+              inOutAutocompleteDataArray = inboundAutocompleteDataArray.concat(outboundAutocompleteDataArray);
             },
             error: function (textStatus, errorThrown) {
               $('#collapseTwo').slideDown('slow');
@@ -1644,9 +1187,13 @@ $(function () {
           i++;
           if (i > 4) {
             formDataArr.push(formDataObj);
-            i = 1;formDataObj = {};
+            i = 1;
+            formDataObj = {};
           }
         });
+        if (formDataArr.length <= 0) {
+          formDataArr = '';
+        }
         if(outbound_validation_id == "") {
           $.ajax({
             url: '/outbound_validation/save',  
@@ -2269,6 +1816,7 @@ $(function () {
          //$('#duration_outbound_end_date').addClass('hidden');
        }
     });
+
     $('input[name=schedule_type_inbound]').on('change',function(){
       if($(this).val()=='Recurring')
       {
@@ -2283,6 +1831,7 @@ $(function () {
       
       //alert("ram");
     });
+
     $('input[name=schedule_type_outbound]').on('change',function(){
       if($(this).val()=='Recurring')
       {
@@ -2297,6 +1846,7 @@ $(function () {
       //alert("ram");
     });
   }
+
   $('#conntest').on('click',function(){
     var host=$('#ftp_server_link').val();
     var user=$('#login_name').val();
@@ -2353,6 +1903,7 @@ $(function () {
         });
     }
   });
+
   // Vertical Wizard
   // --------------------------------------------------------------------
   if (typeof verticalWizard !== undefined && verticalWizard !== null) {
@@ -2424,29 +1975,1015 @@ $(function () {
         alert('Submitted..!!');
       });
   }
-});
 
-$('body').on('change', 'input:radio[name=sync_type]', function() {
-  $('.sync_confige_tabs').hide();
-  $('#api_options').hide();
-  $('#api_ddep_api_input_method').hide();
-  $('#api_ddep_api_input_parameter').hide();
-  if (this.value == 'FTP' || this.value == 'SFTP') {
-    $('#ftpInDiv').show();
-  }
-  if (this.value == 'API') {
-    $('#apiInUrlDiv').show();
-    $('#api_options').show();
-  }
-});
+  $('body').on('change', 'input:radio[name=sync_type]', function() {
+    $('.sync_confige_tabs').hide();
+    $('#api_options').hide();
+    $('#api_ddep_api_input_method').hide();
+    $('#api_ddep_api_input_parameter').hide();
+    if (this.value == 'FTP' || this.value == 'SFTP') {
+      $('#ftpInDiv').show();
+    }
+    if (this.value == 'API') {
+      $('#apiInUrlDiv').show();
+      $('#api_options').show();
+    }
+  });
 
-$('body').on('change', 'input:radio[name=api_type]', function() {
-  if (this.value == 'User_API') {
-    $('#api_user_api_input').show();
-    $('#api_ddep_api_input').hide();
+  $('body').on('change', 'input:radio[name=api_type]', function() {
+    if (this.value == 'User_API') {
+      $('#api_user_api_input').show();
+      $('#api_ddep_api_input').hide();
+    }
+    if (this.value == 'DDEP_API') {
+      $('#api_ddep_api_input').show();
+      $('#api_user_api_input').hide();
+    }
+  });
+
+  var eproject_id = $('#project_id').val();
+  if (eproject_id != '') {
+    $('.step-trigger').removeAttr('disabled');
+    $('body').on('click', '.bs-stepper-header .step', function(){
+      var dataID = $(this).attr('data-target');
+      var stepper = new Stepper(document.querySelector('.bs-stepper'));
+      if (dataID == '#create-project') {
+        stepper.to(1);
+      } else if (dataID == '#Inbound') {
+        stepper.to(2);
+      } else if (dataID == '#outbound-step') {
+        stepper.to(3);
+      } else if (dataID == '#mapping-step') {
+        stepper.to(4);
+      } else if (dataID == '#schedule-step') {
+        stepper.to(5);
+      }
+      $('.step-trigger').removeAttr('disabled');
+    });
+    var project_id = $('#project_id').val();
+    editalltabs(project_id);
   }
-  if (this.value == 'DDEP_API') {
-    $('#api_ddep_api_input').show();
-    $('#api_user_api_input').hide();
+
+  var modal = document.getElementById("outbound_validation_modal");
+  var btn = document.getElementById("outbound_validation_popup_btn");
+  var mclose = document.getElementById("outbound-validation-modal-close");
+  btn.onclick = function() {
+    modal.style.display = "flex";
   }
+  mclose.onclick = function() {
+    modal.style.display = "none";
+  }
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
+  $("body").on("click", "#addvalidationrow", function () {
+    var newRow = "<tr>";
+    var cols = "";
+    cols += '<td class="col-sm-2 logical-select"><select class="select-dropdown form-control form-control-lg" name="validations[][logical]"><option value="AND">AND</option><option value="OR">OR</option></select></td>';
+    cols += '<td class="col-sm-3 autocomplete"><input type="text" name="validations[][original]" class="form-control border-0 autocompletevalidation" id="original_'+validationRowCounter+'"/></td>';
+    cols += '<td class="col-sm-3 operations-select"><select class="select-dropdown form-control form-control-lg" name="validations[][operations]"><option value="==">=</option><option value=">">></option><option value=">=">>=</option><option value="<"><</option><option value="<="><=</option><option value="<>"><></option><option value="Contains">Contains</option></select></td>';
+    cols += '<td class="col-sm-2 autocomplete"><input type="text" name="validations[][column]" class="form-control border-0 autocompletevalidation" id="column_'+validationRowCounter+'"/></td>';
+    cols += '<td class="col-sm-2"><a href="javascript:void(0);" type="button" class="ibtnDel"> Delete </a></td>';
+    newRow += cols;
+    newRow += "</tr>";
+    $("table.order-list tbody").append(newRow);
+    validationRowCounter++;
+  });
+
+  $("body table.order-list").on("click", ".ibtnDel", function (event) {
+    $(this).closest("tr").remove();
+    validationRowCounter -= 1;
+  });
+
+  $("body").on("click", "#InboundDataBind, #OutboundDataBind", function () {
+    var inbound_format = $("#InboundFormatData").val();
+    var outbound_format = $("#OutboundFormatData").val();
+    if (inbound_format != '') {
+      inboundautocompletedata(JSON.parse(inbound_format));
+      console.log(inboundAutocompleteDataArray);
+    }
+    if (outbound_format != '') {
+      outboundautocompletedata(JSON.parse(outbound_format));
+      console.log(outboundAutocompleteDataArray);
+    }
+    inOutAutocompleteDataArray = inboundAutocompleteDataArray.concat(outboundAutocompleteDataArray);
+  });
+
+  function editalltabs(project_id) {
+    $.ajax({
+      url:'/inbound_setting/editAPI/'+project_id,
+      method:'get',
+      dataType:'json',
+      data:{},
+      success:function(response,textStatus,xhr){
+        if(xhr.status==200)
+        {
+          console.log("inbound_id", response)
+          $("#inbound_setting_id").val(response._id);
+          $('#inboundFormat').val(response.inbound_format);
+          if (response.inbound_format == 'json') {
+            $('#inboundFormat > option:eq(0)').attr('selected', true);
+            $('#select2-inboundFormat-container').attr("title", "JSON");
+            $('#select2-inboundFormat-container').html("JSON");
+          } else {
+            $('#inboundFormat > option:eq(1)').attr('selected', true);
+            $('#select2-inboundFormat-container').attr("title", "XML");
+            $('#select2-inboundFormat-container').html("XML");
+          }
+          $('#ftp_server_link').val(response.ftp_server_link);
+          //$('#host').val(response.host);
+          if (response.ftp_port == '' || response.ftp_port == undefined) {
+            $('#port').val(response.port);
+          } else {
+            $('#port').val(response.ftp_port);
+          }
+          if (response.ftp_login_name == '' || response.ftp_login_name == undefined) {
+            $('#login_name').val(response.login_name);
+          } else {
+            $('#login_name').val(response.ftp_login_name);
+          }
+          if (response.ftp_password == '' || response.ftp_password == undefined) {
+            $('#password').val(response.password);
+          } else {
+            $('#password').val(response.ftp_password);
+          }
+          $('input[value="'+response.sync_type+'"]').prop('checked',true);
+          if (response.sync_type == 'API' || response.sync_type == '' || response.sync_type == undefined) {
+            $('#apiInUrlDiv').show();
+            $('#api_options').show();
+            var api_type = response.api_type;
+            $('input[value="'+response.api_type+'"]').prop('checked',true);
+            if(api_type == "User_API")
+            {
+              $('#api_ddep_api_input').hide();
+              $('#api_user_api_input').show();
+              $('#api_user_api').val(response.api_user_api);
+            }
+            if(api_type == "DDEP_API")
+            {
+              $('#api_user_api_input').hide();
+              $('#api_ddep_api_input').show();
+              $('#api_ddep_api').val(response.api_ddep_api);
+            }
+          }
+          else
+          {
+            $('#apiInUrlDiv').hide();
+            $('#api_options').hide();
+            $('#api_user_api_input').hide();
+            $('#api_ddep_api_input').hide();
+            $('#api_ddep_api_input_method').hide();
+            $('#api_ddep_api_input_parameter').hide();
+          }
+          if (response.sync_type == 'FTP' || response.sync_type == 'SFTP') {
+            $('#ftpInDiv').show();
+            $('#apiInUrlDiv').hide();
+            $('#api_options').hide();
+            $('#api_user_api_input').hide();
+            $('#api_ddep_api_input').hide();
+            $('#api_ddep_api_input_method').hide();
+            $('#api_ddep_api_input_parameter').hide();
+          }
+          if (response.ftp_folder == '' || response.ftp_folder == undefined) {
+            $('#folderpath').val(response.folder);
+          } else {
+            $('#folderpath').val(response.ftp_folder);
+          }
+          if (response.ftp_backup_folder == '' || response.ftp_backup_folder == undefined) {
+            $('#backup_folder').val(response.backup_folder);
+          } else {
+            $('#backup_folder').val(response.ftp_backup_folder);
+          }
+          $('#is_password_encrypted option[value="'+response.is_password_encrypted+'"]').prop('selected',true);
+          $('#is_password_encrypted').trigger('change');
+          console.log(response.is_active);
+
+          //Thomas I changed Active evenet.
+          if(response.is_active=="Active")
+          {
+            $('#is_active_inbound').removeClass('btn-secondary');
+            $('#is_active_inbound').addClass('btn-success');
+            $('#is_active_inbound').attr('data-value','Active');
+            $('#is_active_inbound').html('Active');
+          }
+          else
+          {
+            $('#is_active_inbound').removeClass('btn-success');      //removeClass
+            $('#is_active_inbound').addClass('btn-secondary');
+            $('#is_active_inbound').attr('data-value','Active');       //Inactive
+            $('#is_active_inbound').html('Active');               //Inactive
+          }
+        }
+        //console.log(response);
+        //console.log(response._id);
+        //if(response.status)
+        
+      }
+    });
+    $.ajax({
+      url:'/outbound_setting/editAPI/'+project_id,
+      method:'get',
+      dataType:'json',
+      data:{},
+      success:function(response,textStatus,xhr){
+        if(xhr.status==200)
+        {
+           $('input[name="sync_type_out"]:checked').val(response.sync_type_out);
+            $('#api_url').val(response.api_url);
+           $('#outbound_format').val(response.outbound_format);
+            if (response.outbound_format == 'json') {
+              $('#inboundFormat > option:eq(0)').attr('selected', true);
+              $('#select2-inboundFormat-container').attr("title", "JSON");
+              $('#select2-inboundFormat-container').html("JSON");
+            }
+           $('#outbound_setting_id').val(response._id);
+           // $('#project_id').val(response.item_id);
+           if(response.is_active=="Active")
+          {
+            $('#is_active_outbound').removeClass('btn-secondary');
+            $('#is_active_outbound').addClass('btn-success');
+            $('#is_active_outbound').attr('data-value','Active');
+            $('#is_active_outbound').html('Active');
+          }
+          else
+          {
+            $('#is_active_outbound').removeClass('btn-success');
+            $('#is_active_outbound').addClass('btn-secondary');
+            $('#is_active_outbound').attr('data-value','Inactive');
+            $('#is_active_outbound').html('Inactive');
+          }
+        }
+        //console.log(response);
+        //console.log(response._id);
+        //if(response.status)
+        
+      }
+    });
+    $.ajax({
+      url:'/schedule_setting/editAPI/'+project_id,
+      method:'get',
+      dataType:'json',
+      data:{},
+      success:function(response,textStatus,xhr){
+        if(xhr.status==200)
+        {
+            $('input[name="s_configure_inbound"][value="'+response.Schedule_configure_inbound+'"]').prop('checked',true);
+            if(response.Schedule_configure_inbound=='click_by_user')
+            {
+                $('div.relation-schedule-open').hide();
+            }
+            else
+            {
+              $('div.relation-schedule-open').show();
+            }
+
+            if(response.Schedule_configure_outbound=='click_by_user')
+            {
+                $('div.relation-outbound-schedule-open').hide();
+            }
+            else
+            {
+              $('div.relation-outbound-schedule-open').show();
+            }
+            $('input[name="schedule_type_inbound"][value="'+response.schedule_type_inbound+'"]').prop('checked',true);
+            if(response.schedule_type_inbound=='OneTime')
+            {
+              $('#inbound-data-recurring').hide();
+              $('#inbound-data-one-time').show();
+              $('#one_time_occurrence_inbound_date').val(response.one_time_occurrence_inbound_date);
+              $('#one_time_occurrence_inbound_time').val(response.one_time_occurrence_inbound_time);
+            }
+            else
+            {
+              $('#inbound-data-recurring').show();
+              $('#inbound-data-one-time').hide();
+            }
+            if(response.schedule_type_outbound=='OneTime')
+            {
+              $('#outbound-data-recurring').hide();
+              $('#outbound-data-one-time').show();
+              $('#one_time_occurrence_outbound_date').val(response.one_time_occurrence_outbound_date);
+              $('#one_time_occurrence_outbound_time').val(response.one_time_occurrence_outbound_time);
+            }
+            else
+            {
+              $('#outbound-data-recurring').show();
+              $('#outbound-data-one-time').hide();
+            }
+            $('#occurs_time_inbound').val(response.occurs_inbound).change();
+            //$('#recurs_count_inbound').val(response.recurs_count_inbound);
+            //$('#recurs_time_inbound').val(response.recurs_time_inbound);
+            //$('#schedule_setting_id').val(response._id);
+            console.log("schedule id found = "+response._id);
+           $('input[name="s_configure_outbound"][value="'+response.Schedule_configure_outbound+'"]').prop('checked',true);
+           $('input[name="schedule_type_outbound"][value="'+response.schedule_type_outbound+'"]').prop('checked',true);
+           $('#day_frequency_inbound_count').val(response.day_frequency_inbound_count);
+           $('#day_frequency_outbound_count').val(response.day_frequency_outbound_count);
+           $('#weekly_frequency_inbound_count').val(response.weekly_frequency_inbound_count);
+           $('#weekly_frequency_outbound_count').val(response.weekly_frequency_outbound_count);
+           $('#weekly_frequency_inbound_count').val(response.weekly_frequency_inbound_count);
+           $('#weekly_frequency_outbound_count').val(response.weekly_frequency_outbound_count);
+           $('#monthly_frequency_day_inbound').val(response.monthly_frequency_day_inbound);
+           $('#monthly_frequency_day_outbound').val(response.monthly_frequency_day_outbound);
+           $('#monthly_frequency_day_inbound_count').val(response.monthly_frequency_day_inbound_count);
+           $('#monthly_frequency_day_outbound_count').val(response.monthly_frequency_day_outbound_count);
+           $('#monthly_frequency_the_inbound_count').val(response.monthly_frequency_the_inbound_count);
+           $('#monthly_frequency_the_outbound_count').val(response.monthly_frequency_the_outbound_count);
+           $('input[name="daily_frequency_type_inbound"][value="'+response.daily_frequency_type_inbound+'"]').prop('checked',true);
+           $('input[name="daily_frequency_type_outbound"][value="'+response.daily_frequency_type_outbound+'"]').prop('checked',true);
+           //$('#daily_frequency_type_inbound').val(response.daily_frequency_type_inbound);
+           //$('#daily_frequency_type_outbound').val(response.daily_frequency_type_outbound);
+           $('#daily_frequency_once_time_inbound').val(response.daily_frequency_once_time_inbound);
+           $('#daily_frequency_once_time_outbound').val(response.daily_frequency_once_time_outbound);
+           if($('input[name="daily_frequency_type_inbound"]:checked').val()=='Occurs every')
+           {
+              $("#daily_frequency_once_time_inbound").hide();
+              $("#recursEveryDiv").show();
+              $("#startingEndingDiv").show();
+              $('#daily_frequency_every_time_unit_inbound').val(response.daily_frequency_every_time_unit_inbound).change();
+              $('#daily_frequency_every_time_count_inbound').val(response.daily_frequency_every_time_count_inbound);
+              $('#daily_frequency_every_time_count_start_inbound').val(response.daily_frequency_every_time_count_start_inbound);
+              $('#daily_frequency_every_time_count_end_inbound').val(response.daily_frequency_every_time_count_end_inbound);
+            }
+           if($('input[name="daily_frequency_type_outbound"]:checked').val()=='Occurs every')
+           {
+              $("#daily_frequency_once_time_outbound").hide();
+              $("#recursEveryDivOutbound").show();
+              $("#startingEndingDivOutbound").show();
+              $('#daily_frequency_every_time_unit_outbound').val(response.daily_frequency_every_time_unit_outbound).change();
+              $('#daily_frequency_every_time_count_outbound').val(response.daily_frequency_every_time_count_outbound);
+              $('#daily_frequency_every_time_count_start_outbound').val(response.daily_frequency_every_time_count_start_outbound);
+              $('#daily_frequency_every_time_count_end_outbound').val(response.daily_frequency_every_time_count_end_outbound);
+            }
+           
+           //$('#occurs_time_inbound option[value="'+response.occurs_time_inbound+'"]').attr("selected","selected");
+           console.log("inbound"+response.occurs_inbound);
+           console.log("outbound"+response.occurs_outbound);
+           $("#occurs_time_inbound").val(response.occurs_inbound);
+           $("#occurs_time_inbound").select2().trigger("change");
+           $("#occurs_time_outbound").val(response.occurs_outbound)
+           $("#occurs_time_outbound").select2().trigger("change");
+           
+           //$('#occurs_time_inbound').val(response.occurs_outbound);
+           //$('#recurs_count_outbound').val(response.recurs_count_outbound);
+           //$('#recurs_time_outbound').val(response.recurs_time_outbound);
+           $("#schedule_setting_id").val(response._id);
+           if(response.duration_inbound_start_date!=undefined)
+           {
+              $('#duration_inbound_start_date').val(response.duration_inbound_start_date);
+           }
+           if(response.duration_inbound_is_end_date!=undefined)
+           {
+            $('input[name="duration_inbound_is_end_date"][value="'+response.duration_inbound_is_end_date+'"]').prop('checked',true); 
+           }
+           if(response.duration_inbound_end_date!=undefined)
+           {
+              $('#duration_inbound_end_date').val(response.duration_inbound_end_date);
+           }
+           if(response.duration_outbound_start_date!=undefined)
+           {
+            $('#duration_outbound_start_date').val(response.duration_outbound_start_date);
+           }
+           if(response.duration_outbound_is_end_date!=undefined)
+           {
+            $('input[name="duration_outbound_is_end_date"][value="'+response.duration_outbound_is_end_date+'"]').prop('checked',true);
+           }
+           if(response.duration_outbound_end_date!=undefined)
+           {
+            $('#duration_outbound_end_date').val(response.duration_outbound_end_date);
+           }
+           if(response.occurs_inbound=="weekly")
+           {
+             $(response.occurs_weekly_fields_inbound).each(function(index,item){
+               //console.log(item.day);
+              $('input[name="occurs_weekly_fields_inbound"][value="'+item.day+'"]').prop('checked',true);
+            });
+
+           }
+           if(response.occurs_outbound=="weekly")
+           {
+
+              $(response.occurs_weekly_fields_outbound).each(function(index,item){
+                //console.log(item);
+                $('input[name = occurs_weekly_fields_outbound][value="'+item.day+'"]').prop('checked',true);
+              });
+           }
+           if(response.occurs_inbound=="monthly")
+           {
+              $(response.monthly_field_setting_inbound).each(function(index,item){
+                console.log("monthly setting==="+item.inbound_monthly_day)
+                if(item.inbound_monthly_day=="the")
+                {
+                  $('input[name=inbound_monthly_day][value="The"]').prop('checked',true).trigger('change');
+                  $('#day_txt_box_inbound').hide();
+                  $('#the_section_inbound').show();
+                  $('#the_day_of').val(item.the_day_of).change();
+                  //$('#the_day_of').val(item.the_day_of).change();
+                  //$('#the_days').val(item.the_days).change();
+                  $('#the_days').val(item.the_days).change();
+                  //$('input[name=inbound_monthly_day]:checked').prop('checked',false);
+                }
+                else
+                {
+                  $('#the_section_inbound').hide();
+                  $('#day_txt_box_inbound').show();
+                }
+                //$('input[name = occurs_weekly_fields_outbound][value="'+item.day+'"]').prop('checked',true);
+              });
+           }
+           if(response.occurs_outbound=="monthly")
+           {
+              $(response.monthly_field_setting_outbound).each(function(index,item){
+                console.log("monthly setting==="+item.outbound_monthly_day)
+                if(item.outbound_monthly_day=="the")
+                {
+                  $('input[name=outbound_monthly_day][value="The"]').prop('checked',true).trigger('change');
+                  $('#day_txt_box_outbound').hide();
+                  $('#the_section_outbound').show();
+                  $('#the_day_of_outbound').val(item.the_day_of).change();
+                  //$('#the_day_of').val(item.the_day_of).change();
+                  //$('#the_days').val(item.the_days).change();
+                  $('#the_days_outbound').val(item.the_days).change();
+                  //$('input[name=inbound_monthly_day]:checked').prop('checked',false);
+                }
+                else
+                {
+                  $('#the_section_outbound').hide();
+                  $('#day_txt_box_outbound').show();
+                }
+                //$('input[name = occurs_weekly_fields_outbound][value="'+item.day+'"]').prop('checked',true);
+              });
+           }
+              
+        }
+        //console.log(response);
+        //console.log(response._id);
+        //if(response.status)
+        
+      }
+    });
+    $.ajax({
+      url:'/project/item/mapping/editAPI/'+project_id,
+      method:'get',
+      dataType:'json',
+      data:{},
+      success:function(response,textStatus,xhr){
+        if(xhr.status==200)
+        {
+          $("#mapping_setting_id").val(response._id);
+          $('#InboundFormatData').val(response.inbound_format);
+          $('#OutboundFormatData').val(response.outbound_format);
+          $('#mySavedModel').val(response.mapping_data);
+          if(response.is_active == "Active")
+          {
+            $('#is_active_mapping').removeClass('btn-secondary');
+            $('#is_active_mapping').addClass('btn-success');
+            $('#is_active_mapping').attr('data-value','Active');
+            $('#is_active_mapping').html('Active');
+          }
+          else
+          {
+            $('#is_active_mapping').removeClass('btn-success');
+            $('#is_active_mapping').addClass('btn-secondary');
+            $('#is_active_mapping').attr('data-value','Inactive');
+            $('#is_active_mapping').html('Inactive');
+          }
+
+
+          var mapping_data = JSON.parse(response.mapping_data);
+
+          nodeDataArray = mapping_data.nodeDataArray;
+          linkDataArray = mapping_data.linkDataArray;
+
+          //Init GOJS UI
+          myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+
+          inboundautocompletedata(JSON.parse(response.inbound_format));
+          console.log(inboundAutocompleteDataArray);
+          outboundautocompletedata(JSON.parse(response.outbound_format));
+          console.log(outboundAutocompleteDataArray);
+          inOutAutocompleteDataArray = inboundAutocompleteDataArray.concat(outboundAutocompleteDataArray);
+        }
+      }
+    });
+    $.ajax({
+      url:'/outbound_validation/editAPI/'+project_id,
+      method:'get',
+      dataType:'json',
+      data:{},
+      success:function(response,textStatus,xhr) {
+        if(xhr.status==200)
+        {
+          var validations = response.Data.validations;
+          $('#outbound_validation_id').val(response.id);
+          if (validations != '' && validations.length > 0) {
+            var htmldata = '';
+            for (var i = 0; i < validations.length; i++) {
+              var newRow = "<tr>";
+              var cols = "";
+              cols += '<td class="col-sm-2 logical-select"><select class="select-dropdown form-control form-control-lg" name="validations[][logical]">';
+              cols += '<option value="AND"';
+              if (validations[i].logical == 'AND') {
+                cols += ' selected';
+              }
+              cols += '>AND</option>';
+              cols += '<option value="OR"';
+              if (validations[i].logical == 'OR') {
+                cols += ' selected';
+              }
+              cols += '>OR</option>';
+              cols += '</select></td>';
+              cols += '<td class="col-sm-3 autocomplete"><input type="text" name="validations[][original]" class="form-control border-0 autocompletevalidation" id="original_'+i+'" value="'+validations[i].original+'"/></td>';
+              cols += '<td class="col-sm-3 operations-select"><select class="select-dropdown form-control form-control-lg" name="validations[][operations]">';
+              cols += '<option value="=="';
+              if (validations[i].operations == '==') {
+                cols += ' selected';
+              }
+              cols += '>=</option>';
+              cols += '<option value=">"';
+              if (validations[i].operations == '>') {
+                cols += ' selected';
+              }
+              cols += '>></option>';
+              cols += '<option value=">="';
+              if (validations[i].operations == '>=') {
+                cols += ' selected';
+              }
+              cols += '>>=</option>';
+              cols += '<option value="<"';
+              if (validations[i].operations == '<') {
+                cols += ' selected';
+              }
+              cols += '><</option>';
+              cols += '<option value="<="';
+              if (validations[i].operations == '<=') {
+                cols += ' selected';
+              }
+              cols += '><=</option>';
+              cols += '<option value="<>"';
+              if (validations[i].operations == '<>') {
+                cols += ' selected';
+              }
+              cols += '><></option>';
+              /*cols += '<option value="NOT IN"';
+              if (validations[i].operations == 'NOT IN') {
+                cols += ' selected';
+              }
+              cols += '>NOT IN</option>';
+              cols += '<option value="IN"';
+              if (validations[i].operations == 'IN') {
+                cols += ' selected';
+              }
+              cols += '>IN</option>';*/
+              cols += '<option value="Contains"';
+              if (validations[i].operations == 'Contains') {
+                cols += ' selected';
+              }
+              cols += '>Contains</option>';
+              cols += '</select></td>';
+              cols += '<td class="col-sm-2 autocomplete"><input type="text" name="validations[][column]" class="form-control border-0 autocompletevalidation" id="column_'+i+'" value="'+validations[i].column+'"/></td>';
+              cols += '<td class="col-sm-2"><a href="javascript:void(0);" type="button" class="ibtnDel"> Delete </a></td>';
+              newRow += cols;
+              newRow += "</tr>";
+              htmldata += newRow;
+            }
+            validationRowCounter = i;
+            console.log('validationRowCounter => '+validationRowCounter);
+            $("table.order-list tbody").html(htmldata);
+          }
+        }
+      }
+    });
+  }
+
+  function inboundautocompletedata(reqBody) {
+    inboundAutocompleteDataArray = [];
+    Object.entries(reqBody).forEach((entry) => {
+      const [key, value] = entry;
+
+      var isArray = false;
+      var newKey = '@In{'+key+'}';
+      var normalKey = key;
+      if (key >= 0) {} else {
+        var key_count = checkInboundAutocompleteKey(newKey, inboundAutocompleteDataArray);
+      }
+
+      if (key_count > 1) {
+        newKey = '@In{'+key+key_count+'}';
+        normalKey = normalKey+key_count;
+      }
+
+      if (key >= 0) {} else {
+        inboundAutocompleteDataArray.push(newKey);
+      }
+      if (!Array.isArray(value) && value != null && typeof(value) != "object") {
+      }
+
+      if (!Array.isArray(value) && value != null && typeof(value) == "object") {
+        var newtest = inboundautocompletedata1(normalKey, value, isArray);
+      }
+      if (Array.isArray(value) && value != null && typeof(value) == "object") {
+        var newtest = inboundautocompletedata1(normalKey, value, true);
+      }
+    });
+    return inboundAutocompleteDataArray;
+  }
+
+  function inboundautocompletedata1(normalKey, reqBody, isArray) {
+    var retrun = '';
+    var parentKeya = normalKey;
+    Object.entries(reqBody).forEach((entry) => {
+      const [key, value] = entry;
+
+      var normalKey = parentKeya;
+      if (key >= 0) {
+        var newKey = '@In{'+normalKey+'}';
+        normalKey = normalKey;
+      } else {
+        var newKey = '@In{'+normalKey+'.'+key+'}';
+        normalKey = normalKey+'.'+key;
+      }
+      if (key >= 0) {} else {
+        var key_count = checkInboundAutocompleteKey(newKey, inboundAutocompleteDataArray);
+      }
+
+      if (key_count > 1 && !isArray) {
+        newKey = '@In{'+normalKey+key_count+'}';
+        normalKey = normalKey+key_count;
+      }
+
+      if (key >= 0) {} else {
+        if (key_count > 1 && isArray) {} else {
+          inboundAutocompleteDataArray.push(newKey);
+        }
+      }
+      if (!Array.isArray(value) && value != null && typeof(value) != "object") {
+      }
+
+      if (!Array.isArray(value) && value != null && typeof(value) == "object") {
+        var newtest = inboundautocompletedata2(normalKey, value, isArray);
+      }
+      if (Array.isArray(value) && value != null && typeof(value) == "object") {
+        var newtest = inboundautocompletedata2(normalKey, value, true);
+      }
+    });
+    return retrun;
+  }
+
+  function inboundautocompletedata2(normalKey, reqBody, isArray) {
+    var retrun = '';
+    var parentKeya = normalKey;
+    Object.entries(reqBody).forEach((entry) => {
+      const [key, value] = entry;
+
+      var normalKey = parentKeya;
+      if (key >= 0) {
+        var newKey = '@In{'+normalKey+'}';
+        normalKey = normalKey;
+      } else {
+        var newKey = '@In{'+normalKey+'.'+key+'}';
+        normalKey = normalKey+'.'+key;
+      }
+      if (key >= 0) {} else {
+        var key_count = checkInboundAutocompleteKey(newKey, inboundAutocompleteDataArray);
+      }
+
+      if (key_count > 1 && !isArray) {
+        newKey = '@In{'+normalKey+key_count+'}';
+        normalKey = normalKey+key_count;
+      }
+
+      if (key >= 0) {} else {
+        if (key_count > 1 && isArray) {} else {
+          inboundAutocompleteDataArray.push(newKey);
+        }
+      }
+      if (!Array.isArray(value) && value != null && typeof(value) != "object") {
+      }
+
+      if (!Array.isArray(value) && value != null && typeof(value) == "object") {
+        var newtest = inboundautocompletedata1(normalKey, value, isArray);
+      }
+      if (Array.isArray(value) && value != null && typeof(value) == "object") {
+        var newtest = inboundautocompletedata1(normalKey, value, true);
+      }
+    });
+    return retrun;
+  }
+
+  function outboundautocompletedata(reqBody) {
+    outboundAutocompleteDataArray = [];
+    Object.entries(reqBody).forEach((entry) => {
+      const [key, value] = entry;
+
+      var isArray = false;
+      var newKey = '@Out{'+key+'}';
+      var normalKey = key;
+      if (key >= 0) {} else {
+        var key_count = checkInboundAutocompleteKey(newKey, outboundAutocompleteDataArray);
+      }
+
+      if (key_count > 1) {
+        newKey = '@Out{'+key+key_count+'}';
+        normalKey = normalKey+key_count;
+      }
+
+      if (key >= 0) {} else {
+        outboundAutocompleteDataArray.push(newKey);
+      }
+
+      if (!Array.isArray(value) && value != null && typeof(value) == "object") {
+        var newtest = outboundautocompletedata1(normalKey, value, isArray);
+      }
+      if (Array.isArray(value) && value != null && typeof(value) == "object") {
+        var newtest = outboundautocompletedata1(normalKey, value, true);
+      }
+    });
+    return outboundautocompletedata;
+  }
+
+  function outboundautocompletedata1(normalKey, reqBody, isArray) {
+    var retrun = '';
+    var parentKeya = normalKey;
+    Object.entries(reqBody).forEach((entry) => {
+      const [key, value] = entry;
+
+      var normalKey = parentKeya;
+      if (key >= 0) {
+        var newKey = '@Out{'+normalKey+'}';
+        normalKey = normalKey;
+      } else {
+        var newKey = '@Out{'+normalKey+'.'+key+'}';
+        normalKey = normalKey+'.'+key;
+      }
+      if (key >= 0) {} else {
+        var key_count = checkInboundAutocompleteKey(newKey, outboundAutocompleteDataArray);
+      }
+
+      if (key_count > 1 && !isArray) {
+        newKey = '@Out{'+normalKey+key_count+'}';
+        normalKey = normalKey+key_count;
+      }
+
+      if (key >= 0) {} else {
+        if (key_count > 1 && isArray) {} else {
+          outboundAutocompleteDataArray.push(newKey);
+        }
+      }
+
+      if (!Array.isArray(value) && value != null && typeof(value) == "object") {
+        var newtest = outboundautocompletedata2(normalKey, value, isArray);
+      }
+      if (Array.isArray(value) && value != null && typeof(value) == "object") {
+        var newtest = outboundautocompletedata2(normalKey, value, true);
+      }
+    });
+    return retrun;
+  }
+
+  function outboundautocompletedata2(normalKey, reqBody, isArray) {
+    var retrun = '';
+    var parentKeya = normalKey;
+    Object.entries(reqBody).forEach((entry) => {
+      const [key, value] = entry;
+
+      var normalKey = parentKeya;
+      if (key >= 0) {
+        var newKey = '@Out{'+normalKey+'}';
+        normalKey = normalKey;
+      } else {
+        var newKey = '@Out{'+normalKey+'.'+key+'}';
+        normalKey = normalKey+'.'+key;
+      }
+      if (key >= 0) {} else {
+        var key_count = checkInboundAutocompleteKey(newKey, outboundAutocompleteDataArray);
+      }
+
+      if (key_count > 1 && !isArray) {
+        newKey = '@Out{'+normalKey+key_count+'}';
+        normalKey = normalKey+key_count;
+      }
+
+      if (key >= 0) {} else {
+        if (key_count > 1 && isArray) {} else {
+          outboundAutocompleteDataArray.push(newKey);
+        }
+      }
+
+      if (!Array.isArray(value) && value != null && typeof(value) == "object") {
+        var newtest = outboundautocompletedata1(normalKey, value, isArray);
+      }
+      if (Array.isArray(value) && value != null && typeof(value) == "object") {
+        var newtest = outboundautocompletedata1(normalKey, value, true);
+      }
+    });
+    return retrun;
+  }
+
+  function checkInboundAutocompleteKey(key, dataArray) {
+    var j = 1;
+    for (var i = 0; i < dataArray.length; i++) {
+      var key1 = (j == 1) ? key : key + j;
+      if (dataArray[i] == key1) {
+        j++;
+      }
+    }
+    return j;
+  }
+
+  function autocomplete(inp, arr) {
+    var currentFocus;
+    var newValue = 0;
+    var fullValue = '';
+    /*the autocomplete function takes two arguments,
+    the text field element and an array of possible autocompleted values:*/
+    /*execute a function when someone writes in the text field:*/
+    /*inp.addEventListener("input", function(e) {
+      var a, b, i, val = this.value;
+      // close any already open lists of autocompleted values
+      closeAllLists();
+      if (!val) { return false; }
+      currentFocus = -1;
+      // create a DIV element that will contain the items (values):
+      a = document.createElement("DIV");
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+      // append the DIV element as a child of the autocomplete container:
+      this.parentNode.appendChild(a);
+      // for each item in the array...
+      for (i = 0; i < arr.length; i++) {
+        // check if the item starts with the same letters as the text field value:
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          // create a DIV element for each matching element:
+          b = document.createElement("DIV");
+          // make the matching letters bold:
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
+          // insert a input field that will hold the current array item's value:
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          // execute a function when someone clicks on the item value (DIV element):
+          b.addEventListener("click", function(e) {
+            // insert the value for the autocomplete text field:
+            inp.value = this.getElementsByTagName("input")[0].value;
+            // close the list of autocompleted values,
+            // (or any other open lists of autocompleted values:
+            closeAllLists();
+          });
+          a.appendChild(b);
+        }
+      }
+    });*/
+    inp.addEventListener("keyup", function(e) {
+      console.log('e.keyCode => '+e.keyCode);
+      if ((e.keyCode == 8 || e.keyCode >= 48 && e.keyCode <= 90 ) || ( e.keyCode >= 96 && e.keyCode <= 105 ) || ( e.keyCode >= 186 && e.keyCode <= 222 )) {
+        var a, b, i, val = inp.value;
+        // var fullValue = inp.value;
+        console.log('val 1 3 => '+val);
+        console.log('e.key => '+e.key);
+        console.log('newValue => '+newValue);
+        if (newValue == 0 && e.key == '@') {
+          val = e.key;
+          newValue = 1;
+        }
+        console.log('newValue 123 => '+newValue);
+        console.log('val 1 => '+val);
+        if (val.includes('@')) {
+          var pieces = val.split("@");
+          console.log(pieces);
+          console.log('pieces.length => '+pieces.length);
+          if (pieces[pieces.length-1] != undefined) {
+            val = '@'+pieces[pieces.length-1];
+          } else {
+            val = '@';
+          }
+        }
+        console.log('val => '+val);
+        /*close any already open lists of autocompleted values*/
+        closeAllLists();
+        if (!val) { return false; }
+        currentFocus = -1;
+        /*create a DIV element that will contain the items (values):*/
+        a = document.createElement("DIV");
+        a.setAttribute("id", this.id + "autocomplete-list");
+        a.setAttribute("class", "autocomplete-items");
+        /*append the DIV element as a child of the autocomplete container:*/
+        this.parentNode.appendChild(a);
+        /*for each item in the array...*/
+        for (i = 0; i < arr.length; i++) {
+          /*check if the item starts with the same letters as the text field value:*/
+          if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+            /*create a DIV element for each matching element:*/
+            b = document.createElement("DIV");
+            /*make the matching letters bold:*/
+            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+            b.innerHTML += arr[i].substr(val.length);
+            /*insert a input field that will hold the current array item's value:*/
+            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+            /*execute a function when someone clicks on the item value (DIV element):*/
+            b.addEventListener("click", function(e) {
+              /*insert the value for the autocomplete text field:*/
+              var values = '';
+              if (pieces != undefined) {
+                console.log(pieces);
+                for (var j = 0; j < pieces.length-1; j++) {
+                  console.log('pieces => '+pieces[j]);
+                  if (pieces[j] != '') {
+                    if (pieces[j].startsWith("In{")) {
+                      values += '@'+pieces[j];
+                    } else {
+                      values += pieces[j];
+                    }
+                  }
+                }
+              }
+              inp.value = values+this.getElementsByTagName("input")[0].value;
+              fullValue = inp.value;
+              /*close the list of autocompleted values,
+              (or any other open lists of autocompleted values:*/
+              newValue = 0;
+              console.log('newValue 1 => '+newValue);
+              closeAllLists();
+            });
+            a.appendChild(b);
+          }
+        }
+      } else {
+        if (e.keyCode == 8 || e.keyCode == 46) {
+          newValue = 0;
+        }
+      }
+    });
+
+    /*execute a function presses a key on the keyboard:*/
+    inp.addEventListener("keydown", function(e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+        currentFocus++;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 38) { //up
+        /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+        currentFocus--;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 13) {
+        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+        e.preventDefault();
+        if (currentFocus > -1) {
+          /*and simulate a click on the "active" item:*/
+          if (x) x[currentFocus].click();
+        }
+      }
+    });
+
+    function addActive(x) {
+      /*a function to classify an item as "active":*/
+      if (!x) return false;
+      /*start by removing the "active" class on all items:*/
+      removeActive(x);
+      if (currentFocus >= x.length) currentFocus = 0;
+      if (currentFocus < 0) currentFocus = (x.length - 1);
+      /*add class "autocomplete-active":*/
+      x[currentFocus].classList.add("autocomplete-active");
+    }
+
+    function removeActive(x) {
+      /*a function to remove the "active" class from all autocomplete items:*/
+      for (var i = 0; i < x.length; i++) {
+        x[i].classList.remove("autocomplete-active");
+      }
+    }
+
+    function closeAllLists(elmnt) {
+      /*close all autocomplete lists in the document,
+      except the one passed as an argument:*/
+      var x = document.getElementsByClassName("autocomplete-items");
+      for (var i = 0; i < x.length; i++) {
+        if (elmnt != x[i] && elmnt != inp) {
+          x[i].parentNode.removeChild(x[i]);
+        }
+      }
+    }
+    /*execute a function when someone clicks in the document:*/
+    document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+    });
+  }
+
+  $("body").on("keypress", ".autocompleteformula", function() {
+    var id = $(this).attr('id');
+    autocomplete(document.getElementById(id), inboundAutocompleteDataArray);
+  });
+
+  $("body").on("keypress", ".autocompletevalidation", function() {
+    var id = $(this).attr('id');
+    autocomplete(document.getElementById(id), inOutAutocompleteDataArray);
+  });
 });

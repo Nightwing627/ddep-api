@@ -511,7 +511,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                     </div>
                                     <!-- Thomas creates setting button. there are events and modal in mapping.ejs -->
                                     <div class="col-md-2" style="margin: auto; margin-top: 0; margin-left: 0;">
-                                      <a href="javascript:void(0);" class="btn btn-primary settings-button" id="ddepApiSettings">
+                                      <a href="javascript:void(0);" class="btn btn-primary settings-button" id="outbound_validation_popup_btn">
                                         <i data-feather="settings" class="align-middle mr-sm-25 mr-0"></i>
                                       </a>
                                     </div>
@@ -549,7 +549,7 @@ License: You must have a valid license purchased only from themeforest(the above
                       <button type="button" id="is_active_mapping" data-value="Active" class="btn btn-success waves-effect waves-float waves-light float-right">Active</button>
                     </div>
                     <div class="card-body">
-                      <form id="frm-save-mapping">
+                      <form id="frm-save-mapping" autocomplete="off">
                         <div class="row">
                           <div class="col-6">
                             <input type="hidden" name="mapping_setting_id" id="mapping_setting_id" value="">
@@ -559,7 +559,7 @@ License: You must have a valid license purchased only from themeforest(the above
                               <br/>
                               <div class="col-md-12 text-right">
                                 <a href="#"  onclick="saveBGRSJSON()" id="InboundJson" style="display: none;">Download Json</a>
-                                <button type="button" class="btn btn-outline-primary waves-effect" id="changeForm" onclick="InboundDataBind()">
+                                <button type="button" class="btn btn-outline-primary waves-effect" id="InboundDataBind" onclick="InboundDataBind()">
                                   Upload
                                 </button>
                               </div>
@@ -572,7 +572,7 @@ License: You must have a valid license purchased only from themeforest(the above
                               <br/>
                               <div class="col-md-12 text-right">
                                 <a href="#"  id="OutboundJson" onclick="saveiRMSJSON()" style="display: none;">Download Json</a>
-                                <button type="button" class="btn btn-outline-primary waves-effect" id="changeForm" onclick="OutboundDataBind()">
+                                <button type="button" class="btn btn-outline-primary waves-effect" id="OutboundDataBind" onclick="OutboundDataBind()">
                                   Upload
                                 </button>
                               </div>
@@ -586,9 +586,9 @@ License: You must have a valid license purchased only from themeforest(the above
                           <!-- * * * * * * * * * * * * * -->
                           <!-- Start of GoJS sample code -->
                           <script src="/assets/js/go.js"></script>
-                          <div id="myDiagramDiv" style="border-radius: 8px; border: 1px solid #CCC; height: 1000px" class="col-12"></div>
-                          <div class="col-3" style="display:none">
-                            <div class="card">
+                          <div id="myDiagramDiv" style="border-radius: 8px; border: 1px solid #CCC; height: 1000px" class="col-9"></div>
+                          <div class="col-3">
+                            <div class="card" style="border: 1px solid rgb(204, 204, 204);">
                               <div class="card-header">
                                 <h4 class="card-title">Properties</h4>
                               </div>
@@ -607,7 +607,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                     <td></td>
                                   </tr>
                                   <tr>
-                                    <td >Key</td>
+                                    <td>Key</td>
                                     <td>Name</td>
                                   </tr>
                                   <tr>
@@ -625,8 +625,8 @@ License: You must have a valid license purchased only from themeforest(the above
                                   <tr>
                                     <td class="td">Value</td>
                                     <td>
-                                      <div>
-                                        <input style="border: 0;" type="text" name="alertsEmail" id="alertsEmail" class="form-control"   value="{val1},{val2}">
+                                      <div class="autocomplete">
+                                        <input style="border: 0;" type="text" name="alertsEmail" id="alertsEmail1" class="form-control autocompleteformula" value="">
                                       </div>
                                     </td>
                                   </tr>
@@ -638,7 +638,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                     <td class="td">is Required?</td>
                                     <td>
                                       <div>
-                                        <input style="border: 0;" type="text" name="alertsEmail" id="alertsEmail" class="form-control"   value="FALSE">
+                                        <input style="border: 0;" type="text" name="alertsEmail" id="alertsEmail2" class="form-control" value="FALSE">
                                       </div>
                                     </td>
                                   </tr>
@@ -654,7 +654,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                     <td class="td">TRIM</td>
                                     <td>
                                       <div>
-                                        <input style="border: 0;" type="text" name="alertsEmail" id="alertsEmail" class="form-control" value="FALSE"  >
+                                        <input style="border: 0;" type="text" name="alertsEmail" id="alertsEmail3" class="form-control" value="FALSE">
                                       </div>
                                     </td>
                                   </tr>
@@ -1795,17 +1795,17 @@ License: You must have a valid license purchased only from themeforest(the above
   <div class="modal-content">
     <div class="d-flex justify-content-between p-1 align-items-center">
       <p style="margin:0; font-size:1.5rem">Rules To Control this API When trigger</p>
-      <span class="close" id="modal-close">&times;</span>
+      <span class="close" id="outbound-validation-modal-close">&times;</span>
     </div>
     <!-- End: Customizer-->
     <div> <!-- style="width:80%" class="ml-3" -->
       <div class="container">
         <input type="hidden" name="outbound_validation_id" id="outbound_validation_id" value="">
-        <form id="frm-save-outbound-validation">
+        <form id="frm-save-outbound-validation" autocomplete="off">
           <div class="">
             <a href="javascript:void(0);" class="btn btn-lg btn-block modal-button" id="back"><i data-feather="rotate-ccw" class="font-medium-2"></i></a>
             <button class="btn btn-lg btn-block modal-button" id="outbound_validation_save" type="submit"><i data-feather="save" class="font-medium-2"></i></button>
-            <a href="javascript:void(0);" class="btn btn-lg btn-block modal-button" id="addrow"><i data-feather="plus" class="font-medium-2"></i></a>
+            <a href="javascript:void(0);" class="btn btn-lg btn-block modal-button" id="addvalidationrow"><i data-feather="plus" class="font-medium-2"></i></a>
           </div>
           <table id="myTable" class="table order-list table-bordered">
             <thead>
@@ -1825,8 +1825,8 @@ License: You must have a valid license purchased only from themeforest(the above
                     <option value="OR">OR</option>
                   </select>
                 </td>
-                <td class="col-sm-3">
-                  <input type="text" name="validations[][original]" class="form-control border-0" />
+                <td class="col-sm-3 autocomplete">
+                  <input type="text" name="validations[][original]" class="form-control border-0 autocompletevalidation" id="original_0"/>
                 </td>
                 <td class="col-sm-3 operations-select">
                   <select class="select-dropdown form-control form-control-lg" name="validations[][operations]">
@@ -1841,8 +1841,8 @@ License: You must have a valid license purchased only from themeforest(the above
                     <option value="IN">IN</option> -->
                   </select>
                 </td>
-                <td class="col-sm-2">
-                  <input type="text" name="validations[][column]" class="form-control border-0"/>
+                <td class="col-sm-2 autocomplete">
+                  <input type="text" name="validations[][column]" class="form-control border-0 autocompletevalidation" id="column_0"/>
                 </td>
                 <td class="col-sm-2"><a href="javascript:void(0);" type="button" class="ibtnDel"> Delete </a></td>
               </tr>
@@ -1853,771 +1853,5 @@ License: You must have a valid license purchased only from themeforest(the above
     </div>
   </div>
 </div>
-<script>
-  var modal = document.getElementById("outbound_validation_modal");
-  var btn = document.getElementById("ddepApiSettings");
-  var mclose = document.getElementById("modal-close");
-  var outbound_validation_save = document.getElementById("outbound_validation_save");
-  // var span = document.getElementsByClassName("close")[0];
-  btn.onclick = function() {
-    // $("#outbound_validation_modal").show();
-    modal.style.display = "flex";
-  }
-  mclose.onclick = function() {
-    modal.style.display = "none";
-  }
-  /*outbound_validation_save.onclick = function() {
-    modal.style.display = "none";
-  }*/
-  window.onclick = function(event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  }
-</script>
-<style>
-  .settings-button {
-
-  }
-  .modal {
-    display: none; /* Hidden by default */
-    align-items: center;
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  }
-
-  /* Modal Content/Box */
-  .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-  }
-
-  /* The Close Button */
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-
-  .close:hover,
-  .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  .modal-header {
-    padding: 2px 16px;
-    background-color: #5cb85c;
-    color: white;
-  }
-
-  /* Modal Body */
-  .modal-body {padding: 2px 16px;}
-
-  /* Modal Footer */
-  .modal-footer {
-    padding: 2px 16px;
-    background-color: #5cb85c;
-    color: white;
-  }
-
-  /* Modal Content */
-  .modal-content {
-    position: relative;
-    background-color: #fefefe;
-    margin: auto;
-    padding: 0;
-    border: 1px solid #888;
-    width: 80%;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-    animation-name: animatetop;
-    animation-duration: 0.4s
-  }
-
-  /* Add Animation */
-  @keyframes animatetop {
-    from {top: -300px; opacity: 0}
-    to {top: 0; opacity: 1}
-  }
-  @media (min-width: 1180px) {
-    .modal-left {
-      display: block !important;
-    }
-  }
-
-  .select-dropdown {border: unset;}
-  .logical-select .select2-container--default .select2-selection--single, .operations-select .select2-container--default .select2-selection--single {border: unset;}
-  #select2-logical-results li:hover, #select2-operations-results li:hover {background: #fff !important; color: #8DC454 !important;}
-  #frm-save-outbound-validation .form-control:focus:valid { box-shadow: unset; border: unset !important; }
-</style>
-<script>
-  $(document).ready(function () {
-    var counter = 0;
-    $("#addrow").on("click", function () {
-      var newRow = "<tr>";
-      var cols = "";
-      cols += '<td class="col-sm-2 logical-select"><select class="select-dropdown form-control form-control-lg" name="validations[][logical]"><option value="AND">AND</option><option value="OR">OR</option></select></td>';
-      cols += '<td class="col-sm-3"><input type="text" class="form-control border-0" name="validations[][original]"/></td>';
-      cols += '<td class="col-sm-3 operations-select"><select class="select-dropdown form-control form-control-lg" name="validations[][operations]"><option value="==">=</option><option value=">">></option><option value=">=">>=</option><option value="<"><</option><option value="<="><=</option><option value="<>"><></option><option value="Contains">Contains</option></select></td>';
-      cols += '<td class="col-sm-2"><input type="text" class="form-control border-0" name="validations[][column]"/></td>';
-      cols += '<td class="col-sm-2"><a href="javascript:void(0);" type="button" class="ibtnDel"> Delete </a></td>';
-      newRow += cols;
-      newRow += "</tr>";
-      $("table.order-list tbody").append(newRow);
-      counter++;
-    });
-
-    $("table.order-list").on("click", ".ibtnDel", function (event) {
-      $(this).closest("tr").remove();
-      counter -= 1;
-    });
-  });
-
-  function calculateRow(row) {
-    var price = +row.find('input[name^="price"]').val();
-  }
-
-  function calculateGrandTotal() {
-    var grandTotal = 0;
-    $("table.order-list")
-      .find('input[name^="price"]')
-      .each(function () {
-        grandTotal += +$(this).val();
-      });
-    $("#grandtotal").text(grandTotal.toFixed(2));
-  }
-</script>
-<style>
-  #myTable details {
-    position: relative;
-    width: 100%;
-    margin-right: 1rem;
-  }
-
-  #myTable details[open] {
-    z-index: 1;
-  }
-
-  #myTable summary {
-    padding: .5rem;
-    cursor: pointer;
-    list-style: none;
-  }
-
-  #myTable summary::-webkit-details-marker {
-    display: none;
-  }
-
-  #myTable details[open] summary:before {
-    content: '';
-    display: block;
-    width: 100vw;
-    height: 100vh;
-    background: transparent;
-    position: fixed;
-    top: 0;
-    left: 0;
-  }
-
-  #myTable summary:after {
-    content: '';
-    display: inline-block;
-    float: right;
-    width: .5rem;
-    height: .5rem;
-    border-bottom: 1px solid currentColor;
-    border-left: 1px solid currentColor;
-    border-bottom-left-radius: 2px;
-    transform: rotate(45deg) translate(50%, 0%);
-    transform-origin: center center;
-    transition: transform ease-in-out 100ms;
-    margin-top: 5px;
-  }
-
-  #myTable summary:focus {
-    outline: none;
-  }
-
-  #myTable details[open] summary:after {
-    transform: rotate(-45deg) translate(0%, 0%);
-  }
-
-  #myTable ul {
-    width: 100%;
-    position: absolute;
-    top: calc(100%);
-    left: 0;
-    margin: 0;
-    box-sizing: border-box;
-    max-height: 200px;
-    overflow-y: auto;
-  }
-
-  #myTable li {
-    padding: .5rem 0;
-    padding-left: 1rem; 
-    background-color: white;
-    border: 1px solid #ccc;
-    list-style-type: none;
-  }
-
-  #myTable li:first-child {
-    border-bottom: 0;
-  }
-  /* FAKE SELECT */
-
-  #myTable summary.radios {
-    counter-reset: radios;
-  }
-
-  #myTable input[type=radio] {
-    counter-increment: radios;
-    appearance: none;
-    display: none;
-  }
-
-  #myTable input[type=radio]:checked {
-    display: inline;
-  }
-
-  #myTable input[type=radio]:after {
-    content: attr(title);
-    display: inline;
-    font-size: 1rem;
-  }
-
-  #myTable ul.list {
-    counter-reset: labels;
-  }
-
-  #myTable label {
-    width: 100%;
-    display: block;
-    cursor: pointer;
-  }
-
-  #myTable thead td {
-    margin: 0;
-    padding: 1rem 0.5rem;
-  }
-
-  #myTable tbody td {
-    margin: 0;
-    padding: 0;
-  }
-  #myTable tbody summary:focus, input[type="text"]:focus{
-    border: 1px solid #8DC454 !important;
-    border-radius: 0 !important;
-  }
-  #myTable * {
-    font-size: 0.9rem;
-  }
-  .modal-button {
-    width: 40px;
-    height: 40px;
-    border: 1px solid #ccc !important;
-    padding: 0.4rem 0.8rem !important;
-    margin: 0 !important;
-    float: right;
-    margin-left: 5px !important;
-    margin-bottom: 10px !important;
-  }
-  .modal-content {
-    width: 60%;
-    border: 3px solid #8dc454 !important;
-  }
-  #myTable {
-    width: 100%;
-  }
-  #myTable td .ibtnDel {
-    width: 100%;
-    text-align: center;
-    font-size: 1.1rem;
-    text-decoration: underline;
-  }
-</style>
-<% if(typeof(alldata) != "undefined"){ %>
-<script>
-  $(document).ready(function () {
-    $('.step-trigger').removeAttr('disabled');
-    $('body').on('click', '.bs-stepper-header .step', function(){
-      var dataID = $(this).attr('data-target');
-      var stepper = new Stepper(document.querySelector('.bs-stepper'));
-      if (dataID == '#create-project') {
-        stepper.to(1);
-      } else if (dataID == '#Inbound') {
-        stepper.to(2);
-      } else if (dataID == '#outbound-step') {
-        stepper.to(3);
-      } else if (dataID == '#mapping-step') {
-        stepper.to(4);
-      } else if (dataID == '#schedule-step') {
-        stepper.to(5);
-      }
-      $('.step-trigger').removeAttr('disabled');
-    });
-    var project_id = $('#project_id').val();
-    $.ajax({
-      url:'/inbound_setting/editAPI/'+project_id,
-      method:'get',
-      dataType:'json',
-      data:{},
-      success:function(response,textStatus,xhr){
-        if(xhr.status==200)
-        {
-          console.log("inbound_id", response)
-          $("#inbound_setting_id").val(response._id);
-          $('#inboundFormat').val(response.inbound_format);
-          if (response.inbound_format == 'json') {
-            $('#inboundFormat > option:eq(0)').attr('selected', true);
-            $('#select2-inboundFormat-container').attr("title", "JSON");
-            $('#select2-inboundFormat-container').html("JSON");
-          } else {
-            $('#inboundFormat > option:eq(1)').attr('selected', true);
-            $('#select2-inboundFormat-container').attr("title", "XML");
-            $('#select2-inboundFormat-container').html("XML");
-          }
-          $('#ftp_server_link').val(response.ftp_server_link);
-          if (response.ftp_port == '' || response.ftp_port == undefined) {
-            $('#port').val(response.port);
-          } else {
-            $('#port').val(response.ftp_port);
-          }
-          if (response.ftp_login_name == '' || response.ftp_login_name == undefined) {
-            $('#login_name').val(response.login_name);
-          } else {
-            $('#login_name').val(response.ftp_login_name);
-          }
-          if (response.ftp_password == '' || response.ftp_password == undefined) {
-            $('#password').val(response.password);
-          } else {
-            $('#password').val(response.ftp_password);
-          }
-          $('input[value="'+response.sync_type+'"]').prop('checked',true);
-          if (response.sync_type == 'API' || response.sync_type == '' || response.sync_type == undefined) {
-            $('#apiInUrlDiv').show();
-            $('#api_options').show();
-            var api_type = response.api_type;
-            $('input[value="'+response.api_type+'"]').prop('checked',true);
-            if(api_type == "User_API")
-            {
-              $('#api_ddep_api_input').hide();
-              $('#api_user_api_input').show();
-              $('#api_user_api').val(response.api_user_api);
-              $('#inbound_shedule_setting_tab').show();
-              $('#outbound_shedule_setting_tab').hide();
-              $('#inbound_ddep_api_selected').hide();
-            }
-            if(api_type == "DDEP_API")
-            {
-              $('#api_user_api_input').hide();
-              $('#api_ddep_api_input').show();
-              $('#api_ddep_api').val(response.api_ddep_api);
-              $('#inbound_shedule_setting_tab').hide();
-              $('#outbound_shedule_setting_tab').hide();
-              $('#inbound_ddep_api_selected').show();
-            }
-          }
-          else
-          {
-            $('#apiInUrlDiv').hide();
-            $('#api_options').hide();
-            $('#api_user_api_input').hide();
-            $('#api_ddep_api_input').hide();
-            $('#api_ddep_api_input_method').hide();
-            $('#api_ddep_api_input_parameter').hide();
-            $('#inbound_shedule_setting_tab').show();
-            $('#outbound_shedule_setting_tab').show();
-            $('#inbound_ddep_api_selected').hide();
-          }
-          if (response.sync_type == 'FTP' || response.sync_type == 'SFTP') {
-            $('#ftpInDiv').show();
-            $('#apiInUrlDiv').hide();
-            $('#api_options').hide();
-            $('#api_user_api_input').hide();
-            $('#api_ddep_api_input').hide();
-            $('#api_ddep_api_input_method').hide();
-            $('#api_ddep_api_input_parameter').hide();
-          }
-          if (response.ftp_folder == '' || response.ftp_folder == undefined) {
-            $('#folderpath').val(response.folder);
-          } else {
-            $('#folderpath').val(response.ftp_folder);
-          }
-          if (response.ftp_backup_folder == '' || response.ftp_backup_folder == undefined) {
-            $('#backup_folder').val(response.backup_folder);
-          } else {
-            $('#backup_folder').val(response.ftp_backup_folder);
-          }
-          $('#is_password_encrypted option[value="'+response.is_password_encrypted+'"]').prop('selected',true);
-          $('#is_password_encrypted').trigger('change');
-          console.log(response.is_active);
-
-          //Thomas I changed Active evenet.
-          if(response.is_active == "Active")
-          {
-            $('#is_active_inbound').removeClass('btn-secondary');
-            $('#is_active_inbound').addClass('btn-success');
-            $('#is_active_inbound').attr('data-value','Active');
-            $('#is_active_inbound').html('Active');
-          }
-          else
-          {
-            $('#is_active_inbound').removeClass('btn-success');      //removeClass
-            $('#is_active_inbound').addClass('btn-secondary');
-            $('#is_active_inbound').attr('data-value','Inactive');       //Inactive
-            $('#is_active_inbound').html('Inactive');               //Inactive
-          }
-        }
-      }
-    });
-    $.ajax({
-      url:'/outbound_setting/editAPI/'+project_id,
-      method:'get',
-      dataType:'json',
-      data:{},
-      success:function(response,textStatus,xhr){
-        if(xhr.status==200)
-        {
-          $('input[name="sync_type_out"]:checked').val(response.sync_type_out);
-          $('#api_url').val(response.api_url);
-          $('#outbound_format').val(response.outbound_format);
-          if (response.outbound_format == 'json') {
-            $('#inboundFormat > option:eq(0)').attr('selected', true);
-            $('#select2-inboundFormat-container').attr("title", "JSON");
-            $('#select2-inboundFormat-container').html("JSON");
-          }
-          $('#outbound_setting_id').val(response._id);
-          if(response.is_active == "Active")
-          {
-            $('#is_active_outbound').removeClass('btn-secondary');
-            $('#is_active_outbound').addClass('btn-success');
-            $('#is_active_outbound').attr('data-value','Active');
-            $('#is_active_outbound').html('Active');
-          }
-          else
-          {
-            $('#is_active_outbound').removeClass('btn-success');
-            $('#is_active_outbound').addClass('btn-secondary');
-            $('#is_active_outbound').attr('data-value','Inactive');
-            $('#is_active_outbound').html('Inactive');
-          }
-        }
-      }
-    });
-    $.ajax({
-      url:'/schedule_setting/editAPI/'+project_id,
-      method:'get',
-      dataType:'json',
-      data:{},
-      success:function(response,textStatus,xhr){
-        if(xhr.status==200)
-        {
-          $('input[name="s_configure_inbound"][value="'+response.Schedule_configure_inbound+'"]').prop('checked',true);
-          if(response.Schedule_configure_inbound=='click_by_user')
-          {
-              $('div.relation-schedule-open').hide();
-          }
-          else
-          {
-            $('div.relation-schedule-open').show();
-          }
-
-          if(response.Schedule_configure_outbound=='click_by_user')
-          {
-              $('div.relation-outbound-schedule-open').hide();
-          }
-          else
-          {
-            $('div.relation-outbound-schedule-open').show();
-          }
-          $('input[name="schedule_type_inbound"][value="'+response.schedule_type_inbound+'"]').prop('checked',true);
-          if(response.schedule_type_inbound=='OneTime')
-          {
-            $('#inbound-data-recurring').hide();
-            $('#inbound-data-one-time').show();
-            $('#one_time_occurrence_inbound_date').val(response.one_time_occurrence_inbound_date);
-            $('#one_time_occurrence_inbound_time').val(response.one_time_occurrence_inbound_time);
-          }
-          else
-          {
-            $('#inbound-data-recurring').show();
-            $('#inbound-data-one-time').hide();
-          }
-          if(response.schedule_type_outbound=='OneTime')
-          {
-            $('#outbound-data-recurring').hide();
-            $('#outbound-data-one-time').show();
-            $('#one_time_occurrence_outbound_date').val(response.one_time_occurrence_outbound_date);
-            $('#one_time_occurrence_outbound_time').val(response.one_time_occurrence_outbound_time);
-          }
-          else
-          {
-            $('#outbound-data-recurring').show();
-            $('#outbound-data-one-time').hide();
-          }
-          $('#occurs_time_inbound').val(response.occurs_inbound).change();
-          console.log("schedule id found = "+response._id);
-          $('input[name="s_configure_outbound"][value="'+response.Schedule_configure_outbound+'"]').prop('checked',true);
-          $('input[name="schedule_type_outbound"][value="'+response.schedule_type_outbound+'"]').prop('checked',true);
-          $('#day_frequency_inbound_count').val(response.day_frequency_inbound_count);
-          $('#day_frequency_outbound_count').val(response.day_frequency_outbound_count);
-          $('#weekly_frequency_inbound_count').val(response.weekly_frequency_inbound_count);
-          $('#weekly_frequency_outbound_count').val(response.weekly_frequency_outbound_count);
-          $('#weekly_frequency_inbound_count').val(response.weekly_frequency_inbound_count);
-          $('#weekly_frequency_outbound_count').val(response.weekly_frequency_outbound_count);
-          $('#monthly_frequency_day_inbound').val(response.monthly_frequency_day_inbound);
-          $('#monthly_frequency_day_outbound').val(response.monthly_frequency_day_outbound);
-          $('#monthly_frequency_day_inbound_count').val(response.monthly_frequency_day_inbound_count);
-          $('#monthly_frequency_day_outbound_count').val(response.monthly_frequency_day_outbound_count);
-          $('#monthly_frequency_the_inbound_count').val(response.monthly_frequency_the_inbound_count);
-          $('#monthly_frequency_the_outbound_count').val(response.monthly_frequency_the_outbound_count);
-          $('input[name="daily_frequency_type_inbound"][value="'+response.daily_frequency_type_inbound+'"]').prop('checked',true);
-          $('input[name="daily_frequency_type_outbound"][value="'+response.daily_frequency_type_outbound+'"]').prop('checked',true);
-          $('#daily_frequency_once_time_inbound').val(response.daily_frequency_once_time_inbound);
-          $('#daily_frequency_once_time_outbound').val(response.daily_frequency_once_time_outbound);
-          if($('input[name="daily_frequency_type_inbound"]:checked').val()=='Occurs every')
-          {
-            $("#daily_frequency_once_time_inbound").hide();
-            $("#recursEveryDiv").show();
-            $("#startingEndingDiv").show();
-            $('#daily_frequency_every_time_unit_inbound').val(response.daily_frequency_every_time_unit_inbound).change();
-            $('#daily_frequency_every_time_count_inbound').val(response.daily_frequency_every_time_count_inbound);
-            $('#daily_frequency_every_time_count_start_inbound').val(response.daily_frequency_every_time_count_start_inbound);
-            $('#daily_frequency_every_time_count_end_inbound').val(response.daily_frequency_every_time_count_end_inbound);
-          }
-          if($('input[name="daily_frequency_type_outbound"]:checked').val()=='Occurs every')
-          {
-            $("#daily_frequency_once_time_outbound").hide();
-            $("#recursEveryDivOutbound").show();
-            $("#startingEndingDivOutbound").show();
-            $('#daily_frequency_every_time_unit_outbound').val(response.daily_frequency_every_time_unit_outbound).change();
-            $('#daily_frequency_every_time_count_outbound').val(response.daily_frequency_every_time_count_outbound);
-            $('#daily_frequency_every_time_count_start_outbound').val(response.daily_frequency_every_time_count_start_outbound);
-            $('#daily_frequency_every_time_count_end_outbound').val(response.daily_frequency_every_time_count_end_outbound);
-          }
-
-          console.log("inbound"+response.occurs_inbound);
-          console.log("outbound"+response.occurs_outbound);
-          $("#occurs_time_inbound").val(response.occurs_inbound);
-          $("#occurs_time_inbound").select2().trigger("change");
-          $("#occurs_time_outbound").val(response.occurs_outbound)
-          $("#occurs_time_outbound").select2().trigger("change");
-
-          $("#schedule_setting_id").val(response._id);
-          if(response.duration_inbound_start_date!=undefined)
-          {
-            $('#duration_inbound_start_date').val(response.duration_inbound_start_date);
-          }
-          if(response.duration_inbound_is_end_date!=undefined)
-          {
-            $('input[name="duration_inbound_is_end_date"][value="'+response.duration_inbound_is_end_date+'"]').prop('checked',true); 
-          }
-          if(response.duration_inbound_end_date!=undefined)
-          {
-            $('#duration_inbound_end_date').val(response.duration_inbound_end_date);
-          }
-          if(response.duration_outbound_start_date!=undefined)
-          {
-            $('#duration_outbound_start_date').val(response.duration_outbound_start_date);
-          }
-          if(response.duration_outbound_is_end_date!=undefined)
-          {
-            $('input[name="duration_outbound_is_end_date"][value="'+response.duration_outbound_is_end_date+'"]').prop('checked',true);
-          }
-          if(response.duration_outbound_end_date!=undefined)
-          {
-            $('#duration_outbound_end_date').val(response.duration_outbound_end_date);
-          }
-          if(response.occurs_inbound=="weekly")
-          {
-            $(response.occurs_weekly_fields_inbound).each(function(index,item){
-              $('input[name="occurs_weekly_fields_inbound"][value="'+item.day+'"]').prop('checked',true);
-            });
-          }
-          if(response.occurs_outbound=="weekly")
-          {
-            $(response.occurs_weekly_fields_outbound).each(function(index,item){
-              $('input[name = occurs_weekly_fields_outbound][value="'+item.day+'"]').prop('checked',true);
-            });
-          }
-          if(response.occurs_inbound=="monthly")
-          {
-            $(response.monthly_field_setting_inbound).each(function(index,item){
-              console.log("monthly setting==="+item.inbound_monthly_day)
-              if(item.inbound_monthly_day=="the")
-              {
-                $('input[name=inbound_monthly_day][value="The"]').prop('checked',true).trigger('change');
-                $('#day_txt_box_inbound').hide();
-                $('#the_section_inbound').show();
-                $('#the_day_of').val(item.the_day_of).change();
-                $('#the_days').val(item.the_days).change();
-              }
-              else
-              {
-                $('#the_section_inbound').hide();
-                $('#day_txt_box_inbound').show();
-              }
-            });
-          }
-          if(response.occurs_outbound=="monthly")
-          {
-            $(response.monthly_field_setting_outbound).each(function(index,item){
-              console.log("monthly setting==="+item.outbound_monthly_day)
-              if(item.outbound_monthly_day=="the")
-              {
-                $('input[name=outbound_monthly_day][value="The"]').prop('checked',true).trigger('change');
-                $('#day_txt_box_outbound').hide();
-                $('#the_section_outbound').show();
-                $('#the_day_of_outbound').val(item.the_day_of).change();
-                $('#the_days_outbound').val(item.the_days).change();
-              }
-              else
-              {
-                $('#the_section_outbound').hide();
-                $('#day_txt_box_outbound').show();
-              }
-            });
-          }
-        }
-      }
-    });
-    $.ajax({
-      url:'/project/item/mapping/editAPI/'+project_id,
-      method:'get',
-      dataType:'json',
-      data:{},
-      success:function(response,textStatus,xhr){
-        if(xhr.status==200)
-        {
-          $("#mapping_setting_id").val(response._id);
-          $('#InboundFormatData').val(response.inbound_format);
-          $('#OutboundFormatData').val(response.outbound_format);
-          $('#mySavedModel').val(response.mapping_data);
-          if(response.is_active == "Active")
-          {
-            $('#is_active_mapping').removeClass('btn-secondary');
-            $('#is_active_mapping').addClass('btn-success');
-            $('#is_active_mapping').attr('data-value','Active');
-            $('#is_active_mapping').html('Active');
-          }
-          else
-          {
-            $('#is_active_mapping').removeClass('btn-success');
-            $('#is_active_mapping').addClass('btn-secondary');
-            $('#is_active_mapping').attr('data-value','Inactive');
-            $('#is_active_mapping').html('Inactive');
-          }
-
-          var mapping_data = JSON.parse(response.mapping_data);
-
-          nodeDataArray = mapping_data.nodeDataArray;
-          linkDataArray = mapping_data.linkDataArray;
-
-          //Init GOJS UI
-          myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
-        }
-      }
-    });
-    $.ajax({
-      url:'/outbound_validation/editAPI/'+project_id,
-      method:'get',
-      dataType:'json',
-      data:{},
-      success:function(response,textStatus,xhr){
-        if(xhr.status==200)
-        {
-          var validations = response.Data.validations;
-          $('#outbound_validation_id').val(response.id);
-          if (validations.length > 0) {
-            var htmldata = '';
-            for (var i = 0; i < validations.length; i++) {
-              var newRow = "<tr>";
-              var cols = "";
-              cols += '<td class="col-sm-2 logical-select"><select class="select-dropdown form-control form-control-lg" name="validations[][logical]">';
-              cols += '<option value="AND"';
-              if (validations[i].logical == 'AND') {
-                cols += ' selected';
-              }
-              cols += '>AND</option>';
-              cols += '<option value="OR"';
-              if (validations[i].logical == 'OR') {
-                cols += ' selected';
-              }
-              cols += '>OR</option>';
-              cols += '</select></td>';
-              cols += '<td class="col-sm-3"><input type="text" class="form-control border-0" name="validations[][original]" value="'+validations[i].original+'"/></td>';
-              cols += '<td class="col-sm-3 operations-select"><select class="select-dropdown form-control form-control-lg" name="validations[][operations]">';
-              cols += '<option value="=="';
-              if (validations[i].operations == '==') {
-                cols += ' selected';
-              }
-              cols += '>=</option>';
-              cols += '<option value=">"';
-              if (validations[i].operations == '>') {
-                cols += ' selected';
-              }
-              cols += '>></option>';
-              cols += '<option value=">="';
-              if (validations[i].operations == '>=') {
-                cols += ' selected';
-              }
-              cols += '>>=</option>';
-              cols += '<option value="<"';
-              if (validations[i].operations == '<') {
-                cols += ' selected';
-              }
-              cols += '><</option>';
-              cols += '<option value="<="';
-              if (validations[i].operations == '<=') {
-                cols += ' selected';
-              }
-              cols += '><=</option>';
-              cols += '<option value="<>"';
-              if (validations[i].operations == '<>') {
-                cols += ' selected';
-              }
-              cols += '><></option>';
-             /* cols += '<option value="NOT IN"';
-              if (validations[i].operations == 'NOT IN') {
-                cols += ' selected';
-              }
-              cols += '>NOT IN</option>';
-              cols += '<option value="IN"';
-              if (validations[i].operations == 'IN') {
-                cols += ' selected';
-              }
-              cols += '>IN</option>';*/
-              cols += '<option value="Contains"';
-              if (validations[i].operations == 'Contains') {
-                cols += ' selected';
-              }
-              cols += '>Contains</option>';
-              cols += '</select></td>';
-              cols += '<td class="col-sm-2"><input type="text" class="form-control border-0" name="validations[][column]" value="'+validations[i].column+'"/></td>';
-              cols += '<td class="col-sm-2"><a href="javascript:void(0);" type="button" class="ibtnDel"> Delete </a></td>';
-              newRow += cols;
-              newRow += "</tr>";
-              htmldata += newRow;
-            }
-            $("table.order-list tbody").html(htmldata);
-          }
-        }
-      }
-    });
-  });
-</script>
-<% } %>
 <script src="/app-assets/js/scripts/mapping-gojs.js"></script>
 </html>

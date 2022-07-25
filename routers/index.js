@@ -324,7 +324,7 @@ function _ddep_api_function(req, res) {
 								console.log('Inbound posted Json:');
 								console.log(inboundPostData);
 
-								var inboundFormatData = inboundConsole(inboundPostData);
+								var inboundFormatData = inboundreplacementformatdata(inboundPostData);
 								console.log('Inbound format convert to replacement Format:');
 								console.log(inboundFormatData);
 
@@ -427,7 +427,7 @@ function _ddep_api_function(req, res) {
 													MsgType: "Invalid-Source",
 													MsgLang: "en",
 													ShortMsg: "Outbound Validation Fail",
-													LongMsg: outboundValidation.fieldName+" field not valid data.",
+													LongMsg: outboundValidation.longMsg,
 													InternalMsg: "",
 													EnableAlert: "No",
 													DisplayMsgBy: "LongMsg",
@@ -1563,7 +1563,7 @@ function ddep_api(reqBody, ddepInput, res) {
 	});
 }
 
-function inboundConsole(reqBody) {
+function inboundreplacementformatdata(reqBody) {
 	var retrun = '';
 	inboundFormatDataArray = [];
 	Object.entries(reqBody).forEach((entry) => {
@@ -1571,7 +1571,9 @@ function inboundConsole(reqBody) {
 
 		var newKey = '@In{'+key+'}';
 		var normalKey = key;
-		var key_count = checkInboundConsoleKey(newKey, inboundFormatDataArray);
+		if (key >= 0) {} else {
+			var key_count = checkInboundConsoleKey(newKey, inboundFormatDataArray);
+		}
 
 		if (key_count > 1) {
 			newKey = '@In{'+key+key_count+'}';
@@ -1585,47 +1587,16 @@ function inboundConsole(reqBody) {
 		}
 
 		if (!Array.isArray(value) && value != null && typeof(value) == "object") {
-			var newtest = inboundConsole1(normalKey, value);
-			/*Object.entries(value).forEach((itementry) => {
-				const [subkey, subvalue] = itementry;
-
-				var newSubKey = '@In{'+key+'.'+subkey+'}';
-				var subkey_count = checkInboundConsoleKey(newSubKey, inboundFormatDataArray);
-
-				if (subkey_count > 1) {
-					newSubKey = '@In{'+key+'.'+subkey+subkey_count+'}';
-				}
-				console.log(newSubKey+' = '+subvalue);
-
-				inboundFormatDataArray[newSubKey] = subvalue;
-			});*/
+			var newtest = inboundreplacementformatdata1(normalKey, value);
 		}
 		if (Array.isArray(value) && value != null && typeof(value) == "object") {
-			var newtest = inboundConsole1(normalKey, value);
-			/*Object.entries(value).forEach((arritementry) => {
-				const [arrsubkey, arrsubvalue] = arritementry;
-
-				Object.entries(arrsubvalue).forEach((itementry) => {
-					const [subkey, subvalue] = itementry;
-
-					var newSubKey = '@In{'+key+'.'+subkey+'}';
-					var subkey_count = checkInboundConsoleKey(newSubKey, inboundFormatDataArray);
-
-					if (subkey_count > 1) {
-						newSubKey = '@In{'+key+'.'+subkey+subkey_count+'}';
-					}
-					console.log(newSubKey+' = '+subvalue);
-
-					inboundFormatDataArray.push({ key: newSubKey, value: subvalue });
-					inboundFormatDataArray[newSubKey] = subvalue;
-				});
-			});*/
+			var newtest = inboundreplacementformatdata1(normalKey, value);
 		}
 	});
 	return inboundFormatDataArray;
 }
 
-function inboundConsole1(normalKey, reqBody) {
+function inboundreplacementformatdata1(normalKey, reqBody) {
 	var retrun = '';
 	var parentKeya = normalKey;
 	Object.entries(reqBody).forEach((entry) => {
@@ -1639,10 +1610,12 @@ function inboundConsole1(normalKey, reqBody) {
 			var newKey = '@In{'+normalKey+'.'+key+'}';
 			normalKey = normalKey+'.'+key;
 		}
-		var key_count = checkInboundConsoleKey(newKey, inboundFormatDataArray);
+		if (key >= 0) {} else {
+			var key_count = checkInboundConsoleKey(newKey, inboundFormatDataArray);
+		}
 
 		if (key_count > 1) {
-			newKey = '@In{'+normalKey+'.'+key_count+'}';
+			newKey = '@In{'+normalKey+key_count+'}';
 			normalKey = normalKey+'.'+key_count;
 		}
 
@@ -1653,47 +1626,16 @@ function inboundConsole1(normalKey, reqBody) {
 		}
 
 		if (!Array.isArray(value) && value != null && typeof(value) == "object") {
-			var newtest = inboundConsole2(normalKey, value);
-			/*Object.entries(value).forEach((itementry) => {
-				const [subkey, subvalue] = itementry;
-
-				var newSubKey = '@In{'+key+'.'+subkey+'}';
-				var subkey_count = checkInboundConsoleKey(newSubKey, inboundFormatDataArray);
-
-				if (subkey_count > 1) {
-					newSubKey = '@In{'+key+'.'+subkey+subkey_count+'}';
-				}
-				console.log(newSubKey+' = '+subvalue);
-
-				inboundFormatDataArray[newSubKey] = subvalue;
-			});*/
+			var newtest = inboundreplacementformatdata2(normalKey, value);
 		}
 		if (Array.isArray(value) && value != null && typeof(value) == "object") {
-			var newtest = inboundConsole2(normalKey, value);
-			/*Object.entries(value).forEach((arritementry) => {
-				const [arrsubkey, arrsubvalue] = arritementry;
-
-				Object.entries(arrsubvalue).forEach((itementry) => {
-					const [subkey, subvalue] = itementry;
-
-					var newSubKey = '@In{'+key+'.'+subkey+'}';
-					var subkey_count = checkInboundConsoleKey(newSubKey, inboundFormatDataArray);
-
-					if (subkey_count > 1) {
-						newSubKey = '@In{'+key+'.'+subkey+subkey_count+'}';
-					}
-					console.log(newSubKey+' = '+subvalue);
-
-					inboundFormatDataArray.push({ key: newSubKey, value: subvalue });
-					inboundFormatDataArray[newSubKey] = subvalue;
-				});
-			});*/
+			var newtest = inboundreplacementformatdata2(normalKey, value);
 		}
 	});
 	return retrun;
 }
 
-function inboundConsole2(normalKey, reqBody) {
+function inboundreplacementformatdata2(normalKey, reqBody) {
 	var retrun = '';
 	var parentKeya = normalKey;
 	Object.entries(reqBody).forEach((entry) => {
@@ -1707,7 +1649,9 @@ function inboundConsole2(normalKey, reqBody) {
 			var newKey = '@In{'+normalKey+'.'+key+'}';
 			normalKey = normalKey+'.'+key;
 		}
-		var key_count = checkInboundConsoleKey(newKey, inboundFormatDataArray);
+		if (key >= 0) {} else {
+			var key_count = checkInboundConsoleKey(newKey, inboundFormatDataArray);
+		}
 
 		if (key_count > 1) {
 			newKey = '@In{'+normalKey+key_count+'}';
@@ -1721,41 +1665,10 @@ function inboundConsole2(normalKey, reqBody) {
 		}
 
 		if (!Array.isArray(value) && value != null && typeof(value) == "object") {
-			var newtest = inboundConsole1(normalKey, value);
-			/*Object.entries(value).forEach((itementry) => {
-				const [subkey, subvalue] = itementry;
-
-				var newSubKey = '@In{'+key+'.'+subkey+'}';
-				var subkey_count = checkInboundConsoleKey(newSubKey, inboundFormatDataArray);
-
-				if (subkey_count > 1) {
-					newSubKey = '@In{'+key+'.'+subkey+subkey_count+'}';
-				}
-				console.log(newSubKey+' = '+subvalue);
-
-				inboundFormatDataArray[newSubKey] = subvalue;
-			});*/
+			var newtest = inboundreplacementformatdata1(normalKey, value);
 		}
 		if (Array.isArray(value) && value != null && typeof(value) == "object") {
-			var newtest = inboundConsole1(normalKey, value);
-			/*Object.entries(value).forEach((arritementry) => {
-				const [arrsubkey, arrsubvalue] = arritementry;
-
-				Object.entries(arrsubvalue).forEach((itementry) => {
-					const [subkey, subvalue] = itementry;
-
-					var newSubKey = '@In{'+key+'.'+subkey+'}';
-					var subkey_count = checkInboundConsoleKey(newSubKey, inboundFormatDataArray);
-
-					if (subkey_count > 1) {
-						newSubKey = '@In{'+key+'.'+subkey+subkey_count+'}';
-					}
-					console.log(newSubKey+' = '+subvalue);
-
-					inboundFormatDataArray.push({ key: newSubKey, value: subvalue });
-					inboundFormatDataArray[newSubKey] = subvalue;
-				});
-			});*/
+			var newtest = inboundreplacementformatdata1(normalKey, value);
 		}
 	});
 	return retrun;
@@ -1831,7 +1744,7 @@ function getInboundValueEach1(value, inboundkey) {
 }
 
 function checkKey(key, dataArray) {
-	j = 1;
+	var j = 1;
 	for (var i = 0; i < dataArray.length; i++) {
 		var key1 = (j == 1) ? key : key + j;
 		if (dataArray[i]['key'] == key1) {
@@ -1842,7 +1755,7 @@ function checkKey(key, dataArray) {
 }
 
 function checkInboundConsoleKey(key, dataArray) {
-	j = 1;
+	var j = 1;
 	for (var datakey in dataArray) {
 		var key1 = (j == 1) ? key : key + j;
 		if (datakey == key1) {
@@ -1853,7 +1766,7 @@ function checkInboundConsoleKey(key, dataArray) {
 }
 
 function checklinkdataarraykey(key, dataArray) {
-	j = 1;
+	var j = 1;
 	for (var i = 0; i < dataArray.length; i++) {
 		var key1 = (j == 1) ? key : key + j;
 		if (dataArray[i] == key1) {
@@ -3008,6 +2921,7 @@ function outboundvalidationfunc(validations, inboundFormatData) {
 			inbounddatavalue = inbounddatavalue.toLowerCase();
 		}
 		var fieldName = '';
+		var longMsg = '';
 		var andCondition = '';
 		var andContainsString = '';
 		var andContainsValue = '';
@@ -3019,13 +2933,11 @@ function outboundvalidationfunc(validations, inboundFormatData) {
 		for (var i = 0; i < validations.length; i++) {
 			var original = validations[i].original;
 			if (original == inbounddatakey) {
-				console.log(inbounddatakey);
-				console.log(inbounddatavalue);
 				var column = validations[i].column;
 				if (isNaN(column) && !column.includes("@In{") && !column.includes("@Out{")) {
 					column = column.toLowerCase();
 				}
-				if (column != '') {
+				// if (column != '') {
 					var logical = validations[i].logical;
 					var operations = validations[i].operations;
 					if (operations == '<>') {
@@ -3048,7 +2960,7 @@ function outboundvalidationfunc(validations, inboundFormatData) {
 						orContainsValue = column;
 					}
 					replaceCount++;
-				}
+				// }
 			}
 		}
 
@@ -3102,6 +3014,7 @@ function outboundvalidationfunc(validations, inboundFormatData) {
 			if (andValid || orValid) {
 			} else {
 				fieldName = inbounddatakey.replace("@In{", "").replace("}", "");
+				longMsg = fieldName + " field not valid data.";
 				outboundValidation = false;
 				break;
 			}
@@ -3109,6 +3022,7 @@ function outboundvalidationfunc(validations, inboundFormatData) {
 			if (andValid) {
 			} else {
 				fieldName = inbounddatakey.replace("@In{", "").replace("}", "");
+				longMsg = fieldName + " field not valid data.";
 				outboundValidation = false;
 				break;
 			}
@@ -3116,6 +3030,7 @@ function outboundvalidationfunc(validations, inboundFormatData) {
 			if (orValid) {
 			} else {
 				fieldName = inbounddatakey.replace("@In{", "").replace("}", "");
+				longMsg = fieldName + " field not valid data.";
 				outboundValidation = false;
 				break;
 			}
@@ -3123,6 +3038,7 @@ function outboundvalidationfunc(validations, inboundFormatData) {
 			if (andContainsValid || orContainsValid) {
 			} else {
 				fieldName = inbounddatakey.replace("@In{", "").replace("}", "");
+				longMsg = fieldName + " field not valid data.";
 				outboundValidation = false;
 				break;
 			}
@@ -3130,6 +3046,7 @@ function outboundvalidationfunc(validations, inboundFormatData) {
 			if (andContainsValid) {
 			} else {
 				fieldName = inbounddatakey.replace("@In{", "").replace("}", "");
+				longMsg = fieldName + " field not valid data.";
 				outboundValidation = false;
 				break;
 			}
@@ -3137,12 +3054,21 @@ function outboundvalidationfunc(validations, inboundFormatData) {
 			if (orContainsValid) {
 			} else {
 				fieldName = inbounddatakey.replace("@In{", "").replace("}", "");
+				longMsg = fieldName + " field not valid data.";
 				outboundValidation = false;
 				break;
 			}
 		}
 	}
-	return { valid: outboundValidation, fieldName: fieldName };
+	for (var i = 0; i < validations.length; i++) {
+		var original = validations[i].original;
+		if (inboundFormatData[original] == undefined) {
+			longMsg = "Missing column of "+original+".";
+			outboundValidation = false;
+			break;
+		}
+	}
+	return { valid: outboundValidation, longMsg: longMsg };
 }
 
 router.get('/filereader/xml', function(req, res, next) {

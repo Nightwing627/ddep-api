@@ -88,3 +88,281 @@ margin: 0 2px;
   position: absolute;
   margin: 30px 0px 0px;
 }
+/****** Start: add-project.ejs page css ******/
+.modal {
+  display: none; /* Hidden by default */
+  align-items: center;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.modal-header {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+/* Modal Body */
+.modal-body {padding: 2px 16px;}
+
+/* Modal Footer */
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* Add Animation */
+@keyframes animatetop {
+  from {top: -300px; opacity: 0}
+  to {top: 0; opacity: 1}
+}
+@media (min-width: 1180px) {
+  .modal-left {
+    display: block !important;
+  }
+}
+
+.select-dropdown {border: unset;}
+.logical-select .select2-container--default .select2-selection--single, .operations-select .select2-container--default .select2-selection--single {border: unset;}
+#select2-logical-results li:hover, #select2-operations-results li:hover {background: #fff !important; color: #8DC454 !important;}
+#frm-save-outbound-validation .form-control:focus:valid { box-shadow: unset; border: unset !important; }
+
+#myTable details {
+  position: relative;
+  width: 100%;
+  margin-right: 1rem;
+}
+
+#myTable details[open] {
+  z-index: 1;
+}
+
+#myTable summary {
+  padding: .5rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+#myTable summary::-webkit-details-marker {
+  display: none;
+}
+
+#myTable details[open] summary:before {
+  content: '';
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+#myTable summary:after {
+  content: '';
+  display: inline-block;
+  float: right;
+  width: .5rem;
+  height: .5rem;
+  border-bottom: 1px solid currentColor;
+  border-left: 1px solid currentColor;
+  border-bottom-left-radius: 2px;
+  transform: rotate(45deg) translate(50%, 0%);
+  transform-origin: center center;
+  transition: transform ease-in-out 100ms;
+  margin-top: 5px;
+}
+
+#myTable summary:focus {
+  outline: none;
+}
+
+#myTable details[open] summary:after {
+  transform: rotate(-45deg) translate(0%, 0%);
+}
+
+#myTable ul {
+  width: 100%;
+  position: absolute;
+  top: calc(100%);
+  left: 0;
+  margin: 0;
+  box-sizing: border-box;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+#myTable li {
+  padding: .5rem 0;
+  padding-left: 1rem; 
+  background-color: white;
+  border: 1px solid #ccc;
+  list-style-type: none;
+}
+
+#myTable li:first-child {
+  border-bottom: 0;
+}
+/* FAKE SELECT */
+
+#myTable summary.radios {
+  counter-reset: radios;
+}
+
+#myTable input[type=radio] {
+  counter-increment: radios;
+  appearance: none;
+  display: none;
+}
+
+#myTable input[type=radio]:checked {
+  display: inline;
+}
+
+#myTable input[type=radio]:after {
+  content: attr(title);
+  display: inline;
+  font-size: 1rem;
+}
+
+#myTable ul.list {
+  counter-reset: labels;
+}
+
+#myTable label {
+  width: 100%;
+  display: block;
+  cursor: pointer;
+}
+
+#myTable thead td {
+  margin: 0;
+  padding: 1rem 0.5rem;
+}
+
+#myTable tbody td {
+  margin: 0;
+  padding: 0;
+}
+#myTable tbody summary:focus, input[type="text"]:focus{
+  border: 1px solid #8DC454 !important;
+  border-radius: 0 !important;
+}
+#myTable * {
+  font-size: 0.9rem;
+}
+.modal-button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ccc !important;
+  padding: 0.4rem 0.8rem !important;
+  margin: 0 !important;
+  float: right;
+  margin-left: 5px !important;
+  margin-bottom: 10px !important;
+}
+.modal-content {
+  width: 60%;
+  border: 3px solid #8dc454 !important;
+}
+#myTable {
+  width: 100%;
+}
+#myTable td .ibtnDel {
+  width: 100%;
+  text-align: center;
+  font-size: 1.1rem;
+  text-decoration: underline;
+}
+/*the container must be positioned relative:*/
+.autocomplete {
+  position: relative;
+  /*display: inline-block;*/
+}
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-height: 165px;
+  overflow-y: scroll;
+}
+.autocomplete-items::-webkit-scrollbar {
+  width:8px;
+}
+.autocomplete-items::-webkit-scrollbar-track {
+  border-radius:5px;
+  -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.5); 
+}
+.autocomplete-items::-webkit-scrollbar-thumb {
+  border-radius:5px;
+  -webkit-box-shadow: inset 0 0 20px #8DC454; 
+}
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff; 
+  border-bottom: 1px solid #d4d4d4; 
+}
+
+/*when hovering an item:*/
+.autocomplete-items div:hover {
+  background-color: #e9e9e9; 
+}
+
+/*when navigating through the items using the arrow keys:*/
+.autocomplete-active {
+  background-color: DodgerBlue !important; 
+  color: #ffffff; 
+}
+/****** End: add-project.ejs page css ******/
