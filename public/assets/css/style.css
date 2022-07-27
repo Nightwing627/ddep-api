@@ -318,6 +318,14 @@ margin: 0 2px;
   font-size: 1.1rem;
   text-decoration: underline;
 }
+.inbounderror {
+  width: auto;
+  padding: 0.4rem 0 0 !important;
+  float: left;
+  margin: 0 !important;
+  color: #ff0000;
+  display: none;
+}
 /*the container must be positioned relative:*/
 .autocomplete {
   position: relative;

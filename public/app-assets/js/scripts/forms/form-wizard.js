@@ -699,13 +699,13 @@ $(document).ready(function () {
         var api_ddep_api = $('#api_ddep_api').val()==undefined ? "":$('#api_ddep_api').val();
         var api_user_api = $('#api_user_api').val()==undefined ? "":$('#api_user_api').val();
         var api_type = $('input[name="api_type"]:checked').val();
-        if(api_type == 'DDEP_API')
+        if(sync_type == 'API' && api_type == 'DDEP_API')
         {
           $('#inbound_shedule_setting_tab').hide();
           $('#outbound_shedule_setting_tab').hide();
           $('#inbound_ddep_api_selected').show();
         }
-        if(api_type == 'User_API')
+        if(sync_type == 'API' && api_type == 'User_API')
         {
           $('#inbound_shedule_setting_tab').show();
           $('#outbound_shedule_setting_tab').hide();
@@ -2072,6 +2072,40 @@ $(document).ready(function () {
     inOutAutocompleteDataArray = inboundAutocompleteDataArray.concat(outboundAutocompleteDataArray);
   });
 
+  // Only inbound autocomplete data - inboundAutocompleteDataArray
+  // Only outbound autocomplete data - outboundAutocompleteDataArray
+  // Both inbound and outbound autocomplete data - inOutAutocompleteDataArray
+  $("body").on("keypress", ".autocompleteformula", function() {
+    var id = $(this).attr('id');
+    autocomplete(document.getElementById(id), inboundAutocompleteDataArray);
+  });
+
+  var onlyInboundI = 0;
+  var onlyInboundN = 0;
+  $("body").on("keypress", ".autocompletevalidation", function(e) {
+    if (e.keyCode == 8) {
+      onlyInboundI = 0; onlyInboundN = 0;
+    }
+    if ((onlyInboundI == 1 && e.keyCode != 105 && e.keyCode != 73) || (onlyInboundN == 1 && e.keyCode != 110 && e.keyCode != 78)) {
+      $('.inbounderror').show();
+      return false;
+    }
+    if (onlyInboundI == 1 && (e.keyCode == 105 || e.keyCode == 73)) {
+      onlyInboundI = 0;
+      onlyInboundN = 1;
+    }
+    if (onlyInboundN == 1 && (e.keyCode == 110 || e.keyCode == 78)) {
+      onlyInboundI = 0;
+      onlyInboundN = 0;
+      $('.inbounderror').hide();
+    }
+    if (e.keyCode == 64 && onlyInboundI == 0) {
+      onlyInboundI = 1;
+    }
+    var id = $(this).attr('id');
+    autocomplete(document.getElementById(id), inboundAutocompleteDataArray);
+  });
+
   function editalltabs(project_id) {
     $.ajax({
       url:'/inbound_setting/editAPI/'+project_id,
@@ -2081,7 +2115,6 @@ $(document).ready(function () {
       success:function(response,textStatus,xhr){
         if(xhr.status==200)
         {
-          console.log("inbound_id", response)
           $("#inbound_setting_id").val(response._id);
           $('#inboundFormat').val(response.inbound_format);
           if (response.inbound_format == 'json') {
@@ -2121,16 +2154,22 @@ $(document).ready(function () {
               $('#api_ddep_api_input').hide();
               $('#api_user_api_input').show();
               $('#api_user_api').val(response.api_user_api);
+              $('#inbound_shedule_setting_tab').show();
+              $('#outbound_shedule_setting_tab').hide();
+              $('#inbound_ddep_api_selected').hide();
             }
             if(api_type == "DDEP_API")
             {
               $('#api_user_api_input').hide();
               $('#api_ddep_api_input').show();
               $('#api_ddep_api').val(response.api_ddep_api);
+              $('#inbound_shedule_setting_tab').hide();
+              $('#outbound_shedule_setting_tab').hide();
+              $('#inbound_ddep_api_selected').show();
             }
           }
-          else
-          {
+          else if (response.sync_type == 'FTP' || response.sync_type == 'SFTP') {
+            $('#ftpInDiv').show();
             $('#apiInUrlDiv').hide();
             $('#api_options').hide();
             $('#api_user_api_input').hide();
@@ -2138,8 +2177,8 @@ $(document).ready(function () {
             $('#api_ddep_api_input_method').hide();
             $('#api_ddep_api_input_parameter').hide();
           }
-          if (response.sync_type == 'FTP' || response.sync_type == 'SFTP') {
-            $('#ftpInDiv').show();
+          else
+          {
             $('#apiInUrlDiv').hide();
             $('#api_options').hide();
             $('#api_user_api_input').hide();
@@ -2159,7 +2198,6 @@ $(document).ready(function () {
           }
           $('#is_password_encrypted option[value="'+response.is_password_encrypted+'"]').prop('selected',true);
           $('#is_password_encrypted').trigger('change');
-          console.log(response.is_active);
 
           //Thomas I changed Active evenet.
           if(response.is_active=="Active")
@@ -2177,10 +2215,6 @@ $(document).ready(function () {
             $('#is_active_inbound').html('Active');               //Inactive
           }
         }
-        //console.log(response);
-        //console.log(response._id);
-        //if(response.status)
-        
       }
     });
     $.ajax({
@@ -2216,10 +2250,6 @@ $(document).ready(function () {
             $('#is_active_outbound').html('Inactive');
           }
         }
-        //console.log(response);
-        //console.log(response._id);
-        //if(response.status)
-        
       }
     });
     $.ajax({
@@ -2277,7 +2307,6 @@ $(document).ready(function () {
             //$('#recurs_count_inbound').val(response.recurs_count_inbound);
             //$('#recurs_time_inbound').val(response.recurs_time_inbound);
             //$('#schedule_setting_id').val(response._id);
-            console.log("schedule id found = "+response._id);
            $('input[name="s_configure_outbound"][value="'+response.Schedule_configure_outbound+'"]').prop('checked',true);
            $('input[name="schedule_type_outbound"][value="'+response.schedule_type_outbound+'"]').prop('checked',true);
            $('#day_frequency_inbound_count').val(response.day_frequency_inbound_count);
@@ -2320,8 +2349,6 @@ $(document).ready(function () {
             }
            
            //$('#occurs_time_inbound option[value="'+response.occurs_time_inbound+'"]').attr("selected","selected");
-           console.log("inbound"+response.occurs_inbound);
-           console.log("outbound"+response.occurs_outbound);
            $("#occurs_time_inbound").val(response.occurs_inbound);
            $("#occurs_time_inbound").select2().trigger("change");
            $("#occurs_time_outbound").val(response.occurs_outbound)
@@ -2358,7 +2385,6 @@ $(document).ready(function () {
            if(response.occurs_inbound=="weekly")
            {
              $(response.occurs_weekly_fields_inbound).each(function(index,item){
-               //console.log(item.day);
               $('input[name="occurs_weekly_fields_inbound"][value="'+item.day+'"]').prop('checked',true);
             });
 
@@ -2367,14 +2393,12 @@ $(document).ready(function () {
            {
 
               $(response.occurs_weekly_fields_outbound).each(function(index,item){
-                //console.log(item);
                 $('input[name = occurs_weekly_fields_outbound][value="'+item.day+'"]').prop('checked',true);
               });
            }
            if(response.occurs_inbound=="monthly")
            {
               $(response.monthly_field_setting_inbound).each(function(index,item){
-                console.log("monthly setting==="+item.inbound_monthly_day)
                 if(item.inbound_monthly_day=="the")
                 {
                   $('input[name=inbound_monthly_day][value="The"]').prop('checked',true).trigger('change');
@@ -2397,7 +2421,6 @@ $(document).ready(function () {
            if(response.occurs_outbound=="monthly")
            {
               $(response.monthly_field_setting_outbound).each(function(index,item){
-                console.log("monthly setting==="+item.outbound_monthly_day)
                 if(item.outbound_monthly_day=="the")
                 {
                   $('input[name=outbound_monthly_day][value="The"]').prop('checked',true).trigger('change');
@@ -2417,12 +2440,7 @@ $(document).ready(function () {
                 //$('input[name = occurs_weekly_fields_outbound][value="'+item.day+'"]').prop('checked',true);
               });
            }
-              
         }
-        //console.log(response);
-        //console.log(response._id);
-        //if(response.status)
-        
       }
     });
     $.ajax({
@@ -2462,9 +2480,7 @@ $(document).ready(function () {
           myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
 
           inboundautocompletedata(JSON.parse(response.inbound_format));
-          console.log(inboundAutocompleteDataArray);
           outboundautocompletedata(JSON.parse(response.outbound_format));
-          console.log(outboundAutocompleteDataArray);
           inOutAutocompleteDataArray = inboundAutocompleteDataArray.concat(outboundAutocompleteDataArray);
         }
       }
@@ -2551,7 +2567,6 @@ $(document).ready(function () {
               htmldata += newRow;
             }
             validationRowCounter = i;
-            console.log('validationRowCounter => '+validationRowCounter);
             $("table.order-list tbody").html(htmldata);
           }
         }
@@ -2839,6 +2854,9 @@ $(document).ready(function () {
     inp.addEventListener("keyup", function(e) {
       console.log('e.keyCode => '+e.keyCode);
       if ((e.keyCode == 8 || e.keyCode >= 48 && e.keyCode <= 90 ) || ( e.keyCode >= 96 && e.keyCode <= 105 ) || ( e.keyCode >= 186 && e.keyCode <= 222 )) {
+        if (e.keyCode == 8) {
+          onlyInboundI = 0; onlyInboundN = 0;
+        }
         var a, b, i, val = inp.value;
         // var fullValue = inp.value;
         console.log('val 1 3 => '+val);
@@ -2911,7 +2929,7 @@ $(document).ready(function () {
           }
         }
       } else {
-        if (e.keyCode == 8 || e.keyCode == 46) {
+        if (e.keyCode == 46) {
           newValue = 0;
         }
       }
@@ -2976,14 +2994,4 @@ $(document).ready(function () {
       closeAllLists(e.target);
     });
   }
-
-  $("body").on("keypress", ".autocompleteformula", function() {
-    var id = $(this).attr('id');
-    autocomplete(document.getElementById(id), inboundAutocompleteDataArray);
-  });
-
-  $("body").on("keypress", ".autocompletevalidation", function() {
-    var id = $(this).attr('id');
-    autocomplete(document.getElementById(id), inOutAutocompleteDataArray);
-  });
 });

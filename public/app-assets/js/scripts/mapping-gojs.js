@@ -309,13 +309,28 @@ function init() {
 		return true;
 	}
 
-	//Godmark : some GOJS event setting , if you want the display name on the UI Box show "text" or another variable from nodeDataArray , can be setup here , e.g. $(go.TextBlock, new go.Binding("text",))
+	function onSelectionChanged(node) {
+		if (node.isSelected) {
+			// Try to open properties here
+			console.log(node.data);
+			console.log(node.linksConnected);
+			var linksConnected = node.linksConnected;
+			while (linksConnected.next()){
+				console.log(linksConnected.value);
+				//console.log(linksConnected.value.fromNode.data);
+				console.log(linksConnected.value.toNode.data);
+			}
+		}
+	}
+
+	// Godmark : some GOJS event setting , if you want the display name on the UI Box show "text" or another variable from nodeDataArray , can be setup here , e.g. $(go.TextBlock, new go.Binding("text",))
 	// Each node in a tree is defined using the default nodeTemplate.
 	myDiagram.nodeTemplate =
 	$(TreeNode,
 		{ movable: false, copyable: false, deletable: false },  // user cannot move an individual node
 		// no Adornment: instead change panel background color by binding to Node.isSelected
 		{
+			selectionChanged: onSelectionChanged,
 			selectionAdorned: false,
 			background: "white",
 			mouseEnter: (e, node) => node.background = "aquamarine",
